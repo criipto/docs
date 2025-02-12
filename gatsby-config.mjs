@@ -56,6 +56,9 @@ const config = {
       options: {
         mergeSecurityHeaders: false,
         headers: {
+          "/*": [
+            `Content-Security-Policy: frame-ancestors 'self' https://dashboard.criipto.com https://dashboard-test.criipto.com`,
+          ],
           '/changelog.json': [
             'Access-Control-Allow-Origin: *'
           ]
