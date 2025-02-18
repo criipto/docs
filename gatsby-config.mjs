@@ -45,7 +45,7 @@ const config = {
           value: `same-origin`,
         },
         {
-          key: `Content-Security-Policy:`,
+          key: `Content-Security-Policy`,
           value: `frame-ancestors 'self' https://dashboard.criipto.com https://dashboard-test.criipto.com https://deploy-preview-*.dashboard-test.criipto.com http://localhost:5001`,
         },
       ],
