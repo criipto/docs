@@ -54,7 +54,7 @@ const config = {
     {
       resolve: "gatsby-plugin-netlify",
       options: {
-        mergeSecurityHeaders: false,
+        mergeSecurityHeaders: true, 
         headers: {
           "/*": [
             `Content-Security-Policy: frame-ancestors 'self' https://dashboard.criipto.com https://dashboard-test.criipto.com`,
