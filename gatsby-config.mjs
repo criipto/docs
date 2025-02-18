@@ -4,6 +4,7 @@
 import {config as dotenv} from 'dotenv';
 import rehypeSlug from 'rehype-slug';
 import algoliaQueries from './src/utils/algolia-queries.mjs';
+const adapter = require("gatsby-adapter-netlify").default
 dotenv();
 
 /**
@@ -14,6 +15,33 @@ const config = {
     siteUrl: "https://docs.criipto.com",
     title: "Criipto Documentation for Verify and Signatures",
   },
+  adapter: adapter({
+    excludeDatastoreFromEngineFunction: false,
+    imageCDN: false,
+  }),
+  headers: [
+    {
+      source: `*`,
+      headers: [
+        {
+          key: `x-xss-protection`,
+          value: `1; mode=block`,
+        },
+        {
+          key: `x-content-type-options`,
+          value: `nosniff`,
+        },
+        {
+          key: `referrer-policy`,
+          value: `same-origin`,
+        },
+        {
+          key: `Content-Security-Policy:`,
+          value: `frame-ancestors 'self' https://dashboard.criipto.com https://dashboard-test.criipto.com https://deploy-preview-*.dashboard-test.criipto.com http://localhost:5001`,
+        },
+      ],
+    },
+  ],
   plugins: [
     "gatsby-plugin-postcss",
     "gatsby-plugin-sitemap",
@@ -51,23 +79,6 @@ const config = {
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
-    {
-      resolve: "gatsby-plugin-netlify",
-      options: {
-        mergeSecurityHeaders: true, 
-        allPageHeaders: [
-          `Content-Security-Policy: frame-ancestors 'self' https://dashboard.criipto.com https://dashboard-test.criipto.com https://deploy-preview-*.dashboard-test.criipto.com http://localhost:5001`,
-        ],
-        headers: {
-          "/*": [
-            `Content-Security-Policy: frame-ancestors 'self' https://dashboard.criipto.com https://dashboard-test.criipto.com https://deploy-preview-*.dashboard-test.criipto.com http://localhost:5001`,
-          ],
-          '/changelog.json': [
-            'Access-Control-Allow-Origin: *'
-          ]
-        }
-      }
-    },
     {
       resolve: "gatsby-source-filesystem",
       options: {
