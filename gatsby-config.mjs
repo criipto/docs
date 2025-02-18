@@ -4,7 +4,7 @@
 import {config as dotenv} from 'dotenv';
 import rehypeSlug from 'rehype-slug';
 import algoliaQueries from './src/utils/algolia-queries.mjs';
-const adapter = require("gatsby-adapter-netlify").default
+import {default as adapter} from 'gatsby-adapter-netlify';
 dotenv();
 
 /**
