@@ -4,8 +4,17 @@
 import {config as dotenv} from 'dotenv';
 import rehypeSlug from 'rehype-slug';
 import algoliaQueries from './src/utils/algolia-queries.mjs';
-import {default as adapter} from 'gatsby-adapter-netlify';
+import {default as netlifyDefault} from 'gatsby-adapter-netlify';
 dotenv();
+
+/**
+ * @type any
+ */
+const netlify = netlifyDefault;
+/**
+ * @type {import('gatsby').AdapterInit}
+ */
+const adapter = netlify.default;
 
 /**
  * @type {import('gatsby').GatsbyConfig}
