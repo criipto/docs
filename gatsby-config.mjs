@@ -50,6 +50,15 @@ const config = {
         },
       ],
     },
+    {
+      source: '/changelog.json',
+      headers: [
+        {
+          key: 'Access-Control-Allow-Origin',
+          value: '*'
+        }
+      ]
+    }
   ],
   plugins: [
     "gatsby-plugin-postcss",
