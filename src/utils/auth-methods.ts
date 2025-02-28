@@ -14,7 +14,7 @@ type Provider = {
 const dkScopes = ['address', 'ssn']
 const noBankIdScopes = ['email', 'phone', 'address', 'ssn']
 const noVippsScopes = ['email', 'phone', 'address', 'birthdate', 'ssn']
-const personalAusweisScopes = ['Pseudonym', 'Profile1', 'Profile2', 'Profile3']
+const personalAusweisScopes = ['odis:Pseudonym', 'odis:Profile1', 'odis:Profile2', 'odis:Profile3']
 
 export const PROVIDERS : Provider[] = [
   {
