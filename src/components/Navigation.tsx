@@ -178,15 +178,6 @@ export default function Navigation(props: Props) {
                 </Link>
               </li>
             ))}
-            {isSignatures && category === 'GraphQL' && (
-              <li>
-                <a
-                  className="block border-l pl-4 -ml-px border-transparent hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium"
-                  href="https://signatures-api.criipto.com/v1/explorer"
-                  target="_blank"
-                >Explorer</a>
-              </li>
-            )}
           </ul>
         </li>
       ))}

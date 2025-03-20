@@ -1,4 +1,5 @@
 import React, {useState, useMemo, useCallback} from 'react';
+import cx from 'classnames';
 import GraphiQL from 'graphiql';
 import { Link } from 'gatsby';
 
@@ -72,6 +73,7 @@ interface GraphQLExplorerProps {
   onResponse?: (response: GraphQLResponse) => void,
   onSkipCredentials?: () => void,
   style?: React.CSSProperties
+  fullscreen?: boolean
 }
 export default function GraphQLExplorer(props: GraphQLExplorerProps) {
   const {query, variables} = props;
@@ -94,13 +96,20 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
   const graphqlFetcher = useMemo(() => graphQLFetcherFactory(credentials, handleResponse), [credentials, handleResponse]);
 
   return (
-    <div className={props.className}>
+    <div 
+      className={cx({
+        'h-svh flex flex-col': props.fullscreen
+      }, props.className)}
+      style={props.fullscreen ? {height: '100svh'} : {}}
+    >
       {credentials && (
         <p className="bg-gray-300 p-2 rounded-t mb-0" style={props.style}>
           Queries are executed against your actual application. Please make sure you are using test credentials.
         </p>
       )}
-      <div style={{height: "700px"}} className="relative">
+      <div style={props.fullscreen ? {} : {height: "700px"}} className={cx("relative", {
+        'flex-1': props.fullscreen
+      })}>
         <GraphiQL
           fetcher={graphqlFetcher as any}
           defaultVariableEditorOpen={true}
