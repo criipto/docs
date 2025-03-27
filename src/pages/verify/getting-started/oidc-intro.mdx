@@ -27,6 +27,9 @@ The Implicit Flow returns a token directly in the browser. Support for this flow
 #### [4. The CIBA flow](/verify/getting-started/oidc-intro/#authenticate-with-ciba)
 The CIBA flow is designed for use cases where the client application isn't directly operated by the end-user but can trigger the authentication process on their behalf. A canonical example is a call center agent verifying a caller's identity.
 
+#### [4. The Headless flow](/verify/getting-started/oidc-intro/#authenticate-headless)
+The Headless flow is a custom protocol by Criipto that allows interacting with eIDs which offers a poll based workflow, where user agent redirect is not required.
+
 **The choice of the OpenID Connect flow depends on the requirements and architecture of the client application implementing the OIDC authentication.**
 
 <Highlight icon="info">
@@ -139,6 +142,7 @@ Your next steps will depend on the [OpenID Connect flow type](/verify/getting-st
 - [PKCE Flow](/verify/getting-started/oidc-intro/#authenticate-with-pkce)
 - [Implicit Flow](/verify/getting-started/oidc-intro/#authenticate-with-implicit-flow)
 - [CIBA](/verify/getting-started/oidc-intro/#authenticate-with-ciba)
+- [Headless](/verify/getting-started/oidc-intro/#authenticate-headless)
 
 After completing the steps specific to your chosen flow, you can proceed to [validating the JWT](/verify/getting-started/oidc-intro/#validate-the-jwt) received from successful authentication.
 
@@ -336,6 +340,93 @@ auth_req_id=AUTH_REQ_ID
 The token will be issued upon successful user identification:
 
 ```text
+{
+  token_type: 'Bearer',
+  expires_in: '120',
+  id_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjgyN0Q5QTNFOTg2MTY0OTVBQzZGRTE3MUFFNkRBM0IzQ0ExNDE5MjEifQ.eyJpc3MiOiJodHRwczovL25hdGFsaWEtZGV2LXRlc3QuY3JpaXB0by5pbyIsImF1ZCI6InVybjpjaWJhIiwiaWRlbnRpdHlzY2hlbWUiOiJzZWJhbmtpZCIsImF1dGhlbnRpY2F0aW9udHlwZSI6InVybjpncm46YXV0aG46c2U6YmFua2lkIiwiYXV0aGVudGljYXRpb25tZXRob2QiOiJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YWM6Y2xhc3NlczpTb2Z0d2FyZVBLSSIsImF1dGhlbnRpY2F0aW9uaW5zdGFudCI6IjIwMjQtMDUtMjJUMTA6NDE6NDEuMzYxWiIsIm5hbWVpZGVudGlmaWVyIjoiYmI5YzIzNjRkZmFlNDRmM2JjZmQ5OTkwNTNkOTRmOWUiLCJzdWIiOiJ7YmI5YzIzNjQtZGZhZS00NGYzLWJjZmQtOTk5MDUzZDk0ZjllfSIsInNlc3Npb25pbmRleCI6ImI2NWYxMWI2LWViYTctNDg4Mi05MDBhLTVmMmQ5M2EzOGRiYSIsInNzbiI6IjE5NjgwMjAyMDU3NSIsIm5hbWUiOiJUZXJuZSBQYXVsc2VuIiwiZ2l2ZW5uYW1lIjoiVGVybmUiLCJnaXZlbl9uYW1lIjoiVGVybmUiLCJzdXJuYW1lIjoiUGF1bHNlbiIsImZhbWlseV9uYW1lIjoiUGF1bHNlbiIsImlwYWRkcmVzcyI6IjE4NS4xNTcuMTM0LjEzNCIsImNvdW50cnkiOiJTRSIsImlhdCI6MTcxNjM3NDUwMSwibmJmIjoxNzE2Mzc0NTAxLCJleHAiOjE3MTYzNzU3MDF9.RVQnlukfoH597uXzE1Gays5DElGzAr8xgOmi7ZWppaL3QPGhV4vK2o6qLhxXg_-FKG9xCwHR6gEhnNzWA3W3B6Q2zJeQTYh9okUvTmmhAFIyDL7lEtfWVVKUKvauDisYVZDjAxJQS_1zbgPEi5I-UJ6_kvMGH-wC13MAD2bZGTGR2dR-ZevBUn7plOt0PKXrIZD3vwxDfebTMPQqX_9SNT5F7GLjCcpeVK-T5LOgmUMFcTAbHvNyklqP5ymRHsZLDw_ib4I7ZqODhR-3uISWo1NvG4Y84iBcqv50WRNlmMUm004LfPw1flM5DNsVyUWCqYW8m7eBEwLp5va-6OQG4w',
+  access_token: 'cf1ce646-7fbe-4740-9c56-fe3f0891f6c6'
+}
+```
+
+## Authenticate with Headless
+
+Headless flow is a custom protocol provided by Criipto that is very similar to <a href="https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html" target="_blank">CIBA</a> but with a few key differences.
+
+Where CIBA requires that the user is known in advance so that a request may be sent directly to the authentication device, headless instead returns values to the relying party so that they may trigger necessary UI or interaction elements with the user directly.
+
+Headless is an extension to OpenID Connect. However, unlike in other OpenID Connect flows, there is a direct communication between your application and the OpenID Provider (Criipto Verify), without redirects through the user's browser.
+
+Headless supports use cases not covered by other OpenID Connect flows, such as: 
+
+- Rendering UI elements in your own webpage instead of via a Criipto redirect
+- Performing app2app where a browser is not required
+
+Criipto Verify currently supports Headless for Swedish BankID.
+
+### Example request
+
+The client application sends an `HTTP POST` request to the backchannel authentication endpoint to ask for end-user authentication. 
+_The Headless flow is only available for confidential clients, and the example below uses [private key JWTs](/verify/guides/privatekey-jwt/) for client authentication._ 
+
+```text
+HTTP POST https://YOUR_SUBDOMAIN.criipto.id/headless/authorize
+Content-Type: application/x-www-form-urlencoded
+
+scope=openid
+&acr_values=urn:grn:authn:se:bankid
+&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+&client_assertion=YOUR_JWT_ASSERTION
+```
+
+### Example response
+
+A successful response will contain the request id, `headless_req_id`:
+
+```text
+HTTP/1.1 200 OK
+Content-Type: application/json
+{ 
+  "headless_req_id" : "3857f8ff-21b9-48ae-a732-a3bd8128a7ae",
+  "expires_in" : 120
+  "acr_data": {... e-ID specific metadata ...}
+}
+```
+
+### Polling
+
+Poll the token endpoint (`/oauth2/token`) providing the `headless_req_id`:
+
+```text
+HTTP POST https://YOUR_DOMAIN.criipto.id/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+headless_req_id=HEADLESS_REQ_ID
+&grant_type=urn:grn:params:grant-type:headless
+&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+&client_assertion=$client_assertion
+```
+
+#### Pending response
+
+While authentication is pending (non-normative):
+
+```text
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+{
+  "error": "authorization_pending",
+  "error_description": "awaiting first user interaction",
+  "acr_data": {... e-ID specific metadata ...}
+}
+```
+
+#### Successful token response
+
+The token will be issued upon successful user identification:
+
+```text
+HTTP/1.1 200 OK
+Content-Type: application/json
 {
   token_type: 'Bearer',
   expires_in: '120',

@@ -206,6 +206,107 @@ HTTP/1.1 400 Bad Request
 }
 ```
 
+## BankID Headless Authentication
+
+### Overview
+
+Headless authentication is designed for flows where you want maximum control over how user interacts with same device and QR flows for BankID.
+
+For instance you could render the QR flow in your own website, or trigger app2app in your native app without having to open a browser
+
+### The underlying Headless flow
+
+Criipto Verify facilitates Swedish BankID headless authentication via the [Headless flow](/verify/getting-started/oidc-intro/#authenticate-headless).
+
+### Implementing BankID Headless Authentication
+
+The Headless flow is only available to traditional server-based web applications (confidential clients) and requires client validation for authentication requests. We'll use [private key JWTs](/verify/guides/privatekey-jwt/) for authenticaiton in the example below. An alternative (*less secure*) approach is to use `client_secret` for authentication.
+
+1. `HTTP POST` request to the `/headless/authorize` endpoint:
+
+```sh
+# Replace `$client_assertion` with your JWT assertion
+# Replace `YOUR_DOMAIN.criipto.id` with your Criipto domain
+
+HTTP POST https://YOUR_DOMAIN.criipto.id/headless/authorize
+Content-Type: application/x-www-form-urlencoded
+
+scope=openid
+&end_user_ip=127.0.0.1
+&acr_values=urn:grn:authn:se:bankid
+&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+&client_assertion=$client_assertion
+```
+
+2. A successful response will look something like this:
+
+```sh
+{ 
+  "headless_req_id" : "3857f8ff-21b9-48ae-a732-a3bd8128a7ae",
+  "expires_in" : 120,
+  "acr_data": {
+    "qrData": "bankid.5367b735-a3f9-47d9-aafc-6d2ad5a14901.0.425c66c472e756fc6a070b86eef1adb4fac0a2714d828c902afa77a5b15e8590",
+    "autoStartToken": "d2c96ea2-f8d9-4e9f-8d39-4f2e88e10e1c"
+  }
+}
+```
+
+3. Poll the token endpoint (`/oauth2/token`) to get a response with an ID token.  
+   The `headless_req_id` is used to construct a poll request on the token endpoint:
+
+```sh
+# Replace `HEADLESS_REQ_ID` with the id returned by authentication response
+# Replace `$client_assertion` with your JWT assertion
+
+HTTP POST https://YOUR_DOMAIN.criipto.id/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+headless_req_id=HEADLESS_REQ_ID
+&grant_type=urn:urn:params:grant-type:headless
+&client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
+&client_assertion=$client_assertion
+```
+
+_**Polling Frequency:** Bear in mind, that the authentication process requires interacting multiple times with the end-user, so the identification process could take some time. Consequently, the token endpoint should be polled every 5 seconds._
+
+
+4. The result of a poll request will depend on the state of the process:
+
+On successful user identification, a successful token response is returned, e.g.:
+
+```sh
+{
+  token_type: 'Bearer',
+  expires_in: '120',
+  id_token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjgyN0Q5QTNFOTg2MTY0OTVBQzZGRTE3MUFFNkRBM0IzQ0ExNDE5MjEifQ.eyJpc3MiOiJodHRwczovL25hdGFsaWEtZGV2LXRlc3QuY3JpaXB0by5pbyIsImF1ZCI6InVybjpjaWJhIiwiaWRlbnRpdHlzY2hlbWUiOiJzZWJhbmtpZCIsImF1dGhlbnRpY2F0aW9udHlwZSI6InVybjpncm46YXV0aG46c2U6YmFua2lkIiwiYXV0aGVudGljYXRpb25tZXRob2QiOiJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YWM6Y2xhc3NlczpTb2Z0d2FyZVBLSSIsImF1dGhlbnRpY2F0aW9uaW5zdGFudCI6IjIwMjQtMDUtMjJUMTA6NDE6NDEuMzYxWiIsIm5hbWVpZGVudGlmaWVyIjoiYmI5YzIzNjRkZmFlNDRmM2JjZmQ5OTkwNTNkOTRmOWUiLCJzdWIiOiJ7YmI5YzIzNjQtZGZhZS00NGYzLWJjZmQtOTk5MDUzZDk0ZjllfSIsInNlc3Npb25pbmRleCI6ImI2NWYxMWI2LWViYTctNDg4Mi05MDBhLTVmMmQ5M2EzOGRiYSIsInNzbiI6IjE5NjgwMjAyMDU3NSIsIm5hbWUiOiJUZXJuZSBQYXVsc2VuIiwiZ2l2ZW5uYW1lIjoiVGVybmUiLCJnaXZlbl9uYW1lIjoiVGVybmUiLCJzdXJuYW1lIjoiUGF1bHNlbiIsImZhbWlseV9uYW1lIjoiUGF1bHNlbiIsImlwYWRkcmVzcyI6IjE4NS4xNTcuMTM0LjEzNCIsImNvdW50cnkiOiJTRSIsImlhdCI6MTcxNjM3NDUwMSwibmJmIjoxNzE2Mzc0NTAxLCJleHAiOjE3MTYzNzU3MDF9.RVQnlukfoH597uXzE1Gays5DElGzAr8xgOmi7ZWppaL3QPGhV4vK2o6qLhxXg_-FKG9xCwHR6gEhnNzWA3W3B6Q2zJeQTYh9okUvTmmhAFIyDL7lEtfWVVKUKvauDisYVZDjAxJQS_1zbgPEi5I-UJ6_kvMGH-wC13MAD2bZGTGR2dR-ZevBUn7plOt0PKXrIZD3vwxDfebTMPQqX_9SNT5F7GLjCcpeVK-T5LOgmUMFcTAbHvNyklqP5ymRHsZLDw_ib4I7ZqODhR-3uISWo1NvG4Y84iBcqv50WRNlmMUm004LfPw1flM5DNsVyUWCqYW8m7eBEwLp5va-6OQG4w',
+  access_token: 'cf1ce646-7fbe-4740-9c56-fe3f0891f6c6'
+}
+```
+
+The user has not yet completed the authentication, `acr_data.hintCode` provides details as to how far they are in the process.:
+
+```sh
+HTTP/1.1 400 Bad Request
+{
+  "error": "authorization_pending",
+  "error_description": "awaiting first user interaction",
+  "acr_data": {
+    "qrData": "bankid.5367b735-a3f9-47d9-aafc-6d2ad5a14901.0.425c66c472e756fc6a070b86eef1adb4fac0a2714d828c902afa77a5b15e8590",
+    "hintCode": "...."
+  }
+}
+```
+
+The user did not acknowledge that the identification request warranted or canceled the request before identification was performed:
+
+```sh
+HTTP/1.1 400 Bad Request
+{
+  "error": "access_denied",
+  "error_description": "user declined"
+}
+```
+
 ## Signing text/markdown
 
 Swedish BankID supports signing text and markdown.
