@@ -1,0 +1,31 @@
+---
+date: 2025-04-02
+title: Stronger accessibility requirements for Swedish BankID
+---
+
+From July 2025, stronger requirements regarding accessibility must be fulfilled to meet legal demands.
+Amongst other things, these will affect the two-device flow for BankID where the animated QR code is used.
+
+[Learn more about new requirements](https://developers.bankid.com/getting-started/qr-code#accessibility)
+
+In order to comply with the new QR code UI requirements Criipto must make adjustments to its UI (HTML & CSS),
+so that users may click the QR code to view it in fullscreen.
+
+This can cause breaking changes to customers who have custom CSS, so customers must explicitely opt-in to the UI update.
+
+You can opt-in to the UI update for the test environment, and even per application, before doing so in production.
+
+To opt-in at a tenant environment level:
+1. [Open dashboard](https://dashboard.criipto.com)
+2. [Navigate to Styling screen](https://dashboard.criipto.com/styling)
+3. Select 2025-04-01 in the "View version" dropdown
+4. Click save
+
+To opt-in at an application level:
+1. [Open dashboard](https://dashboard.criipto.com)
+2. [Navigate to Applications screen](https://dashboard.criipto.com/applications)
+3. Select the application you wish to upgrade
+4. Click the "UI" tab
+5. Disable "Use default" for the "View version" option
+6. Select "2025-01-04" in the "View version" dropdown
+7. Click save
