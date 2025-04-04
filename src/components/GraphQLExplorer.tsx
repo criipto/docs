@@ -6,6 +6,8 @@ import { Link } from 'gatsby';
 import {ApiCredentials, setApiCredentials, clearApiCredentials, setCreateSignatureOrder, setCloseSignatureOrder, setAddSignatory} from '../state/store';
 import {useAppDispatch, useAppSelector} from '../state/hooks';
 
+import './GraphQLExplorer.css';
+
 interface GraphQLParams<T = any> {
   query: string,
   variables?: T
@@ -95,6 +97,8 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
   }, []);
   const graphqlFetcher = useMemo(() => graphQLFetcherFactory(credentials, handleResponse), [credentials, handleResponse]);
 
+  if (typeof window === 'undefined') return null;
+
   return (
     <div 
       className={cx({
@@ -107,17 +111,18 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
           Queries are executed against your actual application. Please make sure you are using test credentials.
         </p>
       )}
-      <div style={props.fullscreen ? {} : {height: "700px"}} className={cx("relative", {
+      <div style={props.fullscreen ? {} : {height: "900px"}} className={cx("relative", {
         'flex-1': props.fullscreen
       })}>
         <GraphiQL
-          fetcher={graphqlFetcher as any}
-          defaultVariableEditorOpen={true}
-          defaultSecondaryEditorOpen={true}
+          fetcher={graphqlFetcher}
           query={query}
           variables={typeof variables === 'object' ? JSON.stringify(variables, null, 2) : variables}
-          docExplorerOpen={false}
-          headerEditorEnabled={false}
+          defaultEditorToolsVisibility={'variables'}
+          isHeadersEditorEnabled={false}
+          disableTabs={true}
+          className="criipto-graphql-explorer"
+          forcedTheme="light"
         />
 
         {!credentials && (<CredentialsOverlay onSkip={props.onSkipCredentials} />)}
