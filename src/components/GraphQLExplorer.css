@@ -1,0 +1,21 @@
+/* Hide elements that we don't need for our explorer purposes */
+.criipto-graphql-explorer > .graphiql-sidebar,
+.criipto-graphql-explorer .graphiql-session-header {
+  display: none;
+}
+.criipto-graphql-explorer .graphiql-session {
+  padding: 0px;
+}
+.criipto-graphql-explorer .graphiql-sessions {
+  margin: 0px;
+  border-radius: 0px;
+}
+.criipto-graphql-explorer .graphiql-editors {
+  border-radius: 0px;
+}
+.criipto-graphql-explorer .graphiql-query-editor {
+  padding: 6px 6px 0px 0px;
+}
+.criipto-graphql-explorer .graphiql-editors.full-height {
+  margin-top: 0px
+}
