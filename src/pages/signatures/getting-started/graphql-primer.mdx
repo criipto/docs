@@ -3,15 +3,15 @@ product: signatures
 category: Getting Started
 sort: 1
 title: A primer on GraphQL
-subtitle: Learn about GraphQL, how it works, and how to use it
+subtitle: Learn about GraphQL, how it works, and how to use it.
 ---
 
 Every GraphQL API, including ours, is backed by a strongly typed GraphQL schema.
-The schema clearly defines what operations are supported by the API, allowing clients to verify correctness ahead of time.
+The schema clearly defines what operations the API supports, allowing clients to verify correctness ahead of time.
 
 ## What's GraphQL?
 
-GraphQL is a query language, created by Facebook in 2012. They have been using it internally and in production for a while, and more recently they have published a specification for it, which has received a really positive response from the developer community. Companies like GitHub, Pinterest, and Coursera, have already started adopting it and using externally and internally.
+GraphQL is a query language created by Facebook in 2012. They have been using it internally and in production for a while, and more recently they have published a specification for it, which has received a really positive response from the developer community. Companies like GitHub, Pinterest, and Coursera have already started adopting it and using it externally and internally.
 
 A few advantages of using GraphQL are:
 
@@ -22,7 +22,7 @@ A few advantages of using GraphQL are:
 - **Strongly typed** - you can validate a query syntactically and within the GraphQL type system before execution. This also helps leverage powerful tools that improve the development experience, such as code generation.
 
 One big advantage when using GraphQL is having an efficient way to get resources by querying for exactly what you need.
-You will never need to perform multiple API calls to stich together data.
+You'll never need to perform multiple API calls to stitch data together.
 
 Here's an example GraphQL query to retrieve a specific person from our API:
 
@@ -66,7 +66,7 @@ And here is an example response:
 
 GraphQL queries can be executed against `https://signatures-api.criipto.com/v1/graphql`.
 
-Queries must be sent as a `POST` request containing a `JSON` body with the parameters `query` and optionally `variables`.
+Queries must be sent as a `POST` request containing a `JSON` body with the parameters `query` and (optionally) `variables`.
 
 You will need a set of API credentials to execute queries, please see [Registering your application](/signatures/getting-started/register-application/)
 

@@ -41,7 +41,7 @@ import criiptoVerifyOptionsExample from '../../../examples/createSignatureOrder/
 
 ### Requiring evidence validation before viewing documents
 
-If your documents contain PII (before being signed) you may wish to enforce that the signatory validates their identitiy before viewing the documents.
+If your documents contain PII (before being signed), you may wish to enforce that the signatory validates their identity before viewing the documents.
 
 import evidenceValidationStagesExample from '../../../examples/createSignatureOrder/evidenceValidationStages';
 
@@ -57,7 +57,7 @@ import uiExample from '../../../examples/createSignatureOrder/ui';
 
 ### Requiring unique eIDs for each signatory
 
-If you do not wish signatories to be able to sign multiple times (i.e. not using a "role" system or just have issues with persons sharing eID).
+If you do not wish signatories to be able to sign multiple times (i.e. not using a "role" system or just have issues with persons sharing eID),
 you can configure the Criipto Verify evidence provider to enforce uniqueness via the `uniqueEvidenceKey: 'sub'` setting.
 
 import uniqueEvidenceKeyExample from '../../../examples/createSignatureOrder/uniqueEvidenceKey';
@@ -84,7 +84,7 @@ import changeSignatureOrderBasicExample from '../../../examples/changeSignatureO
 
 ## Adding a signatory to a signature order
 
-Signatories are the individuals you wish to have sign a specific `signatureOrder`. Once created they will have a unique link that you can redirect users to.
+Signatories are the individuals you intend to sign a specific `signatureOrder`. Once created, each signatory is assigned a unique link that you can use to redirect them to the signing process.
 
 import addSignatoryBasicExample from '../../../examples/addSignatory/basic';
 
@@ -96,7 +96,7 @@ If you wish to validate the user signing, you should use the `evidenceValidation
 
 Evidence validation keys must match what will be found in the token claims when signing. You can inspect the [JWTs issued by Criipto Verify](https://docs.criipto.com/verify/getting-started/token-contents/) to see the keys that can be used for evidence validation. _Tip: Hover over a claim in the JWT payload to view its description._
 
-Evidence will be hashed before storage and compared when a user tries to sign. If the evidence does not match an error will be displayed to the user and they will be prompted to try again.
+Evidence will be hashed before storage and compared when a user tries to sign. If the evidence does not match, an error will be displayed to the user, and they will be prompted to try again.
 
 import addSignatoryEvidenceValidationExample from '../../../examples/addSignatory/evidenceValidation';
 
@@ -104,7 +104,7 @@ import addSignatoryEvidenceValidationExample from '../../../examples/addSignator
 
 ### UI Settings
 
-By default a signatory inherits its UI settings from the signature order, but it is also possible to
+By default, a signatory inherits their UI settings from the signature order, but it is also possible to
 define this on a per-signatory basis, to support specific languages per user, etc.
 
 import addSignatoryuiExample from '../../../examples/addSignatory/ui';
@@ -121,7 +121,7 @@ import addSignatoryRoleExample from '../../../examples/addSignatory/role';
 
 ### Document scoping
 
-By using the `documents` input array for `addSignatory` you can limit what documents a signatory will be shown.
+By using the `documents` input array for `addSignatory`, you can limit what documents a signatory will be shown.
 
 import addSignatoryDocumentsExample from '../../../examples/addSignatory/documents';
 
@@ -129,11 +129,11 @@ import addSignatoryDocumentsExample from '../../../examples/addSignatory/documen
 
 ### Preapproval
 
-For scenarios where you are displaying the PDFs to the users in your own UI you can opt to create a signatory with the documents preapproved.
+For scenarios where you are displaying the PDFs to the users in your own UI, you can opt to create a signatory with the documents preapproved.
 
-By preapproving documents for a signatory they are immediately sent to eID login to sign and skip the frontend approval flow.
+By preapproving documents for a signatory, they are immediately sent to the eID login to sign and skip the frontend approval flow.
 
-When using preapproval document-scoping is automatically used so make sure that you pass all documents from the signature order to the signatory.
+When using preapproval, document-scoping is automatically used so make sure that you pass all documents from the signature order to the signatory.
 
 import addSignatoryPreapprovedExample from '../../../examples/addSignatory/preapproved';
 
@@ -141,7 +141,7 @@ import addSignatoryPreapprovedExample from '../../../examples/addSignatory/preap
 
 ### Custom seal position
 
-If you do not wish to use the default seal positions (placed in two columns on a blank page appended to the order) you can define a set of custom seal positions.
+If you do not wish to use the default seal positions (placed in two columns on a blank page appended to the order), you can define a set of custom seal positions.
 
 When using custom seal positions, they must be defined for all signatories added to the order.
 
@@ -153,7 +153,7 @@ import addSignatorySealPositionExample from '../../../examples/addSignatory/seal
 
 ### Multiple signatories
 
-If you need to add signatories in bulk you can use the `addSignatories` mutation.
+If you need to add signatories in bulk, you can use the `addSignatories` mutation.
 `addSignatories` supports a `signatories` input array, where each array item supports the same input values as `addSignatoryMutation`.
 
 import addSignatoriesExample from '../../../examples/addSignatories/basic';
@@ -175,13 +175,13 @@ import addSignatoryOverrideEvidenceProviderSettings from '../../../examples/addS
 
 <GraphQLExample example={addSignatoryOverrideEvidenceProviderSettings} />
 
-## Signature Apperance
+## Signature Appearance
 
-Signature apperance (inside the PDF/document) can be configured via the `signatureAppearance` input object on `createSignatureOrder`.
+Signature appearance (inside the PDF/document) can be configured via the `signatureAppearance` input object on `createSignatureOrder`.
 
 The example below shows how you might configure it to show the `social number / cpr number` instead of a GUID for any SE/DK/NO login while also accounting for simple and complex claim types.
 
-If dealing with a single eID (like Swedish BankID) and only simple claims you can configure it as simply `identifierFromEvidence: ["ssn"]`
+If dealing with a single eID (like Swedish BankID) and only simple claims, you can configure it as simply `identifierFromEvidence: ["ssn"]`.
 
 import createSignatureAppearanceExample from '../../../examples/createSignatureOrder/signatureAppearance';
 
@@ -189,9 +189,9 @@ import createSignatureAppearanceExample from '../../../examples/createSignatureO
 
 ### Variable Templating
 
-Templating in signature seals can happen in either the left side of the header, the display name or the footer.
+Templating in signature seals can happen in either the left side of the header, the display name, or the footer.
 
-Variable templating works by enclosing the referenced variable curly brackets, e.g. `{{my-identifier}}`
+Variable templating works by enclosing the referenced variable in curly brackets, e.g. `{{my-identifier}}`
 
 In addition to templating values from claims (see [Seal display name](#seal-display-name)), we enable use of some additional variables, such as:
 
@@ -209,9 +209,9 @@ In addition to templating values from claims (see [Seal display name](#seal-disp
 
 ### Seal timestamp
 
-By default the seal renders a timestamp in the left side of the seal header.
+By default, the seal renders a timestamp on the left side of the seal header.
 
-This can be customized (per signatory) to either override the timestamp format, or change the values displayed by using available claims.
+This can be customized (per signatory) to either override the timestamp format or change the values displayed by using available claims.
 
 Below is an example of how to modify the timestamp formatting:
 
@@ -221,13 +221,13 @@ import addSignatoryHeaderLeftExample from '../../../examples/addSignatory/header
 
 ### Seal display name
 
-By default the seal renders a name via the standard JWT name claim or via drawable name input.
+By default, the seal renders a name via the standard JWT name claim or via a drawable name input.
 
-This can be customized (per signatory) to either override the name completely, or build a new name syntax from available claims.
+This can be customized (per signatory) to either override the name completely or build a new name syntax from available claims.
 
 Below is an example of how one might render a business name together with the username, and fallback to a non-business scenario.
 
-This feature currently ONLY works with CriiptoVerify/OIDC based signatures.
+This feature currently ONLY works with CriiptoVerify/OIDC-based signatures.
 
 import addSignatoryDisplayNameExample from '../../../examples/addSignatory/displayName';
 
@@ -235,7 +235,7 @@ import addSignatoryDisplayNameExample from '../../../examples/addSignatory/displ
 
 ### Seal document ID
 
-By default the seal does not render the document ID.
+By default, the seal does not render the document ID.
 
 The document ID can be added to the seal by templating as shown in the following example:
 
@@ -245,7 +245,7 @@ import addSignatoryFooterExample from '../../../examples/addSignatory/footer';
 
 ## Closing a signature order
 
-When all signatories have signed the signature order you can close it to retrieve your signed PDFs.
+When all signatories have signed the signature order, you can close it to retrieve your signed PDFs.
 
 The PDFs are deleted from Criipto servers upon calling `closeSignatureOrder`. (Unless you define the `retainDocumentsForDays` setting.)
 
@@ -265,7 +265,7 @@ import retentionCloseSignatureOrderExample from '../../../examples/closeSignatur
 
 When retrieving document blobs for a signature order, you can also request information about the signatures embedded in the document.
 
-For users signing with an eID, this will include the `jwt` issued which can be validated against the also-returned `jwks` and decoded to provide the underlying claims (like ssn or other eID claim values).
+For users signing with an eID, this will include the issued `jwt`, which can be validated against the also-returned `jwks` and decoded to provide the underlying claims (like ssn or other eID claim values).
 
 import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
 
@@ -273,7 +273,7 @@ import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrd
 
 ## Cancel a signature order
 
-If for any reason you no longer need a signature order you can abandon it by using `cancelSignatureOrder`
+If, for any reason, you no longer need a signature order, you can abandon it by using `cancelSignatureOrder`
 
 import cancelSignatureOrderExample from '../../../examples/cancelSignatureOrder/basic';
 
@@ -289,7 +289,7 @@ import createDrawableExample from '../../../examples/createSignatureOrder/drawab
 
 <GraphQLExample example={createDrawableExample} />
 
-### Adding a signatory with selectively enabled evidence provider
+### Adding a signatory with a selectively enabled evidence provider
 
 You can define `evidenceProviders` with `enabledByDefault: false` and then selectively enabling them using the `evidenceProviders` array input for `addSignatory`.
 
@@ -297,7 +297,7 @@ import addSignatoryDrawableExample from '../../../examples/addSignatory/drawable
 
 <GraphQLExample example={addSignatoryDrawableExample} />
 
-### Changing a signatory to selectively enable a evidence provider
+### Changing a signatory to a selectively enabled evidence provider
 
 You can define `evidenceProviders` with `enabledByDefault: false` and then selectively enabling them using the `evidenceProviders` array input for `changeSignatory`.
 
@@ -309,9 +309,9 @@ import changeSignatoryDrawableExample from '../../../examples/changeSignatory/dr
 
 The common case is to let signatories sign via their browser with an eID, this also provides the highest level of evidence.
 
-However if you wish to sign acting as a signatory, for example to automatically counter-sign documents with a specific image, you can use the `signActingAs` mutation.
+However, if you wish to sign acting as a signatory, for example, to automatically counter-sign documents with a specific image, you can use the `signActingAs` mutation.
 
-Any signatory used **MUST be **[**preapproved**](#preapproval) as the API can no longer garantuee that the signatory has seen and approved the document.
+Any signatory used **MUST be **[**preapproved**](#preapproval) as the API can no longer guarantee that the signatory has seen and approved the document.
 
 import * as signActingAsExample from '../../../examples/signActingAs.graphql';
 
@@ -321,7 +321,7 @@ import * as signActingAsExample from '../../../examples/signActingAs.graphql';
 
 In certain cases where signed documents need to be printed, it can be beneficial to have signatories sign both with an eID and a drawable signature.
 
-The API supports defining an `allOf` evidence provider that is a composite of multiple other evidence providers. The order of the list defines the order the signatory is asked to sign in.
+The API supports defining an `allOf` evidence provider that is a composite of multiple other evidence providers. The order of the list defines the order in which the signatory will be asked to sign.
 
 import compositeAllOfExample from '../../../examples/createSignatureOrder/composite-allOf';
 

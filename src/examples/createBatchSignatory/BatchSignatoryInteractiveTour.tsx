@@ -226,7 +226,7 @@ export default function InteractiveTour() {
               The signatories are signed using a single authentication, our system will take care of everything.
             </Paragraph>
             <Paragraph>
-              When you haved signed or rejected the batch signatory, you can proceed to the next step.
+              When you have signed or rejected the batch signatory, you can proceed to the next step.
             </Paragraph>
             <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => setStep('closeSignatureOrders')}>
               Proceed to next step

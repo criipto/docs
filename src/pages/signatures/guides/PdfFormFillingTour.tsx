@@ -188,7 +188,7 @@ export default function InteractiveTour() {
           <React.Fragment>
             <H3 className="mt-2" id={slug(TITLES.sign)}>{TITLES.sign}</H3>
             <Paragraph>
-              This would usually be the case where you send your signatory links to the intended targets, but in this case you can sign them manually to proceed using the links below.
+              Normally, you'd send the signatory links to your intended recipients at this step. But in this case, you can proceed by signing the documents yourself using the links below.
             </Paragraph>
             <ol>
               {signatories.map((signatory, index) => (
@@ -198,7 +198,7 @@ export default function InteractiveTour() {
               ))}
             </ol>
             <Paragraph>
-              When you haved signed you can proceed to the next step.
+              When you have signed, you can proceed to the next step.
             </Paragraph>
             <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => setStep('closeSignatureOrder')}>
               Proceed to next step

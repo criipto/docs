@@ -8,13 +8,12 @@ subtitle: Learn how Criipto Signatures handles your documents securely and safel
 
 ## Default document lifecycle
 
-- **Signature order is created:** When you create a signature order with `createSignatureOrder` you send along document blobs with it,
-upon receiving it we validate it and then encrypt it and store it on Azure servers.
-- **Signatory signs:** Whenever a signatory needs to sign a document we download and decrypt it to show it to the user,
-once the user signs we embed the signatory evidence (usually eID claims returned by Criipto Verify) inside the PDF and seal it with Criiptos AATL certificate.
-After sealing the PDF we then again encrypt it and store it on Azure servers, ready for the next person to sign.
-- **Signature order is closed:** Upon closing a signature order we apply a final document timestamp to the PDF to ensure that the data inside is valid for multiple years.
-You should always request document blobs as part of the close response as this is the last time they will be available. After closing the documents will be deleted from Criipto servers.
+- **Signature order is created:** When you create a signature order with `createSignatureOrder`, you send along document blobs with it. Upon receiving the order, we validate and encrypt it, then store it on Azure servers.
+- **Signatory signs:** Whenever a signatory needs to sign a document, we download and decrypt it to show it to the user. 
+Once the user signs, we embed the signatory evidence (usually eID claims returned by Criipto Verify) inside the PDF and seal it with Criipto's AATL certificate.
+After sealing the PDF, we encrypt it again and store it on Azure servers, ready for the next person to sign.
+- **Signature order is closed:** Upon closing a signature order, we apply a final document timestamp to the PDF to ensure that the data inside is valid for multiple years.
+You should always request document blobs as part of the close response, as this is the last time they will be available. After closing the order, the documents will be deleted from Criipto's servers.
 
 You can download your document from the Criipto Signatures API at any point **up until after `closeSignatureOrder` is called**.
 
@@ -22,15 +21,15 @@ Auto-expired and cancelled signature orders also have their documents automatica
 
 ## Encryption and storage
 
-Documents are stored in Azure Datacenters in Europe, documents are always encrypted.
+Documents are stored in Azure Datacenters in Europe. Documents are always encrypted.
 
 ## Extended lifecycle
 
-If you wish to extend document lifetime so that it exists on Criiptos servers beyond `closeSignatureOrder` you can send `{retainDocumentsForDays: [number 1-7]}` as input to `closeSignatureOrder`.
-The documents will then stay available on the signature order until the configured amount of days has passed where at which point they will be deleted from Criiptos servers.
+If you wish to extend document lifetime so that it exists on Criiptos servers beyond `closeSignatureOrder`, you can send `{retainDocumentsForDays: [number 1-7]}` as input to `closeSignatureOrder`.
+The documents will then stay available on the signature order until the configured amount of days has passed. After that, they will be deleted from Criipto's servers.
 
-To ensure the highest protection of personal data you **must** make sure to clean up signature orders as soon as you can verify you have securely stored documents on your own servers, you can do so by calling the `cleanupSignatureOrder` mutation.
-The `cleanupSignatureOrder` is idempotent. If you are ever in a situation where you are uncertain about whether the clean-up mutation succeed, it is better to try it again than not doing anything.
+To ensure the highest protection of personal data, you **must** make sure to clean up signature orders as soon as you can verify you have securely stored documents on your own servers. You can do so by calling the `cleanupSignatureOrder` mutation.
+The `cleanupSignatureOrder` is idempotent. So if you're ever uncertain about whether the clean-up mutation succeeded, it's perfectly safe (and recommended) to run it again.
 
 import GraphQLExample from '../../../components/GraphQLExample';
 import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';

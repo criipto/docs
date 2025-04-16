@@ -3,15 +3,15 @@ product: signatures
 category: Getting Started
 sort: 4
 title: UI Customization
-subtitle: The signatory frontend UI can be easily be customized with your logo and theme colors.
+subtitle: The signatory frontend UI can be easily customized with your logo and theme colors.
 ---
 
 The goal of Criipto Signatures is to be fully customizable to fit exactly into your workflow.
-In the short term you can set a logo and theme the UI via CSS variables.
+In the short term, you can set a logo and theme the UI via CSS variables.
 
-All UI settings are signature order specific which makes it easy for you to customize based on the context, and you can easily test new UI settings without affecting any new signature orders.
+All UI settings are signature-order-specific, which makes it easy for you to customize based on the context. Plus, you can easily test new UI settings without affecting any new signature orders.
 
-When creating a signature order via `createSignatureOrder` you can customize the UI by defining the subproperties of the `ui` input variable.
+When creating a signature order via `createSignatureOrder`, you can customize the UI by defining the subproperties of the `ui` input variable.
 
 [Full UI settings GraphQL Example](/signatures/graphql/examples/#signature-order-ui-settings)
 
@@ -19,7 +19,7 @@ When creating a signature order via `createSignatureOrder` you can customize the
 
 A logo can be added to the top of the signatory screen.
 
-Set `ui.logo.src` to an absolute HTTPs image url and we will add the image to the top of the signatory frontend.
+Set `ui.logo.src` to an absolute HTTPs image url, and we will add the image to the top of the signatory frontend.
 
 You can also define `ui.logo.href` which turns the logo into a link.
 
@@ -40,7 +40,7 @@ You can also define `ui.logo.href` which turns the logo into a link.
 
 A custom stylesheet can be added to the frontend to provide unique theming and styling options.
 
-Set `ui.stylesheet` to an absolute HTTPs css url and it will be loaded when the signatory opens their link.
+Set `ui.stylesheet` to an absolute HTTPs css url, and it will be loaded when the signatory opens their link.
 
 ```text
 {
@@ -62,13 +62,13 @@ The fastest way to theme the UI would be to override our CSS variables to show y
 
 ### Storybook
 
-You can test your stylesheet without creating a signature order by using our Storybook (BETA) which is a static rendering of our UI with dummy data.
+You can test your stylesheet without creating a signature order by using our Storybook (BETA), which is a static rendering of our UI with dummy data.
 
-[Open the Signatures Storybook](https://signatures-storybook.criipto.com) and then paste a stylesheet URL into the "Stylesheet URL" input field, you can use `https://signatures-storybook.criipto.com/custom.css` to test.
+[Open the Signatures Storybook](https://signatures-storybook.criipto.com) and paste a stylesheet URL into the "Stylesheet URL" input field. You can use `https://signatures-storybook.criipto.com/custom.css` to test.
 
 ### CSS Variables
 
-Below you will find a list of all CSS variables that can currently be overriden.
+Below you will find a list of all CSS variables that can currently be overridden.
 
 ```text
 .criipto-signatures {

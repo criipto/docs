@@ -135,7 +135,7 @@ export default function InteractiveTour() {
           <React.Fragment>
             <H2 id={slug(TITLES.createSignatureOrder)}>{TITLES.createSignatureOrder}</H2>
             <Paragraph>
-              Signature Orders form the basic building blocks of the signatures API.
+              Signature Orders form the basic building blocks of the Signatures API.
               A Signature Order contains documents and the signatories you intend to sign them.
             </Paragraph>
             <Paragraph>
@@ -182,7 +182,7 @@ export default function InteractiveTour() {
           <React.Fragment>
             <H2 id={slug(TITLES.sign)}>{TITLES.sign}</H2>
             <Paragraph>
-              This would usually be the case where you send your signatory links to the intended targets, but in this case you can sign them manually to proceed using the links below.
+              Normally, you'd send the signatory links to your intended recipients at this step. But in this case, you can proceed by signing the documents yourself using the links below.
             </Paragraph>
             <ol>
               {signatories.map((signatory, index) => (
@@ -195,7 +195,7 @@ export default function InteractiveTour() {
               Signatories can sign in parallel, our system will take care of everything.
             </Paragraph>
             <Paragraph>
-              When you haved signed or rejected the signature order with all the signatories you added you can proceed to the next step.
+              When you have signed or rejected the signature order with all the signatories you added, you can proceed to the next step.
             </Paragraph>
             <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => setStep('closeSignatureOrder')}>
               Proceed to next step
