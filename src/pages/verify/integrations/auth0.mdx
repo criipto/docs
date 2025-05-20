@@ -9,29 +9,27 @@ subtitle: This tutorial demonstrates how to integrate Criipto Verify with Auth0.
 This tutorial demonstrates how to integrate Criipto Verify with Auth0. The following steps are required to complete your first login:
 
 1. [Register your Auth0 tenant in Criipto Verify](#register-your-auth0-tenant-in-criipto-verify)
-2. [Configure your OAuth2 flow](#configure-the-oauth2-code-flow)
+2. [Configure OAuth2 Code Flow](#configure-the-oauth2-code-flow)
 3. [Create Auth0 connections](#create-auth0-connections)
 4. [Integrate your application with Auth0](#integrate-your-application-with-auth0)
 
-In the following you will be configuring first Criipto Verify, then Auth0, and finally finishing the Criipto Verify configuration
-with the information you get from Auth0. Once configured you may test that everything works from Auth0.
+In the following, you'll first configure Criipto Verify, then Auth0, and finally complete the Criipto Verify configuration with the information you get from Auth0. Once everything's configured, you can test your integration from Auth0.
 
 ## Register your Auth0 tenant in Criipto Verify
 
-First, you must register your Auth0 tenant as an application in Criipto Verify.
+First, you must register your Auth0 tenant as an [application](/verify/getting-started/basics/#applications) in Criipto Verify.
 
-Once you register your Auth0 tenant, you will also need some of the information for configuring Auth0 to communicate with Criipto Verify. You get these details from the settings of the application in the dashboard.
+Once you register your Auth0 tenant, you will also need some of the information for configuring Auth0 to communicate with Criipto Verify. You get these details from your application settings in the dashboard.
 
-Specifically you need the following information to integrate with Auth0:
-
-- _Client ID_ to identify your Auth0 tenant to Criipto Verify. In the case below we chose `urn:criipto:samples:no1`
-- _Domain_ on which you will be communicating with Criipto Verify. Could be for example `samples.criipto.id`
-- _Client secret_ is needed if you choose the *Back Channel* approach - which we do recommend. 
-The secret is generated and copied as described further down.
+Specifically, you need the following information to integrate with Auth0:
+- _Client ID_ to identify your Auth0 tenant to Criipto Verify. In the case below, we chose `urn:criipto:samples:myapplication:no1`
+- _[Domain](/verify/getting-started/basics/#domains)_ on which you will be communicating with Criipto Verify. It could be, for example, `samples.criipto.io`
+- _Client secret_ is needed if you choose the [back-channel](/verify/getting-started/oidc-intro/#authenticate-with-back-channel-authorization-code-flow) approach. 
+The secret is generated when you [configure OAuth2 Code Flow](/verify/integrations/auth0/#configure-oauth2-code-flow).
 
 ![Register App](./images/register-app.png)
 
-## Configure the OAuth2 code flow
+## Configure OAuth2 Code Flow
 
 import CodeFlowSnippet from '../../../snippets/oauth2-code-flow.mdx';
 
