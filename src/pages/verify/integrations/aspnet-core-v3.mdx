@@ -11,11 +11,11 @@ This tutorial demonstrates how to add user login to the existing ASP.NET Core 3.
 Four steps are required to complete your first test login:
 
 1. [Register your application in Criipto Verify](#register-your-application-in-criipto-verify)
-2. [Configure your OAuth2 flow](#configure-the-oauth2-code-flow)
+2. [Configure OAuth2 Code Flow](#configure-the-oauth2-code-flow)
 3. [Configure your application to use Criipto Verify](#configure-your-application-to-use-criipto-verify)
 4. [Trigger authentication in your application](#trigger-login-and-logout-in-your-application)
 
-This explains how to set up your application and test with test users. To use real eIDs for login the setup is the same, but you must be [set up for Production](#setting-up-for-production)
+This explains how to set up your application and test with test users. To use real eIDs for login the setup is the same, but you must be [set up for Production](#setting-up-for-production).
 
 And note that you need test eID users to see your code in action. How to get those is [described further down](#test-users).
 
@@ -27,14 +27,10 @@ To modify your existing application to work with Criipto Verify follow the steps
 
 After you signed up for Criipto Verify, you must register an application before you can actually try logging in with any eID.
 
-Once you register your application you will also need some of the information for communicating with Criipto Verify. You get these details from the settings of the application in the dashboard.
+Once your application is registered, the dashboard will contain the necessary details to configure your application to communicate with Criipto Verify. You will need the following information from the **General** tab of your application settings:
 
-Specifically you need the following information to configure you application
-
-- _Client ID_ to identify you application to Criipto Verify. In the case below we chose `urn:criipto:samples:no1`
-- _Domain_ on which you will be communicating with Criipto Verify. Could be for example `samples.criipto.id`
-
-![Register App](/images/register-app.png)
+- _Client ID_ to identify you application to Criipto Verify.
+- _[Domain](/verify/getting-started/basics/#domains)_ on which you will be communicating with Criipto Verify.
 
 ### Register callback URLs
 
@@ -51,10 +47,8 @@ https://localhost:5001/signout
 http://localhost:5000/signout
 ``` 
 
-If you deploy your application to a different URL you will also need to ensure to add that URL to the Callback URLs. 
-
-
-## Configure the OAuth2 code flow
+If you deploy your application to a different URL, you will need to add that URL to the Callback URLs as well.
+## Configure OAuth2 Code Flow
 
 import CodeFlowSnippet from '../../../snippets/oauth2-code-flow.mdx';
 
@@ -66,7 +60,7 @@ To integrate Criipto Verify with ASP.NET Core you will use the Cookie and OpenID
 
 If you are adding this to your own existing project, and you have not referenced the meta package, then please make sure that you add the Microsoft.AspNetCore.Authentication.Cookies and Microsoft.AspNetCore.Authentication.OpenIdConnect packages to your application.
 
-``` console
+```console
 dotnet add package Microsoft.AspNetCore.Authentication.Cookies
 dotnet add package Microsoft.AspNetCore.Authentication.OpenIdConnect
 ```
@@ -104,7 +98,7 @@ public void ConfigureServices(IServiceCollection services)
         options.ResponseType = "code";
 
         // The next to settings must match the Callback URLs in Criipto Verify
-        options.CallbackPath = new PathString("/callback"); 
+        options.CallbackPath = new PathString("/callback");
         options.SignedOutCallbackPath = new PathString("/signout");
 
         // Hook up an event handler to set the acr_value of the authorize request
@@ -157,7 +151,7 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
     app.UseAuthentication();
     app.UseAuthorization();
-    
+
 
     app.UseEndpoints(routes =>
     {
@@ -207,17 +201,17 @@ import TestUsersSnippet from '../../../snippets/test-users.mdx';
 
 ## The runtime flow
 
-In summary, the steps above will lead to a runtime flow looks like this:
+In summary, the steps above will lead to a runtime flow that looks like this:
 
-1. The web server starts the application which configures and initializes the OpenID Connect middleware. The middleware is configured with a URL from which it retrieves the metadata describing the various endpoints and encryption keys, such as the token and userinfo endpoints as well the token signing certificates
-2. The user picks the login method, or the application is hardcoded to one of the [authentication options](#choosing-the-specific-login-method)
-2. A request for a resource protected by the `[Authorization]` kicks off the OIDC middleware login flow
-3. The user's browser is redirected to the Criipto Verify service where actual login happens
-4. A callback with an issued _authorization code_ is sent back to the application and intercepted by the OIDC middleware
-5. The middleware calls the Criipto Verify service to exchange the code for an _access token_. Note that this is a direct server to server call which - unlike the other communication - does not pass through the browser
-6. The access token is used by the OIDC middleware to retrieve the available user information which is set as claims on the user principal.
+1. The web server starts the application, which configures and initializes the OpenID Connect middleware. The middleware is configured with a URL from which it retrieves the metadata describing the various endpoints (e.g., `token` and `userinfo`) and encryption keys, as well as the token signing certificates.
+2. The user picks the login method, or the application is hardcoded to use one of the [authentication options](#choosing-the-specific-login-method).
+3. A request for a resource protected by the `[Authorization]` kicks off the OIDC middleware login flow.
+4. The user's browser is redirected to the Criipto Verify service, where the actual login takes place.
+5. A callback with an issued _authorization code_ is sent back to the application and intercepted by the OIDC middleware.
+6. The middleware calls the Criipto Verify service to exchange the code for an _access token_. Note that this is a direct server-to-server call which, unlike the other communication, does not pass through the browser.
+7. The access token is used by the OIDC middleware to retrieve the available user information, which is set as claims on the user principal.
 
-If you want to inspect what is actually going on you may see much of it if you use for example chrome and turn on the developer tools to inspect the network traffic.
+If you want to inspect the runtime flow, the browser's developer tools (e.g., in Chrome) can be used to examine the network traffic.
 
 ## Setting up for Production
 
@@ -231,10 +225,10 @@ This section demonstrates how to migrate ASP.NET Core v2.x [sample from GitHub](
 
 Before proceeding, make sure you have the appropriate ASP.NET Core 3.1 SDK.
 
-Following steps are required to complete your first test login:
+The following steps are required to complete your first test login:
 1. [Modify aspnetcore-oidc project file](#modify-aspnetcore-oidc-project-file)
 2. [Restore dependencies](#restore-dependencies)
-2. [Modify Startup.cs file](#modify-startupcs-file)
+3. [Modify Startup.cs file](#modify-startupcs-file)
 
 ### Modify aspnetcore-oidc project file
 
@@ -262,7 +256,7 @@ Restore dependencies to make sure they are compatible with a new version of .NET
 
 Run the following command:
 
-``` console
+```console
   dotnet restore
 ```
 
