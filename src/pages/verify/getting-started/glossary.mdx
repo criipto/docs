@@ -1,0 +1,187 @@
+---
+product: verify
+category: Getting Started
+sort: 6
+title: Glossary
+subtitle: A list of identity terms used in this documentation
+---
+
+## A
+
+### ACR (Authentication Context Class Reference)
+
+A specific value or set of values sent in an authorization request (as `acr_values`) to request a specific authentication method (e.g., a particular eID like Swedish BankID). Criipto uses `acr_values` to determine which eID provider or authentication method should be invoked.
+
+### Application (Client Application)
+
+Your software (e.g., a web application, mobile application, or backend service) that integrates with Criipto Verify to authenticate users.
+We use the term "application" as defined by the client role in <a href="https://datatracker.ietf.org/doc/html/rfc6749#page-6" target="_blank">OAuth 2.0</a>.
+Functionally, your software acts as the client in a <a href="https://en.wikipedia.org/wiki/Client%E2%80%93server_model" target="_blank">client-server model</a>, where Criipto Verify serves as the Authentication Server.
+
+You create and configure an **Application** in your Criipto Dashboard as a digital representation of your software.
+Each dashboard Application is assigned a unique Client ID upon creation, which identifies your software in authentication requests to Criipto Verify.
+It also holds configurations for the specific eID providers your software will interact with to authenticate end-users.
+
+### Authorization Code Flow
+
+The most common OAuth 2.0 Authorization Grant type. The client application first receives a temporary authorization code via a browser redirect.
+This code is then securely exchanged for tokens (ID Token, Access Token) at the Authorization Server's Token Endpoint over a secure "backchannel." The backchannel communication makes it suitable for confidential clients, while public clients must use the PKCE extension.
+
+### Authorization Flow (Authorization Grant)
+
+In <a href="https://oauth.net/2/grant-types/" target="_blank">OAuth 2.0</a>, an Authorization Flow describes a sequential workflow a client application follows to obtain an Authorization Grant (permission) from an Authorization Server (e.g., Criipto Verify) to access protected resources on behalf of a user.
+With Criipto Verify, client applications can use Authorization Code Flow, PKCE, CIBA or Implicit Flow (for testing only). The choice of the flow depends on the application's requirements and characteristics, such as its ability to securely store a Client Secret.
+
+### Authorization Request (Authorize URL)
+
+The initial request made by a client application to the Authorization Server's `/oauth2/authorize` endpoint to begin user authentication.
+The Authorize URL contains several parameters (e.g., `scope`, `response_type`, `client_id`, `redirect_uri`, `acr_values` etc.) that inform the Authorization Server about the permissions requested and the specific authentication requirements.
+
+### Authorization Server
+
+An Authorization Server is the service in OAuth 2.0 and OpenID Connect that manages user authentication and issues access tokens and ID tokens to client applications.
+Criipto Verify acts as an Authorization Server, handling the connection to eID providers and issuing ID tokens to your application.
+
+## C
+
+### CIBA (Client Initiated Backchannel Authentication)
+
+A new OAuth 2.0 Authorization Flow where the client application initiates authentication on behalf of the end-user.
+Unlike other OIDC flows, there are no browser redirects; communication occurs directly between the client and the OpenID Provider (Criipto Verify) over a "backchannel."
+The user then completes authentication on a separate device (e.g., their phone), enabling use cases like confirming identity during a phone call.
+
+### Claims
+
+Statements about an end-user or about the authentication event itself (e.g., authentication time) that are included in an ID token issued by the Authorization Server (Criipto Verify) following successful authentication.
+Claims can include name, date of birth, and national identity number (e.g., SSN, CPR), depending on what the eID provider supports and what your application requests via scopes.
+
+### Client ID
+
+A public identifier for your application, registered with Criipto Verify. It is sent in authorization requests to identify your application to Criipto's service.
+
+### Client Secret
+
+A confidential key known only to your application and Criipto's Authorization Server.
+It is used to authenticate your application when it exchanges an authorization code for tokens at the token endpoint.
+An alternative and more secure client authentication method for confidential clients is Private Key JWT authentication.
+_Note: public clients (like single-page applications or mobile apps) must use PKCE instead of a Client Secret for security reasons._
+
+### Confidential Client
+
+According to the OAuth 2.0 protocol, client applications are categorized as either confidential or public, depending on their ability to securely store credentials (e.g., client secrets).
+A Confidential Client is an application that can keep its credentials, typically because it runs on a trusted backend server.
+Confidential clients can use authorization flows that require them to authenticate by specifying their Client ID and Client Secret when calling the Authorization Server's Token Endpoint.
+
+### Criipto Dashboard
+
+Your administrative interface for managing and configuring all Criipto services. Here, you can create and configure your Criipto domain and application, handle specific eID provider configurations, control billing, and access other tools and features.
+
+## D
+
+### Domain (Criipto Domain)
+
+Your unique subdomain on the criipto.id platform (e.g., _your-company.criipto.id_) on which you call our service to perform authentication. Your domain hosts the OIDC discovery document, authorization endpoint, token endpoint, etc. You create a domain via the Criipto dashboard.
+
+## E
+
+### eID (Electronic Identity)
+
+A digital credential used to verify an individual's identity online. In simple terms, it's a digital equivalent of a physical ID (like a passport or driver's license), containing verified personal information about the holder.
+eIDs enable secure online authentication, transactions, and digital signing of documents. The Danish MitID, Swedish BankID, and German Personalausweis are examples of eIDs.
+
+## I
+
+### ID Token
+
+A token that contains claims about the authenticated user and the authentication event. It is a primary result of an OpenID Connect authentication flow and is intended for the client application to understand who the user is.
+Criipto issues ID tokens in a JWT format.
+
+### Identity Provider (IdP)
+
+The entity that manages and authenticates identities. In the context of Criipto Verify, the national eID schemes (like the Danish MitID and Swedish BankID) function as the primary Identity Providers. Criipto acts as an eID broker, connecting your application to various eID providers.
+
+### Identity Broker
+
+Acts as an intermediary between client applications and multiple Identity Providers (IdPs). It simplifies the integration process for applications by providing a single point of connection to several IdPs. Criipto Verify acts as an Identity Broker for national eIDs.
+
+### Implicit Flow
+
+An OAuth 2.0 Authorization Flow where an ID Token is returned directly to the client application via the user's browser redirect. This flow is now considered obsolete and should not be used due to tokens being exposed in the browser's URL fragment.
+
+## J
+
+### JWT (JSON Web Token)
+
+An open standard (<a href="https://datatracker.ietf.org/doc/html/rfc7519" target="_blank">RFC 7519</a>) that defines a compact, URL-safe means of representing claims to be transferred between two parties as a JSON object. Criipto issues ID tokens in a JWT format. You can decode well-formatted JWTs at <a href="https://jwt.io/" target="_blank">jwt.io</a> to see their claims.
+
+## L
+
+### Level of Assurance (LoA)
+
+Indicates the degree of confidence in the asserted identity of an end-user. eID systems following the eIDAS regulation categorize authentication methods by LoA (Low, Substantial, High) based on how strong the identity proofing and authentication processes are.
+
+## O
+
+### OAuth 2.0
+
+An authorization standard that allows a user to grant limited access to their resources on one site to another site, without having to expose their credentials. OAuth 2.0 serves as the foundation for OpenID Connect (OIDC).
+
+### OpenID Connect (OIDC)
+
+An identity layer built on top of OAuth 2.0. It allows client applications to verify the identity of an end-user based on the authentication performed by an Authorization Server, as well as to obtain basic profile information about the end-user. Criipto Verify's API is based on OIDC.
+
+### OIDC Discovery Document (.well-known/openid-configuration)
+
+A JSON document found at a well-known URI on your Criipto domain (e.g., _https://your-domain.criipto.id/.well-known/openid-configuration_). It contains metadata about the OpenID Provider's configuration, such as the locations of its authorization, token, and userinfo endpoints.
+
+## P
+
+### Personally Identifiable Information (PII)
+
+Any data that could potentially identify a specific individual. Attributes obtained through eID authentication (like name, SSN/CPR, address) are considered PII and must be handled securely and in compliance with privacy regulations (such as GDPR).
+
+### PKCE (Proof Key for Code Exchange)
+
+An extension to the OAuth 2.0 Authorization Code Flow designed to prevent authorization code interception attacks. While it was initially developed for public clients (like mobile or single-page apps) that can't securely store a client secret, PKCE is now recommended for all clients as a best security practice.
+
+### Private Key JWT Authentication
+
+One of the client authentication methods defined in <a href="https://openid.net/specs/openid-connect-core-1_0.html#ClientAuthentication" target="_blank">Open ID Connect Core Client Authentication</a>. It relies on using JWT assertions signed with asymmetric key pairs for client authentication, offering a more secure alternative to symmetric credentials (Client ID and Client Secret) for client authentication in traditional server-based web applications.
+
+### Public Clients
+
+Unlike confidential clients, public clients are applications that are unable to securely hold credentials (such as a Client Secret) without the risk of exposing them to unauthorized parties.
+Mobile apps and single-page applications (SPAs) are public clients. As they cannot rely on a Client Secret for authentication, public clients must use OAuth 2.0 grant types (like PKCE) that do not require secret client authentication.
+
+## R
+
+### Redirect URI (Callback URL)
+
+The URL in your application where the user's browser is redirected after authentication is complete (or has failed).
+You have to register all redirect URIs in your Criipto Application via the Dashboard.
+
+### Response Type
+
+This OAuth 2.0 parameter tells the Authorization Server what kind of Authorization Flow you want to use. For instance, setting `response_type=code` in the authorization URL means you're requesting either the standard Authorization Code Flow or the PKCE Flow. If you use `response_type=id_token`, you're opting for the Implicit Flow.
+
+## S
+
+### Scope
+
+An OIDC/OAuth 2.0 mechanism to limit an application's access to a user's data. `openid` is a mandatory scope for OIDC. Other scopes (e.g., `email`, `ssn`) can be requested to obtain specific claims.
+
+### Single Sign-On (SSO)
+
+An authentication scheme that allows a user to log in with a single ID and password to several related software systems. Criipto can be part of an SSO solution where an eID is used as the primary authenticator.
+
+## T
+
+### Token Endpoint
+
+The OIDC/OAuth 2.0 endpoint at the Authorization Server (Criipto Verify), where a client application exchanges an authorization code for an ID Token.
+
+## U
+
+### Userinfo Endpoint
+
+An OIDC protected resource that returns claims about the authenticated end-user.
