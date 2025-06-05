@@ -30,7 +30,7 @@ This code is then securely exchanged for tokens (ID Token, Access Token) at the 
 ### Authorization Flow (Authorization Grant)
 
 In <a href="https://oauth.net/2/grant-types/" target="_blank">OAuth 2.0</a>, an Authorization Flow describes a sequential workflow a client application follows to obtain an Authorization Grant (permission) from an Authorization Server (e.g., Criipto Verify) to access protected resources on behalf of a user.
-With Criipto Verify, client applications can use Authorization Code Flow, PKCE, CIBA or Implicit Flow (for testing only). The choice of the flow depends on the application's requirements and characteristics, such as its ability to securely store a Client Secret.
+With Criipto Verify, client applications can use Authorization Code Flow, PKCE, CIBA or Implicit Flow (for testing only). The choice of the flow depends on the application's requirements and characteristics, such as its ability to securely store a Client Secret or hold a private key (if using Private Key JWT for client authentication).
 
 ### Authorization Request (Authorize URL)
 
@@ -151,7 +151,7 @@ One of the client authentication methods defined in <a href="https://openid.net/
 ### Public Clients
 
 Unlike confidential clients, public clients are applications that are unable to securely hold credentials (such as a Client Secret) without the risk of exposing them to unauthorized parties.
-Mobile apps and single-page applications (SPAs) are public clients. As they cannot rely on a Client Secret for authentication, public clients must use OAuth 2.0 grant types (like PKCE) that do not require secret client authentication.
+Mobile apps and single-page applications (SPAs) are public clients. As they cannot rely on a Client Secret for authentication, public clients must use the PKCE extension to the Authorization Code Flow.
 
 ## R
 
