@@ -5,7 +5,52 @@ sort: 6
 title: Finnish Trust Network
 subtitle: Learn more about Finnish Trust Network token contents, how to create test users and how to gain access to production.
 ---
-import FtnJwtSnippet from '../../../snippets/jwt-payloads/finnish-trust-network'
+import FtnJwtSnippet from '../../../snippets/jwt-payloads/finnish-trust-network';
+
+## The New FTN Security Requirements
+
+<Highlight icon="exclamation" warning>
+
+The Finnish government is introducing new requirements to increase the level of security and privacy of FTN authentication.
+The requirements are described in <a href="https://www.kyberturvallisuuskeskus.fi/sites/default/files/media/file/Traficom_S213_2023_OIDC_Profile_v2_2_for_the_Finnish_Trust_Network_EN.pdf" target="_blank">Recommendation 213/2023 S Finnish Trust Network OpenID Connect Profile</a> and include:
+
+1. Private Key JWT client authentication
+2. Authentication request signing
+3. Encrypted token and userinfo responses
+4. Statically configured JWK sets for signing and encryption
+
+Client applications must be able to fulfill the new requirements to continue offering FTN logins – regardless of the provider chosen for FTN integration.
+
+As we're finalizing the technical changes on our side, you can start configuring your FTN integration to meet the new requirements. If you need any help or guidance, don't hesitate to reach out.
+
+**1. Private Key JWT client authentication**
+
+Your application must use `private_key_jwt` client authentication instead of `client_secret` to authenticate to Criipto.
+
+- For [confidential clients](/verify/getting-started/glossary/#confidential-client) (traditional server-based web applications), `private_key_jwt` client authentication is mandatory.
+- [Public clients](/verify/getting-started/glossary/#public-clients) (native apps or SPAs) cannot securely store private keys, and therefore must continue using [PKCE](/verify/getting-started/glossary/#pkce-proof-key-for-code-exchange) for securing the authorization code flow.
+
+PKCE is also highly recommended for confidential clients as an additional layer of security. See [OpenID Connect best security practices](/verify/getting-started/best-security-practices/#authorization-code-flow) for more information.
+
+Follow [this guide](/verify/guides/privatekey-jwt/) to configure Private Key JWT authentication. _Note: You must use Statically configured JWK sets._
+
+**2. Authentication request signing**
+
+Your application must sign authorize requests to Criipto and send them as Request Objects (also known as JWT-secured Authorization Requests or JARs).
+
+The technical guide to configuring this change is coming soon.
+
+**3. Encrypted token and userinfo responses**
+
+Criipto will apply JSON Web Encryption (JWE) to secure `token` and `userinfo` responses we send to client applications. Your application must be able to receive these.
+
+The technical guide to configuring this change is coming soon.
+
+**4. Statically configured JWK sets for signing and encryption**
+
+You can add your static JWKS (JSON Web Key Set) by going to your Criipto Application > `OpenID Connect` > `Client JWKS`. More information on this requirement is coming soon.
+
+</Highlight>
 
 ## JWT/Token examples
 
