@@ -27,12 +27,9 @@ As we're finalizing the technical changes on our side, you can start configuring
 
 Your application must use `private_key_jwt` client authentication instead of `client_secret` to authenticate to Criipto.
 
-- For [confidential clients](/verify/getting-started/glossary/#confidential-client) (traditional server-based web applications), `private_key_jwt` client authentication is mandatory.
-- [Public clients](/verify/getting-started/glossary/#public-clients) (native apps or SPAs) cannot securely store private keys, and therefore must continue using [PKCE](/verify/getting-started/glossary/#pkce-proof-key-for-code-exchange) for securing the authorization code flow.
+Follow [this guide](/verify/guides/privatekey-jwt/) to configure Private Key JWT authentication. Note that you must use Statically configured JWK sets.
 
-PKCE is also highly recommended for confidential clients as an additional layer of security. See [OpenID Connect best security practices](/verify/getting-started/best-security-practices/#authorization-code-flow) for more information.
-
-Follow [this guide](/verify/guides/privatekey-jwt/) to configure Private Key JWT authentication. _Note: You must use Statically configured JWK sets._
+_The [PKCE](/verify/getting-started/glossary/#pkce-proof-key-for-code-exchange) extension for securing authorization code flow is also highly recommended. You don't have to change your client authentication implementation if using PKCE. See [OpenID Connect best security practices](/verify/getting-started/best-security-practices/#authorization-code-flow) for more information._
 
 **2. Authentication request signing**
 
