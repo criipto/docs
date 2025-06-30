@@ -34,11 +34,14 @@ Should you encounter any challenges or need further assistance, please do not he
 
 ### Test your implementation
 
-After implementing the changes described in the [technical guides](/verify/e-ids/finnish-trust-network/#technical-guides), you can test your setup by activating the **Enforce FTN requirements** toggle. You'll find it in your Criipto Dashboard under `eID providers` > `FTN`.
+Once you've implemented the changes described in the [technical guides](/verify/e-ids/finnish-trust-network/#technical-guides), you can test your setup by running test logins with enforced FTN requirements. 
+There are two ways to do this: 
 
-We recommend activating the toggle in a test environment, then running a test login with FTN. When active, this setting will make non-compliant authorization requests fail. The failure will include a detailed error message, helping you identify any misconfigurations or missing steps in your implementation.
-
+- Per-request enforcement: Add `login_hint=enforce_ftn_requirements` to an authorization request. This allows you to test individual requests.
+- Global enforcement: Activate the `Enforce FTN requirements` toggle in your Criipto Dashboard under `eID providers` > `FTN`. 
 ![Enforce FTN requirements](./images/ftn-enforce-requirements.png)
+
+When `enforce FTN requirements` setting is active, any non-compliant authorization requests will fail. The failure will include a detailed error message to help you identify any misconfigurations or missing steps in your implementation.
 
 </Highlight>
 
@@ -49,6 +52,7 @@ Your application must use `private_key_jwt` client authentication instead of `cl
 Please refer to the [Private Key JWT authentication guide](/verify/guides/privatekey-jwt/) for instructions on configuring `private_key_jwt` client authentication. Note that FTN requires:
 
 - Statically configured JWK sets.
+- A `kid` in the JWT header of the `client_assertion`.
 - The `jti` claim included in the `client_assertion`.
 
 ### Authentication request signing
@@ -75,7 +79,7 @@ where the only two parameters directly included in the URL are:
 The code sample below demonstrates creating a Request Object JWT, then building authorize URL in a Node.js/Express application.
 
 ```javascript
-const { SignJWT } = require('jose');
+import * as jose from 'jose';
 
 // Generate a signed JWT (Request Object)
 const createSignedRequestObject = async (signingKey) => {
@@ -87,10 +91,11 @@ const createSignedRequestObject = async (signingKey) => {
     redirect_uri: REDIRECT_URI,
     state: state,
     scope: 'openid',
+    login_hint: 'enforce_ftn_requirements', // optional login_hint used to test a request for compliance with FTN requirements
   };
 
   // Create and sign the JWT
-  const signedJwt = await new SignJWT(requestObjectPayload)
+  const signedJwt = await new jose.SignJWT(requestObjectPayload)
     .setProtectedHeader({
       alg: 'RS256',
       kid: SIGNING_KEY_KID,
@@ -132,16 +137,16 @@ For a deeper dive into JWE, please refer to our blog posts:
 
 To configure your application to handle encrypted `token` and `userinfo` responses, follow the steps below:
 
-**1. Generate a new RSA key pair**
+**1. Generate a new key pair**
 
-FTN requires that you use different key pairs for signing and encryption. Therefore, you'll need to generate a separate RSA key pair for encryption, distinct from the one used for [Private Key JWT authentication](/verify/e-ids/finnish-trust-network/#private-key-jwt-client-authentication) and [authentication request signing](/verify/e-ids/finnish-trust-network/#authentication-request-signing).
+FTN requires that you use different key pairs for signing and encryption. Therefore, you'll need to generate a separate key pair for encryption, distinct from the one used for [Private Key JWT authentication](/verify/e-ids/finnish-trust-network/#private-key-jwt-client-authentication) and [authentication request signing](/verify/e-ids/finnish-trust-network/#authentication-request-signing).
 
 ```javascript
 import * as jose from 'jose';
 
 async function generateEncryptionKeyPair() {
   try {
-    const { publicKey, privateKey } = await jose.generateKeyPair('RSA-OAEP-256');
+    const { publicKey, privateKey } = await jose.generateKeyPair('RSA-OAEP-256'); // For a list of supported key generation algorithms, see your OIDC Discovery Document at https://yourdomain.criipto.id/.well-known/openid-configuration.
     const jwk = await jose.exportJWK(publicKey); // Export public key to JWK format
     const kid = await jose.calculateJwkThumbprint(jwk); // Generate a Key ID for the public key
 
@@ -200,17 +205,16 @@ In the `OpenID Connect` section of your Application settings, set `User info res
 
 **4. Decrypt the received JWE in your application**
 
-After receiving the JWE, use the private key of your encryption RSA key pair to decrypt it and retrieve the original signed JWT.
+After receiving the JWE, use the private key of your encryption key pair to decrypt it and retrieve the original signed JWT.
 
 The code below uses `jose` library for JWE decryption and `@criipto/oidc` to handle code exchange.
 
 ```javascript
-const { createRemoteJWKSet, compactDecrypt, jwtVerify } = require('jose');
-const crypto = require('crypto');
-const { OpenIDConfigurationManager, codeExchange } = require('@criipto/oidc');
+import * as jose from 'jose';
+import { OpenIDConfigurationManager, codeExchange } from '@criipto/oidc';
 
 // Fetch Criipto's public keys for verifying the signature of the ID Token.
-const jwks = createRemoteJWKSet(new URL(`https://${CRIIPTO_DOMAIN}/.well-known/jwks`));
+const jwks = jose.createRemoteJWKSet(new URL(`https://${CRIIPTO_DOMAIN}/.well-known/jwks`));
 
 // Initialize the OpenID Configuration Manager to fetch the OIDC discovery document.
 const configurationManager = new OpenIDConfigurationManager(
@@ -245,13 +249,13 @@ app.get('/callback', async (req, res) => {
       try {
         // 3. Decrypt the JWE with compactDecrypt using your private decryption key.
         // The `plaintext` is the original signed JWT.
-        const { plaintext: idTokenSignedJwt } = await compactDecrypt(
+        const { plaintext: idTokenSignedJwt } = await jose.compactDecrypt(
           id_token,
           privateKeyForDecryption
         );
 
         // 4. Verify the decrypted id_token's signature.
-        const { payload: idTokenClaims } = await jwtVerify(idTokenSignedJwt, jwks, {
+        const { payload: idTokenClaims } = await jose.jwtVerify(idTokenSignedJwt, jwks, {
           issuer: `https://${CRIIPTO_DOMAIN}`,
           audience: CRIIPTO_CLIENT_ID,
         });
