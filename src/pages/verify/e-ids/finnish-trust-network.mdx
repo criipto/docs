@@ -16,38 +16,267 @@ The requirements are described in <a href="https://www.kyberturvallisuuskeskus.f
 
 1. Private Key JWT client authentication
 2. Authentication request signing
-3. Encrypted token and userinfo responses
+3. Encrypted `token` and `userinfo` responses
 4. Statically configured JWK sets for signing and encryption
 
-Client applications must be able to fulfill the new requirements to continue offering FTN logins – regardless of the provider chosen for FTN integration.
+Client applications must be able to fulfill the new requirements to continue offering FTN logins, regardless of the chosen FTN broker. All changes must be implemented by August 31, 2025.
 
-As we're finalizing the technical changes on our side, you can start configuring your FTN integration to meet the new requirements. If you need any help or guidance, don't hesitate to reach out.
+### Technical guides
 
-**1. Private Key JWT client authentication**
+Technical guides for each requirement are provided below:
+
+- [Private Key JWT client authentication](/verify/e-ids/finnish-trust-network/#private-key-jwt-client-authentication)
+- [Authentication request signing](/verify/e-ids/finnish-trust-network/#authentication-request-signing)
+- [Encrypted token and userinfo responses](/verify/e-ids/finnish-trust-network/#encrypted-token-and-userinfo-responses)
+- [Statically configured JWK sets](/verify/e-ids/finnish-trust-network/#statically-configured-jwk-sets-for-signing-and-encryption)
+
+Should you encounter any challenges or need further assistance, please do not hesitate to reach out to our support team at [support@criipto.com](mailto:support@criipto.com) or via [Slack](https://tiny.cc/criipto-slack).
+
+### Test your implementation
+
+After implementing the changes described in the [technical guides](/verify/e-ids/finnish-trust-network/#technical-guides), you can test your setup by activating the **Enforce FTN requirements** toggle. You'll find it in your Criipto Dashboard under `eID providers` > `FTN`.
+
+We recommend activating the toggle in a test environment, then running a test login with FTN. When active, this setting will make non-compliant authorization requests fail. The failure will include a detailed error message, helping you identify any misconfigurations or missing steps in your implementation.
+
+![Enforce FTN requirements](./images/ftn-enforce-requirements.png)
+
+</Highlight>
+
+### Private Key JWT client authentication
 
 Your application must use `private_key_jwt` client authentication instead of `client_secret` to authenticate to Criipto.
 
-Follow [this guide](/verify/guides/privatekey-jwt/) to configure Private Key JWT authentication. Note that you must use Statically configured JWK sets.
+Please refer to the [Private Key JWT authentication guide](/verify/guides/privatekey-jwt/) for instructions on configuring `private_key_jwt` client authentication. Note that FTN requires:
 
-_The [PKCE](/verify/getting-started/glossary/#pkce-proof-key-for-code-exchange) extension for securing authorization code flow is also highly recommended. You don't have to change your client authentication implementation if using PKCE. See [OpenID Connect best security practices](/verify/getting-started/best-security-practices/#authorization-code-flow) for more information._
+- Statically configured JWK sets.
+- The `jti` claim included in the `client_assertion`.
 
-**2. Authentication request signing**
+### Authentication request signing
 
-Your application must sign authorize requests to Criipto and send them as Request Objects (also known as JWT-secured Authorization Requests or JARs).
+Your application must sign [authorization requests](/verify/getting-started/glossary/#authorization-request-authorize-url) to Criipto and send them as JWT-secured Authorization Requests(JARs).
+A JWT-secured Authorization Request is a method where the [request parameters](/verify/getting-started/oidc-intro/#authorize-request-parameters) are encapsulated in a [JSON Web Token (JWT)](/verify/getting-started/glossary/#json-web-token-jwt) signed by your application’s private key and included in the authorization request via the `request` parameter.
 
-The technical guide to configuring this change is coming soon.
+Authentication request signing enhances security by guaranteeing that the request originated from your application and has not been tampered with. To understand the benefits in more detail, see: <a href="https://www.criipto.com/blog/signed-authorization-requests" target="_blank">Why Signed Authorization Requests Elevate Your Security</a>.
 
-**3. Encrypted token and userinfo responses**
+#### Creating a signed authorization request
 
-Criipto will apply JSON Web Encryption (JWE) to secure `token` and `userinfo` responses we send to client applications. Your application must be able to receive these.
+To create a signed authorization request, you first create a JWT where the payload contains your [request parameters](/verify/getting-started/oidc-intro/#authorize-request-parameters), plus appropriate `issuer` and `audience`.
+The JWT is then signed using your application's private signing key and added to the authorization request via the `request` parameter. The private signing key used for [private key JWT client authentication](/verify/e-ids/finnish-trust-network/#private-key-jwt-client-authentication) can be used to sign authorization requests.
 
-The technical guide to configuring this change is coming soon.
+Your signed authorization request will look something like this:
 
-**4. Statically configured JWK sets for signing and encryption**
+`https://acme-corp.criipto.id/oauth2/authorize?client_id=your_client_id&request=eyJhbGciOiJNilhcmxzZXYifQ.eyJpc3MiOiJ5b3VyX2Nsa9pZCI...`
 
-You can add your static JWKS (JSON Web Key Set) by going to your Criipto Application > `OpenID Connect` > `Client JWKS`. More information on this requirement is coming soon.
+where the only two parameters directly included in the URL are:
 
-</Highlight>
+- `client_id`: contains the Client ID of your Criipto application
+- `request`: contains Request Object (the JWT whose claims hold the JSON-encoded authorization request parameters)
+
+The code sample below demonstrates creating a Request Object JWT, then building authorize URL in a Node.js/Express application.
+
+```javascript
+const { SignJWT } = require('jose');
+
+// Generate a signed JWT (Request Object)
+const createSignedRequestObject = async (signingKey) => {
+  // Define parameters for your authorization request
+  const requestObjectPayload = {
+    response_mode: 'query',
+    response_type: 'code',
+    client_id: CLIENT_ID,
+    redirect_uri: REDIRECT_URI,
+    state: state,
+    scope: 'openid',
+  };
+
+  // Create and sign the JWT
+  const signedJwt = await new SignJWT(requestObjectPayload)
+    .setProtectedHeader({
+      alg: 'RS256',
+      kid: SIGNING_KEY_KID,
+    })
+    .setIssuer(CLIENT_ID)
+    .setAudience(`https://${CRIIPTO_DOMAIN}`)
+    .sign(signingKey);
+
+  return signedJwt;
+};
+
+// Example usage in an Express route
+app.get('/login', async (req, res) => {
+  try {
+    const privateSigningKey = 'YOUR_SIGNING_KEY_HERE';
+    const requestObject = await createSignedRequestObject(privateSigningKey);
+
+    // Build authorize URL
+    const authorizeUrl = `https://${CRIIPTO_DOMAIN}/oauth2/authorize?client_id=${CLIENT_ID}&request=${requestObject}`;
+
+    res.redirect(authorizeUrl);
+  } catch (error) {
+    console.error('Error during login:', error);
+    res.status(500).send('Login failed.');
+  }
+});
+```
+
+### Encrypted token and userinfo responses
+
+Criipto will apply [JSON Web Encryption (JWE)](/verify/getting-started/glossary/#json-web-encryption-jwe) to secure `token` and `userinfo` responses resulting from FTN authentication.
+This means that after a successful [code-for-token exchange](/verify/getting-started/glossary/#code-exchange), the `id_token` (and `userinfo` if requested) will be sent to your application in a JWE format, rather than a standard [JWT](/verify/getting-started/glossary/#json-web-token-jwt).
+These JWEs are encrypted using your application's public encryption key, requiring you to use the corresponding private key to decrypt them.
+
+For a deeper dive into JWE, please refer to our blog posts:
+
+- [An Introduction to JSON Web Encryption](https://www.criipto.com/blog/json-web-encryption-introduction)
+- [Securing Authentication Flows with JSON Web Encryption](https://www.criipto.com/blog/jwe-encrypted-responses)
+
+To configure your application to handle encrypted `token` and `userinfo` responses, follow the steps below:
+
+**1. Generate a new RSA key pair**
+
+FTN requires that you use different key pairs for signing and encryption. Therefore, you'll need to generate a separate RSA key pair for encryption, distinct from the one used for [Private Key JWT authentication](/verify/e-ids/finnish-trust-network/#private-key-jwt-client-authentication) and [authentication request signing](/verify/e-ids/finnish-trust-network/#authentication-request-signing).
+
+```javascript
+import * as jose from 'jose';
+
+async function generateEncryptionKeyPair() {
+  try {
+    const { publicKey, privateKey } = await jose.generateKeyPair('RSA-OAEP-256');
+    const jwk = await jose.exportJWK(publicKey); // Export public key to JWK format
+    const kid = await jose.calculateJwkThumbprint(jwk); // Generate a Key ID for the public key
+
+    const jwks = {
+      keys: [
+        {
+          ...jwk,
+          kid,
+          use: 'enc', // Indicate this key is for encryption
+        },
+      ],
+    };
+    // Log the JWKS (public key in JWK Set format)
+    console.log('JWK Set (Public Key):', JSON.stringify(jwks, null, 2));
+    // Your private key here. Ensure to store your private key in a secure environment.
+    console.log('Private Key:', privateKey);
+    return { publicKey, privateKey, jwks };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+```
+
+**2. Register your encryption keys with Criipto**
+
+Go to your Application settings in the Criipto Dashboard. Under `OpenID Connect` > `Client JWKS`, add your newly generated public encryption key alongside your existing public signing key.
+The resulting JSON will look something like this:
+
+```json
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "use": "enc",
+      "kid": "E1F0D80A379B4F9C8EE7043875345265",
+      "e": "AQAB",
+      "n": "zwEbepsvbT4TpZNecCtmJnMhALAH0sqlpllZdkI6AsRGou_cxakr8b8HKjjYWiyb-RJzbScGxBLPVK4k9RcEOL3PxoGoSIABEE1-NinDoiTYaSRIYwd7N914vWSGgfs7ctMy7vYRXmTBoc_NuLQkl79Fu2tFjXbLyAgGfnePkZUrFJqCXwCB553QYXJ0Lw4B8P8MFjy80YShI1wBQmCfj5BpZbACN5u5-84233KTHqYIkGOTrF4FZwVRvAkNutjiwMIzwKYGRj2qjdmelmqDlgiPre5UP8Cfnl7Urm411JhueWo7mrvJAcwHMpcyE4Rsuyhm93bv0hBDe5ddt-r4cw"
+    },
+    {
+      "kty": "RSA",
+      "use": "sig",
+      "kid": "08E538B6D3B346A8B61322A4FAFB35CC",
+      "e": "AQAB",
+      "n": "0TGwj4SywrEU3IYBBm-HlxyI7zKQkjM6Y4PEZNNBmoIFk4kU8J5xVNkbkqnv_SwKrKJD3JbYK18zLvyu05xVDxXEZR8FkipGaXisGOuXuo_A8Gswe_-LLYfN3N-bpcID9E8FnSq6todIO8umD50W9VdGSoO_WxBiffnpnpXDihTuGSLLSdhWz6vz7-VY_Uphv6V87FfqU0OaMGLi7InsZlMSlquvb8LthOm22YvuiRkgkX1cMjW-uaWva7AMQJ6eKbOKRADnMGNjwlUOJkPsqUbCUGuMvNFwqh9JQCBHEvnwGz8Lmt8hNaK0uQ0nT3l2PFZ5_LsH9JrpxqCmD2LHeQ"
+    }
+  ]
+}
+```
+
+**3. Configure response strategy**
+
+In the `OpenID Connect` section of your Application settings, set `User info response strategy` and `id_token response strategy` to `signedAndEncryptedJWT`.
+
+![signedAndEncryptedJWT](./images/ftn-signedAndEncryptedJWT.png)
+
+**4. Decrypt the received JWE in your application**
+
+After receiving the JWE, use the private key of your encryption RSA key pair to decrypt it and retrieve the original signed JWT.
+
+The code below uses `jose` library for JWE decryption and `@criipto/oidc` to handle code exchange.
+
+```javascript
+const { createRemoteJWKSet, compactDecrypt, jwtVerify } = require('jose');
+const crypto = require('crypto');
+const { OpenIDConfigurationManager, codeExchange } = require('@criipto/oidc');
+
+// Fetch Criipto's public keys for verifying the signature of the ID Token.
+const jwks = createRemoteJWKSet(new URL(`https://${CRIIPTO_DOMAIN}/.well-known/jwks`));
+
+// Initialize the OpenID Configuration Manager to fetch the OIDC discovery document.
+const configurationManager = new OpenIDConfigurationManager(
+  `https://${CRIIPTO_DOMAIN}/.well-known/openid-configuration`
+);
+
+// The /callback route completes the authentication flow, managing the redirect after a user successfully authenticates.
+// It handles the code-for-token exchange, decrypts the JWE and validates the resulting JWT.
+app.get('/callback', async (req, res) => {
+  const { code } = req.query;
+
+  try {
+    const configuration = await configurationManager.fetch();
+
+    // clientAssertion is used for private_key_jwt client authentication which is required by FTN.
+    const clientAssertion = 'YOUR_CLIENT_ASSERTION_JWT';
+
+    // 1. Perform the code exchange at Criipto's token endpoint.
+    // This step retrieves the ID Token, which for FTN will be encrypted (JWE).
+    const codeResponse = await codeExchange(configuration, {
+      code: code,
+      redirect_uri: REDIRECT_URI,
+      client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+      client_assertion: clientAssertion,
+    });
+
+    const { id_token } = codeResponse;
+
+    if (id_token) {
+      const privateKeyForDecryption = 'YOUR_PRIVATE_DECRYPTION_KEY_HERE';
+
+      try {
+        // 3. Decrypt the JWE with compactDecrypt using your private decryption key.
+        // The `plaintext` is the original signed JWT.
+        const { plaintext: idTokenSignedJwt } = await compactDecrypt(
+          id_token,
+          privateKeyForDecryption
+        );
+
+        // 4. Verify the decrypted id_token's signature.
+        const { payload: idTokenClaims } = await jwtVerify(idTokenSignedJwt, jwks, {
+          issuer: `https://${CRIIPTO_DOMAIN}`,
+          audience: CRIIPTO_CLIENT_ID,
+        });
+
+        console.log('ID Token claims:', idTokenClaims); // At this point, `idTokenClaims` contain user information.
+        res.redirect('/');
+      } catch (decryptVerifyError) {
+        console.error('ID Token processing error:', decryptVerifyError);
+        res.status(500).send('Authentication failed.');
+      }
+    } else {
+      console.error('No ID Token received in response.');
+      res.status(500).send('Authentication failed.');
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Authentication failed.');
+  }
+});
+```
+
+### Statically configured JWK sets for signing and encryption
+
+FTN requires the use of static JWK sets (JWKS) rather than fetching JWKS dynamically from a dedicated endpoint. This means all keys (both for signing and encryption) must be registered on the Criipto Dashboard as Static JWKS.
+You've addressed this requirement when you registered static JWKS in Criipto Dashboard while configuring [Private Key JWT client authentication](/verify/e-ids/finnish-trust-network/#private-key-jwt-client-authentication) and [Encrypted `token` and `userinfo` responses](/verify/e-ids/finnish-trust-network/#encrypted-token-and-userinfo-responses).
 
 ## JWT/Token examples
 

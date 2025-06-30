@@ -66,6 +66,12 @@ It is used to authenticate your application when it exchanges an authorization c
 An alternative and more secure client authentication method for confidential clients is Private Key JWT authentication.
 _Note: public clients (like single-page applications or mobile apps) must use PKCE instead of a Client Secret for security reasons._
 
+### Code Exchange
+
+The process by which a client application exchanges an authorization code (received from the Authorization Server) for an ID Token and/or Access Token at the Token Endpoint.
+This step is crucial for security, as it ensures that the tokens are transmitted directly between the client application and the Authorization Server, without being exposed in the user's browser URL.
+If the code-for-token exchange is successful, the Authorization Server will respond by providing the ID Token and/or Access Token.
+
 ### Confidential Client
 
 According to the OAuth 2.0 protocol, client applications are categorized as either confidential or public, depending on their ability to securely store credentials (e.g., client secrets).
@@ -110,9 +116,19 @@ An OAuth 2.0 Authorization Flow where an ID Token is returned directly to the cl
 
 ## J
 
-### JWT (JSON Web Token)
+### JSON Web Token (JWT)
 
-An open standard (<a href="https://datatracker.ietf.org/doc/html/rfc7519" target="_blank">RFC 7519</a>) that defines a compact, URL-safe means of representing claims to be transferred between two parties as a JSON object. Criipto issues ID tokens in a JWT format. You can decode well-formatted JWTs at <a href="https://jwt.io/" target="_blank">jwt.io</a> to see their claims.
+An open standard (<a href="https://datatracker.ietf.org/doc/html/rfc7519" target="_blank">RFC 7519</a>) that defines a compact, URL-safe means of representing claims to be transferred between two parties as a JSON object.
+JWTs are digitally signed using [JSON Web Signatures (JWS)](/verify/getting-started/glossary/#json-web-signature-jws). Criipto issues ID tokens in a JWT format. You can decode well-formatted JWTs at <a href="https://jwt.io/" target="_blank">jwt.io</a> to see their claims.
+
+### JSON Web Encryption (JWE)
+
+An open standard (<a href="https://datatracker.ietf.org/doc/html/rfc7516" target="_blank">RFC 7516</a>) that defines a method for encrypting a message and representing it in JSON format. The JWE cryptographic mechanisms provide integrity protection and confidentiality for the encrypted data.
+JWE can be used to encrypt a [JWT](/verify/getting-started/glossary/#json-web-token-jwt). Signed (with [JWS](/verify/getting-started/glossary/#json-web-signature-jws)) and encrypted (with JWE) JWTs are commonly used in OpenID Connect authentication flows that require an additional level of security to ensure that sensitive information remains confidential.
+
+### JSON Web Signature (JWS)
+
+An open standard (<a href="https://datatracker.ietf.org/doc/html/rfc7515" target="_blank">RFC 7515</a>) for digitally signing JSON data. JWS provides integrity protection to the signed data.
 
 ## L
 
