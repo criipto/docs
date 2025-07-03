@@ -31,3 +31,8 @@ This error is not actionable (i.e. there is nothing you or we can do to fix it),
 ### Using TOTP test user as a workaround
 
 In some cases, only App Simulator test users may be affected. If you are experiencing issues with the App Simulator (e.g. the *Scan QR and Confirm* action is not available), you can try [creating a test user](/verify/e-ids/danish-mitid/#test-users) with a TOTP authenticator instead. You can do this by checking both the *Password* and the *TOTP simulator* checkboxes at user creation time. 
+
+## Why are users asked for their CPR during MitID Erhverv login?
+
+This allows to look up [company signatories](/verify/e-ids/danish-mitid-erhverv/#employees-and-company-signatories) from the business registry, in case the user has a company that is not registered with MitID Erhverv. 
+If you don't need this feature, you can turn it off. Go to your Criipto Dashboard and **Disable signatories for MitID business logins** under **eID Providers** > **Danish MitID**.
