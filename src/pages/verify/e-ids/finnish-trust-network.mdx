@@ -375,28 +375,10 @@ Turvaluku 2: `123456`<br/>
 
 ## Ordering a production agreement
 
-<Highlight icon="file-lines">
+A legal agreement with Criipto is mandatory to access FTN. You can request one by filling out the <a href="https://dashboard.criipto.com/providers/FI_TELIA/contract" target="_blank"> FTN Production Agreement form </a> in your Criipto Dashboard.
 
-**Prerequisites for getting access to the Finnish Trust Network**
+<Highlight icon="exclamation" warning>
 
-There are no formal prerequisites to be allowed to accept FTN logins in your application. But as described below you 
-must fill out the necessary End Customer Agreement.
-
-The filled out agreement will be reviewed by Telia Finland.
+Before going live, ensure your implementation complies with the [FTN security requirements](/verify/e-ids/finnish-trust-network/#the-new-ftn-security-requirements).
 
 </Highlight>
-
-Access to the Finnish Trust Network, FTN, (BankID and the Mobile Certificate, *Mobiilivarmenne*) is provided by Telia Finland. In order to start using FTN you must accept the terms from Telia.  
-
-import eca from './files/telia-criipto_end_customer_agreement_12.7.2019.pdf';
-import serviceDesc from './files/Telia-Tunnistus palvelukuvaus-20190529-en.pdf';
-import terms from './files/Telia-Tunnistus-Yleiset-ehdot-yrityksille_31.5.2019-en_gb.pdf';
-
-You need to <a href={eca} download>download the End Customer Agreement (PDF)</a>, fill it out, 
-and then return a signed copy to <a href="mailto:support@criipto.com?subject=FTN End Customer Agreement for ...">support@criipto.com</a>.
-
-When sending the signed copy, you must also provide your Criipto Production Domain as set up on your tenant at [dashboard.criipto.com/domains](https://dashboard.criipto.com/domains)
-
-Other relevant documents in this context are the <a href={serviceDesc}>service description</a> and the <a href={terms}>general terms</a> from Telia Finland.
-
-Once you have sent the signed End Customer Agreement we will enable production access for you tenant.
