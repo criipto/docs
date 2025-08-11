@@ -8,8 +8,11 @@ export const variables = (data: ExampleData) : {input: AddSignatoryInput} => ({
     ...basic.variables(data).input,
     documents: [
       {
-        id: data.createSignatureOrder?.signatureOrder.documents[1].id || "[signatureOrder.documents[...].id]"
-      }
-    ]
-  }
+        id:
+          data.createSignatureOrder?.signatureOrder.documents[1]?.id ??
+          (data.createSignatureOrder?.signatureOrder.documents[0]?.id ||
+            '[signatureOrder.documents[...].id]'),
+      },
+    ],
+  },
 });
