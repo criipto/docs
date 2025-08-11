@@ -72,6 +72,23 @@ import displayDocumentIDExample from '../../../examples/createSignatureOrder/dis
 
 <GraphQLExample example={displayDocumentIDExample} />
 
+### Custom seals page template
+
+_Note: This feature is a paid add-on._
+
+By default, a blank page is appended to the signed document to display the signature seals. You can override this behavior by providing a template for the seals page. This allows you to add custom branding, such as logos and brand colors, to the page where the seals are placed.
+
+To configure the seals page template, you must define:
+
+- Template PDF: A single PDF document that will serve as a seals page. 
+- Placement area: The area where seals will be rendered. Its position and size are specified using the PDF coordinate system, where x0, y0 is the bottom-left corner.
+- Expected number of columns and rows: The number of columns and rows to arrange the seals within the defined placement area.
+- _Max signatories (optional)_: The maximum number of expected signatories. The API uses this number to calculate the space required for all seals. This will determine how many seals pages will be added to the signed document.
+
+import sealsPageTemplate from '../../../examples/createSignatureOrder/sealsPageTemplate';
+
+<GraphQLExample example={sealsPageTemplate} />
+
 ## Changing signature order
 
 It is possible to change some of the properties of an existing signature order.
