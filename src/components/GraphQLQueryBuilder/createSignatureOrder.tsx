@@ -199,7 +199,7 @@ export default function CreateSignatureOrderQueryBuilder() {
           </select>
         </div>
       </div>
-      <GraphQLExample example={{query, variables}} />;
+      <GraphQLExample example={{query, variables}} />
     </React.Fragment>
   );
 }

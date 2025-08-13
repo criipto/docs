@@ -185,7 +185,7 @@ export default function AddSignatoryQueryBuilder() {
           </div>
         ))}
       </div>
-      <GraphQLExample example={{query, variables}} />;
+      <GraphQLExample example={{query, variables}} />
     </React.Fragment>
   )
 }
