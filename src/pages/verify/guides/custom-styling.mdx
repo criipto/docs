@@ -9,7 +9,7 @@ import previews from './images/preview-sebankid.png';
 import customStyling from './images/custom-styling.png';
 
 Some of the eID methods require additional dialogs outside of those of the actual eID service.
-These may be styled and enhanced to you liking using one of the following approaches: 
+These may be styled and enhanced to your liking using one of the following approaches: 
 
 1. [Adding your own stylesheet](#custom-css): if your goal is to apply basic styling, including a custom CSS file is all you need. 
 2. [Adding custom HTML and CSS](#custom-html): can be used for creating more complex UIs (e.g. a layout with extra information around the Criipto login box).
@@ -29,7 +29,7 @@ This means that if you are referencing any resources via URLs, you must explicit
 
 **Note** that the live previews you can see in the browser _DO NOT_ enforce a `Content-Security-Policy` - this is only present in the actual login flow.
 You can always use the built-in `Try` feature for the various e-ID methods to run an actual login flow in the browser, where `Content-Security-Policy` rules will apply.
-You can use your browsers developer tools (Console tab) for troubleshooting.
+You can use your browser's developer tools (Console tab) for troubleshooting.
 
 </Highlight>
 
@@ -70,7 +70,7 @@ If you have configured, say,
 ```
 https://my.css.host/static/path
 ```
-as a custom style sheet, and your construct an authorize request containing a
+as a custom style sheet, and you construct an authorize request containing a
 ```
 css_path:dynamic/subpath?q=x
 ```
@@ -81,7 +81,7 @@ https://my.css.host/dynamic/subpath?q=x
 
 <Highlight icon="file-lines">
 
-You can specify more than 1 query parameter in the `css_path` token. In this case, you must URL-component encode (at least) the `&` characters in the query before adding them to the value of the `css_path` token. The URL-component version of the `&` chararcter is `%26`.
+You can specify more than 1 query parameter in the `css_path` token. In this case, you must URL-component encode (at least) the `&` characters in the query before adding them to the value of the `css_path` token. The URL-component version of the `&` character is `%26`.
 
 </Highlight>
 
@@ -97,8 +97,8 @@ These appear in both common and dialog-specific HTML elements. The structure is 
         <span class="text">...english words...</span>
     </span>
 ```
-The wording can be change via CSS selectors in your custom style sheet - see below for examples.
-Depending on the eID, the `lang-sv` class will be replaced with `lang-da`, `lang-nb` etc.
+The wording can be changed via CSS selectors in your custom style sheet - see examples below.
+Depending on the eID, the `lang-sv` class will be replaced with `lang-da`, `lang-nb`, etc.
 
 ### Desktop screen sizes
 
@@ -196,7 +196,7 @@ You can change the texts in each of the `<p>` elements via the following CSS:
   content: '...other english words #2...'
 }
 ```
-where the first selector hides all the default texts in the `<aside id="description">` element in one go, and the subsequent 4 selectors adds language-specific texts per `<p>` element.
+where the first selector hides all the default texts in the `<aside id="description">` element in one go, and the subsequent 4 selectors add language-specific texts per `<p>` element.
 
 If you want to show text in one of the hidden-by-default `<p>` elements, you can do the following (here, the third `<p>` is having an English text added):
 ```css
@@ -229,14 +229,14 @@ you will have the following CSS class content on the `body` tag:
     <body class="sebankid broker auth host-identity-yourdomain-com app-one">
 ```
 
-You can use these dynamically added CSS classes to customize the UI on a per-application basis, which may be quite practical for, say, Single Sign-On scenarios where you re-use a Criipto Verify DNS domain across web applications with very different branding requirements.
+You can use these dynamically added CSS classes to customize the UI on a per-application basis, which may be quite practical for, say, Single Sign-On scenarios where you reuse a Criipto Verify DNS domain across web applications with very different branding requirements.
 
 #### Dialog specific
-Each of the dialogs have their own HTML/CSS structure, and you can inspect the details with your browsers developer tools.
+Each dialog has its own HTML/CSS structure, and you can inspect the details with your browser's developer tools.
 You get the best overview if you expand the preview first.
 
 ### Example: Replacing headline texts in the signature flow for SE BankID
-If you expand the `Another Device: Prompt for SSN` preview, you'll se a `{Log in with BankId | Logga in med BankId}` headline text (actual text will depend on the currently selected language for the SE BankID previews).
+If you expand the `Another Device: Prompt for SSN` preview, you'll see a `{Log in with BankId | Logga in med BankId}` headline text (actual text will depend on the currently selected language for the SE BankID previews).
 
 Should you also want to change the wording for signature flow, you could add the following selectors to your custom style sheet:
 ```css
@@ -275,7 +275,7 @@ import StyleOriginsSnippet from '../../../snippets/style-origins.mdx';
 
 ### Publishing 
 
-You can publish your draft code when ready by clicking on `Publish to test` / `Publish to produciton`. This will make it immediately active on logins running within the environment you're developing in.
+You can publish your draft code when ready by clicking on `Publish to test` / `Publish to production`. This will make it immediately active on logins running within the environment you're developing in.
 
 After publishing, if facing issues or otherwise, a published version can be rolled back or completely unpublished to revert the UI to its original state. 
 
@@ -285,13 +285,13 @@ For inspiration, take a look at [various examples of custom UIs](/verify/article
 
 ### Feedback
 
-We're working on adding differnt versions of the custom HTML depending on the selected eID.  
+We're working on adding different versions of the custom HTML depending on the selected eID.
 
-Your feedback on this feature is highly appreciated. Don't hesitate to react out via [Slack](https://tiny.cc/criipto-slack) or [email](mailto:support@criipto.com) with any suggestions or comments.
+Your feedback on this feature is highly appreciated. Don't hesitate to reach out via [Slack](https://tiny.cc/criipto-slack) or [email](mailto:support@criipto.com) with any suggestions or comments.
 
 ### Internationalization and localization
 
-A custom `<i18n>` tag is available, to help provide language-specific texts in the custom HTML.
+A custom `<i18n>` tag is available to help provide language-specific texts in the custom HTML.
 
 The language is selected based on [either ui_locales or Accept-Language](/verify/guides/choose-language/)
 and supports `da`, `en`, `sv`, `se`, `fi`, `nb`, `de` and a `default` parameter when no language is matched.
