@@ -19,7 +19,7 @@ import DanishMitIDAddressJwtSnippet from '../../../snippets/jwt-payloads/danish-
 
 ### MitID for citizens (with address lookup)
 
-Address lookups is available as an add-on for MitID.
+[Address lookups](/verify/e-ids/danish-mitid/#collecting-user-addresses) are available as an add-on for MitID.
 
 <DanishMitIDAddressJwtSnippet />
 
@@ -27,7 +27,7 @@ Address lookups is available as an add-on for MitID.
 
 You create personal MitID test users at [https://pp.mitid.dk/test-tool/frontend](https://pp.mitid.dk/test-tool/frontend):
 
-1. Just use the autofill button and then change the details to you liking
+1. Just use the autofill button and then change the details to your liking.
 2. If you haven't done so already, install the test app from [https://pp.mitid.dk/mitid-app/index.html](https://pp.mitid.dk/mitid-app/index.html)
 _**Note:** On iOS, you can install both the test and production versions of the MitID app on the same device. On Android, the two versions cannot coexist, so you'll need a separate device for testing._
 3. You can test your new users by using the "Flows" menu at the top of the screen.
@@ -37,6 +37,18 @@ _**Note:** On iOS, you can install both the test and production versions of the 
 <Highlight icon="info">
 
 To create MitID Erhverv users, [follow these steps](/verify/e-ids/danish-mitid-erhverv/#test-users).
+
+</Highlight>
+
+### Adding address data to a test user
+
+To test [address lookups](/verify/e-ids/danish-mitid/#collecting-user-addresses), you can add fictitious address data to your test user via the Dashboard.
+Navigate to **Identity Providers** > **DK MitID** > **Test Users**, and register your test user with a new address.
+![Adding test user addresses](./images/mitid-test-user-addresses.png)
+
+<Highlight icon="info">
+
+Note: To access this feature, you must first fill in the MitID application form at **Identity Providers** > **DK MitID**.
 
 </Highlight>
 
@@ -66,6 +78,8 @@ Data processor and dedicated billing agreements are needed, contact sales@criipt
 For applications configured to use a `static` `scope` strategy, address data will automatically be added.
 
 For applications configured to use a `dynamic` `scope` strategy, supply `scope=openid address` in the authorize request.
+
+To test your integration with address lookups, [add address data to your test user](/verify/e-ids/danish-mitid/#adding-address-data-to-a-test-user).
 
 <Highlight icon="file-lines">
 
