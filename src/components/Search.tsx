@@ -66,7 +66,7 @@ export default function Search(props: SearchProps) {
           </svg>
         )}
       />
-      <Hits hitComponent={HitComponent} />
+      <Hits hitComponent={({ hit }) => <HitComponent hit={hit} onClick={props.onHide} />} />
     </InstantSearch>
   );
 }
