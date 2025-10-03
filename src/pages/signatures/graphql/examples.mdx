@@ -6,7 +6,7 @@ title: Examples
 ---
 
 import GraphQLExample from '../../../components/GraphQLExample';
-import { Link } from "gatsby";
+import { Link } from 'gatsby';
 
 ## Creating a signature order
 
@@ -80,7 +80,7 @@ By default, a blank page is appended to the signed document to display the signa
 
 To configure the seals page template, you must define:
 
-- Template PDF: A single PDF document that will serve as a seals page. 
+- Template PDF: A single PDF document that will serve as a seals page.
 - Placement area: The area where seals will be rendered. Its position and size are specified using the PDF coordinate system, where x0, y0 is the bottom-left corner.
 - Expected number of columns and rows: The number of columns and rows to arrange the seals within the defined placement area.
 - _Max signatories (optional)_: The maximum number of expected signatories. The API uses this number to calculate the space required for all seals. This will determine how many seals pages will be added to the signed document.
@@ -181,12 +181,12 @@ import addSignatoriesExample from '../../../examples/addSignatories/basic';
 
 It is possible to override some signature order evidence provider settings per signatory, such as:
 
-* acr values
-* unique evidence key
-* always redirect
-* message
-* login hint
-* scope
+- acr values
+- unique evidence key
+- always redirect
+- message
+- login hint
+- scope
 
 import addSignatoryOverrideEvidenceProviderSettings from '../../../examples/addSignatory/overrideEvidenceProviderSettings';
 
@@ -212,17 +212,17 @@ Variable templating works by enclosing the referenced variable in curly brackets
 
 In addition to templating values from claims (see [Seal display name](#seal-display-name)), we enable use of some additional variables, such as:
 
-* Timestamp (see [Seal timestamp](#seal-timestamp)):
-  * Year: `$timestamp.YYYY`
-  * Month: `$timestamp.MM`
-  * Day: `$timestamp.DD`
-  * Hour: `$timestamp.hh`
-  * Minutes: `$timestamp.mm`
-  * Seconds: `$timestamp.ss`
-  * Milliseconds (1 digit): `$timestamp.z`
-  * Milliseconds (2 digit): `$timestamp.zz`
-  * Milliseconds (3 digit): `$timestamp.zzz`
-* Document ID (see [Seal document ID](#seal-document-id)): `$document.id`
+- Timestamp (see [Seal timestamp](#seal-timestamp)):
+  - Year: `$timestamp.YYYY`
+  - Month: `$timestamp.MM`
+  - Day: `$timestamp.DD`
+  - Hour: `$timestamp.hh`
+  - Minutes: `$timestamp.mm`
+  - Seconds: `$timestamp.ss`
+  - Milliseconds (1 digit): `$timestamp.z`
+  - Milliseconds (2 digit): `$timestamp.zz`
+  - Milliseconds (3 digit): `$timestamp.zzz`
+- Document ID (see [Seal document ID](#seal-document-id)): `$document.id`
 
 ### Seal timestamp
 
@@ -286,7 +286,12 @@ For users signing with an eID, this will include the issued `jwt`, which can be 
 
 import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
 
-<GraphQLExample example={{...closeSignatureOrderExample, query: closeSignatureOrderExample.signaturesQuery}} />
+<GraphQLExample
+  example={{
+    ...closeSignatureOrderExample,
+    query: closeSignatureOrderExample.signaturesQuery,
+  }}
+/>
 
 ## Cancel a signature order
 

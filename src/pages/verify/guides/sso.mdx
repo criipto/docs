@@ -22,7 +22,8 @@ You enable and disable `SSO` per DNS domain through the management dashboard for
 
 ## Per-request options
 
-You can tweak this behavior on a per-authentication-request basis by specifying an additional query parameter in the request for authentication. There are 2 options: 
+You can tweak this behavior on a per-authentication-request basis by specifying an additional query parameter in the request for authentication. There are 2 options:
+
 - **Silent check**: Check if the user has an existing session. Criipto Verify will never require any user interactions in this case. You specify this by adding an extra query parameter `prompt=none`
 - **Forced login**: Ignore an existing session and force a new login. You specify this option by adding an extra query parameter `prompt=login`.
 
@@ -36,4 +37,3 @@ If you are using SSO across multiple applications, you should also offer users a
 
 - OpenID Connect: `https://VERIFY_DOMAIN/oauth2/logout?post_logout_redirect_uri=a_pre-registered_callback_url`
 - WS-Federation: `https://VERIFY_DOMAIN/passive/federation?wa=wsignout1.0&wreply=a_pre-registered_callback_url`
-

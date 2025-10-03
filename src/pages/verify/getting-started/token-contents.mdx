@@ -5,18 +5,18 @@ sort: 4
 title: JWT payloads pr. eID type
 subtitle: Examples of JWT payloads for selected eIDs
 ---
-import SwedishBankIdJwtSnippet from '../../../snippets/jwt-payloads/swedish-bankid'
-import NorwegianBankIdJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid'
-import NorwegianBankIdBiometricJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid-biometric'
-import NorwegianVippsJwtSnippet from '../../../snippets/jwt-payloads/norwegian-vipps'
-import DanishMitIDJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid'
-import DanishMitIDAddressJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-address'
-import DanishMitIDCompanySignatoryJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-erhverv-company-signatory'
-import DanishMitIDErhvervJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-erhverv'
-import FtnJwtSnippet from '../../../snippets/jwt-payloads/finnish-trust-network'
-import BelgianEidJwtSnippet from '../../../snippets/jwt-payloads/belgian-eid'
-import BelgianItsmeJwtSnippet from '../../../snippets/jwt-payloads/belgian-itsme'
 
+import SwedishBankIdJwtSnippet from '../../../snippets/jwt-payloads/swedish-bankid';
+import NorwegianBankIdJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid';
+import NorwegianBankIdBiometricJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid-biometric';
+import NorwegianVippsJwtSnippet from '../../../snippets/jwt-payloads/norwegian-vipps';
+import DanishMitIDJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid';
+import DanishMitIDAddressJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-address';
+import DanishMitIDCompanySignatoryJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-erhverv-company-signatory';
+import DanishMitIDErhvervJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-erhverv';
+import FtnJwtSnippet from '../../../snippets/jwt-payloads/finnish-trust-network';
+import BelgianEidJwtSnippet from '../../../snippets/jwt-payloads/belgian-eid';
+import BelgianItsmeJwtSnippet from '../../../snippets/jwt-payloads/belgian-itsme';
 
 Below you will find the structure and example content for the JSON Web Tokens, the ID tokens, returned when signing in with each of the supported eID types.
 
@@ -81,6 +81,7 @@ The `cprNumberIdentifier` field is the social security number.
 The `hetu` field is the personal identity code.
 
 ### Finnish Trust Network - Mobillivarmenne
+
 Same as BankID, except the `satu` property will have a value as well.
 
 ## Belgium
@@ -93,4 +94,4 @@ Same as BankID, except the `satu` property will have a value as well.
 
 ### eID - verified, with national number, personal info, photo and address enabled
 
- <BelgianEidJwtSnippet />
+<BelgianEidJwtSnippet />

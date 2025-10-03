@@ -1,7 +1,7 @@
-import { CloseSignatureOrderInput } from "../../graphql-signatures-types";
+import { CloseSignatureOrderInput } from '../../graphql-signatures-types';
 import { ExampleData } from '../state/store';
 
-export const query = /* Signatures GraphQL */`
+export const query = /* Signatures GraphQL */ `
 mutation examplesCloseSignatureOrder(
   $input: CloseSignatureOrderInput!
 ) {
@@ -22,20 +22,20 @@ mutation examplesCloseSignatureOrder(
 }
 `.trim();
 
-export const variables = (data: ExampleData) : {input: CloseSignatureOrderInput} => ({
+export const variables = (data: ExampleData): { input: CloseSignatureOrderInput } => ({
   input: {
-    signatureOrderId: data.createSignatureOrder?.signatureOrder.id || "[signatureOrder.id]"
-  }
+    signatureOrderId: data.createSignatureOrder?.signatureOrder.id || '[signatureOrder.id]',
+  },
 });
 
-export const retentionVariables = (data: ExampleData) : {input: CloseSignatureOrderInput} => ({
+export const retentionVariables = (data: ExampleData): { input: CloseSignatureOrderInput } => ({
   input: {
-    signatureOrderId: data.createSignatureOrder?.signatureOrder.id || "[signatureOrder.id]",
-    retainDocumentsForDays: 7
-  }
+    signatureOrderId: data.createSignatureOrder?.signatureOrder.id || '[signatureOrder.id]',
+    retainDocumentsForDays: 7,
+  },
 });
 
-export const signaturesQuery = /* Signatures GraphQL */`
+export const signaturesQuery = /* Signatures GraphQL */ `
 mutation examplesCloseSignatureOrder(
   $input: CloseSignatureOrderInput!
 ) {

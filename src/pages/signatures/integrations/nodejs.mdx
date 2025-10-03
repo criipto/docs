@@ -28,29 +28,29 @@ yarn add @criipto/signatures
 
 ```javascript
 import CriiptoSignatures from '@criipto/signatures';
-const client = new CriiptoSignatures("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}");
+const client = new CriiptoSignatures('{YOUR_CRIIPTO_CLIENT_ID}', '{YOUR_CRIIPTO_CLIENT_SECRET}');
 ```
 
 ## Creating your first signature order
 
-Create a signature order by 
+Create a signature order by
 
 ```javascript
 import CriiptoSignatures from '@criipto/signatures';
-const client = new CriiptoSignatures("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}");
+const client = new CriiptoSignatures('{YOUR_CRIIPTO_CLIENT_ID}', '{YOUR_CRIIPTO_CLIENT_SECRET}');
 
 // Create signature order
 const signatureOrder = await client.createSignatureOrder({
-  title: "Node.js sample",
+  title: 'Node.js sample',
   documents: [
     {
       pdf: {
-        title: "Node.js Sample",
+        title: 'Node.js Sample',
         blob: pdf.toString('base64'),
-        storageMode: 'Temporary'
-      }
-    }
-  ]
+        storageMode: 'Temporary',
+      },
+    },
+  ],
 });
 
 // ... store the signatureOrder.id
@@ -62,7 +62,7 @@ Signatories are the individuals you wish to sign your documents.
 
 ```javascript
 import CriiptoSignatures from '@criipto/signatures';
-const signatureOrderId = "..." // The id from when you previosuly created the signature order
+const signatureOrderId = '...'; // The id from when you previosuly created the signature order
 
 // Add signatory to signature order
 var signatory = await client.addSignatory(signatureOrderId);
@@ -75,8 +75,8 @@ console.log(signatory.href); // The signatory.href is the signing link that you 
 Once everyone has signed you must close the signature order to finalize the process and extract the signed documents.
 
 ```javascript
-const client = new CriiptoSignatures("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}");
-var signatureOrderId = "..." // The id from when you previosuly created the signature order
+const client = new CriiptoSignatures('{YOUR_CRIIPTO_CLIENT_ID}', '{YOUR_CRIIPTO_CLIENT_SECRET}');
+var signatureOrderId = '...'; // The id from when you previosuly created the signature order
 
 // Close signature order
 var closedSignatureOrder = await client.closeSignatureOrder(signatureOrderId);

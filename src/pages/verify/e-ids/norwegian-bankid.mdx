@@ -5,6 +5,7 @@ sort: 1
 title: Norwegian BankID
 subtitle: Learn more about Norwegian BankID token contents, how to create test users and how to gain access to production.
 ---
+
 import ConsentRevocation from '../../../components/ConsentRevocation';
 import NorwegianBankIdJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid';
 import NorwegianBankIdBiometricJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid-biometric';
@@ -46,12 +47,12 @@ Note that there is no `certsubject` returned when using Biometrics.
 Test users are created through the web page at [https://ra-preprod.bankidnorge.no/#/search/endUser](https://ra-preprod.bankidnorge.no/#/search/endUser).
 
 1. Go to the ["TEST NUMBER GENERATOR"](https://ra-preprod.bankidnorge.no/#/generate) to generate a random, valid SSN.  
-_If you want to test [BankID Biometric](/verify/e-ids/norwegian-bankid/#testing-bankid-biometric), please make sure that the "Synthetic" checkbox is unchecked before generating a new number. BankID Biometric app does not currently support synthetic SSN numbers, so you won't be able to use them for testing._
+   _If you want to test [BankID Biometric](/verify/e-ids/norwegian-bankid/#testing-bankid-biometric), please make sure that the "Synthetic" checkbox is unchecked before generating a new number. BankID Biometric app does not currently support synthetic SSN numbers, so you won't be able to use them for testing._
 2. It now says "Could not find any bankIDs for ...".
 3. Fill out the first name, last name, and BankID friendly name.
 4. Click "Order" to initiate the process.
 5. Click the pencil icon and add a phone number and an email that you want to associate with the test user.  
-_You can use any values that match the correct email and phone number formats (note that the number of digits will differ per country). Random values are acceptable as you'll be able to access the one-time codes via URLs, as shown in steps 5 and 11 of the [Testing BankID Biometric section](/verify/e-ids/norwegian-bankid/#testing-bankid-biometric)._
+   _You can use any values that match the correct email and phone number formats (note that the number of digits will differ per country). Random values are acceptable as you'll be able to access the one-time codes via URLs, as shown in steps 5 and 11 of the [Testing BankID Biometric section](/verify/e-ids/norwegian-bankid/#testing-bankid-biometric)._
 6. Once the process is complete, you will have a test user. User name is the generated SSN, one time password (OTP) is always "otp", and password is always "qwer1234".
 
 <Highlight icon="info">
@@ -88,7 +89,7 @@ The app must be activated before first use:
 3. Enter the birth number (SSN) for the test user you created and press the **Next** button
 4. Enter the phone number you associated to the test user and press the **Next** button
 5. Open the following page to get your your SMS one-time code (after replacing the `yourTestSsn` placeholder with your actual test-SSN): https://toba-preprod.bankidapis.no/test-events/sms-sent-to-qualified-user/yourTestSsn  
-_Note: The page might need to be refreshed several times, and if multiple activations are done in a short period, old SMS codes may be shown. Only the newest activation code will at any point be valid_
+   _Note: The page might need to be refreshed several times, and if multiple activations are done in a short period, old SMS codes may be shown. Only the newest activation code will at any point be valid_
 6. Type the one-time code that is shown on the website into the app and press the **Next** button
 7. Select **Alternative activation** in the next page
 8. Press the **Get activation codes** button
@@ -112,48 +113,52 @@ Basic user information, full name, and date of birth are always made available. 
 For applications configured to use a `dynamic` `scope` strategy, the following `scope` tokens can be supplied: `ssn`.
 
 <table>
-    <thead>
-        <tr>
-            <th>**Data type**</th>
-            <th>**Released**</th>
-            <th>**Verified**</th>
-            <th>**scope**</th>
-            <th>**login_hint**</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Full name</td>
-            <td>Always</td>
-            <td>Yes</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Date of birth</td>
-            <td>Always</td>
-            <td>Yes</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>SSN ("fødselsnummer" in Norwegian)</td>
-            <td>User consent</td>
-            <td>Yes</td>
-            <td>`ssn`</td>
-            <td>`scope:ssn`</td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>**Data type**</th>
+      <th>**Released**</th>
+      <th>**Verified**</th>
+      <th>**scope**</th>
+      <th>**login_hint**</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Full name</td>
+      <td>Always</td>
+      <td>Yes</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Date of birth</td>
+      <td>Always</td>
+      <td>Yes</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>SSN ("fødselsnummer" in Norwegian)</td>
+      <td>User consent</td>
+      <td>Yes</td>
+      <td>`ssn`</td>
+      <td>`scope:ssn`</td>
+    </tr>
+  </tbody>
 </table>
 
 #### Example (partial) authorize request with scopes
+
 ```text
 https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?scope=openid ssn&...
 ```
+
 Alternatively, you can send them in the `login_hint`
+
 ```text
 https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=scope:ssn&...
 ```
+
 which can be a useful if you are working with technology that does not let you control the `scope` value.
 
 Access to the SSN is governed by Norwegian law, as described in the [Ordering Norwegian BankID](/eid-specifics/order-no-bankid) guide.
@@ -197,17 +202,17 @@ Text signing is triggered by using the `action` and `message` parameters [via lo
 - The `action` parameter must be set to `sign`
 - The `message` parameter must be base64 encoded.
 
-*Note: Signing produces very large JWTs that are not appropriate for authentication/Bearer header use*
+_Note: Signing produces very large JWTs that are not appropriate for authentication/Bearer header use_
 
 Text signing has a different eID cost than authentication, please [contact Criipto sales](https://www.criipto.com/contact) if you have questions.
 
 <details>
   <summary><strong>Example</strong></summary>
 
-  ```login_hint=action:sign message:VmVuZG9yOgoKQ29vbCBEZWxpdmVyeQoKQW1vdW50OgoKMzAwIEVVUgoKCgpJIGFwcHJvdmUgdGhpcyB0cmFuc2FjdGlvbi4=```
+`login_hint=action:sign message:VmVuZG9yOgoKQ29vbCBEZWxpdmVyeQoKQW1vdW50OgoKMzAwIEVVUgoKCgpJIGFwcHJvdmUgdGhpcyB0cmFuc2FjdGlvbi4=`
 
-  Try out the example in [our URL builder](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:no:bankid&action=sign&message=Vendor%3A%0A%0ACool%20Delivery%0A%0AAmount%3A%0A%0A300%20EUR%0A%0A%0A%0AI%20approve%20this%20transaction.)
-  
+Try out the example in [our URL builder](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:no:bankid&action=sign&message=Vendor%3A%0A%0ACool%20Delivery%0A%0AAmount%3A%0A%0A300%20EUR%0A%0A%0A%0AI%20approve%20this%20transaction.)
+
 </details>
 
 ## Ordering Norwegian BankID
@@ -242,7 +247,7 @@ BankID Biometrics assurance level is “Substantial”.
 
 [Learn more about assurance levels](https://ec.europa.eu/digital-building-blocks/wikis/display/DIGITAL/eIDAS+Levels+of+Assurance).
 
-If you can only use assurance level “High” in your login flow, you must explicitly specify the [login_hint=BID](/verify/guides/prefilled-fields/) in your authorize requests to Criipto Verify. _Please note that using `login_hint=BID` will disable biometrics in the BankID app._  
+If you can only use assurance level “High” in your login flow, you must explicitly specify the [login_hint=BID](/verify/guides/prefilled-fields/) in your authorize requests to Criipto Verify. _Please note that using `login_hint=BID` will disable biometrics in the BankID app._
 
 ### Modifying user flows
 
@@ -258,23 +263,38 @@ The table below provides a list of options for using `login_hint` with Norwegian
   <tbody>
     <tr>
       <td>`login_hint=BID`</td>
-      <td>The user will be redirected to the BankID app, with biometrics disabled. The user will be queried for userID(i.e. national identity number) in the first dialogue.</td>
+      <td>
+        The user will be redirected to the BankID app, with biometrics disabled. The user will be
+        queried for userID(i.e. national identity number) in the first dialogue.
+      </td>
     </tr>
     <tr>
-      <td>`login_hint=BID:[SSN]`, where `[SSN]` has the format `DDMMYYXXXXX`  </td>
-      <td>The user will be redirected to the BankID app (with biometrics disabled) along with a pre-selected userID. The userID dialogue is omitted in this case.</td>
+      <td>`login_hint=BID:[SSN]`, where `[SSN]` has the format `DDMMYYXXXXX` </td>
+      <td>
+        The user will be redirected to the BankID app (with biometrics disabled) along with a
+        pre-selected userID. The userID dialogue is omitted in this case.
+      </td>
     </tr>
     <tr>
       <td>`login_hint=BIS`</td>
-      <td>The user will be redirected to the BankID app. The user will be queried for userID in the first dialogue. This option does not disable biometrics. </td>
+      <td>
+        The user will be redirected to the BankID app. The user will be queried for userID in the
+        first dialogue. This option does not disable biometrics.{' '}
+      </td>
     </tr>
     <tr>
       <td>`login_hint=BIS:[SSN]`, where `[SSN]` has the format `DDMMYYXXXXX`</td>
-      <td>The user will be redirected to the BankID app with a pre-selected userID. This option does not disable biometrics.</td>
+      <td>
+        The user will be redirected to the BankID app with a pre-selected userID. This option does
+        not disable biometrics.
+      </td>
     </tr>
     <tr>
       <td>no `login_hint` provided</td>
-      <td>The default settings of the BankID app on the user's device will determine the flow (whether biometrics are enabled or disabled).</td>
+      <td>
+        The default settings of the BankID app on the user's device will determine the flow (whether
+        biometrics are enabled or disabled).
+      </td>
     </tr>
   </tbody>
 </table>
@@ -283,7 +303,9 @@ The table below provides a list of options for using `login_hint` with Norwegian
 
 To order production credentials please send a request to
 
-<p style={{textIndent: "50px"}}><a href="mailto:orders@criipto.com?subject=NO BankID for ...">orders@criipto.com</a></p>
+<p style={{ textIndent: '50px' }}>
+  <a href="mailto:orders@criipto.com?subject=NO BankID for ...">orders@criipto.com</a>
+</p>
 
 with answers to these questions:
 

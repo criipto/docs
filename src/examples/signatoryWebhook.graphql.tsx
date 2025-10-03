@@ -1,4 +1,4 @@
-export const query = /* Signatures GraphQL */`
+export const query = /* Signatures GraphQL */ `
 query SignatoryWebhook($signatoryId: ID!) {
   signatory(id: $signatoryId) {
     status

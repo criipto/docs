@@ -3,17 +3,17 @@ import nodejs from '!!raw-loader!./evidenceValidation.node.ts';
 import { Example } from '../misc';
 import { query, variables } from './evidenceValidation.graphql';
 
-const example : Example[] = [
+const example: Example[] = [
   {
     query,
-    variables
+    variables,
   },
   {
-    csharp
+    csharp,
   },
   {
-    nodejs
-  }
+    nodejs,
+  },
 ];
 
 export default example;

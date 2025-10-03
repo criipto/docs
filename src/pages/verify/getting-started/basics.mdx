@@ -6,15 +6,15 @@ title: Learn the Basics
 subtitle: Learn the basics of Criipto and familiarize yourself with the terminology.
 ---
 
-This document explains some of the basic terminology we use at Criipto, and we try to relate these terms to concepts you are already familiar with. 
+This document explains some of the basic terminology we use at Criipto, and we try to relate these terms to concepts you are already familiar with.
 
 This article introduces the following core concepts of Criipto: **[Tenants](/verify/getting-started/basics/#tenants)**, **[Domains](/verify/getting-started/basics/#domains)**, **[Applications](/verify/getting-started/basics/#applications)**, and **[Identity Sources](/verify/getting-started/basics/#identity-sources)**.
 
 <Highlight icon="file-lines">
 
-  One important distinction in Criipto Verify is the separation of **Test** and **Production**. Inside each tenant, you may toggle the setup between Test and Production to configure each environment separately.
+One important distinction in Criipto Verify is the separation of **Test** and **Production**. Inside each tenant, you may toggle the setup between Test and Production to configure each environment separately.
 
-  To set up a production domain you must first upgrade your free subscription to a paid subscription.  
+To set up a production domain you must first upgrade your free subscription to a paid subscription.  
 
 </Highlight>
 
@@ -22,7 +22,7 @@ For illustration purposes, we will use a fictitious company named `Secure Insura
 
 ## Tenants
 
-If you haven't already [signed up](https://criipto.com/signup) for a Criipto account, feel free - it's free. 
+If you haven't already [signed up](https://criipto.com/signup) for a Criipto account, feel free - it's free.
 
 When you sign up for the first time, you will be asked to create your first tenant and your first _domain_ along with it. In Criipto, a tenant is the **logical isolation unit** that isolates you and your data from other Criipto tenants. The term describes a software architecture where a single instance of the software serves multiple tenants. No tenant can access the instance of another tenant, even though the software may be running on the same machine.
 
@@ -38,13 +38,13 @@ You can create additional tenants at any time. To do so, go to the upper-right c
 
 As discussed in the previous section, when you create a new account with Criipto, you also create your first domain. Typically, your first domain would be something like `secure-insurance-test.criipto.id`.
 
-A domain in Criipto Verify is the DNS domain on which you call our service to perform authentication. 
+A domain in Criipto Verify is the DNS domain on which you call our service to perform authentication.
 
 <Highlight icon="info">
 
-  Domains are registered for either test or production and as such determine whether you can use test eID accounts or real, live eID accounts. 
+Domains are registered for either test or production and as such determine whether you can use test eID accounts or real, live eID accounts.
 
-  As such, **the domain is the key distinction between test and production.**
+As such, **the domain is the key distinction between test and production.**
 
 </Highlight>
 
@@ -56,7 +56,7 @@ If you choose to set up your own domain for production you must have access to y
 
 ## Applications
 
-Once you've set up a tenant including the first test domain, you are ready to register your application to enable its use of our service for authentication.  To that end, you must register each application. (We use the term **application** as defined in the _client_ role in [OAuth 2.0](https://tools.ietf.org/html/rfc6749#page-6)).
+Once you've set up a tenant including the first test domain, you are ready to register your application to enable its use of our service for authentication. To that end, you must register each application. (We use the term **application** as defined in the _client_ role in [OAuth 2.0](https://tools.ietf.org/html/rfc6749#page-6)).
 
 When you create an application in the **Applications** section of the management UI, we ask you to fill out a few required fields.
 
@@ -64,7 +64,7 @@ Each application is assigned a **Client ID** upon creation. This ID is used as t
 
 <Highlight icon="exclamation" warning>
 
-  Note that although you may change the client ID later, you should be very careful not to do so without careful consideration of the fact that the application(s) using this client ID will have to be re-configured at the same time or they will stop working.
+Note that although you may change the client ID later, you should be very careful not to do so without careful consideration of the fact that the application(s) using this client ID will have to be re-configured at the same time or they will stop working.
 
 </Highlight>
 
@@ -74,7 +74,7 @@ In our example, `Secure Insurance` has two apps: a web app (running on a server)
 
 ## Identity Sources
 
-Now that you have set up your **Applications**, you are ready to configure how your users will log in. 
+Now that you have set up your **Applications**, you are ready to configure how your users will log in.
 
 Criipto sits between your app and the Identity Sources that authenticate your users (such as Swedish BankID and Danish MitID). Through this abstraction, Criipto keeps your app isolated from any changes in the provider's implementation.
 
@@ -82,11 +82,11 @@ Each Identity Source can be shared among multiple applications. You may use all 
 
 <Highlight icon="info">
 
-  Identity sources are already configured for test when you create a tenant. To be able to use an Identity Source in production you will - in most cases - have to enter into some sort of formal agreement with the provider of the particular type of eID.
+Identity sources are already configured for test when you create a tenant. To be able to use an Identity Source in production you will - in most cases - have to enter into some sort of formal agreement with the provider of the particular type of eID.
 
-  In most cases, this is handled through the intermediary of Criipto, although in some cases you will also have to set up direct agreements (in countries such as Denmark and the Netherlands).
+In most cases, this is handled through the intermediary of Criipto, although in some cases you will also have to set up direct agreements (in countries such as Denmark and the Netherlands).
 
-  More detail on the formalities and process can be found in the section about [eIDs](/verify/e-ids/).
+More detail on the formalities and process can be found in the section about [eIDs](/verify/e-ids/).
 
 </Highlight>
 

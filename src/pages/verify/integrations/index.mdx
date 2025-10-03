@@ -5,9 +5,9 @@ sort: 0
 title: Integrate with Criipto Verify from various providers and technologies
 ---
 
-import {isIndexPage} from '../../../utils';
+import { isIndexPage } from '../../../utils';
 
-import { graphql as gatsbyGraphql, Link } from "gatsby";
+import { graphql as gatsbyGraphql, Link } from 'gatsby';
 export const pageQuery = gatsbyGraphql`
   query Integrations {
     pages: allMdx(
@@ -41,10 +41,14 @@ export const pageQuery = gatsbyGraphql`
 `;
 
 <ul>
-  {props.data.pages.edges.map(edge => edge.node).filter(node => !isIndexPage(node)).map(node => (
-    <li key={node.id}>
-      <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link><br />
-      {node.frontmatter.subtitle}
-    </li>
-  ))}
+  {props.data.pages.edges
+    .map(edge => edge.node)
+    .filter(node => !isIndexPage(node))
+    .map(node => (
+      <li key={node.id}>
+        <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link>
+        <br />
+        {node.frontmatter.subtitle}
+      </li>
+    ))}
 </ul>

@@ -1,7 +1,7 @@
-import { ChangeSignatureOrderInput } from "../../../graphql-signatures-types";
+import { ChangeSignatureOrderInput } from '../../../graphql-signatures-types';
 import { ExampleData } from '../../state/store';
 
-export const query = /* Signatures GraphQL */`
+export const query = /* Signatures GraphQL */ `
 mutation exampleChangeSignatureOrder(
   $input: ChangeSignatureOrderInput!
 ) {
@@ -14,9 +14,9 @@ mutation exampleChangeSignatureOrder(
 }
 `;
 
-export const variables = (data: ExampleData) : {input: ChangeSignatureOrderInput} => ({
+export const variables = (data: ExampleData): { input: ChangeSignatureOrderInput } => ({
   input: {
-    signatureOrderId: data?.createSignatureOrder?.signatureOrder.id || "[signatureOrder.id]",
-    maxSignatories: 20
-  }
+    signatureOrderId: data?.createSignatureOrder?.signatureOrder.id || '[signatureOrder.id]',
+    maxSignatories: 20,
+  },
 });

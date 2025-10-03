@@ -8,7 +8,7 @@ After saving, you can configure the OAuth2 Code Flow for this application by fol
    ![OAuth2 client secret](./images/oauth2-client-secret.png)
 3. Set the user info response strategy to `plainJson` to enable retrieval of plain JSON user information from the `/oauth2/userinfo` endpoint.
    ![OAuth2 code flow](./images/plain-json.png)
-   _Note that some libraries do not support the final `userinfo` request. In those cases, you will need to fetch the user data directly from the `token` endpoint as opposed to the `userinfo` endpoint._ You can do this by choosing `fromTokenEndpoint` as a `User info response strategy`. 
+   _Note that some libraries do not support the final `userinfo` request. In those cases, you will need to fetch the user data directly from the `token` endpoint as opposed to the `userinfo` endpoint._ You can do this by choosing `fromTokenEndpoint` as a `User info response strategy`.
    ![User info response strategy](./images/userinfo-responsestrategy-fromtokenendpoint.png)
 
 <br />

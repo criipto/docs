@@ -24,7 +24,7 @@ You will need the following information from the General tab of your application
 
 ### Register callback URLs
 
-Before you can start sending authentication requests to Criipto Verify, you need to register the URLs on which you want to receive the returned *JSON Web Token*, JWT.
+Before you can start sending authentication requests to Criipto Verify, you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
 
 The Callback URL of your application is the URL where Criipto Verify will redirect to after the user has authenticated in order for the OpenID Connect middleware to complete the authentication process.
 
@@ -112,22 +112,19 @@ Will open a popup window to authenticate the user.
 ...
 
 <script type="text/javascript">
-  document
-    .getElementById('login-button-popup')
-    .addEventListener('click', () => {
-      criiptoAuth.popup
-        .authorize({
-          width: 300,
-          height: 400,
-          redirectUri: 'http://localhost:8000/example/index.html',
-          acrValues: '{{ACR_VALUES || urn:grn:authn:dk:mitid:substantial}}',
-        })
-        .then((result) => {
-          console.log(result, result.id_token, result.claims);
-          document.getElementById('result').textContent =
-            JSON.stringify(result);
-        });
-    });
+  document.getElementById('login-button-popup').addEventListener('click', () => {
+    criiptoAuth.popup
+      .authorize({
+        width: 300,
+        height: 400,
+        redirectUri: 'http://localhost:8000/example/index.html',
+        acrValues: '{{ACR_VALUES || urn:grn:authn:dk:mitid:substantial}}',
+      })
+      .then(result => {
+        console.log(result, result.id_token, result.claims);
+        document.getElementById('result').textContent = JSON.stringify(result);
+      });
+  });
 </script>
 ```
 
@@ -163,15 +160,13 @@ console.log(match.id_token, match.claims);
 ...
 
 <script type="text/javascript">
-  document
-    .getElementById('login-button-redirect')
-    .addEventListener('click', () => {
-      criiptoAuth.redirect.authorize({
-        redirectUri: 'http://localhost:8000/callback.html',
-        prompt: 'login',
-        acrValues: '{{ACR_VALUES || urn:grn:authn:no:bankid:substantial}}',
-      });
+  document.getElementById('login-button-redirect').addEventListener('click', () => {
+    criiptoAuth.redirect.authorize({
+      redirectUri: 'http://localhost:8000/callback.html',
+      prompt: 'login',
+      acrValues: '{{ACR_VALUES || urn:grn:authn:no:bankid:substantial}}',
     });
+  });
 </script>
 
 <!-- callback.html -->
@@ -182,13 +177,13 @@ console.log(match.id_token, match.claims);
 <script type="text/javascript">
   criiptoAuth.redirect
     .match()
-    .then((result) => {
+    .then(result => {
       if (result && result.claims) {
         const userName = document.getElementById('user-name');
         userName.textContent = result.claims.name;
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(error);
     });
 </script>

@@ -16,9 +16,7 @@ You simply provide your webhook uri as part of creating a signature order (`crea
 
 import basicExample from '../../../examples/createSignatureOrder/webhook/basic';
 
-<GraphQLExample
-  example={basicExample}
-/>
+<GraphQLExample example={basicExample} />
 
 ## Webhook verification with HMAC signature
 
@@ -30,9 +28,7 @@ of the webhook request body (utf-8).
 
 You can also try it out in our [Webhook tester](/signatures/webhooks/tester/).
 
-<GraphQLExample
-  example={secretExample}
-/>
+<GraphQLExample example={secretExample} />
 
 ### Node.js example
 
@@ -43,10 +39,7 @@ import crypto from 'crypto';
 
 const secret = Buffer.from('...BASE64_SECRET...', 'base64');
 const actual = headers.get('X-Criipto-Signature');
-const expected = 
-  crypto.createHmac('sha256', secret)
-    .update('...RAW BODY...')
-    .digest('base64');
+const expected = crypto.createHmac('sha256', secret).update('...RAW BODY...').digest('base64');
 
 console.log(actual === expected);
 ```

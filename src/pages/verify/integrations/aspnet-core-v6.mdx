@@ -25,7 +25,7 @@ Specifically you need the following information to configure you application
 
 ### Register callback URLs
 
-Before you can start sending authentication requests to Criipto Verify, you need to register the URLs on which you want to receive the returned *JSON Web Token*, JWT.
+Before you can start sending authentication requests to Criipto Verify, you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
 
 The Callback URL of your application is the URL where Criipto Verify will redirect to after the user has authenticated in order for the OpenID Connect ASP.NET middleware to complete the authentication process.
 
@@ -36,7 +36,7 @@ https://localhost:5001/callback
 http://localhost:5000/callback
 https://localhost:5001/signout
 http://localhost:5000/signout
-``` 
+```
 
 If you deploy your application to a different URL, you will need to add that URL to the Callback URLs as well.
 
@@ -97,7 +97,7 @@ builder.Services.AddAuthentication(options => {
     options.ResponseType = "code";
 
     // The next to settings must match the Callback URLs in Criipto Verify
-    options.CallbackPath = new PathString("/callback"); 
+    options.CallbackPath = new PathString("/callback");
     options.SignedOutCallbackPath = new PathString("/signout");
 });
 ```
@@ -149,7 +149,7 @@ public async Task Logout()
     // Remove authnetication cookies
     await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 }
-``` 
+```
 
 ## The runtime flow
 

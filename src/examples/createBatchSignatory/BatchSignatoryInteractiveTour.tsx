@@ -1,31 +1,53 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'gatsby';
-import {slug} from 'github-slugger';
+import { slug } from 'github-slugger';
 
 import * as createSignatureOrderExample from '../../examples/createSignatureOrder.graphql';
 import * as addSignatoryExample from '../../examples/addSignatory.graphql';
-import * as createBatchSignatoryExample from './basic.graphql'
+import * as createBatchSignatoryExample from './basic.graphql';
 import * as closeSignatureOrderExample from '../../examples/closeSignatureOrder.graphql';
-import {AddSignatoryOutput, BatchSignatoryItemInput, CloseSignatureOrderOutput, CreateSignatureOrderOutput} from '../../../graphql-signatures-types';
+import {
+  AddSignatoryOutput,
+  BatchSignatoryItemInput,
+  CloseSignatureOrderOutput,
+  CreateSignatureOrderOutput,
+} from '../../../graphql-signatures-types';
 import { useAppDispatch, useAppSelector } from '../../state/hooks';
-import GraphQLExplorer, {GraphQLResponse, GraphQLError, CredentialsForm} from '../../components/GraphQLExplorer';
-import {H2, Paragraph} from '../../components/MdxProvider';
+import GraphQLExplorer, {
+  GraphQLResponse,
+  GraphQLError,
+  CredentialsForm,
+} from '../../components/GraphQLExplorer';
+import { H2, Paragraph } from '../../components/MdxProvider';
 import { clearExampleData } from '../../state/store';
 import { CreateBatchSignatoryOutput } from '@criipto/signatures/dist/graphql-sdk';
 
-type Step = 'authenticate' | 'createSignatureOrders' | 'addSignatories' | 'createBatchSignatory' | 'sign' | 'closeSignatureOrders';
+type Step =
+  | 'authenticate'
+  | 'createSignatureOrders'
+  | 'addSignatories'
+  | 'createBatchSignatory'
+  | 'sign'
+  | 'closeSignatureOrders';
 
 const stepIndex = (s: Step) => {
   switch (s) {
-    case 'authenticate': return 0;
-    case 'createSignatureOrders': return 1;
-    case 'addSignatories': return 2;
-    case 'createBatchSignatory': return 3;
-    case 'sign': return 4;
-    case 'closeSignatureOrders': return 5;
-    default: throw new Error(`stepIndex missing for ${s}`);
+    case 'authenticate':
+      return 0;
+    case 'createSignatureOrders':
+      return 1;
+    case 'addSignatories':
+      return 2;
+    case 'createBatchSignatory':
+      return 3;
+    case 'sign':
+      return 4;
+    case 'closeSignatureOrders':
+      return 5;
+    default:
+      throw new Error(`stepIndex missing for ${s}`);
   }
-}
+};
 
 const TITLES = {
   authenticate: 'Step 0: Authenticate',
@@ -33,17 +55,23 @@ const TITLES = {
   addSignatories: 'Step 2: Add signatories',
   createBatchSignatory: 'Step 3: Create batch signatory',
   sign: 'Step 4: Sign documents',
-  closeSignatureOrder: 'Step 5: Close signature order'
-}
+  closeSignatureOrder: 'Step 5: Close signature order',
+};
 
 export default function InteractiveTour() {
   const credentials = useAppSelector(state => state.auth);
   const [step, setStep] = useState<Step>(credentials ? 'createSignatureOrders' : 'authenticate');
-  const [signatureOrders, setSignatureOrders] = useState<CreateSignatureOrderOutput["signatureOrder"][]>([]);
-  const [currentSignatureOrder, setCurrentSignatureOrder] = useState<CreateSignatureOrderOutput["signatureOrder"]>()
+  const [signatureOrders, setSignatureOrders] = useState<
+    CreateSignatureOrderOutput['signatureOrder'][]
+  >([]);
+  const [currentSignatureOrder, setCurrentSignatureOrder] =
+    useState<CreateSignatureOrderOutput['signatureOrder']>();
   const [signatories, setSignatories] = useState<BatchSignatoryItemInput[]>([]);
-  const [batchSignatory, setBatchSignatory] = useState<CreateBatchSignatoryOutput["batchSignatory"]>();
-  const [closedSignatureOrders, setClosedSignatureOrders] = useState<CloseSignatureOrderOutput["signatureOrder"][]>([])
+  const [batchSignatory, setBatchSignatory] =
+    useState<CreateBatchSignatoryOutput['batchSignatory']>();
+  const [closedSignatureOrders, setClosedSignatureOrders] = useState<
+    CloseSignatureOrderOutput['signatureOrder'][]
+  >([]);
   const exampleData = useAppSelector(state => state.exampleData);
   const dispatch = useAppDispatch();
   const [errors, setErrors] = useState<GraphQLError[]>([]);
@@ -57,8 +85,10 @@ export default function InteractiveTour() {
 
     if (step === 'createSignatureOrders') {
       if (response.data.createSignatureOrder) {
-        const createSignatureOrder : CreateSignatureOrderOutput = response.data.createSignatureOrder;
-        setSignatureOrders(signatureOrders => signatureOrders.concat(createSignatureOrder.signatureOrder));
+        const createSignatureOrder: CreateSignatureOrderOutput = response.data.createSignatureOrder;
+        setSignatureOrders(signatureOrders =>
+          signatureOrders.concat(createSignatureOrder.signatureOrder),
+        );
         setSignatories([]);
         setErrors([]);
       }
@@ -66,19 +96,28 @@ export default function InteractiveTour() {
 
     if (step === 'addSignatories') {
       if (response.data.addSignatory) {
-        const addSignatory : AddSignatoryOutput = response.data.addSignatory;
-        setSignatories(signatories => signatories.concat({ signatoryId: addSignatory.signatory.id, signatureOrderId: addSignatory.signatureOrder.id }));
+        const addSignatory: AddSignatoryOutput = response.data.addSignatory;
+        setSignatories(signatories =>
+          signatories.concat({
+            signatoryId: addSignatory.signatory.id,
+            signatureOrderId: addSignatory.signatureOrder.id,
+          }),
+        );
         setErrors([]);
       }
     }
 
     if (step === 'createBatchSignatory') {
       if (response.data.createBatchSignatory) {
-        const createBatchSignatory : CreateBatchSignatoryOutput = response.data.createBatchSignatory;
+        const createBatchSignatory: CreateBatchSignatoryOutput = response.data.createBatchSignatory;
         setBatchSignatory(createBatchSignatory.batchSignatory);
 
-        const batchSignatorySignatureOrders = createBatchSignatory.batchSignatory.items.map((so) => so.signatureOrder.id);
-        setSignatureOrders(signatureOrders => signatureOrders.filter(so => batchSignatorySignatureOrders.includes(so.id)));
+        const batchSignatorySignatureOrders = createBatchSignatory.batchSignatory.items.map(
+          so => so.signatureOrder.id,
+        );
+        setSignatureOrders(signatureOrders =>
+          signatureOrders.filter(so => batchSignatorySignatureOrders.includes(so.id)),
+        );
         setCurrentSignatureOrder(undefined);
 
         setStep('sign');
@@ -87,12 +126,16 @@ export default function InteractiveTour() {
 
     if (step === 'closeSignatureOrders') {
       if (response.data.closeSignatureOrder) {
-        const closeSignatureOrder : CloseSignatureOrderOutput = response.data.closeSignatureOrder;
-        setSignatureOrders(signatureOrders => signatureOrders.filter((so) => so.id !== closeSignatureOrder.signatureOrder.id))
-        setClosedSignatureOrders(closedSignatureOrders => closedSignatureOrders.concat(closeSignatureOrder.signatureOrder))
+        const closeSignatureOrder: CloseSignatureOrderOutput = response.data.closeSignatureOrder;
+        setSignatureOrders(signatureOrders =>
+          signatureOrders.filter(so => so.id !== closeSignatureOrder.signatureOrder.id),
+        );
+        setClosedSignatureOrders(closedSignatureOrders =>
+          closedSignatureOrders.concat(closeSignatureOrder.signatureOrder),
+        );
       }
     }
-  }
+  };
 
   // Automatically clear errors when changing steps
   useEffect(() => {
@@ -112,8 +155,15 @@ export default function InteractiveTour() {
         {step === 'authenticate' && (
           <React.Fragment>
             <H2 id={slug(TITLES.authenticate)}>{TITLES.authenticate}</H2>
-            <Paragraph>Please enter your <Link to="/signatures/getting-started/register-application/">API credentials</Link> to start the interactive tour.</Paragraph>
-            <Paragraph>Queries are executed against your actual application. Please make sure you are using test credentials.</Paragraph>
+            <Paragraph>
+              Please enter your{' '}
+              <Link to="/signatures/getting-started/register-application/">API credentials</Link> to
+              start the interactive tour.
+            </Paragraph>
+            <Paragraph>
+              Queries are executed against your actual application. Please make sure you are using
+              test credentials.
+            </Paragraph>
             <CredentialsForm />
           </React.Fragment>
         )}
@@ -121,8 +171,8 @@ export default function InteractiveTour() {
           <React.Fragment>
             <H2 id={slug(TITLES.createSignatureOrder)}>{TITLES.createSignatureOrder}</H2>
             <Paragraph>
-              Signature Orders form the basic building blocks of the signatures API.
-              A Signature Order contains documents and the signatories you intend to sign them.
+              Signature Orders form the basic building blocks of the signatures API. A Signature
+              Order contains documents and the signatories you intend to sign them.
             </Paragraph>
             <Paragraph>
               <strong>Press the play button</strong> below to create your first Signature Order.
@@ -132,10 +182,13 @@ export default function InteractiveTour() {
               <React.Fragment>
                 <Paragraph>
                   <strong>{signatureOrders.length} signature orders created.</strong>
-
-                  When you have created as many signature orders as you want, you can proceed via the button below.
+                  When you have created as many signature orders as you want, you can proceed via
+                  the button below.
                 </Paragraph>
-                <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => setStep('addSignatories')}>
+                <button
+                  className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  onClick={() => setStep('addSignatories')}
+                >
                   Proceed to next step
                 </button>
               </React.Fragment>
@@ -144,24 +197,26 @@ export default function InteractiveTour() {
             <GraphQLExplorer
               query={createSignatureOrderExample.query}
               variables={createSignatureOrderExample.variables()}
-              onResponse={(response) => handleResponse('createSignatureOrders', response)}
+              onResponse={response => handleResponse('createSignatureOrders', response)}
             />
           </React.Fragment>
         )}
         {step === 'addSignatories' && (
           <React.Fragment>
             <p className="bg-gray-300 p-2 rounded">
-              Awesome! You have created your first Signature Order{signatureOrders.length > 1 ? "s" : ""}, now you have to add some signatories.
+              Awesome! You have created your first Signature Order
+              {signatureOrders.length > 1 ? 's' : ''}, now you have to add some signatories.
               Signatories represent the individuals you want to sign your signature order.
             </p>
             <H2 id={slug(TITLES.addSignatories)}>{TITLES.addSignatories}</H2>
             <Paragraph>
-              <strong>Press the play button</strong> below to add signatories to every signature order.
+              <strong>Press the play button</strong> below to add signatories to every signature
+              order.
             </Paragraph>
 
-            <div className='gap-2'>
-              {signatureOrders.map((so) =>
-                <label className='break-all flex gap-4'>
+            <div className="gap-2">
+              {signatureOrders.map(so => (
+                <label className="break-all flex gap-4">
                   <input
                     type="radio"
                     value={so.id}
@@ -170,7 +225,7 @@ export default function InteractiveTour() {
                   />
                   <p>{so.id}</p>
                 </label>
-              )}
+              ))}
             </div>
 
             {signatories.length ? (
@@ -178,27 +233,35 @@ export default function InteractiveTour() {
                 <Paragraph>
                   <strong>{signatories.length} signatories added.</strong>
                 </Paragraph>
-                <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => setStep('createBatchSignatory')}>
+                <button
+                  className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  onClick={() => setStep('createBatchSignatory')}
+                >
                   Proceed to next step
                 </button>
               </React.Fragment>
             ) : null}
 
-            {currentSignatureOrder &&
+            {currentSignatureOrder && (
               <GraphQLExplorer
                 query={addSignatoryExample.queryWithSignatureOrder}
-                variables={addSignatoryExample.variables(
-                  {...exampleData, createSignatureOrder: { ...exampleData.createSignatureOrder!, signatureOrder: currentSignatureOrder}}
-                )}
-                onResponse={(response) => handleResponse('addSignatories', response)}
+                variables={addSignatoryExample.variables({
+                  ...exampleData,
+                  createSignatureOrder: {
+                    ...exampleData.createSignatureOrder!,
+                    signatureOrder: currentSignatureOrder,
+                  },
+                })}
+                onResponse={response => handleResponse('addSignatories', response)}
               />
-            }
+            )}
           </React.Fragment>
         )}
         {step === 'createBatchSignatory' && (
           <React.Fragment>
             <p className="bg-gray-300 p-2 rounded">
-              After creating some signature orders and adding signatories, it is now time for creating the batch!
+              After creating some signature orders and adding signatories, it is now time for
+              creating the batch!
             </p>
             <H2 id={slug(TITLES.createBatchSignatory)}>{TITLES.createBatchSignatory}</H2>
             <Paragraph>
@@ -207,8 +270,10 @@ export default function InteractiveTour() {
 
             <GraphQLExplorer
               query={createBatchSignatoryExample.query}
-              variables={createBatchSignatoryExample.variables({ signatories: signatories })}
-              onResponse={(response) => handleResponse('createBatchSignatory', response)}
+              variables={createBatchSignatoryExample.variables({
+                signatories: signatories,
+              })}
+              onResponse={response => handleResponse('createBatchSignatory', response)}
             />
           </React.Fragment>
         )}
@@ -216,19 +281,26 @@ export default function InteractiveTour() {
           <React.Fragment>
             <H2 id={slug(TITLES.sign)}>{TITLES.sign}</H2>
             <Paragraph>
-              A batch signatory has a single link that can be sent to its intended target.
-              This link can be used to interact with every signatory in the batch at once.
+              A batch signatory has a single link that can be sent to its intended target. This link
+              can be used to interact with every signatory in the batch at once.
             </Paragraph>
             <Paragraph>
-              <a href={batchSignatory?.href} target="_blank">Sign as batch signatory</a>
+              <a href={batchSignatory?.href} target="_blank">
+                Sign as batch signatory
+              </a>
             </Paragraph>
             <Paragraph>
-              The signatories are signed using a single authentication, our system will take care of everything.
+              The signatories are signed using a single authentication, our system will take care of
+              everything.
             </Paragraph>
             <Paragraph>
-              When you have signed or rejected the batch signatory, you can proceed to the next step.
+              When you have signed or rejected the batch signatory, you can proceed to the next
+              step.
             </Paragraph>
-            <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => setStep('closeSignatureOrders')}>
+            <button
+              className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              onClick={() => setStep('closeSignatureOrders')}
+            >
               Proceed to next step
             </button>
           </React.Fragment>
@@ -238,9 +310,9 @@ export default function InteractiveTour() {
             <H2 id={slug(TITLES.closeSignatureOrder)}>{TITLES.closeSignatureOrder}</H2>
 
             <Paragraph>Select a signature order to close:</Paragraph>
-            <div className='gap-2'>
-              {signatureOrders.map((so) =>
-                <label className='break-all flex gap-4'>
+            <div className="gap-2">
+              {signatureOrders.map(so => (
+                <label className="break-all flex gap-4">
                   <input
                     type="radio"
                     value={so.id}
@@ -249,18 +321,24 @@ export default function InteractiveTour() {
                   />
                   <p>{so.id}</p>
                 </label>
-              )}
+              ))}
             </div>
 
-            {(currentSignatureOrder && signatureOrders?.length) ? (
+            {currentSignatureOrder && signatureOrders?.length ? (
               <React.Fragment>
                 <Paragraph>
                   <strong>Press the play button</strong> below to close your signature order.
                 </Paragraph>
                 <GraphQLExplorer
                   query={closeSignatureOrderExample.query}
-                  variables={closeSignatureOrderExample.variables({...exampleData, createSignatureOrder: { ...exampleData.createSignatureOrder!, signatureOrder: currentSignatureOrder}})}
-                  onResponse={(response) => handleResponse('closeSignatureOrders', response)}
+                  variables={closeSignatureOrderExample.variables({
+                    ...exampleData,
+                    createSignatureOrder: {
+                      ...exampleData.createSignatureOrder!,
+                      signatureOrder: currentSignatureOrder,
+                    },
+                  })}
+                  onResponse={response => handleResponse('closeSignatureOrders', response)}
                 />
               </React.Fragment>
             ) : null}
@@ -268,19 +346,24 @@ export default function InteractiveTour() {
             {closedSignatureOrders?.length ? (
               <React.Fragment>
                 <Paragraph>
-                  Your signature order{closedSignatureOrders.length > 1 ? "s" : ""} is now closed. The signed documents are returned as blobs when you close the signature order.
+                  Your signature order
+                  {closedSignatureOrders.length > 1 ? 's' : ''} is now closed. The signed documents
+                  are returned as blobs when you close the signature order.
                 </Paragraph>
                 <Paragraph>
-                  <strong>Notice:</strong> all your signatories may have rejected your signature order, in which case your signature order will not have any signatures.
+                  <strong>Notice:</strong> all your signatories may have rejected your signature
+                  order, in which case your signature order will not have any signatures.
                 </Paragraph>
-                {closedSignatureOrders.map((so) => (
+                {closedSignatureOrders.map(so => (
                   <React.Fragment>
-                    <div className="break-all"  >
+                    <div className="break-all">
                       <h4>{so.id}</h4>
                       <ol>
                         {so.documents.map(document => (
                           <li key={document.id}>
-                            <a href={blobUrl(document.blob!)} download>Download {document.title}</a>
+                            <a href={blobUrl(document.blob!)} download>
+                              Download {document.title}
+                            </a>
                           </li>
                         ))}
                       </ol>
@@ -301,7 +384,7 @@ export default function InteractiveTour() {
   );
 }
 
-const b64toBlob = (b64Data: string, contentType='', sliceSize=512) => {
+const b64toBlob = (b64Data: string, contentType = '', sliceSize = 512) => {
   const byteCharacters = atob(b64Data);
   const byteArrays = [];
 
@@ -317,9 +400,9 @@ const b64toBlob = (b64Data: string, contentType='', sliceSize=512) => {
     byteArrays.push(byteArray);
   }
 
-  const blob = new Blob(byteArrays, {type: contentType});
+  const blob = new Blob(byteArrays, { type: contentType });
   return blob;
-}
+};
 
 function blobUrl(input: string) {
   const blob = b64toBlob(input, 'application/pdf');

@@ -1,5 +1,4 @@
-import { useStaticQuery, graphql } from "gatsby";
-
+import { useStaticQuery, graphql } from 'gatsby';
 
 export default function useAllPages() {
   return useStaticQuery<{
@@ -7,33 +6,31 @@ export default function useAllPages() {
       nodes: [
         {
           fields: {
-            slug: string
-          }
+            slug: string;
+          };
           tableOfContents: {
             items: {
-              title: string
-              url: string
-            }[]
+              title: string;
+              url: string;
+            }[];
+          };
+        },
+      ];
+    };
+  }>(graphql`
+    query usePagesQuery {
+      pages: allMdx {
+        nodes {
+          id
+          frontmatter {
+            title
           }
-        }
-      ]
-    }
-  }>(
-    graphql`
-      query usePagesQuery{
-        pages: allMdx {
-          nodes {
-            id
-            frontmatter {
-              title
-            }
-            fields {
-              slug
-            }
-            tableOfContents
+          fields {
+            slug
           }
+          tableOfContents
         }
       }
-    `
-  );
+    }
+  `);
 }

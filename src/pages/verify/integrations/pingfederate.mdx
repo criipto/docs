@@ -16,8 +16,9 @@ This tutorial demonstrates how to integrate Criipto Verify with PingFederate. Th
 In the following you will be configuring first Criipto Verify, then PingFederate, and then back to finalizing the configuration in Criipto Verify.
 
 The final step in this excercise is needed because of a catch-22 between the requirements of the configuration steps on the two platforms, respectively:
- - Creating an application in Criipto Verify requires you to specify a callback URL to PingFederate before you can save the application configuration and get your hands on the generated client secret.
- - Getting the callback URL to PingFederate requires that you create an authentication source, which in turn requires the client secret from Criipto Verify, but you don't have the secret yet because you need the callback URL `[deadlock detected]`
+
+- Creating an application in Criipto Verify requires you to specify a callback URL to PingFederate before you can save the application configuration and get your hands on the generated client secret.
+- Getting the callback URL to PingFederate requires that you create an authentication source, which in turn requires the client secret from Criipto Verify, but you don't have the secret yet because you need the callback URL `[deadlock detected]`
 
 which _is_ a bit of a chicken-and-egg-problem, unfortunately. We suggest that you break the deadlock by configuring a temporary (bogus) callback URL in the first step in Criipto Verify, and then replace it with the actual value available after the authentication source is created.
 
@@ -36,7 +37,7 @@ Specifically you need the following information to integrate with PingFederate:
 - _Client ID_ to identify your PingFederate tenant to Criipto Verify. In the case below we chose `urn:criipto:verify`
 - _Domain_ on which you will be communicating with Criipto Verify. Could be for example `samples.criipto.id`
 - _Client secret_ which PingFederate needs to fetch actual user information from Criipto Verify during login.
-The secret is generated when you save the new application.
+  The secret is generated when you save the new application.
 
 ![Prepare App](./images/pingfederate-prepare-application.png)
 
@@ -95,7 +96,7 @@ and click the **Save** button.
 
 <Highlight icon="file-lines">
 
-  If you plan on using single-signon, you must also register your PingFederate `post_logout_redirect_url` here so you can run single-logouts.
+If you plan on using single-signon, you must also register your PingFederate `post_logout_redirect_url` here so you can run single-logouts.
 
 </Highlight>
 
@@ -117,8 +118,8 @@ Then create a `Policy` for your `IdP Connection` to Criipto Verify and set the `
 
 <Highlight icon="file-lines">
 
-  You can read more about which per-authorize-request parameters you can use to control the runtime behavior of Criipto Verify [here (prefilled fields)](/verify/guides/prefilled-fields) and [here (acr_values)](/how-to/choose-eid-method#login-hint-embedded).
+You can read more about which per-authorize-request parameters you can use to control the runtime behavior of Criipto Verify [here (prefilled fields)](/verify/guides/prefilled-fields) and [here (acr_values)](/how-to/choose-eid-method#login-hint-embedded).
 
-  Leveraging these features makes you authentication source setup in PingFederate as simple as possible - you just need to register Criipto Verify once, and reuse it for all the eID methods you need to consume.
+Leveraging these features makes you authentication source setup in PingFederate as simple as possible - you just need to register Criipto Verify once, and reuse it for all the eID methods you need to consume.
 
 </Highlight>

@@ -1,6 +1,6 @@
 .criipto-jwt-viewer-tooltip {
   background: #333;
-  color: #DDD;
+  color: #ddd;
   border-radius: 4px;
   padding: 4px 7px;
   opacity: 0;
@@ -18,10 +18,12 @@
   font-family: Verdana;
 }
 
-.criipto-jwt-viewer-tooltip a, .criipto-jwt-viewer-tooltip a:hover, .criipto-jwt-viewer-tooltip a:visited {
+.criipto-jwt-viewer-tooltip a,
+.criipto-jwt-viewer-tooltip a:hover,
+.criipto-jwt-viewer-tooltip a:visited {
   color: inherit;
   text-decoration: underline;
-  color: #DDD;
+  color: #ddd;
   font-size: 10px;
   line-height: 15px;
   font-weight: 400;

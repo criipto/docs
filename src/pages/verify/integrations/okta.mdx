@@ -16,10 +16,10 @@ This tutorial demonstrates how to integrate Criipto Verify with Okta. The follow
 In the following you will be configuring first Criipto Verify, then Okta.
 Once configured you may test that everything works from Okta.
 
-
 The setup requires a bit of switching back-and-forth between Criipto and Okta's respective management dashboards, so we recommend that you have them open simultaneously to make the process really smooth.
 
 Before you get started, you will need the following information:
+
 - The callback URL for your Okta tenant - this will depend on the DNS name you use in Okta for running your logins. The value will probably look something like `https://your-company-name.okta.com/oauth2/v1/authorize/callback`, but check your Okta settings to make sure. We have used `criipto-samples` as a replacement for `your-company-name` in this tutorial.
 - _[Optional]_ The `post_logout_redirect_url` for your Okta tenant.
 
@@ -34,7 +34,7 @@ Specifically you need the following information to integrate with Okta:
 - _Client ID_ to identify your Okta tenant to Criipto Verify. In the case below we chose `urn:criipto:verify`
 - _Domain_ on which you will be communicating with Criipto Verify. Could be for example `samples.criipto.id`
 - _Client secret_ which Okta needs to fetch actual user information from Criipto Verify during login.
-The secret is generated and copied as described further down.
+  The secret is generated and copied as described further down.
 
 ![Register Application](./images/okta-register-application.png)
 
@@ -65,6 +65,7 @@ Fill in the form with values for you Criipto Verify application, similar to the 
 ![Example identity provider](./images/okta-add-criipto-verify-example-identityprovider.png)
 
 Given the values above, and assuming that your Criipto Verify domain is `acme-corp.criipto.id` you must add
+
 1. _Client ID_: `urn:criipto:verify` (if you have set a different value in your Criipto Verify `Client ID/Realm`, use that value instead here - they must match)
 2. _Client Secret_: The secret generated for you by Criipto Verify during the `OAuth code flow` setup
 3. _Scopes_: `openid` will suffice
@@ -77,7 +78,7 @@ The _Name_ is entirely up to you, and you don't have to specify the optional _Us
 
 <Highlight icon="file-lines">
 
-  This setup assumes you are looking to authenticate your users with `Itsme` in `basic` mode. If you have other needs, replace the value of the `acr_values` parametery in the _Authorization endpoint_, or set up several _Identity Providers_ in your Okta tenant - see below for a list of all supported values.
+This setup assumes you are looking to authenticate your users with `Itsme` in `basic` mode. If you have other needs, replace the value of the `acr_values` parametery in the _Authorization endpoint_, or set up several _Identity Providers_ in your Okta tenant - see below for a list of all supported values.
 
 </Highlight>
 
@@ -89,7 +90,7 @@ import LoginMethodsSnippet from '../../../snippets/login-methods.mdx';
 
 <Highlight icon="file-lines">
 
-  You can [find more details here](https://developer.okta.com/docs/guides/add-an-external-idp/openidconnect/configure-idp-in-okta/)
+You can [find more details here](https://developer.okta.com/docs/guides/add-an-external-idp/openidconnect/configure-idp-in-okta/)
 
 </Highlight>
 

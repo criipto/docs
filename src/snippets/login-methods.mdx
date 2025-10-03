@@ -1,4 +1,3 @@
-
 Criipto Verify supports a range of country and bank specific eID services. They are all accessed through the same endpoints, e.g. `https://<YOUR COMPANY>.criipto.id/oauth2/authorize`
 
 To pick the login method you must set the `acr_values` parameter on the authentication request in order to choose the type of authentication you want. How you set this query string parameter varies with programming platform and your OpenID Connect library of choice.
@@ -6,100 +5,100 @@ To pick the login method you must set the `acr_values` parameter on the authenti
 The current list of possible values is:
 
 <table>
-    <thead>
-        <tr>
-            <th>**Login method**</th>
-            <th>**acr_values**</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>**Norwegian BankID**</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Mobile or Web (user choice):</td>
-            <td>`urn:grn:authn:no:bankid`</td>
-        </tr>
-        <tr>
-            <td>**Norwegian Vipps Login**</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Login with Vipps app:</td>
-            <td>`urn:grn:authn:no:vipps`</td>
-        </tr>
-        <tr>
-            <td>**Swedish BankID**</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>All options (user chooses):</td>
-            <td>`urn:grn:authn:se:bankid`</td>
-        </tr>
-        <tr>
-            <td>Same device:</td>
-            <td>`urn:grn:authn:se:bankid:same-device`</td>
-        </tr>
-        <tr>
-            <td>Another device (aka mobile):</td>
-            <td>`urn:grn:authn:se:bankid:another-device`</td>
-        </tr>
-        <tr>
-            <td>QR code:</td>
-            <td>`urn:grn:authn:se:bankid:another-device:qr`</td>
-        </tr>
-        <tr>
-            <td>**Danish MitID**</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Level low:</td>
-            <td>`urn:grn:authn:dk:mitid:low`</td>
-        </tr>
-        <tr>
-            <td>Level substantial:</td>
-            <td>`urn:grn:authn:dk:mitid:substantial`</td>
-        </tr>
-        <tr>
-            <td>MitID Erhverv (MitID Business):</td>
-            <td>`urn:grn:authn:dk:mitid:business`</td>
-        </tr>
-        <tr>
-            <td>**Finnish Trust Network**</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>BankID:</td>
-            <td>`urn:grn:authn:fi:bank-id`</td>
-        </tr>
-        <tr>
-            <td>Mobile certificate (Mobiilivarmenne):</td>
-            <td>`urn:grn:authn:fi:mobile-id`</td>
-        </tr>
-        <tr>
-            <td>Both of the above:</td>
-            <td>`urn:grn:authn:fi:all`</td>
-        </tr>
-        <tr>
-            <td>**Itsme**</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Basic:</td>
-            <td>`urn:grn:authn:itsme:basic`</td>
-        </tr>
-        <tr>
-            <td>Advanced:</td>
-            <td>`urn:grn:authn:itsme:advanced`</td>
-        </tr>
-        <tr>
-            <td>**Belgium**</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Verified e-ID</td>
-            <td>`urn:grn:authn:be:eid:verified`</td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>**Login method**</th>
+      <th>**acr_values**</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>**Norwegian BankID**</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Mobile or Web (user choice):</td>
+      <td>`urn:grn:authn:no:bankid`</td>
+    </tr>
+    <tr>
+      <td>**Norwegian Vipps Login**</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Login with Vipps app:</td>
+      <td>`urn:grn:authn:no:vipps`</td>
+    </tr>
+    <tr>
+      <td>**Swedish BankID**</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>All options (user chooses):</td>
+      <td>`urn:grn:authn:se:bankid`</td>
+    </tr>
+    <tr>
+      <td>Same device:</td>
+      <td>`urn:grn:authn:se:bankid:same-device`</td>
+    </tr>
+    <tr>
+      <td>Another device (aka mobile):</td>
+      <td>`urn:grn:authn:se:bankid:another-device`</td>
+    </tr>
+    <tr>
+      <td>QR code:</td>
+      <td>`urn:grn:authn:se:bankid:another-device:qr`</td>
+    </tr>
+    <tr>
+      <td>**Danish MitID**</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Level low:</td>
+      <td>`urn:grn:authn:dk:mitid:low`</td>
+    </tr>
+    <tr>
+      <td>Level substantial:</td>
+      <td>`urn:grn:authn:dk:mitid:substantial`</td>
+    </tr>
+    <tr>
+      <td>MitID Erhverv (MitID Business):</td>
+      <td>`urn:grn:authn:dk:mitid:business`</td>
+    </tr>
+    <tr>
+      <td>**Finnish Trust Network**</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>BankID:</td>
+      <td>`urn:grn:authn:fi:bank-id`</td>
+    </tr>
+    <tr>
+      <td>Mobile certificate (Mobiilivarmenne):</td>
+      <td>`urn:grn:authn:fi:mobile-id`</td>
+    </tr>
+    <tr>
+      <td>Both of the above:</td>
+      <td>`urn:grn:authn:fi:all`</td>
+    </tr>
+    <tr>
+      <td>**Itsme**</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Basic:</td>
+      <td>`urn:grn:authn:itsme:basic`</td>
+    </tr>
+    <tr>
+      <td>Advanced:</td>
+      <td>`urn:grn:authn:itsme:advanced`</td>
+    </tr>
+    <tr>
+      <td>**Belgium**</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Verified e-ID</td>
+      <td>`urn:grn:authn:be:eid:verified`</td>
+    </tr>
+  </tbody>
 </table>

@@ -40,7 +40,7 @@ ReactDOM.render(
   >
     <App />
   </CriiptoVerifyProvider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 ```
 
@@ -54,14 +54,10 @@ import React from 'react';
 import { useCriiptoVerify } from '@criipto/verify-react';
 
 export default function App() {
-  const {result, loginWithRedirect} = useCriiptoVerify();
+  const { result, loginWithRedirect } = useCriiptoVerify();
 
   if (result?.id_token) {
-    return (
-      <pre>
-        {JSON.stringify(result.id_token, null, 2)}
-      </pre>
-    )
+    return <pre>{JSON.stringify(result.id_token, null, 2)}</pre>;
   }
 
   return (
@@ -87,14 +83,10 @@ import React from 'react';
 import { useCriiptoVerify, AuthMethodSelector } from '@criipto/verify-react';
 
 export default function App() {
-  const {result} = useCriiptoVerify();
+  const { result } = useCriiptoVerify();
 
   if (result?.id_token) {
-    return (
-      <pre>
-        {JSON.stringify(result.id_token, null, 2)}
-      </pre>
-    )
+    return <pre>{JSON.stringify(result.id_token, null, 2)}</pre>;
   }
 
   return (
@@ -131,7 +123,7 @@ ReactDOM.render(
   >
     <App />
   </CriiptoVerifyProvider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 ```
 
@@ -147,18 +139,14 @@ import React from 'react';
 import { useCriiptoVerify, AuthMethodSelector } from '@criipto/verify-react';
 
 export default function App() {
-  const {claims, error, isLoading} = useCriiptoVerify();
+  const { claims, error, isLoading } = useCriiptoVerify();
 
   if (isLoading) {
-    return <div>Loading</div>
+    return <div>Loading</div>;
   }
 
   if (claims) {
-    return (
-      <pre>
-        {JSON.stringify(claims, null, 2)}
-      </pre>
-    )
+    return <pre>{JSON.stringify(claims, null, 2)}</pre>;
   }
 
   return (

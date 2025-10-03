@@ -52,7 +52,6 @@ Alternatively, you can follow Firebase documentation for [web applications](http
 9. You will now configure the OIDC integration. Copy the Firebase Callback URL and add it to the "Callback URL" field in your Criipto Dashboard.
    ![Callback URL in Criipto Dashboard](./firebase/criipto-dashboard-callback-url.png)
 10. You are now ready to integrate Firebase into your application by following the steps for the platform of your choice:
-
     - [Web applications](https://firebase.google.com/docs/auth/web/openid-connect)
     - [iOS](https://firebase.google.com/docs/auth/ios/openid-connect)
     - [Android](https://firebase.google.com/docs/auth/android/openid-connect)
@@ -82,7 +81,7 @@ function App() {
     });
 
     signInWithCredential(getAuth(), credential)
-      .then((result) => {
+      .then(result => {
         // User is signed in.
         // IdP data available in result.additionalUserInfo.profile.
 
@@ -90,7 +89,7 @@ function App() {
         const credential = OAuthProvider.credentialFromResult(result);
         const idToken = credential.idToken;
       })
-      .catch((error) => {
+      .catch(error => {
         // Handle error.
       });
   }, [claims, result]);
@@ -112,7 +111,7 @@ const credential = provider.credential({
 });
 
 signInWithCredential(getAuth(), credential)
-  .then((result) => {
+  .then(result => {
     // User is signed in.
     // IdP data available in result.additionalUserInfo.profile.
 
@@ -120,7 +119,7 @@ signInWithCredential(getAuth(), credential)
     const credential = OAuthProvider.credentialFromResult(result);
     const idToken = credential.idToken;
   })
-  .catch((error) => {
+  .catch(error => {
     // Handle error.
   });
 ```

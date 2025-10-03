@@ -1,84 +1,94 @@
-import React, {useState, useMemo, useCallback} from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import cx from 'classnames';
 import GraphiQL from 'graphiql';
 import { Link } from 'gatsby';
 
-import {ApiCredentials, setApiCredentials, clearApiCredentials, setCreateSignatureOrder, setCloseSignatureOrder, setAddSignatory} from '../state/store';
-import {useAppDispatch, useAppSelector} from '../state/hooks';
+import {
+  ApiCredentials,
+  setApiCredentials,
+  clearApiCredentials,
+  setCreateSignatureOrder,
+  setCloseSignatureOrder,
+  setAddSignatory,
+} from '../state/store';
+import { useAppDispatch, useAppSelector } from '../state/hooks';
 
 import './GraphQLExplorer.css';
 
 interface GraphQLParams<T = any> {
-  query: string,
-  variables?: T
+  query: string;
+  variables?: T;
 }
 
 export interface SignatoryCredentials {
-  token: string
+  token: string;
 }
 
 export interface GraphQLError {
-  message: string
+  message: string;
 }
 export interface GraphQLResponse<T = any> {
-  data?: T,
-  errors?: GraphQLError[]
+  data?: T;
+  errors?: GraphQLError[];
 }
 
-export function graphQLFetcher<R = any, V = any>(graphQLParams : GraphQLParams<V>, credentials: ApiCredentials | SignatoryCredentials | null) : Promise<GraphQLResponse<R>> {
-  const headers : RequestInit["headers"] = {
+export function graphQLFetcher<R = any, V = any>(
+  graphQLParams: GraphQLParams<V>,
+  credentials: ApiCredentials | SignatoryCredentials | null,
+): Promise<GraphQLResponse<R>> {
+  const headers: RequestInit['headers'] = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    'Criipto-Sdk': 'docs.criipto.com'
+    'Criipto-Sdk': 'docs.criipto.com',
   };
 
-  if (credentials && "clientID" in credentials) {
-    headers.Authorization = `Basic ${btoa(`${credentials.clientID}:${credentials.clientSecret}`)}`
+  if (credentials && 'clientID' in credentials) {
+    headers.Authorization = `Basic ${btoa(`${credentials.clientID}:${credentials.clientSecret}`)}`;
   }
-  if (credentials && "token" in credentials) {
+  if (credentials && 'token' in credentials) {
     headers['Signatory-Token'] = credentials.token;
   }
 
-  return fetch(
-    'https://signatures-api.criipto.com/v1/graphql',
-    {
-      method: 'post',
-      headers,
-      body: JSON.stringify(graphQLParams),
-      credentials: 'omit',
-    },
-  ).then(function (response) {
+  return fetch('https://signatures-api.criipto.com/v1/graphql', {
+    method: 'post',
+    headers,
+    body: JSON.stringify(graphQLParams),
+    credentials: 'omit',
+  }).then(function (response) {
     if (response.ok) {
       return response.json().then(response => {
         return response;
       });
     }
     return response.text().then(error => {
-      throw new Error(error)
+      throw new Error(error);
     });
   });
 }
 
-export function graphQLFetcherFactory(credentials: ApiCredentials | null, onResponse: (response: GraphQLResponse<any>) => void) {
+export function graphQLFetcherFactory(
+  credentials: ApiCredentials | null,
+  onResponse: (response: GraphQLResponse<any>) => void,
+) {
   return (graphQLParams: GraphQLParams) => {
     return graphQLFetcher(graphQLParams, credentials).then(response => {
       onResponse(response);
       return response;
     });
-  }
+  };
 }
 
 interface GraphQLExplorerProps {
-  query?: string
-  variables?: string | any
-  className?: string,
-  onResponse?: (response: GraphQLResponse) => void,
-  onSkipCredentials?: () => void,
-  style?: React.CSSProperties
-  fullscreen?: boolean
+  query?: string;
+  variables?: string | any;
+  className?: string;
+  onResponse?: (response: GraphQLResponse) => void;
+  onSkipCredentials?: () => void;
+  style?: React.CSSProperties;
+  fullscreen?: boolean;
 }
 export default function GraphQLExplorer(props: GraphQLExplorerProps) {
-  const {query, variables} = props;
+  const { query, variables } = props;
   const credentials = useAppSelector(state => state.auth);
   const dispatch = useAppDispatch();
   const handleResponse = useCallback((response: GraphQLResponse) => {
@@ -95,25 +105,35 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
     }
     if (props.onResponse) props.onResponse(response);
   }, []);
-  const graphqlFetcher = useMemo(() => graphQLFetcherFactory(credentials, handleResponse), [credentials, handleResponse]);
+  const graphqlFetcher = useMemo(
+    () => graphQLFetcherFactory(credentials, handleResponse),
+    [credentials, handleResponse],
+  );
 
   if (typeof window === 'undefined') return null;
 
   return (
-    <div 
-      className={cx({
-        'h-svh flex flex-col': props.fullscreen
-      }, props.className)}
-      style={props.fullscreen ? {height: '100svh'} : {}}
+    <div
+      className={cx(
+        {
+          'h-svh flex flex-col': props.fullscreen,
+        },
+        props.className,
+      )}
+      style={props.fullscreen ? { height: '100svh' } : {}}
     >
       {credentials && (
         <p className="bg-gray-300 p-2 rounded-t mb-0" style={props.style}>
-          Queries are executed against your actual application. Please make sure you are using test credentials.
+          Queries are executed against your actual application. Please make sure you are using test
+          credentials.
         </p>
       )}
-      <div style={props.fullscreen ? {} : {height: "900px"}} className={cx("relative", {
-        'flex-1': props.fullscreen
-      })}>
+      <div
+        style={props.fullscreen ? {} : { height: '900px' }}
+        className={cx('relative', {
+          'flex-1': props.fullscreen,
+        })}
+      >
         <GraphiQL
           fetcher={graphqlFetcher}
           query={query}
@@ -125,13 +145,17 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
           forcedTheme="light"
         />
 
-        {!credentials && (<CredentialsOverlay onSkip={props.onSkipCredentials} />)}
+        {!credentials && <CredentialsOverlay onSkip={props.onSkipCredentials} />}
       </div>
     </div>
   );
 }
 
-export function CredentialsForm(props: {className?: string, children?: React.ReactNode, onSkip?: () => void}) {
+export function CredentialsForm(props: {
+  className?: string;
+  children?: React.ReactNode;
+  onSkip?: () => void;
+}) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
@@ -146,12 +170,15 @@ export function CredentialsForm(props: {className?: string, children?: React.Rea
     setError(null);
     setPending(true);
 
-    const response = await graphQLFetcher<{viewer: {__typename: string}}>({
-      query: `{ viewer { __typename }}`
-    }, {
-      clientID,
-      clientSecret
-    });
+    const response = await graphQLFetcher<{ viewer: { __typename: string } }>(
+      {
+        query: `{ viewer { __typename }}`,
+      },
+      {
+        clientID,
+        clientSecret,
+      },
+    );
 
     setPending(false);
 
@@ -161,10 +188,12 @@ export function CredentialsForm(props: {className?: string, children?: React.Rea
       if (response.data?.viewer.__typename !== 'Application') {
         setError('Invalid credentials');
       } else {
-        dispatch(setApiCredentials({
-          clientID,
-          clientSecret
-        }));
+        dispatch(
+          setApiCredentials({
+            clientID,
+            clientSecret,
+          }),
+        );
       }
     }
   };
@@ -181,7 +210,7 @@ export function CredentialsForm(props: {className?: string, children?: React.Rea
           id="clientID"
           type="text"
           placeholder="Client ID"
-          onChange={(event) => setClientID(event.target.value)}
+          onChange={event => setClientID(event.target.value)}
           required
         />
       </div>
@@ -194,7 +223,7 @@ export function CredentialsForm(props: {className?: string, children?: React.Rea
           id="clientSecret"
           type="password"
           placeholder="Client Secret"
-          onChange={(event) => setClientSecret(event.target.value)}
+          onChange={event => setClientSecret(event.target.value)}
           required
         />
       </div>
@@ -204,17 +233,25 @@ export function CredentialsForm(props: {className?: string, children?: React.Rea
         </div>
       ) : null}
       <div className="flex items-center justify-between">
-        <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-primary-600/50" type="submit" disabled={pending}>
+        <button
+          className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-primary-600/50"
+          type="submit"
+          disabled={pending}
+        >
           Submit
         </button>
         {props.onSkip && (
-          <button className="font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onClick={() => props.onSkip!()}>
+          <button
+            className="font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="button"
+            onClick={() => props.onSkip!()}
+          >
             Skip
           </button>
         )}
       </div>
     </form>
-  )
+  );
 }
 
 export function ClearCredentialsButton() {
@@ -223,19 +260,33 @@ export function ClearCredentialsButton() {
 
   const handleClick = () => {
     dispatch(clearApiCredentials());
-  }
+  };
 
   if (!credentials) return <p>No credentials configured.</p>;
-  return <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={handleClick}>Clear credentials</button>;
+  return (
+    <button
+      className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      onClick={handleClick}
+    >
+      Clear credentials
+    </button>
+  );
 }
 
-function CredentialsOverlay(props: {onSkip?: () => void}) {
+function CredentialsOverlay(props: { onSkip?: () => void }) {
   return (
     <div className="w-full h-full bg-white/60 backdrop-blur absolute top-0 left-0 z-20 flex flex-col items-center justify-center">
       <CredentialsForm className="bg-white shadow-md rounded max-w-md" onSkip={props.onSkip}>
-        <p>Please enter your <Link to="/signatures/getting-started/register-application/">API credentials</Link> to use this GraphQL Example</p>
-        <p>Queries are executed against your actual application. Please make sure you are using test credentials.</p>
+        <p>
+          Please enter your{' '}
+          <Link to="/signatures/getting-started/register-application/">API credentials</Link> to use
+          this GraphQL Example
+        </p>
+        <p>
+          Queries are executed against your actual application. Please make sure you are using test
+          credentials.
+        </p>
       </CredentialsForm>
     </div>
-  )
+  );
 }

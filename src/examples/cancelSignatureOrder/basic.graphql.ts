@@ -1,7 +1,7 @@
-import { CancelSignatureOrderInput } from "../../../graphql-signatures-types";
+import { CancelSignatureOrderInput } from '../../../graphql-signatures-types';
 import { ExampleData } from '../../state/store';
 
-export const query = /* Signatures GraphQL */`
+export const query = /* Signatures GraphQL */ `
 mutation examplesCancelSignatureOrder(
   $input: CancelSignatureOrderInput!
 ) {
@@ -13,8 +13,8 @@ mutation examplesCancelSignatureOrder(
 }
 `.trim();
 
-export const variables = (data: ExampleData) : {input: CancelSignatureOrderInput} => ({
+export const variables = (data: ExampleData): { input: CancelSignatureOrderInput } => ({
   input: {
-    signatureOrderId: data.createSignatureOrder?.signatureOrder.id || "[signatureOrder.id]"
-  }
+    signatureOrderId: data.createSignatureOrder?.signatureOrder.id || '[signatureOrder.id]',
+  },
 });

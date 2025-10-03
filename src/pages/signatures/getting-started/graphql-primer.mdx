@@ -73,6 +73,6 @@ You will need a set of API credentials to execute queries, please see [Registeri
 ```text
 curl -X POST -H "Content-Type: application/json" \
   -u clientId:clientSecret \
-  --data '{"query": "{ signatureOrder(id: $id) { signatories { status } } }", "variables": {"id": "abcd"}}' \ 
+  --data '{"query": "{ signatureOrder(id: $id) { signatories { status } } }", "variables": {"id": "abcd"}}' \
   https://signatures-api.criipto.com/v1/graphql
 ```
