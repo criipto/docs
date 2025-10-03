@@ -5,9 +5,9 @@ sort: 0
 title: eIDS supported by Criipto Verify
 ---
 
-import {isIndexPage} from '../../../utils';
+import { isIndexPage } from '../../../utils';
 
-import { graphql as gatsbyGraphql, Link } from "gatsby";
+import { graphql as gatsbyGraphql, Link } from 'gatsby';
 export const pageQuery = gatsbyGraphql`
   query eIDs {
     pages: allMdx(
@@ -45,10 +45,14 @@ Criipto Verify supports authentication via a number of eIDs.
 Select any individual eID from the list below to see JWT/token details, how to find/create test users and how to order a specific eID for production.
 
 <ul>
-  {props.data.pages.edges.map(edge => edge.node).filter(node => !isIndexPage(node)).map(node => (
-    <li key={node.id}>
-      <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link><br />
-      {node.frontmatter.subtitle}
-    </li>
-  ))}
+  {props.data.pages.edges
+    .map(edge => edge.node)
+    .filter(node => !isIndexPage(node))
+    .map(node => (
+      <li key={node.id}>
+        <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link>
+        <br />
+        {node.frontmatter.subtitle}
+      </li>
+    ))}
 </ul>

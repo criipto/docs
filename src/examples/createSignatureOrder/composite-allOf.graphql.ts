@@ -1,10 +1,10 @@
-import { CreateSignatureOrderInput, DocumentStorageMode } from "../../../graphql-signatures-types";
-import { ExampleData } from "../../state/store";
+import { CreateSignatureOrderInput, DocumentStorageMode } from '../../../graphql-signatures-types';
+import { ExampleData } from '../../state/store';
 import * as basic from './basic.graphql';
 
 export const query = basic.query;
 
-export const variables = (data?: ExampleData) : {input: CreateSignatureOrderInput} => ({
+export const variables = (data?: ExampleData): { input: CreateSignatureOrderInput } => ({
   input: {
     disableVerifyEvidenceProvider: true,
     evidenceProviders: [
@@ -13,18 +13,18 @@ export const variables = (data?: ExampleData) : {input: CreateSignatureOrderInpu
           providers: [
             {
               criiptoVerify: {
-                alwaysRedirect: true
-              }
+                alwaysRedirect: true,
+              },
             },
             {
               drawable: {
-                requireName: false
-              }
-            }
-          ]
-        }
-      }
+                requireName: false,
+              },
+            },
+          ],
+        },
+      },
     ],
-    ...(basic.variables(data).input)
-  }
+    ...basic.variables(data).input,
+  },
 });

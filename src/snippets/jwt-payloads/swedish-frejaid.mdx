@@ -1,96 +1,95 @@
-import JwtPayloadViewer from '../../components/JwtPayloadViewer'
+import JwtPayloadViewer from '../../components/JwtPayloadViewer';
 
 <JwtPayloadViewer
-  payload={
-    {
-      identityscheme: 'sefrejaid',
-      authenticationtype: 'urn:grn:authn:se:frejaid',
-      nameidentifier: 'b7642e353fae4c43825841977109d742',
-      sub: '{b7642e35-3fae-4c43-8258-41977109d743}',
+  payload={{
+    identityscheme: 'sefrejaid',
+    authenticationtype: 'urn:grn:authn:se:frejaid',
+    nameidentifier: 'b7642e353fae4c43825841977109d742',
+    sub: '{b7642e35-3fae-4c43-8258-41977109d743}',
+    authRef: 'zWrxATCUAJ_QvlqXzYdNIJF8OUo0-i07JYBuqqGAgUGOcPVogKKtJ5ZDiCUc95aN',
+    status: 'APPROVED',
+    userInfoType: 'INFERRED',
+    userInfo: 'N/A',
+    timestamp: '1745498669753',
+    minRegistrationLevel: 'PLUS',
+    registrationLevel: 'PLUS',
+    photo: '... large binary data omitted for brevity ...',
+    documentPhoto: '... large binary data omitted for brevity ...',
+    relyingPartyUserId: '7DC5620539DCDA1FE459E5931B37B9713433810F6A50212E824E3E41458F2E20',
+    integratorSpecificUserId: 'FF976587B01812E7B904EE8269AE81E8F4F4142A9B99F1D6F3CAD03F2E97468D',
+    birthdate: '1950-02-22',
+    dateofbirth: '1950-02-22',
+    age: '75',
+    given_name: 'John',
+    family_name: 'Doe',
+    emailaddress: 'john.doe@example.com',
+    phone_number: '+4512345678',
+    details: {
       authRef: 'zWrxATCUAJ_QvlqXzYdNIJF8OUo0-i07JYBuqqGAgUGOcPVogKKtJ5ZDiCUc95aN',
       status: 'APPROVED',
       userInfoType: 'INFERRED',
       userInfo: 'N/A',
-      timestamp: '1745498669753',
       minRegistrationLevel: 'PLUS',
-      registrationLevel: 'PLUS',
-      photo: '... large binary data omitted for brevity ...',
-      documentPhoto: '... large binary data omitted for brevity ...',
-      relyingPartyUserId: '7DC5620539DCDA1FE459E5931B37B9713433810F6A50212E824E3E41458F2E20',
-      integratorSpecificUserId: 'FF976587B01812E7B904EE8269AE81E8F4F4142A9B99F1D6F3CAD03F2E97468D',
-      birthdate: '1950-02-22',
-      dateofbirth: '1950-02-22',
-      age: '75',
-      given_name: 'John',
-      family_name: 'Doe',
-      emailaddress: 'john.doe@example.com',
-      phone_number: '+4512345678',
-      details: {
-        authRef: 'zWrxATCUAJ_QvlqXzYdNIJF8OUo0-i07JYBuqqGAgUGOcPVogKKtJ5ZDiCUc95aN',
-        status: 'APPROVED',
-        userInfoType: 'INFERRED',
-        userInfo: 'N/A',
-        minRegistrationLevel: 'PLUS',
-        timestamp: 1745498669753,
-        requestedAttributes: {
-          basicUserInfo: {
-            name: 'John',
-            surname: 'Doe'
+      timestamp: 1745498669753,
+      requestedAttributes: {
+        basicUserInfo: {
+          name: 'John',
+          surname: 'Doe',
+        },
+        emailAddress: 'john.doe@example.com',
+        allEmailAddresses: [
+          {
+            emailAddress: 'john.doe@example.com',
           },
-          emailAddress: 'john.doe@example.com',
-          allEmailAddresses: [
-            {
-              emailAddress: 'john.doe@example.com'
-            }
-          ],
-          allPhoneNumbers: [
-            {
-              phoneNumber: '+4512345678'
-            }
-          ],
-          dateOfBirth: '1950-02-22',
-          age: 75,
-          photoFileInfo: {
-            fileHash: '3f7911d7896bfac03f053232d7b787513e735d69827ac91ab58ea915d8dbd586'
+        ],
+        allPhoneNumbers: [
+          {
+            phoneNumber: '+4512345678',
           },
-          addresses: [
-            {
-              country: 'SE',
-              city: 'STOCKHOLM',
-              postCode: '10315',
-              address1: 'APELSINVÄGEN 34',
-              validFrom: '2025-04-02',
-              type: 'RESIDENTIAL',
-              sourceType: 'GOVERNMENT_REGISTRY'
-            },
-            {
-              country: 'SE',
-              city: 'STOCKHOLM',
-              postCode: '11130',
-              address1: 'ANEBYVÄGEN 51',
-              validFrom: '2025-04-02',
-              type: 'POSTAL',
-              sourceType: 'GOVERNMENT_REGISTRY'
-            }
-          ],
-          ssn: {
-            ssn: '195002229598',
-            country: 'SE'
-          },
-          document: {
-            type: 'PASS',
+        ],
+        dateOfBirth: '1950-02-22',
+        age: 75,
+        photoFileInfo: {
+          fileHash: '3f7911d7896bfac03f053232d7b787513e735d69827ac91ab58ea915d8dbd586',
+        },
+        addresses: [
+          {
             country: 'SE',
-            serialNumber: '054931681',
-            expirationDate: '2030-04-04'
+            city: 'STOCKHOLM',
+            postCode: '10315',
+            address1: 'APELSINVÄGEN 34',
+            validFrom: '2025-04-02',
+            type: 'RESIDENTIAL',
+            sourceType: 'GOVERNMENT_REGISTRY',
           },
-          documentPhotoFileInfo: {
-            fileHash: '9d15e509fc7fad74d677634e274f63fc17634e94e4db23d7ccb85504e93a11db'
+          {
+            country: 'SE',
+            city: 'STOCKHOLM',
+            postCode: '11130',
+            address1: 'ANEBYVÄGEN 51',
+            validFrom: '2025-04-02',
+            type: 'POSTAL',
+            sourceType: 'GOVERNMENT_REGISTRY',
           },
-          registrationLevel: 'PLUS',
-          relyingPartyUserId: '7DC5620539DCDA1FE459E5931B37B9713433810F6A50212E824E3E41458F2E20',
-          integratorSpecificUserId: 'FF976587B01812E7B904EE8269AE81E8F4F4142A9B99F1D6F3CAD03F2E97468D'
-        }
-      }
-    }
-  }
+        ],
+        ssn: {
+          ssn: '195002229598',
+          country: 'SE',
+        },
+        document: {
+          type: 'PASS',
+          country: 'SE',
+          serialNumber: '054931681',
+          expirationDate: '2030-04-04',
+        },
+        documentPhotoFileInfo: {
+          fileHash: '9d15e509fc7fad74d677634e274f63fc17634e94e4db23d7ccb85504e93a11db',
+        },
+        registrationLevel: 'PLUS',
+        relyingPartyUserId: '7DC5620539DCDA1FE459E5931B37B9713433810F6A50212E824E3E41458F2E20',
+        integratorSpecificUserId:
+          'FF976587B01812E7B904EE8269AE81E8F4F4142A9B99F1D6F3CAD03F2E97468D',
+      },
+    },
+  }}
 />

@@ -51,10 +51,10 @@ const TITLES = {
 };
 
 export default function InteractiveTour() {
-  const credentials = useAppSelector((state) => state.auth);
+  const credentials = useAppSelector(state => state.auth);
   const [step, setStep] = useState<Step>(credentials ? 'createSignatureOrder' : 'authenticate');
   const [signatories, setSignatories] = useState<AddSignatoryOutput['signatory'][]>([]);
-  const exampleData = useAppSelector((state) => state.exampleData);
+  const exampleData = useAppSelector(state => state.exampleData);
   const dispatch = useAppDispatch();
   const [errors, setErrors] = useState<GraphQLError[]>([]);
   const [response, setResponse] = useState<GraphQLResponse | null>(null);
@@ -75,7 +75,7 @@ export default function InteractiveTour() {
     if (step === 'addSignatories') {
       if (response.data.addSignatory) {
         const addSignatory: AddSignatoryOutput = response.data.addSignatory;
-        setSignatories((signatories) => signatories.concat(addSignatory.signatory));
+        setSignatories(signatories => signatories.concat(addSignatory.signatory));
         setErrors([]);
       }
     }
@@ -119,7 +119,7 @@ export default function InteractiveTour() {
               active: step === 'addSignatories',
             },
           ]
-        : []
+        : [],
     )
     .concat(
       stepIndex(step) >= stepIndex('sign')
@@ -131,7 +131,7 @@ export default function InteractiveTour() {
               active: step === 'sign',
             },
           ]
-        : []
+        : [],
     )
     .concat(
       stepIndex(step) >= stepIndex('closeSignatureOrder')
@@ -143,7 +143,7 @@ export default function InteractiveTour() {
               active: step === 'closeSignatureOrder',
             },
           ]
-        : []
+        : [],
     );
 
   return (
@@ -155,7 +155,7 @@ export default function InteractiveTour() {
               <a
                 href={item.link}
                 className={`no-underline font-normal ${item.active ? 'font-bold' : ''}`}
-                onClick={(event) => {
+                onClick={event => {
                   event.preventDefault();
                   item.onClick();
                 }}
@@ -219,7 +219,7 @@ export default function InteractiveTour() {
             <GraphQLExplorer
               query={createSignatureOrderExample.query}
               variables={createSignatureOrderExample.variables()}
-              onResponse={(response) => handleResponse('createSignatureOrder', response)}
+              onResponse={response => handleResponse('createSignatureOrder', response)}
             />
           </React.Fragment>
         )}
@@ -257,7 +257,7 @@ export default function InteractiveTour() {
             <GraphQLExplorer
               query={addSignatoryExample.query}
               variables={addSignatoryExample.variables(exampleData)}
-              onResponse={(response) => handleResponse('addSignatories', response)}
+              onResponse={response => handleResponse('addSignatories', response)}
             />
           </React.Fragment>
         )}
@@ -329,7 +329,7 @@ export default function InteractiveTour() {
                   signature order will not have any signatures.
                 </Paragraph>
                 <ol>
-                  {exampleData.closeSignatureOrder.signatureOrder.documents.map((document) => (
+                  {exampleData.closeSignatureOrder.signatureOrder.documents.map(document => (
                     <li key={document.id}>
                       <a href={blobUrl(document.blob!)} download>
                         Download {document.title}
@@ -343,7 +343,7 @@ export default function InteractiveTour() {
               <GraphQLExplorer
                 query={closeSignatureOrderExample.query}
                 variables={closeSignatureOrderExample.variables(exampleData)}
-                onResponse={(response) => handleResponse('closeSignatureOrder', response)}
+                onResponse={response => handleResponse('closeSignatureOrder', response)}
               />
             )}
           </React.Fragment>

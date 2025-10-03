@@ -9,14 +9,11 @@ const config: CodegenConfig = {
         './src/examples/**/*.graphql.ts',
         //'./src/examples/*.graphql.tsx',
       ],
-      plugins: [
-        'typescript',
-        'typescript-operations',
-      ],
+      plugins: ['typescript', 'typescript-operations'],
       config: {
         strictScalars: true,
         namingConvention: {
-          enumValues: 'keep'
+          enumValues: 'keep',
         },
         enumsAsTypes: false,
         futureProofEnums: true,
@@ -25,14 +22,14 @@ const config: CodegenConfig = {
           Blob: 'string',
           Date: 'string',
           DateTime: 'string',
-          URI: 'string'
-        }
-      }
-    }
+          URI: 'string',
+        },
+      },
+    },
   },
   pluckConfig: {
     modules: [],
-    gqlMagicComment: "Signatures GraphQL"
-  }
-}
+    gqlMagicComment: 'Signatures GraphQL',
+  },
+};
 export default config;

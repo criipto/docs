@@ -2,13 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "IBM Plex Sans", sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 500;
 }
 
 .font-roboto-slab {
-  font-family: "Roboto Slab", "Times New Roman", "Times", "Georgia", serif;
+  font-family: 'Roboto Slab', 'Times New Roman', 'Times', 'Georgia', serif;
 }
 
 h1 {
@@ -16,7 +21,7 @@ h1 {
 }
 
 body {
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif;
 }
 
 .gatsby-image-wrapper [data-main-image] {
@@ -24,7 +29,9 @@ body {
   transition: none;
 }
 
-body, #___gatsby, #gatsby-focus-wrapper {
+body,
+#___gatsby,
+#gatsby-focus-wrapper {
   min-height: 100vh;
 }
 .graphiql-container * {
@@ -44,7 +51,7 @@ html {
 }
 
 .ais-SearchBox-form {
-  @apply shadow appearance-none border rounded w-full py-2 px-3 flex ;
+  @apply shadow appearance-none border rounded w-full py-2 px-3 flex;
 }
 
 .ais-SearchBox-input {
@@ -62,6 +69,6 @@ html {
   @apply hidden;
 }
 
-input[type="search"]::-webkit-search-cancel-button {
+input[type='search']::-webkit-search-cancel-button {
   display: none;
 }

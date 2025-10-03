@@ -6,7 +6,7 @@ title: Prefilled input fields
 subtitle: How to specify input that the user would otherwise be queried for
 ---
 
-In some login flows, user-specific data other than actual login details are needed to complete the authentication. 
+In some login flows, user-specific data other than actual login details are needed to complete the authentication.
 
 Examples include the CPR number in Denmark for personal MitID and SSN ("personnummer") in Sweden for BankID on another device.
 
@@ -23,9 +23,7 @@ The actual support for controlling the input data varies by eID method:
 
 <Highlight icon="file-lines">
 
-Note that you should not include the angle brackets, so for example a Danish MitID prefilled CPR 
+Note that you should not include the angle brackets, so for example a Danish MitID prefilled CPR
 would be passed like this: `login_hint=sub:2201891234`.
 
 </Highlight>
-
-

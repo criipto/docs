@@ -15,32 +15,42 @@ The remainder of this article uses `yourdomain.criipto.id` as a placeholder for 
 1. (shorthand) `https://yourdomain.criipto.id/metadata/wsfed`
 2. (ADFS-style) `https://yourdomain.criipto.id/FederationMetadata/2007-06/FederationMetadata.xml`
 
- \- note that both of the above return exactly the same data.
+\- note that both of the above return exactly the same data.
 
 ## OpenID Connect Discovery
 
 1. `https://yourdomain.criipto.id/.well-known/openid-configuration`
 
 ## Login-method specific metadata
+
 In some scenarios, you may have to use login-method specific metadata endpoints. This can be needed if the client does not allow you to specify `acr_values` (OIDC) or `wauth` (WS-Federation) dynamically.
 
-For those cases, you can leverage our login-method specific metadata endpoints. Each of these contain an embedded and base64-encoded variant of the 'raw' value normally supplied in the `acr_values` / `wauth` query parameter. 
+For those cases, you can leverage our login-method specific metadata endpoints. Each of these contain an embedded and base64-encoded variant of the 'raw' value normally supplied in the `acr_values` / `wauth` query parameter.
 
 ### WS-Federation
+
 Syntax options:
+
 1. (shorthand) `https://yourdomain.criipto.id/metadata/wsfed/BASE64(wauth)`
 2. (ADFS-style) `https://yourdomain.criipto.id/BASE64(wauth)/FederationMetadata/2007-06/FederationMetadata.xml`
+
 - note the different placements of the `BASE64(wauth)` path segment in the 2 cases.
 
 #### Example - Swedish BankID on another-device
+
 Here, the `wauth` value is `urn:grn:authn:se:bankid:another-device`. This translates to `dXJuOmdybjphdXRobjpzZTpiYW5raWQ6YW5vdGhlci1kZXZpY2U=` in base64 (UTF-8 charset), and the metadata endpoints are
+
 1. (shorthand) `https://yourdomain.criipto.id/metadata/wsfed/dXJuOmdybjphdXRobjpzZTpiYW5raWQ6YW5vdGhlci1kZXZpY2U=`
 2. (ADFS-style) `https://yourdomain.criipto.id/dXJuOmdybjphdXRobjpzZTpiYW5raWQ6YW5vdGhlci1kZXZpY2U=/FederationMetadata/2007-06/FederationMetadata.xml`
 
 ### OpenID Connect Discovery
+
 Syntax:
+
 1. `https://yourdomain.criipto.id/BASE64(acr_values)/.well-known/openid-configuration`
 
 #### Example - Norwegian BankID
+
 Here, the `acr_values` is `urn:grn:authn:no:bankid`. This translates to `dXJuOmdybjphdXRobjpubzpiYW5raWQ=` in base64 (UTF-8 charset), and the metadata endpoint is
+
 - `https://yourdomain.criipto.id/dXJuOmdybjphdXRobjpubzpiYW5raWQ=/.well-known/openid-configuration`

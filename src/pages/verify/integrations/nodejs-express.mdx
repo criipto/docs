@@ -26,7 +26,7 @@ If you do not have a client secret, you can generate or regenerate one by going 
 
 ### Register callback URLs
 
-Before you can start sending authentication requests to Criipto Verify you need to register the URLs on which you want to receive the returned *JSON Web Token*, JWT.
+Before you can start sending authentication requests to Criipto Verify you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
 
 The Callback URL of your application is the URL where Criipto Verify will redirect to after the user has authenticated in order for the OpenID Connect middleware to complete the authentication process.
 
@@ -39,7 +39,7 @@ http://localhost:3000/login
 http://localhost:3000/logout
 ```
 
-If you deploy your application to a different URL you will also need to ensure to add that URL to the Callback URLs. 
+If you deploy your application to a different URL you will also need to ensure to add that URL to the Callback URLs.
 
 ## Install SDK
 
@@ -66,8 +66,8 @@ app.use(
   expressSession({
     secret: '{{YOUR_SESSION_SECRET}}',
     resave: false,
-    saveUninitialized: true
-  })
+    saveUninitialized: true,
+  }),
 );
 ```
 
@@ -76,22 +76,23 @@ app.use(
 ```javascript
 // server.js
 
-const CriiptoVerifyRedirectPassportStrategy = require('@criipto/verify-express').CriiptoVerifyRedirectPassportStrategy;
+const CriiptoVerifyRedirectPassportStrategy =
+  require('@criipto/verify-express').CriiptoVerifyRedirectPassportStrategy;
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user);
 });
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
 const redirectPassport = new CriiptoVerifyRedirectPassportStrategy(
   {
-    domain: "{{YOUR_CRIIPTO_DOMAIN}}",
-    clientID: "{{YOUR_CLIENT_ID}}",
-    clientSecret: "{{YOUR_CLIENT_SECRET}}",
+    domain: '{{YOUR_CRIIPTO_DOMAIN}}',
+    clientID: '{{YOUR_CLIENT_ID}}',
+    clientSecret: '{{YOUR_CLIENT_SECRET}}',
     // Should match an express route that is an allowed callback URL in your application
     // This route should also have the authentication middleware applied.
     redirectUri: '/login',
@@ -102,20 +103,27 @@ const redirectPassport = new CriiptoVerifyRedirectPassportStrategy(
       return {
         ...options,
         acr_values: req.query.acr_values,
-        prompt: req.query.prompt
-      }
-    }
+        prompt: req.query.prompt,
+      };
+    },
   },
   // Map claims to an express user
-  async (jwtClaims) => {
+  async jwtClaims => {
     return jwtClaims;
-  }
+  },
 );
 
 // Route to both trigger and handle redirect
-app.get('/login', passport.authenticate('criiptoVerifyRedirect', {failureRedirect: '/error', successReturnToOrRedirect: '/passport/protected'}), (req, res) => {
-  res.json(req.user);
-});
+app.get(
+  '/login',
+  passport.authenticate('criiptoVerifyRedirect', {
+    failureRedirect: '/error',
+    successReturnToOrRedirect: '/passport/protected',
+  }),
+  (req, res) => {
+    res.json(req.user);
+  },
+);
 app.get('/protected', passport.authenticate('criiptoVerifyRedirect', {}), (req, res) => {
   res.json(req.user);
 });
@@ -131,13 +139,13 @@ app.get('/error', function (req, res, next) {
 ### Plain express
 
 ```javascript
-
-const CriiptoVerifyExpressRedirect = require('@criipto/verify-express').CriiptoVerifyExpressRedirect;
+const CriiptoVerifyExpressRedirect =
+  require('@criipto/verify-express').CriiptoVerifyExpressRedirect;
 
 const expressRedirect = new CriiptoVerifyExpressRedirect({
-  domain: "{{YOUR_CRIIPTO_DOMAIN}}",
-  clientID: "{{YOUR_CLIENT_ID}}",
-  clientSecret: "{{YOUR_CLIENT_SECRET}}",
+  domain: '{{YOUR_CRIIPTO_DOMAIN}}',
+  clientID: '{{YOUR_CLIENT_ID}}',
+  clientSecret: '{{YOUR_CLIENT_SECRET}}',
   // Should match an express route that is an allowed callback URL in your application
   // This route should also have the authentication middleware applied.
   redirectUri: '/login',
@@ -148,15 +156,22 @@ const expressRedirect = new CriiptoVerifyExpressRedirect({
     return {
       ...options,
       acr_values: req.query.acr_values,
-      prompt: req.query.prompt
-    }
-  }
+      prompt: req.query.prompt,
+    };
+  },
 });
 
 // Route to both trigger and handle redirect
-app.get('/login', expressRedirect.middleware({failureRedirect: '/error', successReturnToOrRedirect: '/plain/protected'}), (req, res) => {
-  res.json(req.claims);
-});
+app.get(
+  '/login',
+  expressRedirect.middleware({
+    failureRedirect: '/error',
+    successReturnToOrRedirect: '/plain/protected',
+  }),
+  (req, res) => {
+    res.json(req.claims);
+  },
+);
 app.get('/protected', expressRedirect.middleware({}), (req, res) => {
   res.json(req.claims);
 });
@@ -184,45 +199,52 @@ You must register a Callback URL on your Criipto Application matching the `href`
 // server.js
 const express = require('express');
 const passport = require('passport');
-const CriiptoVerifyJwtPassportStrategy = require('@criipto/verify-express').CriiptoVerifyJwtPassportStrategy;
+const CriiptoVerifyJwtPassportStrategy =
+  require('@criipto/verify-express').CriiptoVerifyJwtPassportStrategy;
 
 const app = express();
 
 app.use(passport.initialize());
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user);
 });
-passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
 passport.use(
   'criiptoVerifyJwt',
-  new CriiptoVerifyJwtPassportStrategy({
-    domain: "{{YOUR_CRIIPTO_DOMAIN}}",
-    clientID: "{{YOUR_CLIENT_ID}}"
-  },
-  // Map claims to an express user
-  async (jwtClaims) => {
-    return jwtClaims;
-  })
+  new CriiptoVerifyJwtPassportStrategy(
+    {
+      domain: '{{YOUR_CRIIPTO_DOMAIN}}',
+      clientID: '{{YOUR_CLIENT_ID}}',
+    },
+    // Map claims to an express user
+    async jwtClaims => {
+      return jwtClaims;
+    },
+  ),
 );
 
-app.get('/jwt-protected-route', passport.authenticate('criiptoVerifyJwt', { session: false }), (req, res) => {
-  res.json({
-    ...req.user,
-    passport: 'says hi'
-  });
-});
+app.get(
+  '/jwt-protected-route',
+  passport.authenticate('criiptoVerifyJwt', { session: false }),
+  (req, res) => {
+    res.json({
+      ...req.user,
+      passport: 'says hi',
+    });
+  },
+);
 
 // client.js
-const {id_token} = login();
+const { id_token } = login();
 
 fetch(`{server}/jwt-protected-route`, {
   headers: {
-    Authorization: `Bearer ${id_token}`
-  }
-})
+    Authorization: `Bearer ${id_token}`,
+  },
+});
 ```
 
 ### Plain express
@@ -235,23 +257,23 @@ const CriiptoVerifyExpressJwt = require('@criipto/verify-express').CriiptoVerify
 const app = express();
 
 const expressJwt = new CriiptoVerifyExpressJwt({
-  domain: "{{YOUR_CRIIPTO_DOMAIN}}",
-  clientID: "{{YOUR_CLIENT_ID}}"
+  domain: '{{YOUR_CRIIPTO_DOMAIN}}',
+  clientID: '{{YOUR_CLIENT_ID}}',
 });
 
 app.get('/jwt-protected-route', expressJwt.middleware(), (req, res) => {
   res.json({
     ...req.user,
-    express: 'says hi'
+    express: 'says hi',
   });
 });
 
 // client.js
-const {id_token} = login();
+const { id_token } = login();
 
 fetch(`{server}/jwt-protected-route`, {
   headers: {
-    Authorization: `Bearer ${id_token}`
-  }
-})
+    Authorization: `Bearer ${id_token}`,
+  },
+});
 ```

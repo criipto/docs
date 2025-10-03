@@ -5,8 +5,9 @@ sort: 0
 title: FrejaID
 subtitle: Learn more about FrejaID token contents, how to create test users and how to gain access to production.
 ---
+
 import JwtPayloadViewer from '../../../components/JwtPayloadViewer';
-import SwedishFrejaIdJwtSnippet from '../../../snippets/jwt-payloads/swedish-frejaid'
+import SwedishFrejaIdJwtSnippet from '../../../snippets/jwt-payloads/swedish-frejaid';
 
 ## JWT/Token example
 
@@ -16,19 +17,23 @@ This example includes all claims that are generally available.
 <SwedishFrejaIdJwtSnippet />
 
 ## Testing
+
 FrejaID is available to anyone, but some features are only available for Swedish citizens and EEA citizens with a coordination number (samordningsnummer) issued by the Swedish Tax Authority.
 For testing, you can easily generate a test user with your chosen level of access (which FrejaID calls the "registration level").
 You can use the [Authorize URL builder](/verify/guides/authorize-url-builder) to generate URLs for testing.
 
 ### Installing the Freja app
+
 You can use the regular Freja app for testing.
 Simply download the app from the [App Store](https://apps.apple.com/us/app/freja/id1256552092) or [Google Play](https://play.google.com/store/apps/details?id=com.verisec.mobile.frejaeid).
 
 #### Configuring the app for testing
+
 To use the Freja app for testing, you must activate test mode.
 Note that the app will stay in test mode until you delete it from your device, so you should not use your normal Freja app for testing.
 
 To activate test mode in the Freja app:
+
 1. Open the Freja app
 2. Press "New User"
 3. Press "Get Started"
@@ -39,6 +44,7 @@ To activate test mode in the Freja app:
 8. The Freja app will now close
 
 To create a Basic test user for the Freja app in test mode:
+
 1. Open the Freja app
 2. Press "New User"
 3. Press "Get Started"
@@ -60,21 +66,25 @@ To create a Basic test user for the Freja app in test mode:
 You now have a Basic Freja test user.
 
 #### Upgrading to Freja Extended
+
 To upgrade your Basic test user to Freja Extended in test mode:
+
 1. Open a browser and go to the [Freja Test Vetting Portal](https://vettingportal.test.frejaeid.com/)
 2. Enter the email you used to register the test user
 3. Press "Upgrade"
 4. Choose "Sweden" if you want access to test all features of Freja (and if you want to upgrade to Freja+ later)
 5. Press "Next"
-7. Select in a first name and a last name as well as a birth date and gender for the test user
-8. Press "Generate" to obtain a personal identity number (social security number) for the test user
-9. Write down the generated personal identity number - you will not be able to see it later
+6. Select in a first name and a last name as well as a birth date and gender for the test user
+7. Press "Generate" to obtain a personal identity number (social security number) for the test user
+8. Write down the generated personal identity number - you will not be able to see it later
 9. Press "Upgrade"
 
 Your test user will now be registered as Extended, which gives you access to testing with more scopes.
 
 #### Upgrading to Freja+
+
 To upgrade your Extended test user to Freja+ in test mode:
+
 1. Open a browser and go to the [Freja Test Vetting Portal](https://vettingportal.test.frejaeid.com/)
 2. Enter the email you used to register the test user
 3. Press "Upgrade"
@@ -82,7 +92,9 @@ To upgrade your Extended test user to Freja+ in test mode:
 Your test user will now be registered as Freja+, which gives you access to testing with even more scopes.
 
 #### Adding a phone number
+
 To add a phone number to your test user (for testing user binding via phone number):
+
 1. Open the Freja app
 2. Press "Settings" in the bottom right
 3. Press "My Pages"
@@ -106,6 +118,7 @@ You can now use the phone number to bind requests to your test user.
 ## Integrating with FrejaID
 
 ### Registration levels
+
 FrejaID users can be registered at three different levels.
 The registration level of the user determines the scopes that will be available for that user.
 
@@ -114,19 +127,24 @@ Users from most countries can register with their ID (e.g. their passport) and a
 Users who have a Swedish identity number ("personnummer") or coordination number ("samordningsnummer") will instead get registration level Plus when they register with their ID.
 
 ### Scopes for FrejaID
+
 You must use scopes on each authentication to select what information about the user you require.
 All scopes mentioned below must be prefixed with `frejaid:`.
 You will always receive a `sub` value uniquely identifying the user for your service, even if you request no scopes.
 
 #### Common scopes
+
 The following scopes are available for all FrejaID users:
+
 - `email_address`: the primary email address of the user
 - `all_email_addresses`: all email addresses registered for the user
 - `all_phone_numbers`: all phone numbers registered for the user (may be an empty list)
 - `registration_level`: the actual registration level of the user
 
 #### Scopes that require registration level Extended or Plus
+
 The following scopes are only available for FrejaID users with registration level Extended or Plus:
+
 - `basic_user_info`: the first and last name of the user
 - `date_of_birth`: the user's date of birth
 - `age`: the user's age
@@ -146,16 +164,20 @@ For this reason, you cannot request the `photo` or `document_photo` scopes in co
 For example, a request with `response_type=id_token` and `response_mode=fragment` will be rejected if it includes the `photo` scope.
 
 #### Special scopes
+
 The following scopes are only available by special arrangement.
 Contact support if you would like to use them:
+
 - `unique_personal_identifier`: a unique personal identifier which can be used to link FrejaID users across services
 - `loa_level`: the eIDAS Level of Assurance of the user
 - `custom_identifier`: a custom identifier registered by your organization in FrejaID's systems
 - `document_photo`: a photo of the user's registration document
 
 ### Setting a minimum registration level
+
 Some scopes are only available for certain registration levels.
 You can select a minimum registration level with one of the following `login_hints`:
+
 - Basic: `minregistrationlevel:basic`
 - Extended: `minregistrationlevel:extended`
 - Plus: `minregistrationlevel:plus`
@@ -163,8 +185,10 @@ You can select a minimum registration level with one of the following `login_hin
 Note that you will get an error if you select a minimum registration level that does not include the scopes you request.
 
 ### Prefilling user information
+
 In some special cases, you may already know who you expect the user to be before they authenticate.
 In these cases, you can restrict the authentication to the specific user by supplying one of the following pieces of information:
+
 - The email address of the user
 - The phone number of the user
 - The country and social security number (SSN) of the user
@@ -179,17 +203,20 @@ For Swedish, Norwegian and Danish users, the SSN must be supplied without spaces
 For Finnish users, the SSN must be supplied with a hyphen or the letter `A` before the last four characters of the SSN.
 
 ### Verifying user identity with photo
+
 For users registered with a photo (i.e. users who are on registration level Extended or Plus), FrejaID supports additional verification of the user's identity on each transaction.
 Enabling photo verification will force the user to take a photo of themselves when authenticating, then compare it with the registered photo for that user.
 If the photos do not match, the user will be unable to approve the transaction.
 You can enable photo verification with the `login_hint`: `userconfirmationmethod:defaultandface`.
 
 ## Signing text and data with FrejaID
+
 FrejaID supports signing text and binary data as part of a regular authentication flow.
 There are three types of signatures: Simple, Extended and Advanced.
 All of the signature types allow you to present text to the user in the Freja app.
 
 ### Simple signatures
+
 Simple signatures can be used to sign plain text.
 The Simple signature flow is activated by adding `action:sign` in the `login_hint`.
 The text must be provided in the `login_hint` using the `message` hint.
@@ -199,6 +226,7 @@ The text will be shown to the user in the Freja app while authenticating.
 [Try out an example Simple signature in our Authorize URL builder.](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:frejaid&frejaAction=sign&message=Test%20simple%20signature%20flow&title=Simple%20signature)
 
 ### Extended signatures
+
 Extended signatures can be used to sign plain text and some additional binary data.
 The Extended signature flow is activated by adding `action:sign_extended` in the `login_hint`.
 The text must be provided in the `login_hint` using the `message` hint, while the binary data must be provided using the `nonVisibleData` hint.
@@ -209,6 +237,7 @@ The text will be shown to the user in the Freja app while authenticating, but th
 [Try out an example Extended signature in our Authorize URL builder.](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:frejaid&frejaAction=sign_extended&message=Test%20extended%20signature%20flow&nonVisibleData=TEST_BINARY_DATA&title=Extended%20signature)
 
 ### Advanced signatures
+
 Advanced signatures can be used to sign plain text and receive a response that is compatible with the "Mina meddelanden" digital communication platform in Sweden.
 The Advanced signature response is tied to the user's personal data and can be independently validated.
 The Advanced signature flow is activated by adding `action:sign_advanced` in the `login_hint`.
@@ -223,6 +252,7 @@ These scopes will automatically be added to your request if the Advanced signatu
 [Try out an example Advanced signature in our Authorize URL builder.](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:frejaid&frejaAction=sign_advanced&message=Test%20advanced%20signature%20flow&title=Advanced%20signature)
 
 ### Signature responses
+
 When the user has approved a Simple or an Extended signature, the JWT will contain the claims `certificateStatus` and `userSignature`.
 When the user has approved an Advanced signature, the JWT will contain the claims `certificateStatus`, `userSignature` and `advancedSignature`.
 
@@ -231,11 +261,13 @@ The `userSignature` claim contains the signature of the user.
 The `advancedSignature` claim contains an XML signature containing the signature method, signature value, certificate chain, signing time and text presented to the user in the Freja app.
 
 <Highlight icon="exclamation" warning>
-Note that signing can produce very large JWTs which are not appropriate for use in `Bearer` headers.
-This means that JWTs produced from signature flows can often not be used for authentication.
+  Note that signing can produce very large JWTs which are not appropriate for use in `Bearer`
+  headers. This means that JWTs produced from signature flows can often not be used for
+  authentication.
 </Highlight>
 
 ### Features available for all signature types
+
 You can add a title to be displayed in the Freja app over the text to sign by adding the `title` hint in the `login_hint`.
 The text in the `title` hint must be base64 encoded and no longer than 128 characters (prior to base64 encoding).
 

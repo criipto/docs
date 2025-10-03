@@ -6,7 +6,7 @@ title: Danish MitID
 subtitle: Learn more about Danish MitID token contents, how to create test users and how to gain access to production.
 ---
 
-import {ImageContainer} from '../../../components/MdxProvider';
+import { ImageContainer } from '../../../components/MdxProvider';
 import ConsentRevocation from '../../../components/ConsentRevocation';
 import DanishMitIDJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid';
 import DanishMitIDAddressJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-address';
@@ -29,7 +29,7 @@ You create personal MitID test users at [https://pp.mitid.dk/test-tool/frontend]
 
 1. Just use the autofill button and then change the details to your liking.
 2. If you haven't done so already, install the test app from [https://pp.mitid.dk/mitid-app/index.html](https://pp.mitid.dk/mitid-app/index.html)
-_**Note:** On iOS, you can install both the test and production versions of the MitID app on the same device. On Android, the two versions cannot coexist, so you'll need a separate device for testing._
+   _**Note:** On iOS, you can install both the test and production versions of the MitID app on the same device. On Android, the two versions cannot coexist, so you'll need a separate device for testing._
 3. You can test your new users by using the "Flows" menu at the top of the screen.
 
 ![MitID test tool](./images/mitid-testtool.png)
@@ -53,6 +53,7 @@ Note: To access this feature, you must first fill in the MitID application form 
 </Highlight>
 
 ## Collecting CPR numbers
+
 You must enable the "Add CPR for MitID logins" toggle in the [management dashboard](https://dashboard.criipto.com/providers/DK_MITID).
 Criipto Verify will prompt the user for their CPR number and validate that it belongs to the MitID user that is logging in.
 
@@ -71,6 +72,7 @@ Criipto stores CPR numbers in encrypted format. The consent is per-tenant only.
 <ConsentRevocation />
 
 ## Collecting user addresses
+
 If you collect the users CPR number, the users current address can also be made available.
 
 Data processor and dedicated billing agreements are needed, contact sales@criipto.com for the legal and financial arrangements.
@@ -90,22 +92,28 @@ The CPR number _will not_ be issued in the JWT in this case, even if the user wa
 </Highlight>
 
 ### Example (partial) authorize request with scope
+
 ```text
 https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?scope=openid address&...
 ```
+
 Alternatively, you can send it in the `login_hint`
+
 ```text
 https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=scope:address&...
 ```
+
 which can be a useful if you are working with technology that does not let you control the `scope` value.
 
 ## Reference message
+
 MitID allows you to choose a reference message which will be display to the user in the MitID app while they perform the authentication.
 For instance, the text could be something like `Transfer EUR 100 to account 1234`.
 The message is limited to a length of 130 characters.
 
 To provide a reference message text, you must provide [the `message` login hint](/verify/getting-started/oidc-intro/#end-user-confirmation-texts-message-parameter) in your authorize request. The reference message text must be base64 encoded.
 Example:
+
 ```text
 https://YOUR_SUBDOMAIN.criipto.id/oauth2/authorize?...&login_hint=message:TG9naW4gYXQgVGVzdCBDb21wYW50...
 ```
@@ -126,8 +134,8 @@ Controlled Transfers require that you partner with each service provider that yo
 
 <Highlight icon="exclamation" warning>
 
-  It is your responsibility to obtain consent from the end user to transfer the MitID claims (such as their name and CPR number) obtained in the initial authentication to the receiving service provider.
-  All claims present in the original JWT will be transferred to the receiving service provider.
+It is your responsibility to obtain consent from the end user to transfer the MitID claims (such as their name and CPR number) obtained in the initial authentication to the receiving service provider.
+All claims present in the original JWT will be transferred to the receiving service provider.
 
 </Highlight>
 
@@ -142,10 +150,13 @@ After this time, it is no longer possible to perform a Controlled Transfer for t
 We suggest that you instead use the ReAuthentication flow to transfer the user if the session token has expired.
 
 To initiate a Controlled Transfer, send a `POST` request to
+
 ```text
 https://{YOUR_CRIIPTO_DOMAIN}/DkMitId/ControlledTransfer
 ```
+
 containing the following information in JSON format:
+
 ```text
 {
   "targetBrokerId": "",
@@ -154,6 +165,7 @@ containing the following information in JSON format:
   "mitIdControlledTransferSessionId": ""
 }
 ```
+
 - `targetBrokerId` must contain the MitID broker ID of the broker used by the service provider you are sending the user to
 - `targetServiceProviderId` must contain the MitID service provider ID of the service provider you are sending the user to
 - `transferTokenText` is a free text field (with a maximum length of 130 characters) that you can use to pass information to the service provider you are sending the user to
@@ -165,7 +177,6 @@ If the `targetBrokerId` and `targetServiceProviderId` do not match the service p
 
 The `transferTokenText` can e.g. be used to send a hash of any additional information you have sent to your partner service provider via other channels to prove that the additional information has not been tampered with.
 You must coordinate any use of the `transferTokenText` with your partner service provider.
-
 
 If the request above is successful, you will receive a JSON response containing a Controlled Transfer Token Exchange Code in the field `transferTokenExchangeCode`.
 The Controlled Transfer Token Exchange Code is a one-time token which can be used by your partner service provider to complete the Controlled Transfer in collaboration with their MitID broker.
@@ -186,13 +197,15 @@ If in doubt, our recommendation would generally be to go with Substantial (`urn:
 ### High
 
 `urn:grn:authn:dk:mitid:high` allows users to login with username and either of
- - MitID app if it is enrolled with level `high`
- - Password + MitID Chip
- - MitID app if it is enrolled with level `high` + MitID Chip
+
+- MitID app if it is enrolled with level `high`
+- Password + MitID Chip
+- MitID app if it is enrolled with level `high` + MitID Chip
 
 ### Substantial
 
 `urn:grn:authn:dk:mitid:substantial` allows users to login with username and either of
+
 - MitID app
 - MitID code display
 - Any authenticator on level `high`.
@@ -200,6 +213,7 @@ If in doubt, our recommendation would generally be to go with Substantial (`urn:
 ### Low
 
 `urn:grn:authn:dk:mitid:low` allows users to login with username and either of
+
 - Password
 - Any authenticator on levels `high` and `substantial`
 
@@ -237,28 +251,32 @@ Please [see the UX requirements](#mitid-user-interface-requirements) to make sur
 ### Apply for production access
 
 #### Companies registered in Denmark
+
 If your company is registered in Denmark please follow these steps:
 
 1. Go to the [management dashboard](https://dashboard.criipto.com) and set the environment toggle at the top center to "PRODUCTION".
 2. In the "Identity sources" section, expand the "DK MitID" section
 3. A user enrolled in MitID Erhverv must click the button and sign in.
 4. Submit the details for your company. Note the following:
+
 - The name to show in the MitID login box is the name entered in the "Company alias" box
+
 5. Press complete when everything is filled out as you like.
-6. Your company will now be created as a Service Provider with Nets, this takes approximately 15-20 minutes, then you can start to use MitID for production logins. 
+6. Your company will now be created as a Service Provider with Nets, this takes approximately 15-20 minutes, then you can start to use MitID for production logins.
 
 #### Companies not registered in Denmark
 
-If your company is *not* registered in Denmark, meaning you don't have MitID Erhverv, please send a request for MitID onboarding to [orders@criipto.com](mailto:orders@criipto.com).
+If your company is _not_ registered in Denmark, meaning you don't have MitID Erhverv, please send a request for MitID onboarding to [orders@criipto.com](mailto:orders@criipto.com).
 
 #### Apply for a custom MitID domain
 
-1.	Go to the "Identity sources" section and open "DK MitID"
-2.	At the bottom of the page you will find a button where you can apply for a custom MitID domain 
-3.	The "Domain prefix" is typically your company or brand name, e.g. acme-corp. Once this registration is completed this will be used to set up your MitID domain, in this case acme-corp.mitid.dk.
-4.	The information is sent to Nets who will setup your MitID Domain.
--	Expect this process to take 7-15 work days.
--	Once your domain has been set up, you can complete the onboarding process (read below)
+1. Go to the "Identity sources" section and open "DK MitID"
+2. At the bottom of the page you will find a button where you can apply for a custom MitID domain
+3. The "Domain prefix" is typically your company or brand name, e.g. acme-corp. Once this registration is completed this will be used to set up your MitID domain, in this case acme-corp.mitid.dk.
+4. The information is sent to Nets who will setup your MitID Domain.
+
+- Expect this process to take 7-15 work days.
+- Once your domain has been set up, you can complete the onboarding process (read below)
 
 #### Complete the custom MitID domain process
 
@@ -314,7 +332,6 @@ The _required_ minimum height of the MitID box is 588 pixels, and it is _strongl
 
 It is also _required_ to keep the "Powered by Criipto" text and the links to MitID Support and Privacy Policy - the red rectangle below the MitID box.
 
-
 ![MitID default landing page](./images/mitid-landing-page.png)
 
 ### MitiD branding in your application
@@ -341,7 +358,7 @@ The MitID button should be shown with lightly rounded corners:
 
 <ImageContainer maxWidth={300}>
 
-  ![Default MitID Button](./images/mitid-rounded.png)
+![Default MitID Button](./images/mitid-rounded.png)
 
 </ImageContainer>
 
@@ -359,35 +376,36 @@ The key elements of the default styling are shown below, but we suggest to simpl
 ```
 
 The text inside the button must be from the set of approved texts:
+
 <table>
-    <thead>
-        <tr>
-            <th>**Danish**</th>
-            <th>**English**</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Log ind med MitID</td>
-            <td>Log on with MitID</td>
-        </tr>
-        <tr>
-            <td>Godkend med MitID</td>
-            <td>Approve with MitID</td>
-        </tr>
-        <tr>
-            <td>Bekræft med MitID</td>
-            <td>Confirm with MitID</td>
-        </tr>
-        <tr>
-            <td>Acceptér med MitID</td>
-            <td>Accept with MitID</td>
-        </tr>
-        <tr>
-            <td>Underskriv med MitID</td>
-            <td>Sign with MitID</td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>**Danish**</th>
+      <th>**English**</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Log ind med MitID</td>
+      <td>Log on with MitID</td>
+    </tr>
+    <tr>
+      <td>Godkend med MitID</td>
+      <td>Approve with MitID</td>
+    </tr>
+    <tr>
+      <td>Bekræft med MitID</td>
+      <td>Confirm with MitID</td>
+    </tr>
+    <tr>
+      <td>Acceptér med MitID</td>
+      <td>Accept with MitID</td>
+    </tr>
+    <tr>
+      <td>Underskriv med MitID</td>
+      <td>Sign with MitID</td>
+    </tr>
+  </tbody>
 </table>
 
 ### MitID branding in a native app
@@ -396,7 +414,7 @@ Just as illustrated above, your app must show a call to action which must open a
 
 <ImageContainer maxWidth={300}>
 
-  ![MitID CTA in native app](./images/mitid-button-in-native-app.png)
+![MitID CTA in native app](./images/mitid-button-in-native-app.png)
 
 </ImageContainer>
 
@@ -404,7 +422,7 @@ Your app must use a platform-specific, MitID-compatible browsing component which
 
 <ImageContainer maxWidth={300}>
 
-  ![MitID CTA in native app](./images/mitid-native-app-browser-with-address-visible.png)
+![MitID CTA in native app](./images/mitid-native-app-browser-with-address-visible.png)
 
 </ImageContainer>
 

@@ -22,124 +22,141 @@ The level of assurance for all Personalausweis authentications is: High.
 <GermanPersonalausweisJwtSnippet />
 
 ## Testing
+
 The Personalausweis is a physical card with an embedded chip which can be read by e.g. a NFC-enabled smart phone for use as an eID.
 The solution thus always requires the user to scan their physical card to authenticate with their eID.
 In testing you can either use a physical test card (if you have one) or a simulator.
 
 ### Installing the AusweisApp
+
 The AusweisApp for scanning the physical Personalausweis card is available for both desktop and mobile ([download](https://www.ausweisapp.bund.de/en/download)).
 It can be used to scan a physical test card (if you have one) or be configured to use a simulator instead (see below).
 
 #### Configuring the AusweisApp for testing
+
 If you do not have a physical Personalausweis test card, you can configure the AusweisApp to use a simulator for testing.
 When configured to use the simulator, the AusweisApp will skip the scanning step and instead always use the same hard-coded test user.
 Note that the simulator does not work exactly the same on desktop and mobile.
 The official documentation for the AusweisApp is available [here](https://www.ausweisapp.bund.de/fileadmin/user_upload/AusweisApp-2.2.2-NetInstallation_Integration.pdf).
 
 ##### Configuring desktop simulator
+
 To configure the desktop AusweisApp to use the simulator, follow these steps:
+
 1. Open the AusweisApp
-2. On the *Start* page, click *Help*
-3. On the *Help* page, click *Information* (on the left)
-4. On the *Information* page, click on the *Application Version* text 10 times
+2. On the _Start_ page, click _Help_
+3. On the _Help_ page, click _Information_ (on the left)
+4. On the _Information_ page, click on the _Application Version_ text 10 times
 5. You should now get a notification from the AusweisApp saying "Developer options activated"
-6. Click *Back* (in the top left) to go back to the *Start* page
-7. On the *Start* page, click *Settings*
-8. On the *Settings* page, click *Developer options* (on the left)
-9. On the *Developer options* page:
-    1. Toggle *Testmode for the self-authentication* to be "on" (toggle button to the right)
-    2. Toggle *Internal card simulator* to be "on" (toggle button to the right)
-10. Click *Back* (in the top left) to go back to the *Start* page
+6. Click _Back_ (in the top left) to go back to the _Start_ page
+7. On the _Start_ page, click _Settings_
+8. On the _Settings_ page, click _Developer options_ (on the left)
+9. On the _Developer options_ page:
+   1. Toggle _Testmode for the self-authentication_ to be "on" (toggle button to the right)
+   2. Toggle _Internal card simulator_ to be "on" (toggle button to the right)
+10. Click _Back_ (in the top left) to go back to the _Start_ page
 
 The AusweisApp will now use the hard-coded test user for any authentications.
-You can test this by clicking *See my personal data* on the *Start* page and proceeding through the flow as follows:
-1. Click *See my personal data*
-2. Click *Proceed to PIN entry*
+You can test this by clicking _See my personal data_ on the _Start_ page and proceeding through the flow as follows:
+
+1. Click _See my personal data_
+2. Click _Proceed to PIN entry_
 
 The AusweisApp should now skip the card scanning step and you should see the data for the test user Erika Mustermann.
 
 Note that you will have to disable the simulator to use the AusweisApp to scan physical cards.
 
 ##### Configuring mobile simulator
+
 To configure the desktop AusweisApp to use the simulator, follow these steps:
+
 1. Open the AusweisApp
-2. On the *Start* page, tap *Help* (on the bottom bar)
-3. On the *Help* page, scroll to the bottom and tap *Version information*
-4. On the *Version Information* page, tap on the *Application Version* text 10 times
+2. On the _Start_ page, tap _Help_ (on the bottom bar)
+3. On the _Help_ page, scroll to the bottom and tap _Version information_
+4. On the _Version Information_ page, tap on the _Application Version_ text 10 times
 5. A popup will appear saying "Advanced settings activated"
-6. Tap *Settings* (on the bottom bar)
-7. On the *Settings* page, scroll to the bottom where you should see *Developer options*
-8. On the *Developer options* page:
-    1. Toggle *Testmode for the self-authentication* to be "on" (toggle button to the right)
-    2. Toggle *Internal card simulator* to be "on" (toggle button to the right)
-9. On the *Settings* page, scroll back up to the top, where you should see *General*
-10. On the *General* page, tap *Readout mode* and select *by internal card simulator*
-11. Tap *Start* (on the bottom bar) to go back to the *Start* page
+6. Tap _Settings_ (on the bottom bar)
+7. On the _Settings_ page, scroll to the bottom where you should see _Developer options_
+8. On the _Developer options_ page:
+   1. Toggle _Testmode for the self-authentication_ to be "on" (toggle button to the right)
+   2. Toggle _Internal card simulator_ to be "on" (toggle button to the right)
+9. On the _Settings_ page, scroll back up to the top, where you should see _General_
+10. On the _General_ page, tap _Readout mode_ and select _by internal card simulator_
+11. Tap _Start_ (on the bottom bar) to go back to the _Start_ page
 
 The AusweisApp will now use the Simulator during authentications.
-You can test this by swiping to the right and tapping *See my personal data* on the *Start* page, then proceeding through the flow as follows:
-1. Tap *See my personal data*
-2. Tap *Proceed to PIN entry*
-3. On the *Identify* screen, the app will now show *Simulator* (and allow you to switch back to *NFC* or *WiFi*)
-4. Tap *Continue*
+You can test this by swiping to the right and tapping _See my personal data_ on the _Start_ page, then proceeding through the flow as follows:
+
+1. Tap _See my personal data_
+2. Tap _Proceed to PIN entry_
+3. On the _Identify_ screen, the app will now show _Simulator_ (and allow you to switch back to _NFC_ or _WiFi_)
+4. Tap _Continue_
 
 The AusweisApp should now skip the card scanning step and you should see the data for the test user Erika Mustermann.
 
 ## Integrating with Personalausweis
 
 ### Data profiles for German Personalausweis
-The Personalausweis has a number of *data groups* which contain e.g. the given name, the address or the nationality of the person authenticating.
+
+The Personalausweis has a number of _data groups_ which contain e.g. the given name, the address or the nationality of the person authenticating.
 The AusweisApp will inform the user which data groups are being requested when they scan their Personalausweis.
 
-One of the data groups is the Pseudonym, which is a service- and card-specific identifier (German: *dienste- und kartenspezifisches Kennzeichen*) of the user.
+One of the data groups is the Pseudonym, which is a service- and card-specific identifier (German: _dienste- und kartenspezifisches Kennzeichen_) of the user.
 The Pseudonym uniquely identifies the user in a privacy-preserving way and is used to generate the `sub` claim identifying the subject of the JWT.
 
 <Highlight icon="exclamation" warning>
 
-Note that the Pseudonym is both *service-specific* and *card-specific*.
-*Service-specific* means that you cannot use the Pseudonym (i.e. the `sub`) to link users across services.
-*Card-specific* means that the Pseudonym will change when the user gets a new physical Personalausweis (e.g. due to having lost the card or changing address).
+Note that the Pseudonym is both _service-specific_ and _card-specific_.
+_Service-specific_ means that you cannot use the Pseudonym (i.e. the `sub`) to link users across services.
+_Card-specific_ means that the Pseudonym will change when the user gets a new physical Personalausweis (e.g. due to having lost the card or changing address).
 
 This means that you must store other data about the user if you plan to use the Personalausweis to identify users, such that you can match the identity of the user when they obtain a new physical Personalausweis.
 
 Please refer to the German [Act on Identity Cards and Electronic Identification](https://www.gesetze-im-internet.de/englisch_pauswg/englisch_pauswg.html) for more details about what you are allowed to do with the data from the Personalausweis.
+
 </Highlight>
 
-The data groups are bundled together into *profiles* which contain collections of data groups.
+The data groups are bundled together into _profiles_ which contain collections of data groups.
 Criipto has defined some standard profiles for various use cases, and request pricing is based on these profiles.
 
 The table below contains a description of the data groups and standard profiles.
 
 <table>
-    <thead>
-        <tr>
-            <th>Profile</th>
-            <th>Data groups</th>
-            <th>Intended use case</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Pseudonym</td>
-            <td>Pseudonym</td>
-            <td>User login after registration</td>
-        </tr>
-        <tr>
-            <td>Profile 1</td>
-            <td>Pseudonym, First Name, Family Name, Religious Order / Artistic Name, Academic Title, Date of Birth, Place of Birth, Birth Name</td>
-            <td>User registration/one-time authentication</td>
-        </tr>
-        <tr>
-            <td>Profile 2</td>
-            <td>Everything in Profile 1, plus Nationality and Address (normal place of residence)</td>
-            <td>Know-your-customer (KYC)</td>
-        </tr>
-        <tr>
-            <td>Profile 3</td>
-            <td>Everything in Profile 2, plus Document Type, Issuing Country (always "D" for Germany), Date of Expiry and Residence Permit I</td>
-            <td>Extended KYC with document metadata</td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>Profile</th>
+      <th>Data groups</th>
+      <th>Intended use case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Pseudonym</td>
+      <td>Pseudonym</td>
+      <td>User login after registration</td>
+    </tr>
+    <tr>
+      <td>Profile 1</td>
+      <td>
+        Pseudonym, First Name, Family Name, Religious Order / Artistic Name, Academic Title, Date of
+        Birth, Place of Birth, Birth Name
+      </td>
+      <td>User registration/one-time authentication</td>
+    </tr>
+    <tr>
+      <td>Profile 2</td>
+      <td>Everything in Profile 1, plus Nationality and Address (normal place of residence)</td>
+      <td>Know-your-customer (KYC)</td>
+    </tr>
+    <tr>
+      <td>Profile 3</td>
+      <td>
+        Everything in Profile 2, plus Document Type, Issuing Country (always "D" for Germany), Date
+        of Expiry and Residence Permit I
+      </td>
+      <td>Extended KYC with document metadata</td>
+    </tr>
+  </tbody>
 </table>
 
 For applications configured to use a `dynamic` `scope` strategy, a profile can be selected on each request using the `scope` parameter prefixed with `odis:`, e.g. `odis:Profile1`.
@@ -148,6 +165,7 @@ For applications configured to use a `static` `scope` strategy, you can configur
 It is possible to define your own profiles if you have special requirements; if you would like to do so, please contact sales.
 
 ### Transaction information
+
 You can add a reference text to display to the user while they scan the physical Personalausweis with the AusweisApp.
 The reference text consists of a _template_ with a single placeholder and a _dynamic parameter_ called `txinfo`.
 If a template is registered for the client, `txinfo` _must_ be passed as a `login_hint` on each request.
@@ -155,6 +173,7 @@ The template may be up to 118 characters long and can contain any characters.
 The `txinfo` parameter can be up to 32 characters long and can only contain alphanumeric characters (in particular, it cannot contain spaces).
 
 ### Flow selection
+
 You should usually let the end user select whether they would like to use the AusweisApp on the same device as their browser or on another device (e.g. a mobile phone).
 Verify will normally display a screen to let the user select which device they would like to use.
 You can skip this screen for a request by passing either `flow:same-device` or `flow:another-device` as a `login_hint`.
@@ -163,6 +182,7 @@ This can be useful in testing, and also allows you to build your own selection s
 We do not recommend skipping the selection screen under any other circumstances, since you risk "stranding" users who would have chosen the other option.
 
 ### Test authorize requests
+
 You can use Criipto's test environment to test your integration before ordering your own client credentials (see below).
 The test environment has a transaction information template registered, so you _must_ pass a `txinfo` parameter on every request.
 The template is set up such that you can for instance use your company name as the `txinfo` parameter.
@@ -173,6 +193,7 @@ It is possible to set up your own test environment if you require custom profile
 If you would like to do so, please contact support.
 
 ## Getting ready for production
+
 To start accepting real users with Personalausweis, you must first request your own _client credentials_ and provide a _client certificate_ to be signed.
 The credentials consist of a _client id_ and a _client secret_.
 You must have completed step 4 in the [Getting ready for production](/verify/guides/production) guide. You will need the production domain to complete the order for your client credentials.

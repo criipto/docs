@@ -1,20 +1,19 @@
-import JwtPayloadViewer from '../../components/JwtPayloadViewer'
+import JwtPayloadViewer from '../../components/JwtPayloadViewer';
 
 <JwtPayloadViewer
-  payload={
-    {
-      "identityscheme": "nobankid-oidc",
-      "nameidentifier": "ee9b1bb905a6458e9f3b9d068f1a3765",
-      "sub": "{ee9b1bb9-05a6-458e-9f3b-9d068f1a3765}",
-      "uniqueuserid": "9578-6000-4-351726",
-      "certissuer": "CN=BankID - TestBank1 - Bank CA 3,OU=123456789,O=TestBank1 AS,C=NO;OrginatorId=9980;OriginatorName=BINAS;OriginatorId=9980",
-      "certsubject": "CN=CriiptoTest\\, Mikkel,O=TestBank1 AS,C=NO,SERIALNUMBER=9578-6000-4-351726",
-      "birthdate": "1946-03-27",
-      "socialno": "27034698436",
-      "family_name": "CriiptoTest",
-      "given_name": "Mikkel",
-      "name": "Mikkel CriiptoTest",
-      "country": "NO"
-    }
-  }
+  payload={{
+    identityscheme: 'nobankid-oidc',
+    nameidentifier: 'ee9b1bb905a6458e9f3b9d068f1a3765',
+    sub: '{ee9b1bb9-05a6-458e-9f3b-9d068f1a3765}',
+    uniqueuserid: '9578-6000-4-351726',
+    certissuer:
+      'CN=BankID - TestBank1 - Bank CA 3,OU=123456789,O=TestBank1 AS,C=NO;OrginatorId=9980;OriginatorName=BINAS;OriginatorId=9980',
+    certsubject: 'CN=CriiptoTest\\, Mikkel,O=TestBank1 AS,C=NO,SERIALNUMBER=9578-6000-4-351726',
+    birthdate: '1946-03-27',
+    socialno: '27034698436',
+    family_name: 'CriiptoTest',
+    given_name: 'Mikkel',
+    name: 'Mikkel CriiptoTest',
+    country: 'NO',
+  }}
 />

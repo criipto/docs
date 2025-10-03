@@ -12,8 +12,8 @@ import '@fontsource/ibm-plex-sans/500.css';
 import '@fontsource/ibm-plex-sans/600.css';
 import '@fontsource/ibm-plex-sans/700.css';
 import 'graphiql/graphiql.min.css';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
 
 import MdxLayout from './src/layouts/mdx';
 import DefaultLayout from './src/layouts/default';
@@ -21,55 +21,25 @@ import FullscreenLayout from './src/layouts/fullscreen';
 import NotFoundLayout from './src/layouts/404';
 import VerifyErrorLayout from './src/layouts/verify-error';
 
-import wrapWithProvider from "./src/state/wrap-with-provider";
-export const wrapRootElement : GatsbyBrowser["wrapRootElement"] = wrapWithProvider;
+import wrapWithProvider from './src/state/wrap-with-provider';
+export const wrapRootElement: GatsbyBrowser['wrapRootElement'] = wrapWithProvider;
 library.add(fas);
 
-export const wrapPageElement : GatsbyBrowser["wrapPageElement"] = ({props, element}) => {
+export const wrapPageElement: GatsbyBrowser['wrapPageElement'] = ({ props, element }) => {
   if ((props.pageContext as any).frontmatter?.layout === 'default') {
-    return (
-      <DefaultLayout
-        {...props}
-      >
-        {element}
-      </DefaultLayout>
-    );
+    return <DefaultLayout {...props}>{element}</DefaultLayout>;
   }
   if ((props.pageContext as any).frontmatter?.layout === 'fullscreen') {
-    return (
-      <FullscreenLayout
-        {...props}
-      >
-        {element}
-      </FullscreenLayout>
-    );
+    return <FullscreenLayout {...props}>{element}</FullscreenLayout>;
   }
   if ((props.pageContext as any).frontmatter?.layout === '404') {
-    return (
-      <NotFoundLayout
-        {...props}
-      >
-        {element}
-      </NotFoundLayout>
-    );
+    return <NotFoundLayout {...props}>{element}</NotFoundLayout>;
   }
   if ((props.pageContext as any).frontmatter?.layout === 'verify-error') {
-    return (
-      <VerifyErrorLayout
-        {...props}
-      >
-        {element}
-      </VerifyErrorLayout>
-    );
+    return <VerifyErrorLayout {...props}>{element}</VerifyErrorLayout>;
   }
   if (!(props.pageContext as any).frontmatter) {
     return element;
   }
-  return (
-    <MdxLayout
-      {...props}
-    >
-      {element}
-    </MdxLayout>
-  );
-}
+  return <MdxLayout {...props}>{element}</MdxLayout>;
+};

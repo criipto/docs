@@ -56,10 +56,7 @@ import { CriiptoVerifyProvider, useCriiptoVerify } from '@criipto/verify-expo';
 
 export default function App() {
   return (
-    <CriiptoVerifyProvider
-      domain="{{YOUR_CRIIPTO_DOMAIN}}"
-      clientID="{{YOUR_CLIENT_ID}}"
-    >
+    <CriiptoVerifyProvider domain="{{YOUR_CRIIPTO_DOMAIN}}" clientID="{{YOUR_CLIENT_ID}}">
       <View>
         <LoginScreen />
         ...
@@ -110,7 +107,7 @@ In the sample code below we used buttons, but you can choose the appropriate UI 
 export default function LoginScreen() {
   const { login, claims, logout, error } = useCriiptoVerify();
 
-  const handlePress = async (acrValues) => {
+  const handlePress = async acrValues => {
     try {
       const redirectUri = Linking.createURL('/auth/callback');
       const result = await login(acrValues, redirectUri);

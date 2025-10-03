@@ -5,6 +5,7 @@ sort: 6
 title: Finnish Trust Network
 subtitle: Learn more about Finnish Trust Network token contents, how to create test users and how to gain access to production.
 ---
+
 import FtnJwtSnippet from '../../../snippets/jwt-payloads/finnish-trust-network';
 
 ## The FTN Security Requirements
@@ -73,7 +74,7 @@ The code sample below demonstrates creating a Request Object JWT, then building 
 import * as jose from 'jose';
 
 // Generate a signed JWT (Request Object)
-const createSignedRequestObject = async (signingKey) => {
+const createSignedRequestObject = async signingKey => {
   // Define parameters for your authorization request
   const requestObjectPayload = {
     response_mode: 'query',
@@ -209,7 +210,7 @@ const jwks = jose.createRemoteJWKSet(new URL(`https://${CRIIPTO_DOMAIN}/.well-kn
 
 // Initialize the OpenID Configuration Manager to fetch the OIDC discovery document.
 const configurationManager = new OpenIDConfigurationManager(
-  `https://${CRIIPTO_DOMAIN}/.well-known/openid-configuration`
+  `https://${CRIIPTO_DOMAIN}/.well-known/openid-configuration`,
 );
 
 // The /callback route completes the authentication flow, managing the redirect after a user successfully authenticates.
@@ -242,7 +243,7 @@ app.get('/callback', async (req, res) => {
         // The `plaintext` is the original signed JWT.
         const { plaintext: idTokenSignedJwt } = await jose.compactDecrypt(
           id_token,
-          privateKeyForDecryption
+          privateKeyForDecryption,
         );
 
         // 4. Verify the decrypted id_token's signature.
@@ -292,7 +293,7 @@ Same as BankID, except the `satu` property will have a value as well.
 ## Test users
 
 A set list of test users for the different banks are given below. Sometimes the test credentials will be shown also on the actual login page at the bank.
- 
+
 ### Aktia
 
 User name/Käyttäjätunnus: `12345678`<br/>
@@ -308,7 +309,7 @@ PIN code/Tunnusluku: any four numbers<br/>
 ### Danske Bank
 
 Must use your own customer credentials. No real cash is withdrawn from your bank account.
- 
+
 ### Nordea
 
 User ID: choose one of `DEMOUSER1` through `DEMOUSER99`<br/>
@@ -328,6 +329,7 @@ User name/Käyttäjätunnus: `11111111`<br/>
 User name/Käyttäjätunnus: `11111111`<br/>
 
 ### S-Pankki
+
 User name/Käyttäjätunnus: `12345678`<br/>
 Password/Salasana: any numbers<br/>
 PIN code/Tunnusluku: any four numbers<br/>
@@ -335,7 +337,7 @@ PIN code/Tunnusluku: any four numbers<br/>
 ### Hightrust
 
 No known test users.
- 
+
 ### OP / Osuuspankki
 
 User name/Käyttäjätunnus: `123456`<br/>

@@ -7,7 +7,7 @@ import './JwtViewer.css';
 import { JwtHeader, JwtPayload, toSample, tryJwtDecode } from '../samples';
 
 interface Props {
-  jwt?: string
+  jwt?: string;
 }
 export default function JwtViewer(props: Props) {
   const [jwt, setJwt] = useState(props.jwt);
@@ -28,15 +28,11 @@ export default function JwtViewer(props: Props) {
       <div className="decoded">
         <div className="box">
           <strong>Header</strong>
-          {decoded?.header ? (
-            <HeaderViewer header={decoded.header} />
-          ) : null}
+          {decoded?.header ? <HeaderViewer header={decoded.header} /> : null}
         </div>
         <div className="box">
           <strong>Payload</strong>
-          {decoded?.payload ? (
-            <PayloadViewer payload={decoded.payload} />
-          ) : null}
+          {decoded?.payload ? <PayloadViewer payload={decoded.payload} /> : null}
         </div>
       </div>
     </div>

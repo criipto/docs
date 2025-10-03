@@ -1,21 +1,21 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import cx from 'classnames';
 
 export interface PageNavigationItem {
-  title: string
-  url: string
-  items?: PageNavigationItem[]
-  onClick?: () => void
+  title: string;
+  url: string;
+  items?: PageNavigationItem[];
+  onClick?: () => void;
 }
 interface Props {
-  items: PageNavigationItem[],
-  title?: string,
-  onNavigate?: () => void,
-  isEmbedded: boolean
+  items: PageNavigationItem[];
+  title?: string;
+  onNavigate?: () => void;
+  isEmbedded: boolean;
 }
 
 export function PageNavigation(props: Props) {
-  const {items, onNavigate} = props;
+  const { items, onNavigate } = props;
   const [active, setActive] = useState<PageNavigationItem | null>(null);
 
   const handleClick = (event: React.MouseEvent, item: PageNavigationItem) => {
@@ -26,11 +26,11 @@ export function PageNavigation(props: Props) {
     if (onNavigate) {
       onNavigate();
     }
-  }
+  };
 
   const determineActive = useCallback(() => {
     const halfway = window.innerHeight / 2;
-    let active : [PageNavigationItem, number] | null = null;
+    let active: [PageNavigationItem, number] | null = null;
 
     items.forEach(item => {
       if (item.url?.startsWith('#')) {
@@ -42,13 +42,13 @@ export function PageNavigation(props: Props) {
           active = [item, value];
           return;
         }
-        
+
         if (value < active[1]) {
           active = [item, value];
         }
       }
     });
-    
+
     setActive(active ? active[0] : null);
   }, [items]);
 
@@ -66,7 +66,9 @@ export function PageNavigation(props: Props) {
 
   return (
     <React.Fragment>
-      <h5 className="uppercase text-gray-ash-500 font-semibold mb-4 text-md leading-6">{props.title || 'On this page'} </h5>
+      <h5 className="uppercase text-gray-ash-500 font-semibold mb-4 text-md leading-6">
+        {props.title || 'On this page'}{' '}
+      </h5>
       <ul className="text-deep-purple-900 text-md leading-6">
         {items.map(item => (
           <React.Fragment key={item.title}>
@@ -74,7 +76,7 @@ export function PageNavigation(props: Props) {
               <a
                 href={item.url}
                 className={`group flex items-start block py-1 hover:font-bold ${active === item ? 'font-bold' : ''}`}
-                onClick={(event) => handleClick(event, item)}
+                onClick={event => handleClick(event, item)}
               >
                 {item.title}
               </a>
@@ -84,10 +86,21 @@ export function PageNavigation(props: Props) {
                 <a
                   href={sub.url}
                   className={`group flex items-start block py-1 hover:font-bold ${active === sub ? 'font-bold' : ''}`}
-                  onClick={(event) => handleClick(event, sub)}
+                  onClick={event => handleClick(event, sub)}
                 >
-                  <svg width="3" height="24" viewBox="0 -9 3 24" className="mr-2 overflow-visible group-hover:font-bold">
-                    <path d="M0 0L3 3L0 6" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"></path>
+                  <svg
+                    width="3"
+                    height="24"
+                    viewBox="0 -9 3 24"
+                    className="mr-2 overflow-visible group-hover:font-bold"
+                  >
+                    <path
+                      d="M0 0L3 3L0 6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    ></path>
                   </svg>
                   {sub.title}
                 </a>
@@ -102,14 +115,13 @@ export function PageNavigation(props: Props) {
 
 export function DesktopPageNavigation(props: Props) {
   return (
-    <div className={cx(
-      'fixed z-20 bottom-0 w-[19.5rem] px-8 overflow-y-auto hidden xl:block',
-      {
+    <div
+      className={cx('fixed z-20 bottom-0 w-[19.5rem] px-8 overflow-y-auto hidden xl:block', {
         'top-[3.8125rem] right-[max(0px,calc(50%-768px))] py-10': !props.isEmbedded,
-        'top-0 right-0': props.isEmbedded
-      }
-    )}>
+        'top-0 right-0': props.isEmbedded,
+      })}
+    >
       <PageNavigation {...props} />
     </div>
-  )
+  );
 }

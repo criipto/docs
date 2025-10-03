@@ -9,11 +9,11 @@ subtitle: Learn how Criipto Signatures handles your documents securely and safel
 ## Default document lifecycle
 
 - **Signature order is created:** When you create a signature order with `createSignatureOrder`, you send along document blobs with it. Upon receiving the order, we validate and encrypt it, then store it on Azure servers.
-- **Signatory signs:** Whenever a signatory needs to sign a document, we download and decrypt it to show it to the user. 
-Once the user signs, we embed the signatory evidence (usually eID claims returned by Criipto Verify) inside the PDF and seal it with Criipto's AATL certificate.
-After sealing the PDF, we encrypt it again and store it on Azure servers, ready for the next person to sign.
+- **Signatory signs:** Whenever a signatory needs to sign a document, we download and decrypt it to show it to the user.
+  Once the user signs, we embed the signatory evidence (usually eID claims returned by Criipto Verify) inside the PDF and seal it with Criipto's AATL certificate.
+  After sealing the PDF, we encrypt it again and store it on Azure servers, ready for the next person to sign.
 - **Signature order is closed:** Upon closing a signature order, we apply a final document timestamp to the PDF to ensure that the data inside is valid for multiple years.
-You should always request document blobs as part of the close response, as this is the last time they will be available. After closing the order, the documents will be deleted from Criipto's servers.
+  You should always request document blobs as part of the close response, as this is the last time they will be available. After closing the order, the documents will be deleted from Criipto's servers.
 
 You can download your document from the Criipto Signatures API at any point **up until after `closeSignatureOrder` is called**.
 
@@ -34,4 +34,15 @@ The `cleanupSignatureOrder` is idempotent. So if you're ever uncertain about whe
 import GraphQLExample from '../../../components/GraphQLExample';
 import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
 
-<GraphQLExample example={{query: closeSignatureOrderExample.query, variables: (data) => ({...closeSignatureOrderExample.variables(data), input: {...closeSignatureOrderExample.variables(data).input, retainDocumentsForDays: 1}})}} />
+<GraphQLExample
+  example={{
+    query: closeSignatureOrderExample.query,
+    variables: data => ({
+      ...closeSignatureOrderExample.variables(data),
+      input: {
+        ...closeSignatureOrderExample.variables(data).input,
+        retainDocumentsForDays: 1,
+      },
+    }),
+  }}
+/>

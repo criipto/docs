@@ -1,6 +1,6 @@
-import { AddSignatoryInput } from "../../../graphql-signatures-types";
-import { ExampleData } from "../../state/store";
-import * as basic from "./basic.graphql";
+import { AddSignatoryInput } from '../../../graphql-signatures-types';
+import { ExampleData } from '../../state/store';
+import * as basic from './basic.graphql';
 
 export const query = basic.query;
 export const variables = (data: ExampleData): { input: AddSignatoryInput } => ({
@@ -13,12 +13,12 @@ export const variables = (data: ExampleData): { input: AddSignatoryInput } => ({
           "[signatureOrder.evidenceProviders['CriiptoVerifySignatureEvidenceProvider'].id]",
         criiptoVerify: {
           acrValues: [
-            "urn:grn:authn:dk:mitid:substantial",
-            "urn:grn:authn:se:bankid:another-device:qr",
-            "urn:grn:authn:no:bankid:substantial",
+            'urn:grn:authn:dk:mitid:substantial',
+            'urn:grn:authn:se:bankid:another-device:qr',
+            'urn:grn:authn:no:bankid:substantial',
           ],
-          message: "signatory message",
-          loginHint: "signatory login hint",
+          message: 'signatory message',
+          loginHint: 'signatory login hint',
         },
       },
     ],

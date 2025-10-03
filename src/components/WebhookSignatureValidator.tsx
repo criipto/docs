@@ -1,18 +1,18 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
-function bytesToBase64(bytes: Uint8Array ) {
+function bytesToBase64(bytes: Uint8Array) {
   var binary = '';
   var len = bytes.byteLength;
   for (var i = 0; i < len; i++) {
-      binary += String.fromCharCode( bytes[ i ] );
+    binary += String.fromCharCode(bytes[i]);
   }
-  return window.btoa( binary );
+  return window.btoa(binary);
 }
-function base64ToBytes(base64: string) : Uint8Array {
+function base64ToBytes(base64: string): Uint8Array {
   var binaryString = window.atob(base64);
   var bytes = new Uint8Array(binaryString.length);
   for (var i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
+    bytes[i] = binaryString.charCodeAt(i);
   }
   return bytes;
 }
@@ -30,14 +30,22 @@ export default function WebhookSignatureValidator() {
     if (!signature?.length) return;
 
     const encoder = new TextEncoder();
-    const key = await window.crypto.subtle.importKey('raw', base64ToBytes(secret), {
-      name: 'hmac',
-      hash: 'SHA-256'
-    }, false, ['sign'])
+    const key = await window.crypto.subtle.importKey(
+      'raw',
+      base64ToBytes(secret),
+      {
+        name: 'hmac',
+        hash: 'SHA-256',
+      },
+      false,
+      ['sign'],
+    );
 
-    const actual = await window.crypto.subtle.sign('HMAC', key, encoder.encode(body)).then(r => bytesToBase64(new Uint8Array(r)));
+    const actual = await window.crypto.subtle
+      .sign('HMAC', key, encoder.encode(body))
+      .then(r => bytesToBase64(new Uint8Array(r)));
     setValid(actual === signature);
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="max-w-[550px]">
@@ -52,7 +60,7 @@ export default function WebhookSignatureValidator() {
             type="text"
             placeholder="Webhook secret"
             value={secret}
-            onChange={(event) => setSecret(event.target.value)}
+            onChange={event => setSecret(event.target.value)}
             required
           />
         </div>
@@ -65,7 +73,7 @@ export default function WebhookSignatureValidator() {
             id="body"
             placeholder="Request body"
             value={body}
-            onChange={(event) => setBody(event.target.value)}
+            onChange={event => setBody(event.target.value)}
             required
           />
         </div>
@@ -79,7 +87,7 @@ export default function WebhookSignatureValidator() {
             type="text"
             placeholder="Signature"
             value={signature}
-            onChange={(event) => setSignature(event.target.value)}
+            onChange={event => setSignature(event.target.value)}
             required
           />
         </div>
@@ -89,7 +97,10 @@ export default function WebhookSignatureValidator() {
           <strong>Signature {valid ? 'valid' : 'not valid'}</strong>
         </div>
       ) : null}
-      <button className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+      <button
+        className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit"
+      >
         Validate
       </button>
     </form>

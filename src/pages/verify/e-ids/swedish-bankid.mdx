@@ -5,8 +5,9 @@ sort: 0
 title: Swedish BankID
 subtitle: Learn more about Swedish BankID token contents, how to create test users and how to gain access to production.
 ---
+
 import JwtPayloadViewer from '../../../components/JwtPayloadViewer';
-import SwedishBankIdJwtSnippet from '../../../snippets/jwt-payloads/swedish-bankid'
+import SwedishBankIdJwtSnippet from '../../../snippets/jwt-payloads/swedish-bankid';
 
 ## JWT/Token example
 
@@ -20,21 +21,19 @@ This can be done by adding `scope=openid evidence` (or `login_hint=scope:evidenc
 With this configuration, the issued JWT will contain two additional claims: `evidence` and `ocspResponse`:
 
 <JwtPayloadViewer
-  payload={
-    {
-      "identityscheme": "sebankid",
-      "nameidentifier": "1373c272b61a4cb588b29c44883fe62f",
-      "sub": "{1373c272-b61a-4cb5-88b2-9c44883fe62f}",
-      "ssn": "196802020575",
-      "name": "Terne Paulsen",
-      "given_name": "Terne",
-      "family_name": "Paulsen",
-      "ipaddress": "77.241.128.160",
-      "country": "SE",
-      "evidence": "PD94bWwgdmVyc2lvbj0i...5hdHVyZT4=",
-      "ocspResponse": "MIIHdgoBAKCCB28wggdrBgk...uSbCquVT1J",
-    }
-  }
+  payload={{
+    identityscheme: 'sebankid',
+    nameidentifier: '1373c272b61a4cb588b29c44883fe62f',
+    sub: '{1373c272-b61a-4cb5-88b2-9c44883fe62f}',
+    ssn: '196802020575',
+    name: 'Terne Paulsen',
+    given_name: 'Terne',
+    family_name: 'Paulsen',
+    ipaddress: '77.241.128.160',
+    country: 'SE',
+    evidence: 'PD94bWwgdmVyc2lvbj0i...5hdHVyZT4=',
+    ocspResponse: 'MIIHdgoBAKCCB28wggdrBgk...uSbCquVT1J',
+  }}
 />
 
 _The full content of `evidence` and `ocspResponse` is omitted for brevity._
@@ -51,9 +50,10 @@ _ With `code id_token` response type, the ID Token from the token endpoint will 
 
 ## Test users
 
-Swedish BankID test users are created at the <a href="https://demo.bankid.com/" target="_blank">Demo Bank web site</a>.   
+Swedish BankID test users are created at the <a href="https://demo.bankid.com/" target="_blank">Demo Bank web site</a>.
 
-For more information on how to configure your device for test and setup test users, see <a href="https://www.bankid.com/en/utvecklare/test/skaffa-testbankid" target="_blank">BankID for test</a>. Follow the steps outlined in the guide: 
+For more information on how to configure your device for test and setup test users, see <a href="https://www.bankid.com/en/utvecklare/test/skaffa-testbankid" target="_blank">BankID for test</a>. Follow the steps outlined in the guide:
+
 1. **Download the app/program.**
 2. **Configure the client for test.**
 3. **Get a BankID for test.** _If you already have a fully-configured production or test BankID, you can use it to create a test user. Otherwise, see below on how to bootstrap the process._
@@ -64,12 +64,12 @@ For more information on how to configure your device for test and setup test use
 
 **Get a BankID for test (without an existing production/test BankID)**
 
-Log in at the <a href="https://demo.bankid.com/login" target="_blank">Demo bank website</a> with a **Personal code** option. The code will be sent to you by email. 
+Log in at the <a href="https://demo.bankid.com/login" target="_blank">Demo bank website</a> with a **Personal code** option. The code will be sent to you by email.
 
 Once logged in, create a test user by selecting **Mobile BankID** or **BankID on file** (for desktop version) option under **Issue BankID for test**. Please note that a test user must be created with a valid Swedish personal identity number ("Personnummer").
-You can generate a valid Personnummer using one of the available online tools, such as <a href="https://fejk.se/" target="_blank">this generator</a>. After creating a test user, you will be able to link it to the mobile or desktop version of the test app. 
+You can generate a valid Personnummer using one of the available online tools, such as <a href="https://fejk.se/" target="_blank">this generator</a>. After creating a test user, you will be able to link it to the mobile or desktop version of the test app.
 
-For future test user issuances, you can log in using an already-issued BankID test user by selecting the **Test BankID** option <a href="https://demo.bankid.com/login" target="_blank">during login</a>. 
+For future test user issuances, you can log in using an already-issued BankID test user by selecting the **Test BankID** option <a href="https://demo.bankid.com/login" target="_blank">during login</a>.
 
 </Highlight>
 
@@ -77,17 +77,20 @@ _Note_ that, as is also described on the website, using test BankID users does r
 
 ## BankID Phone Authentication
 
-<a href="https://www.bankid.com/en/foretag/telephone-identification" target="_blank">BankID in telephone calls</a> facilitates user authentication during a phone call.
+<a href="https://www.bankid.com/en/foretag/telephone-identification" target="_blank">
+  BankID in telephone calls
+</a>
+facilitates user authentication during a phone call.
 
 ### Overview
 
-The Phone authentication flow is designed for scenarios where a user is talking with your customer service agent over the phone, and you need to verify that the caller is who they say they are. 
+The Phone authentication flow is designed for scenarios where a user is talking with your customer service agent over the phone, and you need to verify that the caller is who they say they are.
 This is commonly used when a customer contacts their bank or when a call center agent needs to verify the caller's identity.
 
 #### The process looks as follows:
 
 1. SSN Input: The customer service agent enters the user's personal identification number (SSN) in their system, or the user is prompted to input their SSN via an automated PBX system.
-2. Authentication request: The customer service agent (if applicable) indicates whether the call was initiated by the user or the company they represent, then initiates authentication request. 
+2. Authentication request: The customer service agent (if applicable) indicates whether the call was initiated by the user or the company they represent, then initiates authentication request.
 3. Security check: The Swedish BankID app displays a phone icon and the company’s name, prompting the user with a Yes/No security check question.
 4. User Response: If the user selects Yes, they can proceed by identifying themselves with a security code or biometrics. If the user selects No, they can cancel the identification process.
 
@@ -101,7 +104,7 @@ Criipto Verify facilitates Swedish BankID phone authentication via the [CIBA flo
 
 ### Implementing BankID Phone Authentication
 
-The CIBA flow is only available to traditional server-based web applications (confidential clients) and requires client validation for authentication requests. We'll use [private key JWTs](/verify/guides/privatekey-jwt/) for authenticaiton in the example below. An alternative (*less secure*) approach is to use `client_secret` for authentication.
+The CIBA flow is only available to traditional server-based web applications (confidential clients) and requires client validation for authentication requests. We'll use [private key JWTs](/verify/guides/privatekey-jwt/) for authenticaiton in the example below. An alternative (_less secure_) approach is to use `client_secret` for authentication.
 
 1. Make an `HTTP POST` request to the `/ciba/bc-authorize` endpoint:
 
@@ -127,9 +130,9 @@ scope=openid
 2. A successful response will look something like this:
 
 ```sh
-{ 
+{
   "auth_req_id" : "3857f8ff-21b9-48ae-a732-a3bd8128a7ae",
-  "expires_in" : 120 
+  "expires_in" : 120
 }
 ```
 
@@ -220,7 +223,7 @@ Criipto Verify facilitates Swedish BankID headless authentication via the [Headl
 
 ### Implementing BankID Headless Authentication
 
-The Headless flow is only available to traditional server-based web applications (confidential clients) and requires client validation for authentication requests. We'll use [private key JWTs](/verify/guides/privatekey-jwt/) for authenticaiton in the example below. An alternative (*less secure*) approach is to use `client_secret` for authentication.
+The Headless flow is only available to traditional server-based web applications (confidential clients) and requires client validation for authentication requests. We'll use [private key JWTs](/verify/guides/privatekey-jwt/) for authenticaiton in the example below. An alternative (_less secure_) approach is to use `client_secret` for authentication.
 
 1. `HTTP POST` request to the `/headless/authorize` endpoint:
 
@@ -241,7 +244,7 @@ scope=openid
 2. A successful response will look something like this:
 
 ```sh
-{ 
+{
   "headless_req_id" : "3857f8ff-21b9-48ae-a732-a3bd8128a7ae",
   "expires_in" : 120,
   "acr_data": {
@@ -268,7 +271,6 @@ headless_req_id=HEADLESS_REQ_ID
 ```
 
 _**Polling Frequency:** Bear in mind, that the authentication process requires interacting multiple times with the end-user, so the identification process could take some time. Consequently, the token endpoint should be polled every 5 seconds._
-
 
 4. The result of a poll request will depend on the state of the process:
 
@@ -317,18 +319,19 @@ Text signing is triggered by using the `action` and `message` parameters [via lo
 - The `message` parameter must be base64 encoded and at most 40,000 characters after base64 encoding.
 - The `message` parameter supports markdown text.
 
-*Note: Signing produces very large JWTs that are not appropriate for authentication/Bearer header use*
+_Note: Signing produces very large JWTs that are not appropriate for authentication/Bearer header use_
 
 Text signing has a different eID cost than authentication, please [contact Criipto sales](https://www.criipto.com/contact) if you have questions.
 
 <details>
   <summary><strong>Example</strong></summary>
 
-  ```login_hint=action:sign message:VmVuZG9yOgoKIyMgQ29vbCBEZWxpdmVyeQoKQW1vdW50OgoKIyMgMzAwIEVVUgoKLS0tCgpJIGFwcHJvdmUgdGhpcyB0cmFuc2FjdGlvbi4=```
+`login_hint=action:sign message:VmVuZG9yOgoKIyMgQ29vbCBEZWxpdmVyeQoKQW1vdW50OgoKIyMgMzAwIEVVUgoKLS0tCgpJIGFwcHJvdmUgdGhpcyB0cmFuc2FjdGlvbi4=`
 
-  Try out the example in [our URL builder](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:bankid&action=sign&message=Vendor%3A%0A%0A%23%23%20Cool%20Delivery%0A%0AAmount%3A%0A%0A%23%23%20300%20EUR%0A%0A---%0A%0AI%20approve%20this%20transaction.)
-  
-  ![Text signing in app](./images/se-bankid-signing.jpg)
+Try out the example in [our URL builder](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:bankid&action=sign&message=Vendor%3A%0A%0A%23%23%20Cool%20Delivery%0A%0AAmount%3A%0A%0A%23%23%20300%20EUR%0A%0A---%0A%0AI%20approve%20this%20transaction.)
+
+![Text signing in app](./images/se-bankid-signing.jpg)
+
 </details>
 
 ## Round-tripping data that is not visible to the end user
@@ -343,9 +346,9 @@ Criipto does not attempt to parse or validate the value, we only pass on what is
 <details>
   <summary><strong>Example</strong></summary>
 
-  ```login_hint=nonVisibleData:bm90IHZpc2libGUgdG8gZW5kIHVzZXJzLCBhY2Nlc3NpYmxlIGluIHRoZSBgZXZpZGVuY2VgIGNsYWltIGFmdGVyIGEgZmxvdyBjb21wbGV0ZXMgc3VjY2VzZnVsbHk=```
+`login_hint=nonVisibleData:bm90IHZpc2libGUgdG8gZW5kIHVzZXJzLCBhY2Nlc3NpYmxlIGluIHRoZSBgZXZpZGVuY2VgIGNsYWltIGFmdGVyIGEgZmxvdyBjb21wbGV0ZXMgc3VjY2VzZnVsbHk=`
 
-  Try out the example in [our URL builder](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:bankid&nonVisibleData=Not%20visible%20to%20end%20user)
+Try out the example in [our URL builder](/verify/guides/authorize-url-builder/?acr_values=urn:grn:authn:se:bankid&nonVisibleData=Not%20visible%20to%20end%20user)
 
 </details>
 
@@ -364,4 +367,3 @@ To order the actual certificate simply <a href={template} download>download this
 After Criipto has received the filled out form, we send it to Swedbank where it will be reviewed and typically approved within a few business days.
 
 Once your organization and your intended use of BankID has been approved we will create and install the actual certificate in your Criipto tenant. and you will be ready to continue the process in the [getting ready for production guide](/verify/guides/production).
-

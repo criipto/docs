@@ -66,7 +66,7 @@ The `sub` field is random for each login and cannot be used to correlate the use
 import AuthorizeURLBuilder from '../../../components/AuthorizeURLBuilder';
 
 <AuthorizeURLBuilder
-  acr_values={["urn:age-verification"]}
+  acr_values={['urn:age-verification']}
   login_hint="country:DK"
   scope={['openid', 'is_over_18']}
   quirks={false}
@@ -74,11 +74,11 @@ import AuthorizeURLBuilder from '../../../components/AuthorizeURLBuilder';
 
 ## Optional: use your own MitID service provider
 
-If you prefer to use your own MitID service provider instead of the one provided by Criipto, you have the option to do so. 
+If you prefer to use your own MitID service provider instead of the one provided by Criipto, you have the option to do so.
 
 [During installation](/verify/guides/age-verification/#installation), flip the **Use own MitID** setting to enabled, and then ensure that your Criipto application has allowed `https://{YOUR_CRIIPTO_DOMAIN}/extensions/ext_ageverification/api/callback` as a callback URL.
 ![Extensions Catalogue](./images/age-verification-own-MitID.png)
-*Note: You need to [apply for MitID production access](/verify/e-ids/danish-mitid/#apply-for-production-access) for Age Verification logins **only** if using your own MitID service provider.*
+_Note: You need to [apply for MitID production access](/verify/e-ids/danish-mitid/#apply-for-production-access) for Age Verification logins **only** if using your own MitID service provider._
 
 ## Auditing
 

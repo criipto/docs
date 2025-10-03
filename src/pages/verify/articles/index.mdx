@@ -3,9 +3,9 @@ title: Articles
 subtitle: Articles & help regarding Criipto Verify
 ---
 
-import {isIndexPage} from '../../../utils';
-import {groupBy} from 'lodash';
-import { graphql as gatsbyGraphql, Link } from "gatsby";
+import { isIndexPage } from '../../../utils';
+import { groupBy } from 'lodash';
+import { graphql as gatsbyGraphql, Link } from 'gatsby';
 
 export const pageQuery = gatsbyGraphql`
   query verifyArticles {
@@ -35,19 +35,25 @@ export const pageQuery = gatsbyGraphql`
   }
 `;
 
-
-
 <React.Fragment>
-  {Object.entries(groupBy(props.data.pages.edges.map(edge => edge.node), 'frontmatter.category')).map(([category, pages]) => (
+  {Object.entries(
+    groupBy(
+      props.data.pages.edges.map(edge => edge.node),
+      'frontmatter.category',
+    ),
+  ).map(([category, pages]) => (
     <React.Fragment key={category}>
       <h2>{category}</h2>
       <ul>
-        {pages.filter(node => !isIndexPage(node)).map(node => (
-          <li key={node.id}>
-            <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link><br />
-            {node.frontmatter.subtitle}
-          </li>
-        ))}
+        {pages
+          .filter(node => !isIndexPage(node))
+          .map(node => (
+            <li key={node.id}>
+              <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link>
+              <br />
+              {node.frontmatter.subtitle}
+            </li>
+          ))}
       </ul>
     </React.Fragment>
   ))}

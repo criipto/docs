@@ -1,57 +1,55 @@
-import JwtPayloadViewer from '../../components/JwtPayloadViewer'
+import JwtPayloadViewer from '../../components/JwtPayloadViewer';
 
 <JwtPayloadViewer
-  payload={
-    {
-      "identityscheme": "itsme",
-      "authenticationtype": "urn:grn:authn:itsme:basic",
-      "nameidentifier": "ba36dba1f5c6402ca3008d2abc1ac5b5",
-      "sub": "{ba36dba1-f5c6-402c-a300-8d2abc1ac5b5}",
-      "deviceinfo": {
-        "os": "IOS",
-        "appName": "ItsMe-E2E",
-        "appRelease": "2.4.0",
-        "deviceLabel": "iPhone12,1",
-        "debugEnabled": "false",
-        "deviceID": "9cae3bc120c14c9ab7cce80dc273e653a",
-        "osRelease": "14.2",
-        "manufacturer": "Apple",
-        "hasSimEnabled": null,
-        "deviceLockLevel": "FACE_ID",
-        "smsEnabled": "true",
-        "rooted": "false",
-        "imei": null,
-        "deviceModel": "iPhone",
-        "sdkRelease": ""
-      },
-      "transactioninfo": {
-        "info": null
-      },
-      "placeofbirth": {
-        "city": "Uccle",
-        "country": "BE",
-        "formatted": "Uccle BE"
-      },
-      "birthdate": "1980-01-01",
-      "phone_number_verified": "true",
-      "phone_number": "+32 425010937",
-      "email_verified": "false",
-      "email": "alexandre@dierckx.com",
-      "nationalnumber": "42501093792",
-      "gender": "male",
-      "family_name": "Dierckx",
-      "given_name": "Alexandre",
-      "name": "Alexandre Dierckx",
-      "address": {
-        "formatted": "Havenlaan 1 1000 Brussel BE",
-        "common_name": null,
-        "street_address": "Havenlaan 1",
-        "postal_code": "1000",
-        "city": null,
-        "locality": "Brussel",
-        "region": null,
-        "country": null
-      }
-    }
-  }
+  payload={{
+    identityscheme: 'itsme',
+    authenticationtype: 'urn:grn:authn:itsme:basic',
+    nameidentifier: 'ba36dba1f5c6402ca3008d2abc1ac5b5',
+    sub: '{ba36dba1-f5c6-402c-a300-8d2abc1ac5b5}',
+    deviceinfo: {
+      os: 'IOS',
+      appName: 'ItsMe-E2E',
+      appRelease: '2.4.0',
+      deviceLabel: 'iPhone12,1',
+      debugEnabled: 'false',
+      deviceID: '9cae3bc120c14c9ab7cce80dc273e653a',
+      osRelease: '14.2',
+      manufacturer: 'Apple',
+      hasSimEnabled: null,
+      deviceLockLevel: 'FACE_ID',
+      smsEnabled: 'true',
+      rooted: 'false',
+      imei: null,
+      deviceModel: 'iPhone',
+      sdkRelease: '',
+    },
+    transactioninfo: {
+      info: null,
+    },
+    placeofbirth: {
+      city: 'Uccle',
+      country: 'BE',
+      formatted: 'Uccle BE',
+    },
+    birthdate: '1980-01-01',
+    phone_number_verified: 'true',
+    phone_number: '+32 425010937',
+    email_verified: 'false',
+    email: 'alexandre@dierckx.com',
+    nationalnumber: '42501093792',
+    gender: 'male',
+    family_name: 'Dierckx',
+    given_name: 'Alexandre',
+    name: 'Alexandre Dierckx',
+    address: {
+      formatted: 'Havenlaan 1 1000 Brussel BE',
+      common_name: null,
+      street_address: 'Havenlaan 1',
+      postal_code: '1000',
+      city: null,
+      locality: 'Brussel',
+      region: null,
+      country: null,
+    },
+  }}
 />

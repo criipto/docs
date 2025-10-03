@@ -1,20 +1,19 @@
-
 type AuthMethod = {
-  title: string
-  acrValue: string
-  scopes? : string[]
-}
+  title: string;
+  acrValue: string;
+  scopes?: string[];
+};
 
 type Provider = {
-  title: string
-  authMethods: AuthMethod[]
-  page: string
-}
+  title: string;
+  authMethods: AuthMethod[];
+  page: string;
+};
 
-const dkScopes = ['address', 'ssn']
-const noBankIdScopes = ['email', 'phone', 'address', 'ssn']
-const noVippsScopes = ['email', 'phone', 'address', 'birthdate', 'ssn']
-const personalAusweisScopes = ['odis:Pseudonym', 'odis:Profile1', 'odis:Profile2', 'odis:Profile3']
+const dkScopes = ['address', 'ssn'];
+const noBankIdScopes = ['email', 'phone', 'address', 'ssn'];
+const noVippsScopes = ['email', 'phone', 'address', 'birthdate', 'ssn'];
+const personalAusweisScopes = ['odis:Pseudonym', 'odis:Profile1', 'odis:Profile2', 'odis:Profile3'];
 const frejaIdScopes = [
   'frejaid:email_address',
   'frejaid:all_email_addresses',
@@ -27,27 +26,27 @@ const frejaIdScopes = [
   'frejaid:addresses',
   'frejaid:document',
   'frejaid:photo',
-  'frejaid:document_photo'
-]
+  'frejaid:document_photo',
+];
 
-export const PROVIDERS : Provider[] = [
+export const PROVIDERS: Provider[] = [
   {
     title: 'Finnish Trust Network',
     authMethods: [
       {
         title: 'BankID',
-        acrValue: 'urn:grn:authn:fi:bank-id'
+        acrValue: 'urn:grn:authn:fi:bank-id',
       },
       {
         title: 'Mobile certificate (Mobiilivarmenne)',
-        acrValue: 'urn:grn:authn:fi:mobile-id'
+        acrValue: 'urn:grn:authn:fi:mobile-id',
       },
       {
         title: 'All (Both of the above)',
-        acrValue: 'urn:grn:authn:fi:all'
-      }
+        acrValue: 'urn:grn:authn:fi:all',
+      },
     ],
-    page: '/verify/e-ids/finnish-trust-network'
+    page: '/verify/e-ids/finnish-trust-network',
   },
   {
     title: 'Danish MitID',
@@ -55,95 +54,99 @@ export const PROVIDERS : Provider[] = [
       {
         title: 'Low',
         acrValue: 'urn:grn:authn:dk:mitid:low',
-        scopes: dkScopes
+        scopes: dkScopes,
       },
       {
         title: 'Substantial',
         acrValue: 'urn:grn:authn:dk:mitid:substantial',
-        scopes: dkScopes
+        scopes: dkScopes,
       },
       {
         title: 'MitID Erhverv',
         acrValue: 'urn:grn:authn:dk:mitid:business',
-        scopes: dkScopes
-      }
+        scopes: dkScopes,
+      },
     ],
-    page: '/verify/e-ids/danish-mitid'
+    page: '/verify/e-ids/danish-mitid',
   },
   {
     title: 'Swedish BankID',
     authMethods: [
       {
         title: 'Selector page',
-        acrValue: 'urn:grn:authn:se:bankid'
+        acrValue: 'urn:grn:authn:se:bankid',
       },
       {
         title: 'Same device',
-        acrValue: 'urn:grn:authn:se:bankid:same-device'
+        acrValue: 'urn:grn:authn:se:bankid:same-device',
       },
       {
         title: 'QR Code',
-        acrValue: 'urn:grn:authn:se:bankid:another-device:qr'
-      }
+        acrValue: 'urn:grn:authn:se:bankid:another-device:qr',
+      },
     ],
-    page: '/verify/e-ids/swedish-bankid'
+    page: '/verify/e-ids/swedish-bankid',
   },
   {
     title: 'ItsME',
     authMethods: [
       {
         title: 'Basic',
-        acrValue: 'urn:grn:authn:itsme:basic'
+        acrValue: 'urn:grn:authn:itsme:basic',
       },
       {
         title: 'Advanced',
-        acrValue: 'urn:grn:authn:itsme:advanced'
-      }
+        acrValue: 'urn:grn:authn:itsme:advanced',
+      },
     ],
-    page: '/verify/e-ids/itsme'
+    page: '/verify/e-ids/itsme',
   },
   {
     title: 'Norwegian BankID',
-    authMethods: [{
-      title: 'Norwegian BankID',
-      acrValue: 'urn:grn:authn:no:bankid',
-      scopes: noBankIdScopes
-    },
-    {
-      title: 'Norwegian BankID Biometrics',
-      acrValue: 'urn:grn:authn:no:bankid:substantial',
-      scopes: noBankIdScopes
-    }],
-    page: '/verify/e-ids/norwegian-bankid'
+    authMethods: [
+      {
+        title: 'Norwegian BankID',
+        acrValue: 'urn:grn:authn:no:bankid',
+        scopes: noBankIdScopes,
+      },
+      {
+        title: 'Norwegian BankID Biometrics',
+        acrValue: 'urn:grn:authn:no:bankid:substantial',
+        scopes: noBankIdScopes,
+      },
+    ],
+    page: '/verify/e-ids/norwegian-bankid',
   },
   {
     title: 'Norwegian Vipps',
-    authMethods: [{
-      title: 'Norwegian Vipps',
-      acrValue: 'urn:grn:authn:no:vipps',
-      scopes: noVippsScopes
-    }],
-    page: '/verify/e-ids/norwegian-vipps'
+    authMethods: [
+      {
+        title: 'Norwegian Vipps',
+        acrValue: 'urn:grn:authn:no:vipps',
+        scopes: noVippsScopes,
+      },
+    ],
+    page: '/verify/e-ids/norwegian-vipps',
   },
   {
     title: 'Belgium',
     authMethods: [
       {
         title: 'Verified e-ID',
-        acrValue: 'urn:grn:authn:be:eid:verified'
-      }
+        acrValue: 'urn:grn:authn:be:eid:verified',
+      },
     ],
-    page: '/verify/e-ids/belgian-eid'
+    page: '/verify/e-ids/belgian-eid',
   },
   {
     title: 'Netherlands',
     authMethods: [
       {
         title: 'iDIN',
-        acrValue: 'urn:grn:authn:nl:idin'
-      }
+        acrValue: 'urn:grn:authn:nl:idin',
+      },
     ],
-    page: '/verify/e-ids/dutch-idin'
+    page: '/verify/e-ids/dutch-idin',
   },
   {
     title: 'German Personalausweis',
@@ -151,10 +154,10 @@ export const PROVIDERS : Provider[] = [
       {
         title: 'German Personalausweis',
         acrValue: 'urn:grn:authn:de:personalausweis',
-        scopes: personalAusweisScopes
-      }
+        scopes: personalAusweisScopes,
+      },
     ],
-    page: '/verify/e-ids/german-personalausweis'
+    page: '/verify/e-ids/german-personalausweis',
   },
   {
     title: 'Swedish FrejaID',
@@ -162,10 +165,10 @@ export const PROVIDERS : Provider[] = [
       {
         title: 'Swedish FrejaID',
         acrValue: 'urn:grn:authn:se:frejaid',
-        scopes: frejaIdScopes
-      }
+        scopes: frejaIdScopes,
+      },
     ],
-    page: '/verify/e-ids/frejaid'
+    page: '/verify/e-ids/frejaid',
   },
   {
     title: 'Age verification',
@@ -173,14 +176,9 @@ export const PROVIDERS : Provider[] = [
       {
         title: 'Age verification',
         acrValue: 'urn:age-verification',
-        scopes: [
-          'is_over_15',
-          'is_over_16',
-          'is_over_18',
-          'is_over_21'
-        ]
-      }
+        scopes: ['is_over_15', 'is_over_16', 'is_over_18', 'is_over_21'],
+      },
     ],
-    page: '/verify/guides/age-verification/'
-  }
+    page: '/verify/guides/age-verification/',
+  },
 ];

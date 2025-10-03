@@ -2,7 +2,7 @@ import {
   BatchSignatoryItemInput,
   CreateBatchSignatoryInput,
   Language,
-} from "../../../graphql-signatures-types";
+} from '../../../graphql-signatures-types';
 
 export const query = /* Signatures GraphQL */ `
 mutation examplesCreateBatchSignatory(
@@ -33,18 +33,18 @@ export const variables = (data?: {
 }): { input: CreateBatchSignatoryInput } => {
   const batchItems = data?.signatories ?? [
     {
-      signatoryId: "[signatoryA.id]",
-      signatureOrderId: "[signatureOrderA.id]",
+      signatoryId: '[signatoryA.id]',
+      signatureOrderId: '[signatureOrderA.id]',
     },
     {
-      signatoryId: "[signatoryB.id]",
-      signatureOrderId: "[signatureOrderB.id]",
+      signatoryId: '[signatoryB.id]',
+      signatureOrderId: '[signatureOrderB.id]',
     },
   ];
   return {
     input: {
       ui: {
-        signatoryRedirectUri: "https://example.com",
+        signatoryRedirectUri: 'https://example.com',
         language: Language.SV_SE,
       },
       items: batchItems,

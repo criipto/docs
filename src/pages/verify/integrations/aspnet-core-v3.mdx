@@ -34,7 +34,7 @@ Once your application is registered, the dashboard will contain the necessary de
 
 ### Register callback URLs
 
-Before you can start sending authentication requests to Criipto Verify you need to register the URLs on which you want to receive the returned *JSON Web Token*, JWT.
+Before you can start sending authentication requests to Criipto Verify you need to register the URLs on which you want to receive the returned _JSON Web Token_, JWT.
 
 The Callback URL of your application is the URL where Criipto Verify will redirect to after the user has authenticated in order for the OpenID Connect ASP.NET middleware to complete the authentication process.
 
@@ -45,9 +45,10 @@ https://localhost:5001/callback
 http://localhost:5000/callback
 https://localhost:5001/signout
 http://localhost:5000/signout
-``` 
+```
 
 If you deploy your application to a different URL, you will need to add that URL to the Callback URLs as well.
+
 ## Configure OAuth2 Code Flow
 
 import CodeFlowSnippet from '../../../snippets/oauth2-code-flow.mdx';
@@ -191,7 +192,7 @@ public async Task Logout()
     // Remove authnetication cookies
     await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 }
-``` 
+```
 
 ### Test users
 
@@ -226,6 +227,7 @@ This section demonstrates how to migrate ASP.NET Core v2.x [sample from GitHub](
 Before proceeding, make sure you have the appropriate ASP.NET Core 3.1 SDK.
 
 The following steps are required to complete your first test login:
+
 1. [Modify aspnetcore-oidc project file](#modify-aspnetcore-oidc-project-file)
 2. [Restore dependencies](#restore-dependencies)
 3. [Modify Startup.cs file](#modify-startupcs-file)
@@ -234,21 +236,24 @@ The following steps are required to complete your first test login:
 
 1. Change the `TargetFramework` from `netcoreapp2.2` to `netcoreapp3.1`.
 2. Remove the following line from the `PropertyGroup`
-  ``` xml
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-  ```
+
+```xml
+  <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+```
 
 3. Remove following `PackageReference` entries from `ItemGroup`
-  ``` xml
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-  ```
+
+```xml
+  <PackageReference Include="Microsoft.AspNetCore.App" />
+  <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+```
 
 3. Add following `PackageReference` entries to the `ItemGroup`
-  ``` xml
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.1" />
-  ```
+
+```xml
+  <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+  <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="3.1.1" />
+```
 
 ### Restore dependencies
 
@@ -262,35 +267,43 @@ Run the following command:
 
 ### Modify Startup.cs file
 
-1. In the `ConfigureServices` method, remove the `SetCompatibilityVersion` method. Change the line 
-  ``` cs
-    services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-  ```  
-  into 
-  ``` cs
-    services.AddMvc();
-  ```
+1. In the `ConfigureServices` method, remove the `SetCompatibilityVersion` method. Change the line
+
+```cs
+  services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+```
+
+into
+
+```cs
+  services.AddMvc();
+```
 
 2. In the `Configure` method, change the second argument's type from `IHostingEnvironment` to `IWebHostEnvironment`.
 3. Add the following `using`
-  ``` cs
-    using Microsoft.Extensions.Hosting;
-  ```
+
+```cs
+  using Microsoft.Extensions.Hosting;
+```
+
 4. Add `app.UseRouting();` before `app.UseAuthentication();`.
 5. Add `app.UseAuthorization();` after `app.UseAuthentication();`.
 6. Replace the following code from the `Configure` method
-  ``` cs
-    app.UseMvc(routes =>
-    {
-        routes.MapRoute(
-            name: "default",
-            template: "{controller=Home}/{action=Index}/{id?}");
-    });
-  ```
-  with
-  ``` cs
-    app.UseEndpoints(routes =>
-    {
-        routes.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-    });
-  ```
+
+```cs
+  app.UseMvc(routes =>
+  {
+      routes.MapRoute(
+          name: "default",
+          template: "{controller=Home}/{action=Index}/{id?}");
+  });
+```
+
+with
+
+```cs
+  app.UseEndpoints(routes =>
+  {
+      routes.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+  });
+```

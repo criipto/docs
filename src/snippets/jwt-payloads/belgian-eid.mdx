@@ -1,40 +1,39 @@
-import JwtPayloadViewer from '../../components/JwtPayloadViewer'
+import JwtPayloadViewer from '../../components/JwtPayloadViewer';
 
 <JwtPayloadViewer
-  payload={
-    {
-      "identityscheme": "beeid",
-      "nameidentifier": "fb293a1749ea44e2831f51388450628f",
-      "sub": "{fb293a17-49ea-44e2-831f-51388450628f}",
-      "address": {
-        "street_address": "Specimenstraat 12",
-        "postal_code": "1000",
-        "locality": "Brussel"
-      },
-      "personalinformation": {
-        "card_number": "000000803177",
-        "card_validity_date_from": "2020-08-03",
-        "card_validity_date_to": "2030-08-03",
-        "card_delivered_in_town": "Brussel",
-        "name": "Specimen",
-        "two_given_first_names": "Nora Angèle",
-        "first_letter_of_3rd_given_name": "",
-        "nationality": "BELG",
-        "birth_location": "Leuven",
-        "birth_date": "2001-05-03",
-        "gender": "F",
-        "noble_condition": "",
-        "document_type": "1",
-        "special_status": "0"
-      },
-      "pinverified": "true",
-      "name": "Nora Angèle Specimen",
-      "family_name": "Specimen",
-      "surname": "Specimen",
-      "given_name": "Nora Angèle",
-      "givenname": "Nora Angèle",
-      "nationalnumber": "01050399864",
-      "picture": "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"
-    }
-  }
+  payload={{
+    identityscheme: 'beeid',
+    nameidentifier: 'fb293a1749ea44e2831f51388450628f',
+    sub: '{fb293a17-49ea-44e2-831f-51388450628f}',
+    address: {
+      street_address: 'Specimenstraat 12',
+      postal_code: '1000',
+      locality: 'Brussel',
+    },
+    personalinformation: {
+      card_number: '000000803177',
+      card_validity_date_from: '2020-08-03',
+      card_validity_date_to: '2030-08-03',
+      card_delivered_in_town: 'Brussel',
+      name: 'Specimen',
+      two_given_first_names: 'Nora Angèle',
+      first_letter_of_3rd_given_name: '',
+      nationality: 'BELG',
+      birth_location: 'Leuven',
+      birth_date: '2001-05-03',
+      gender: 'F',
+      noble_condition: '',
+      document_type: '1',
+      special_status: '0',
+    },
+    pinverified: 'true',
+    name: 'Nora Angèle Specimen',
+    family_name: 'Specimen',
+    surname: 'Specimen',
+    given_name: 'Nora Angèle',
+    givenname: 'Nora Angèle',
+    nationalnumber: '01050399864',
+    picture:
+      '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',
+  }}
 />

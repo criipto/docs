@@ -3,17 +3,17 @@ import nodejs from '!!raw-loader!./displayDocumentID.node.ts';
 import { Example } from '../misc';
 import { query, variables } from './displayDocumentID.graphql';
 
-const example : Example[] = [
+const example: Example[] = [
   {
     query,
-    variables
+    variables,
   },
   {
-    csharp
+    csharp,
   },
   {
-    nodejs
-  }
+    nodejs,
+  },
 ];
 
 export default example;

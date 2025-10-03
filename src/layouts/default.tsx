@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react';
 import cx from 'classnames';
 
-import {DesktopNavigation, MobileNavigation} from '../components/Navigation';
+import { DesktopNavigation, MobileNavigation } from '../components/Navigation';
 import Header from '../components/Header';
 import { PageNavigationItem } from '../components/PageNavigation';
 import { Link } from 'gatsby';
@@ -11,19 +11,20 @@ function upperFirst(input: string) {
   return input.substr(0, 1).toUpperCase() + input.substr(1);
 }
 
-
 export default function DefaultLayout(props: {
-  children: React.ReactNode,
-  location: Location,
-  pageContext: any,
-  pageNavigationItems?: PageNavigationItem[]
+  children: React.ReactNode;
+  location: Location;
+  pageContext: any;
+  pageNavigationItems?: PageNavigationItem[];
 }) {
-  const {frontmatter} = props.pageContext;
+  const { frontmatter } = props.pageContext;
   const description = frontmatter?.description || frontmatter?.subtitle;
-  const suffix = 
-    frontmatter?.title === 'Criipto Documentation' ? '' :
-    frontmatter?.product ? ` - Criipto ${upperFirst(frontmatter.product)} Documentation` :
-    ' - Criipto Documentation';
+  const suffix =
+    frontmatter?.title === 'Criipto Documentation'
+      ? ''
+      : frontmatter?.product
+        ? ` - Criipto ${upperFirst(frontmatter.product)} Documentation`
+        : ' - Criipto Documentation';
 
   const isEmbedded = props.pageContext?.isEmbedded;
   const category = frontmatter?.category ? ` - ${frontmatter.category}` : '';
@@ -36,32 +37,40 @@ export default function DefaultLayout(props: {
     window.parent.postMessage(`height:${document.body.offsetHeight}`, '*');
   }, [isEmbedded]);
 
-  const breadcrumb = 
-    props.location.pathname.startsWith('/verify/articles') ? {href: '/verify/articles', label: 'Articles'} :
-    props.location.pathname.startsWith('/signatures/articles') ? {href: '/signatures/articles', label: 'Articles'} : null
+  const breadcrumb = props.location.pathname.startsWith('/verify/articles')
+    ? { href: '/verify/articles', label: 'Articles' }
+    : props.location.pathname.startsWith('/signatures/articles')
+      ? { href: '/signatures/articles', label: 'Articles' }
+      : null;
 
   return (
     <div>
       {/** todo: fix, use Gatsby replacement for helmet */}
       <head>
         <meta charSet="utf-8" />
-        {title && (<title>{title}</title>)}
+        {title && <title>{title}</title>}
         <link rel="canonical" href={`https://docs.criipto.com${props.location.pathname}`} />
-        {description && (<meta name="description" content={description} />)}
+        {description && <meta name="description" content={description} />}
       </head>
 
       <Header path={props.location.pathname} className={isEmbedded ? 'hidden' : ''} />
-      <MobileNavigation key="mobileNav" path={props.location.pathname}  frontmatter={frontmatter} pageNavigationItems={props.pageNavigationItems} isEmbedded={isEmbedded} />
+      <MobileNavigation
+        key="mobileNav"
+        path={props.location.pathname}
+        frontmatter={frontmatter}
+        pageNavigationItems={props.pageNavigationItems}
+        isEmbedded={isEmbedded}
+      />
       <div
         className={cx({
-          'px-4 sm:px-6 md:px-8': !isEmbedded
+          'px-4 sm:px-6 md:px-8': !isEmbedded,
         })}
         key="content"
-      > 
+      >
         <div
-          className={cx(
-            {'mx-auto max-w-screen-2xl pt-5 lg:pt-10 lg:pl-[22rem] xl:pr-[22rem]': !isEmbedded}
-          )}
+          className={cx({
+            'mx-auto max-w-screen-2xl pt-5 lg:pt-10 lg:pl-[22rem] xl:pr-[22rem]': !isEmbedded,
+          })}
         >
           <DesktopNavigation key="desktopNav" path={props.location.pathname} hidden={isEmbedded} />
           <a id="overview" />
@@ -79,14 +88,20 @@ export default function DefaultLayout(props: {
                     {frontmatter.category}
                   </p>
                 )}
-                <h1 className="inline-block text-display-xl font-medium text-deep-purple-900 tracking-tight">{frontmatter.title}</h1>
+                <h1 className="inline-block text-display-xl font-medium text-deep-purple-900 tracking-tight">
+                  {frontmatter.title}
+                </h1>
               </div>
-              {!isEmbedded && frontmatter.subtitle && (<p className="mt-2 text-lg text-gray-ash-700 max-w-screen-sm">{frontmatter.subtitle}</p>)}
+              {!isEmbedded && frontmatter.subtitle && (
+                <p className="mt-2 text-lg text-gray-ash-700 max-w-screen-sm">
+                  {frontmatter.subtitle}
+                </p>
+              )}
             </header>
           )}
           {props.children}
         </div>
       </div>
     </div>
-  )
+  );
 }

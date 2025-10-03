@@ -1,7 +1,13 @@
 import React, { useMemo } from 'react';
 import MdxLayout from './mdx';
 
-export default function VerifyErrorLayout(props: {children: React.ReactNode, location: Location, pageContext: any, path: string, pageResources: any}) {
+export default function VerifyErrorLayout(props: {
+  children: React.ReactNode;
+  location: Location;
+  pageContext: any;
+  path: string;
+  pageResources: any;
+}) {
   const searchParams = useMemo(() => new URLSearchParams(props.location.search), [props.location]);
   const traceId = searchParams.get('trace_id');
   return (

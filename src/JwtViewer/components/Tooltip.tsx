@@ -3,7 +3,7 @@ import React from 'react';
 import './Tooltip.css';
 
 interface Props {
-  tooltip: string | React.ReactElement
+  tooltip: string | React.ReactElement;
 }
 export default function Tooltip(props: Props) {
   return (
@@ -11,5 +11,5 @@ export default function Tooltip(props: Props) {
       {props.tooltip}
       <div className="arrow" />
     </div>
-  )
+  );
 }

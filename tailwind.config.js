@@ -1,12 +1,10 @@
 const colors = require('tailwindcss/colors');
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     colors: {
       ...colors,
-      blue: "#204C82",
+      blue: '#204C82',
       transparent: 'transparent',
       white: '#FFFFFF',
       black: '#000000',
@@ -19,7 +17,7 @@ module.exports = {
         400: '#A499FF',
         500: '#8477F2',
         600: '#604FED',
-        'brand': '#604FED',
+        brand: '#604FED',
         700: '#5648CE',
         800: '#473CA6',
         900: '#3B337E',
@@ -36,7 +34,7 @@ module.exports = {
         700: '#62437D',
         800: '#4D3661',
         900: '#362644',
-        'brand': '#362644',
+        brand: '#362644',
       },
       'gray-ash': {
         25: '#F5F8FD',
@@ -45,20 +43,20 @@ module.exports = {
         200: '#D3D9E4',
         300: '#C1C8D6',
         400: '#8B94A6',
-        'brand': '#8B94A6',
+        brand: '#8B94A6',
         500: '#647185',
         600: '#475467',
         700: '#344054',
         800: '#1D2939',
         900: '#101828',
       },
-      'umbra': {
+      umbra: {
         25: '#FCF6F4',
         50: '#FCEFEA',
         100: '#F9E2DA',
         200: '#F4CCBD',
         300: '#E4A48B',
-        'brand': '#E4A48B',
+        brand: '#E4A48B',
         400: '#D98D6E',
         500: '#CD7B5B',
         600: '#BE6644',
@@ -66,14 +64,14 @@ module.exports = {
         800: '#863819',
         900: '#732405',
       },
-      'terracotta': {
+      terracotta: {
         25: '#FCF6F4',
         50: '#FAEEEF',
         100: '#F5E1E2',
         200: '#EBCED0',
         300: '#D8B3B5',
         400: '#C9A3A5',
-        'brand': '#C9A3A5',
+        brand: '#C9A3A5',
         500: '#B28183',
         600: '#A47375',
         700: '#915E60',
@@ -86,7 +84,7 @@ module.exports = {
         100: '#E0E2F1',
         200: '#D5D9EB',
         300: '#BABCD7',
-        'brand': '#BABCD7',
+        brand: '#BABCD7',
         400: '#767AB6',
         500: '#898DBD',
         600: '#3E4784',
@@ -94,11 +92,11 @@ module.exports = {
         800: '#293056',
         900: '#101323',
       },
-      'warning': {
+      warning: {
         25: '#FBFBF0',
         50: '#F8F7D3',
         100: '#F4F3A5',
-        'brand': '#F4F3A5',
+        brand: '#F4F3A5',
         200: '#FFF382',
         300: '#DED850',
         400: '#D0C92C',
@@ -108,7 +106,7 @@ module.exports = {
         800: '#665600',
         900: '#665600',
       },
-      'error': {
+      error: {
         25: '#FFFBFA',
         50: '#FEF3F2',
         100: '#FEE4E2',
@@ -117,42 +115,42 @@ module.exports = {
         400: '#F97066',
         500: '#F13A3A',
         600: '#dd3434',
-        'brand': '#dd3434',
+        brand: '#dd3434',
         700: '#B42318',
         800: '#912018',
         900: '#7A271A',
       },
-      'success': {
+      success: {
         25: '#F6FEF6',
         50: '#ECFDEC',
         100: '#D2FAD1',
         200: '#A5F8A7',
         300: '#77EA79',
         400: '#00e043',
-        'brand': '#00e043',
+        brand: '#00e043',
         500: '#57B659',
         600: '#449945',
         700: '#017B32',
         800: '#2A5F2B',
         900: '#054F31',
-      }
+      },
     },
     extend: {
       typography: {
         DEFAULT: {
           css: {
             h2: {
-              "margin-bottom": "0.6666666666666666em"
+              'margin-bottom': '0.6666666666666666em',
             },
-            color: '#334259'
-          }
-        }
+            color: '#334259',
+          },
+        },
       },
       fontSize: {
-        'xs': ['.75rem', '1.125rem'],
-        'md': ['.875rem', '1.25rem'],
-        'lg': ['1rem', '1.5rem'],
-        'xl': ['1.125rem', '1.75rem'],
+        xs: ['.75rem', '1.125rem'],
+        md: ['.875rem', '1.25rem'],
+        lg: ['1rem', '1.5rem'],
+        xl: ['1.125rem', '1.75rem'],
         'display-xs': ['1.25rem', '1.875rem'],
         'display-sm': ['1.5rem', '2rem'],
         'display-md': ['1.875rem', '2.375rem'],
@@ -162,11 +160,9 @@ module.exports = {
         'display-3xl': ['4.5rem', '5.625rem'],
       },
       fontFamily: {
-        sans: 'IBM Plex Sans'
-      }
-    }
+        sans: 'IBM Plex Sans',
+      },
+    },
   },
-  plugins: [
-    require('@tailwindcss/typography'),
-  ],
-}
+  plugins: [require('@tailwindcss/typography')],
+};

@@ -1,27 +1,46 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import GraphQLExplorer from './GraphQLExplorer';
 
 import { useAppDispatch, useAppSelector } from '../state/hooks';
-import { GraphQLExample, Example, toExampleDisplay, toExampleLanguage, ExampleLanguage } from '../examples/misc';
+import {
+  GraphQLExample,
+  Example,
+  toExampleDisplay,
+  toExampleLanguage,
+  ExampleLanguage,
+} from '../examples/misc';
 import { Code } from './MdxProvider';
 import { setLanguage } from '../state/store';
 
 interface Props {
-  example: Example[] | GraphQLExample
+  example: Example[] | GraphQLExample;
 }
 
-function HideableCodeBlock(props: {text: string, className?: string, style?: React.CSSProperties}) {
+function HideableCodeBlock(props: {
+  text: string;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
   const [hasHiddenCode, setCodeHidden] = useState(false);
   return (
-    <pre className={`${props.className} pb-8 relative ${hasHiddenCode ? 'h-[43px] overflow-hidden' : ''}`} style={props.style}>
+    <pre
+      className={`${props.className} pb-8 relative ${hasHiddenCode ? 'h-[43px] overflow-hidden' : ''}`}
+      style={props.style}
+    >
       <code>{props.text}</code>
       <div className="absolute top-1 right-1">
         {hasHiddenCode ? (
-          <button className="text-white border rounded border-white py-1 px-4" onClick={() => setCodeHidden(false)}>
+          <button
+            className="text-white border rounded border-white py-1 px-4"
+            onClick={() => setCodeHidden(false)}
+          >
             Show
           </button>
         ) : (
-          <button className="text-white border rounded border-white py-1 px-4" onClick={() => setCodeHidden(true)}>
+          <button
+            className="text-white border rounded border-white py-1 px-4"
+            onClick={() => setCodeHidden(true)}
+          >
             Hide
           </button>
         )}
@@ -30,26 +49,43 @@ function HideableCodeBlock(props: {text: string, className?: string, style?: Rea
   );
 }
 
-function GraphQLExampleComponent(props: {example: GraphQLExample, style?: React.CSSProperties}) {
-  const [hasSkipped, setSkipped] = useState(false); 
+function GraphQLExampleComponent(props: { example: GraphQLExample; style?: React.CSSProperties }) {
+  const [hasSkipped, setSkipped] = useState(false);
   const data = useAppSelector(state => state.exampleData);
-  const variables = props.example.variables ? JSON.stringify(props.example.variables(data), null, 2) : null;
+  const variables = props.example.variables
+    ? JSON.stringify(props.example.variables(data), null, 2)
+    : null;
   const query = props.example.query.trim();
 
   return (
     <React.Fragment>
-      <HideableCodeBlock text={'# Query\n'+query} className={hasSkipped ? 'block' : 'block lg:hidden'} style={props.style} />
-      {variables && (<HideableCodeBlock text={'# Variables\n'+variables} className={hasSkipped ? 'block' : 'block lg:hidden'} />)}
-      <GraphQLExplorer query={query} variables={variables} className={hasSkipped ? 'hidden' : 'hidden lg:block'} onSkipCredentials={() => setSkipped(true)} style={props.style} />
+      <HideableCodeBlock
+        text={'# Query\n' + query}
+        className={hasSkipped ? 'block' : 'block lg:hidden'}
+        style={props.style}
+      />
+      {variables && (
+        <HideableCodeBlock
+          text={'# Variables\n' + variables}
+          className={hasSkipped ? 'block' : 'block lg:hidden'}
+        />
+      )}
+      <GraphQLExplorer
+        query={query}
+        variables={variables}
+        className={hasSkipped ? 'hidden' : 'hidden lg:block'}
+        onSkipCredentials={() => setSkipped(true)}
+        style={props.style}
+      />
     </React.Fragment>
   );
 }
 
 export default function SignaturesExample(props: Props) {
-  if ("query" in props.example) {
-    return <GraphQLExampleComponent example={props.example} />
+  if ('query' in props.example) {
+    return <GraphQLExampleComponent example={props.example} />;
   }
-  
+
   const language = useAppSelector(state => state.exampleData.language);
   const dispatch = useAppDispatch();
   const example = props.example.find(e => toExampleLanguage(e) === language) ?? props.example[0];
@@ -73,16 +109,16 @@ export default function SignaturesExample(props: Props) {
           </select>
         </div>
       ) : null}
-      {"csharp" in example ? (
-        <Code className="language-csharp" style={{marginTop: '1px'}}>
+      {'csharp' in example ? (
+        <Code className="language-csharp" style={{ marginTop: '1px' }}>
           {example.csharp}
         </Code>
-      ) : "nodejs" in example ? (
-        <Code className="language-javascript" style={{marginTop: '1px'}}>
+      ) : 'nodejs' in example ? (
+        <Code className="language-javascript" style={{ marginTop: '1px' }}>
           {example.nodejs}
         </Code>
-      ) : "query" in example ? (
-        <GraphQLExampleComponent example={example} style={{marginTop: '1px'}} />
+      ) : 'query' in example ? (
+        <GraphQLExampleComponent example={example} style={{ marginTop: '1px' }} />
       ) : null}
     </React.Fragment>
   );
