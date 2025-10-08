@@ -8,6 +8,14 @@ subtitle: How to specify the language used by the user interface (where supporte
 
 By default, Criipto Verify uses the _Accept-Language_ HTTP request header to figure out which language the user prefers.
 
+<Highlight icon="warning">
+
+**Note** that this is not supported for [Finnish Trust Network](/verify/e-ids/finnish-trust-network/) logins.
+
+Here, one _must_ use the `ui_locales` parameter in the [signed request object](/verify/e-ids/finnish-trust-network/#authentication-request-signing).
+
+</Highlight>
+
 You can override this per authentication request by specifying a `ui_locales` query parameter. This works for both OpenID Connect and WS-Federation, even if WS-Federation does not have protocol support for per-request language selection.
 
 The actual support for controlling the language varies by eID method
