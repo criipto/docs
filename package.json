@@ -24,7 +24,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "prepare": "husky",
-    "test": "node src/examples/runTSExamples.ts"
+    "test": "node src/examples/run-ts-examples.mts"
   },
   "dependencies": {
     "@criipto/signatures": "^1.22.3",
