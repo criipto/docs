@@ -3,7 +3,7 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "lib": ["dom", "es2017"],
+    "lib": ["dom", "es2024"],
     "jsx": "react",
     "strict": true,
     "moduleResolution": "node",
