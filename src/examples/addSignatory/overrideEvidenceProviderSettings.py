@@ -5,7 +5,6 @@ from criipto_signatures.models import (
   PadesDocumentInput,
   DocumentStorageMode,
   AddSignatoryInput,
-  CriiptoVerifySignatureEvidenceProvider,
   CriiptoVerifyProviderInput,
   SignatoryEvidenceProviderInput,
 )
@@ -30,25 +29,13 @@ signatureOrder = client.createSignatureOrder(
   )
 )
 
-criiptoVerifyEvidenceProviderId = next(
-  (
-    evidenceProvider.id
-    for evidenceProvider in signatureOrder.evidenceProviders
-    if isinstance(evidenceProvider, CriiptoVerifySignatureEvidenceProvider)
-  ),
-  None,
-)
-
-if criiptoVerifyEvidenceProviderId is None:
-  raise Exception("Criipto Verify Evidence Provider not found")
-
 # Add signatory
 signatory = client.addSignatory(
   AddSignatoryInput(
     signatureOrderId=signatureOrder.id,
     evidenceProviders=[
       SignatoryEvidenceProviderInput(
-        id=criiptoVerifyEvidenceProviderId,
+        id=signatureOrder.evidenceProviders[0].id,
         criiptoVerify=CriiptoVerifyProviderInput(
           acrValues=[
             "urn:grn:authn:dk:mitid:substantial",

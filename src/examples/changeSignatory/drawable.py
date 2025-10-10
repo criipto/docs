@@ -46,7 +46,7 @@ drawable = signatureOrder.evidenceProviders[0]
 # Change signatory to enable drawable
 client.changeSignatory(
   ChangeSignatoryInput(
-    signatoryId=signatureOrder.id,
+    signatoryId=signatory.id,
     evidenceProviders=[SignatoryEvidenceProviderInput(id=drawable.id)],
   )
 )
