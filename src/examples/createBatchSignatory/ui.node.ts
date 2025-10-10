@@ -1,12 +1,11 @@
-import CriiptoSignatures from '@criipto/signatures';
-import { Language } from '../../../graphql-signatures-types';
+import { CriiptoSignatures } from '@criipto/signatures';
 
 const client = new CriiptoSignatures('{YOUR_CRIIPTO_CLIENT_ID}', '{YOUR_CRIIPTO_CLIENT_SECRET}');
 
 const batchSignatory = await client.createBatchSignatory({
   ui: {
     signatoryRedirectUri: 'https://example.com',
-    language: Language.SV_SE,
+    language: 'SV_SE',
   },
   items: [
     {
