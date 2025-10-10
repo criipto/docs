@@ -57,7 +57,7 @@ for await (const example of examples) {
     process.exitCode = -1;
     process.stdout.write(' ❌\n');
     if (!quiet) {
-      process.stderr.write(error.toString());
+      process.stderr.write((error as Error).toString());
     }
   }
 }
