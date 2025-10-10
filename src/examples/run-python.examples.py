@@ -2,6 +2,8 @@ import os
 import sys
 from glob import glob
 import argparse
+from io import StringIO
+from contextlib import redirect_stdout
 
 parser = argparse.ArgumentParser(
   prog="ProgramName",
@@ -45,12 +47,17 @@ for file in (
   src = "from base64 import b64decode\n" + src
 
   try:
-    exec(src)
+    f = StringIO()
+    with redirect_stdout(f):
+      exec(src)
     sys.stdout.write(" ✅\n")
+    sys.stdout.write(f.getvalue())
   except Exception as e:
     exitCode = -1
     sys.stdout.write(" ❌\n")
     print(e)
-
+else:
+  exitCode = -1
+  print("No examples found")
 
 sys.exit(exitCode)
