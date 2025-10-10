@@ -4,7 +4,6 @@
   "private": true,
   "description": "Criipto Docs",
   "author": "Criipto",
-  "type": "module",
   "keywords": [
     "gatsby"
   ],
