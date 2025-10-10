@@ -9,10 +9,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup kernel for build, increase watchers
         run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-      - name: Use Node.js 18.19.0
+      - name: Use Node.js 24.10.0
         uses: actions/setup-node@v2
         with:
-          node-version: 18.19.0
+          node-version: 24.10.0
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
@@ -29,5 +29,10 @@ jobs:
         run: uv sync --locked --all-extras --dev
       - name: Install node dependencies
         run: npm ci
-      - name: Check
+      - name: Compile examples
         run: npm run check
+      - name: Test examples
+        run: npm run test
+        env:
+          CRIIPTO_SIGNATURES_CLIENT_ID: ${{ secrets.CRIIPTO_SIGNATURES_CLIENT_ID }}
+          CRIIPTO_SIGNATURES_CLIENT_SECRET: ${{ secrets.CRIIPTO_SIGNATURES_CLIENT_SECRET }}
