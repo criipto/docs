@@ -11,7 +11,7 @@ using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YO
             pdf = new PadesDocumentInput
             {
                 title = "Dotnet Sample",
-                blob = new byte[64], // Should be the bytes of a PDF file
+                blob = new Byte[64], // Should be the bytes of a PDF file
                 storageMode = DocumentStorageMode.Temporary
             }
         }

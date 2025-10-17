@@ -24,9 +24,10 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "prepare": "husky",
-    "test": "npm run test:python && npm run test:nodejs",
+    "test": "npm run test:python && npm run test:nodejs && npm run test:dotnet",
     "test:nodejs": "node src/examples/run-ts-examples.mts",
-    "test:python": "uv run src/examples/run-python.examples.py"
+    "test:python": "uv run src/examples/run-python.examples.py",
+    "test:dotnet": "node src/examples/run-dotnet-examples.mts"
   },
   "dependencies": {
     "@criipto/signatures": "^1.22.3",
