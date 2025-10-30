@@ -52,7 +52,7 @@ for await (const example of examples) {
       '--project',
       join(dist, 'examples.csproj'),
       '--framework',
-      'net7.0',
+      'net8.0',
     ]);
 
     if (status === 0) {
