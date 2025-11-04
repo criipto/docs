@@ -215,7 +215,8 @@ export default function InteractiveTour() {
             <H2 id={slug(TITLES.sign)}>{TITLES.sign}</H2>
             <Paragraph>
               Normally, you'd send the signatory links to your intended recipients at this step. But
-              in this case, you can proceed by signing the documents yourself using the links below.
+              in this case, you can proceed by signing the documents yourself via the links below.
+              Remember to use a <a href='/signatures/getting-started/test-users/'>test user</a>, not your real eID.
             </Paragraph>
             <ol>
               {signatories.map((signatory, index) => (

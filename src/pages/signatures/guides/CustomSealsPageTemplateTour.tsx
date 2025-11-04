@@ -268,8 +268,8 @@ export default function InteractiveTour() {
             </H3>
             <Paragraph>
               Normally, the signatory links will be sent to the intended recipients at this step.
-              But in this case, you can proceed by signing the documents yourself using the links
-              below.
+              But in this case, you can proceed by signing the documents yourself via the links below.
+              Remember to use a <a href='/signatures/getting-started/test-users/'>test user</a>, not your real eID.
             </Paragraph>
             <ol>
               {signatories.map((signatory, index) => (

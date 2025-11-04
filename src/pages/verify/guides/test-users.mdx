@@ -5,60 +5,9 @@ sort: 0
 title: Creating test users
 subtitle: How to create test users and set up test apps for different eIDs
 ---
+import TestUsersSetupLinks from '../../../snippets/test-users-setup-instructions';
 
-import { isIndexPage } from '../../../utils';
+To run test logins with most eIDs, you'll need to create a test user and install a test app. 
+Find instructions for each eID in the links below.
 
-import { graphql as gatsbyGraphql, Link } from 'gatsby';
-
-export const pageQuery = gatsbyGraphql`
-  query eIDs {
-    pages: allMdx(
-      filter: {
-        frontmatter: {
-          product: { eq: "verify" }
-          category: { eq: "eIDs" }
-        }
-      }
-      sort: {frontmatter: {sort: ASC}}
-    ) {
-      edges {
-        node {
-          __typename
-          id
-          frontmatter {
-            title
-          }
-          fields {
-            slug
-          }
-          internal {
-            contentFilePath
-          }
-        }
-      }
-    }
-  }
-`;
-
-To run test logins with most eIDs, you'll need to create a test user and install a test app. Find instructions for each eID in the links below.
-
-<ul>
-  {props.data.pages.edges
-    .map(edge => edge.node)
-    .filter(node => !isIndexPage(node))
-    .filter(
-      node =>
-        node.frontmatter.title !== 'Dutch iDIN' &&
-        node.frontmatter.title !== 'German Personalausweis',
-    )
-    .map(node => (
-      <li key={node.id}>
-        <Link to={`/${node.fields.slug}/#test-users`}>{node.frontmatter.title}</Link>
-        <br />
-      </li>
-    ))}
-  <li>
-    <Link to="/verify/e-ids/german-personalausweis/#testing">German Personalausweis</Link>
-    <br />
-  </li>
-</ul>
+<TestUsersSetupLinks />
