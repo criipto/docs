@@ -97,8 +97,8 @@ If you want to receive the response in another way you must specify the `respons
     <tr>
       <td>`client_id`</td>
       <td>
-        Your application's Client ID. You can find this value in the Idura Verify UI in the
-        settings for actual application.{' '}
+        Your application's Client ID. You can find this value in the Idura Verify UI in the settings
+        for actual application.{' '}
       </td>
     </tr>
     <tr>
@@ -110,8 +110,8 @@ If you want to receive the response in another way you must specify the `respons
         parameter for the back-channel flow and on a URL query parameter for the front-channel flow.
         This URL must be pre-registered as a valid callback URL in your application settings.
         <br /> <br /> **Warning:** Per the [OAuth 2.0
-        Specification](https://tools.ietf.org/html/rfc6749#section-3.1.2), Idura removes
-        everything after the hash and does *not* honor any fragments.{' '}
+        Specification](https://tools.ietf.org/html/rfc6749#section-3.1.2), Idura removes everything
+        after the hash and does *not* honor any fragments.{' '}
       </td>
     </tr>
     <tr>
@@ -506,7 +506,7 @@ You can use the `scope` query parameter to specify which user data you want on a
 
 <Highlight icon="file-lines">
 
-You must explicitly enable this feature [per application](https://dashboard.criipto.com/applications).
+You must explicitly enable this feature [per application](https://dashboard.idura.app/applications).
 By default, Idura Verify uses the configured settings per eID (thus effectively ignoring any other `scope` values than `openid`).
 Activate the "Enable dynamic scopes" toggle on an application to start using this feature.
 Once you do that, Idura Verify will switch from using the per eID configured scope options to the ones you specify in the authorize request.
