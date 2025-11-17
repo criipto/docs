@@ -211,14 +211,14 @@ export default function Header(props: { path: string | undefined; className?: st
                   Changelog
                 </Link>
                 <a
-                  href="https://dashboard.criipto.com"
+                  href="https://dashboard.idura.app"
                   target="_blank"
                   className="text-white font-medium mr-2 py-2 px-4 rounded uppercase text-deep-purple-900 hover:text-primary-600 focus:outline-none focus:shadow-outline"
                 >
                   Dashboard
                 </a>
                 <a
-                  href="https://www.criipto.com/signup?utm_source=docs"
+                  href="https://dashboard.idura.app/signup?utm_source=docs"
                   target="_blank"
                   className="bg-primary-600 hover:bg-primary-700 font-medium py-2 px-4 uppercase text-white focus:outline-none focus:shadow-outline whitespace-nowrap"
                 >
