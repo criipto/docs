@@ -81,7 +81,7 @@ This can be fixed by ordering a new netcentric BankID:
 
 Start by creating a netcentric test user as described [above](/verify/e-ids/norwegian-bankid/#creating-netcentric-test-users).
 
-You will then need to install the test version of the BankID App. Contact our [support team](mailto:orders@criipto.com) to get access to the `iOS` (distributed via `TestFlight`) or `Android` version of the test app. In your request, please provide the email address linked to your Apple ID (for `iOS`) or your Google account for the Play Store (for `Android`) used for testing. Our team will get back to you with confirmation and download links for the test app.
+You will then need to install the test version of the BankID App. Contact our [support team](mailto:orders@idura.eu) to get access to the `iOS` (distributed via `TestFlight`) or `Android` version of the test app. In your request, please provide the email address linked to your Apple ID (for `iOS`) or your Google account for the Play Store (for `Android`) used for testing. Our team will get back to you with confirmation and download links for the test app.
 
 The app must be activated before first use:
 
@@ -216,41 +216,15 @@ Try out the example in [our URL builder](/verify/guides/authorize-url-builder/?a
 
 </details>
 
-## Ordering Norwegian BankID
-
-To start accepting real users with Norwegian BankID, you must first request your _client credentials_ from Bidbax. The credentials consists of a _client id_ and a _client secret_.
-
-<Highlight icon="file-lines">
-
-**Prerequisites for ordering**
-
-In order to apply for the BankID client credentials for a company you must meet the basic requirements:
-
-- Your company must be a customer of a Norwegian Bank. Most banks in Norway are part of the BankID network.
-- The person that will sign the contract must be in possession of one of these personal eIDs: Norwegian BankID, Swedish BankID, or Danish MitID.
-- You must have completed step 5 in the [Getting ready for production](/verify/guides/production) guide. You will need the production domain to complete the order for your client credentials.
-
-</Highlight>
-
-### New customers
-
-The BankID OIDC Biometrics option is now available when ordering BankID.
-
-Biometrics is always included in the basis agreement.
-
-### Existing customers
-
-Due to new terms and conditions in the agreement, you must send us an updated application if you wish to use BankID Biometrics.
-
-### BankID Biometrics assurance level
+## BankID Biometrics assurance level
 
 BankID Biometrics assurance level is “Substantial”.
 
 [Learn more about assurance levels](https://ec.europa.eu/digital-building-blocks/wikis/display/DIGITAL/eIDAS+Levels+of+Assurance).
 
-If you can only use assurance level “High” in your login flow, you must explicitly specify the [login_hint=BID](/verify/guides/prefilled-fields/) in your authorize requests to Idura Verify. _Please note that using `login_hint=BID` will disable biometrics in the BankID app._
+If you can only use assurance level “High” in your login flow, you must explicitly specify the [login_hint=BID](#modifying-user-flows) in your authorize requests to Idura Verify. _Please note that using `login_hint=BID` will disable biometrics in the BankID app._
 
-### Modifying user flows
+## Modifying user flows
 
 By default, the user flow is controlled by the user-defined settings of the BankID app: no additional configurations required. If necessary, you can adjust the user flow by adding a `login_hint` to the [authorize URL](/verify/guides/authorize-url-builder/).
 
@@ -300,12 +274,30 @@ The table below provides a list of options for using `login_hint` with Norwegian
   </tbody>
 </table>
 
+## Ordering Norwegian BankID
+
+To start accepting real users with Norwegian BankID, you must first request your _client credentials_ from Bidbax. The credentials consists of a _client id_ and a _client secret_.
+
+<Highlight icon="file-lines">
+
+**Prerequisites for ordering**
+
+In order to apply for the BankID client credentials for a company you must meet the basic requirements:
+
+- Your company must be a customer of a Norwegian Bank. Most banks in Norway are part of the BankID network.
+- The person that will sign the contract must be in possession of one of these personal eIDs: Norwegian BankID, Swedish BankID, or Danish MitID.
+- You must have completed step 4 in the [Get ready for production](/verify/guides/production) guide. You will need the production domain to complete the order for your client credentials.
+
+</Highlight>
+
+_The [BankID OIDC Biometrics](#bankid-biometrics-assurance-level) option is **always** included in the basis agreement._
+
 ### Ordering the client credentials
 
 To order production credentials please send a request to
 
 <p style={{ textIndent: '50px' }}>
-  <a href="mailto:orders@criipto.com?subject=NO BankID for ...">orders@criipto.com</a>
+  <a href="mailto:orders@idura.eu?subject=NO BankID for ...">orders@idura.eu</a>
 </p>
 
 with answers to these questions:
@@ -326,8 +318,8 @@ with answers to these questions:
 
 ### Next steps
 
-After Idura has received the above information, we order the client credntials from your bank by filling out an online agreement, which is then sent to the appointed persons at your company for signing. Idura will also sign the agreement.
+After Idura has received the above information, we order the client credentials from your bank by filling out an online agreement, which is then sent to the appointed persons at your company for signing. Idura will also sign the agreement.
 
-When all signatures are in place the signed agreement is sent to your bank for further processing and eventual issuance of your client credentials.
+When all signatures are in place the signed agreement is sent to your bank for further processing and eventual issuance of your client credentials. The whole process typically takes 7-10 business days.
 
-Once you have received credentials, they must be entered into the Idura Verify management UI to configure your NO BankID integration.
+Once you have received credentials, they must be entered into the Idura dashboard to configure your NO BankID integration. This is done under <a href="https://dashboard.criipto.com/providers/NO_BANKID" target="_blank">eID providers > NO BankID</a>.
