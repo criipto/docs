@@ -1,0 +1,16 @@
+---
+date: 2025-11-25
+title: Norwegian BankID QES
+---
+
+## Norwegian BankID QES
+
+Stø, the company behind BankID requires that all merchants move to their new Signing API.
+This is beneficial, in that future signatures with BankID will be at the highest European level, QES.
+
+However, as signatures will then no longer be based on JWTs, it has a few breaking changes:
+- A new `Signature` GraphQL subtype has been added, `NorwegianBankIdSignature` of which you can request `claims`.
+- Evidence Validation must be done on either `ssn` or `uniqueuserid` to work.
+- `ssn` scope must specifically be added to evidence provider settings if `nnin` is required.
+
+Please note: Norwegian BankID QES with [CSC](https://developer.bankid.no/bankid-esign-provider/apis/csc/CSC/) carries an increased eID cost per document.
