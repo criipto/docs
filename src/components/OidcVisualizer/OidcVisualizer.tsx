@@ -7,6 +7,7 @@ import OidcSettingsModal from './components/OidcSettingsModal';
 import oidcConfig from './oidcConfig';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import cx from 'classnames';
+import { clientAssertion } from './keyPair';
 
 type OidcTokenResponse = {
   token_type: 'Bearer';
@@ -184,7 +185,23 @@ const OidcVisualizer = () => {
   return (
     <div className="max-w-3xl mx-auto p-6">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-0">OpenID Connect Visualizer</h1>
+        <select
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          defaultValue="option1"
+        >
+          <option value="option1">Options</option>
+          <option value="option1">Client Credentials</option>
+          <option value="option2">Private Key JWT</option>
+          <option value="option3">FTN-compliant</option>
+        </select>
+
+        {/* <div
+            className="absolute top-full mt-1 py-2 w-60 rounded-lg bg-white shadow ring-1 ring-gray-900/5 leading-6 font-medium uppercase text-deep-purple-900 z-60"
+            ref={dropdownRef}
+        ></div> */}
+
+        {/* <h1 className="text-3xl font-bold text-slate-900 mb-0">OpenID Connect Visualizer</h1> */}
+        {/* <pre>{clientAssertion}</pre> */}
         <button
           onClick={() => setShowSettings(true)}
           className="px-2 py-2 bg-white text-sky-700 uppercase text-xs font-medium transition hover:text-sky-900 hover:delay-100 focus:outline-none focus:ring-0 focus:border-transparent focus:shadow-none"
