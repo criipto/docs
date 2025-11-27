@@ -17,7 +17,7 @@ export default function VerifyErrorLayout(props: {
 
         {traceId ? (
           <div>
-            <a href={`https://dashboard.criipto.com/telemetry?traceId=${traceId}`} target="_blank">
+            <a href={`https://dashboard.idura.app/telemetry?traceId=${traceId}`} target="_blank">
               View trace in dashboard
             </a>
           </div>

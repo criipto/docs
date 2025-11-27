@@ -46,7 +46,7 @@ Note that there is no `certsubject` returned when using Biometrics.
 
 Test users are created through the web page at [https://ra-preprod.bankidnorge.no/#/search/endUser](https://ra-preprod.bankidnorge.no/#/search/endUser).
 
-1. Go to the ["TEST NUMBER GENERATOR"](https://ra-preprod.bankidnorge.no/#/generate) to generate a random, valid SSN.  
+1. Go to the ["TEST NUMBER GENERATOR"](https://ra-preprod.bankidnorge.no/#/generate) to generate a random, valid SSN.
    _If you want to test [BankID Biometric](/verify/e-ids/norwegian-bankid/#testing-bankid-biometric), please make sure that the "Synthetic" checkbox is unchecked before generating a new number. BankID Biometric app does not currently support synthetic SSN numbers, so you won't be able to use them for testing._
 2. It now says "Could not find any bankIDs for ...".
 3. Fill out the first name, last name, and BankID friendly name.
@@ -190,7 +190,7 @@ Idura _does not_ store the SSN itself, just the fact that the user has granted y
 
 ### Configuration
 
-You can use the [Idura Dashboard](https://dashboard.criipto.com/providers/NO_BANKID) to configure access to the optional user data, in the **Identity Sources** -> **NO BankID** section.
+You can use the [Idura Dashboard](https://dashboard.idura.app/providers/NO_BANKID) to configure access to the optional user data, in the **Identity Sources** -> **NO BankID** section.
 
 ## Signing text
 
@@ -320,4 +320,4 @@ After Idura has received the above information, we order the client credentials 
 
 When all signatures are in place the signed agreement is sent to your bank for further processing and eventual issuance of your client credentials. The whole process typically takes 7-10 business days.
 
-Once you have received credentials, they must be entered into the Idura dashboard to configure your NO BankID integration. This is done under <a href="https://dashboard.criipto.com/providers/NO_BANKID" target="_blank">eID providers > NO BankID</a>.
+Once you have received credentials, they must be entered into the Idura dashboard to configure your NO BankID integration. This is done under <a href="https://dashboard.idura.app/providers/NO_BANKID" target="_blank">eID providers > NO BankID</a>.
