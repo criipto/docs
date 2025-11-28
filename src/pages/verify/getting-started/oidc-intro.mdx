@@ -98,7 +98,7 @@ If you want to receive the response in another way, you must specify the `respon
       <td>`client_id`</td>
       <td>
         Your application's Client ID. You can find this value in the Idura Verify UI in the settings
-        for actual application.{' '}
+        for the actual application.{' '}
       </td>
     </tr>
     <tr>
@@ -205,7 +205,7 @@ After completing the steps specific to your chosen flow, you can proceed to [val
 A more secure alternative to traditional authorization requests is [Pushed Authorization Requests (PAR)](/verify/guides/pushed-authorization-requests).
 
 PAR lets you initiate the authentication flow by sending [authorization request parameters](/verify/getting-started/oidc-intro/#authorize-request-parameters) directly to the authorization server via a POST request.
-This approach keeps parameters out of URLs, making requests more secure and protecting their integrity.
+This approach keeps parameters out of URLs, making requests more secure and protecting their integrity. It also ensures sensitive data remains confidential – e.g. if you are including PII in a `login_hint`.
 
 [View the PAR implementation guide →](/verify/guides/pushed-authorization-requests/#implementing-par-with-idura)
 
