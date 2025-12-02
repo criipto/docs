@@ -11,6 +11,7 @@ import {
   GraphQLObjectType,
   GraphQLType,
   IntrospectionQuery,
+  isAbstractType,
   isEnumType,
   isInputObjectType,
   isInterfaceType,
@@ -51,7 +52,7 @@ export default function GraphQLSchemaComponent() {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     window.location.hash = stack.length ? stack.join('/') : '';
-  }, [stack])
+  }, [stack]);
 
   const { selectedType, selectedField } = useMemo(() => {
     const current = stack[stack.length - 1] ? stack[stack.length - 1] : null;
@@ -192,6 +193,7 @@ function TypeDocumentation(props: {
         {type.description ? (
           <div className="graphiql-markdown-description">{type.description}</div>
         ) : null}
+        <ImplementsInterfaces type={type} onSelect={props.onSelectType} />
         {isEnumType(type) ? (
           <>
             {type.getValues().map(value => (
@@ -204,6 +206,7 @@ function TypeDocumentation(props: {
         ) : isObjectType(type) || isInterfaceType(type) || isInputObjectType(type) ? (
           <Fields type={type} onSelectType={props.onSelectType} />
         ) : null}
+        <PossibleTypes type={type} onSelect={props.onSelectType} />
       </div>
     </>
   );
@@ -219,10 +222,11 @@ function Fields(props: {
 
   return (
     <>
-      <div className="graphiql-doc-explorer-section-title">Fields</div>
-      {fields.map(field => (
-        <Field field={field} onSelect={props.onSelectType} key={field.name} />
-      ))}
+      <ExplorerSection title="Fields">
+        {fields.map(field => (
+          <Field field={field} onSelect={props.onSelectType} key={field.name} />
+        ))}
+      </ExplorerSection>
     </>
   );
 }
@@ -261,6 +265,49 @@ const Field = ({ field, onSelect }: { field: FieldDef; onSelect: (name: string) 
       ) : null}
       <DeprecationReason>{field.deprecationReason}</DeprecationReason>
     </div>
+  );
+};
+
+const ImplementsInterfaces = ({
+  type,
+  onSelect,
+}: {
+  type: GraphQLNamedType;
+  onSelect: (typeName: string) => void;
+}) => {
+  if (!isObjectType(type)) {
+    return null;
+  }
+  const interfaces = type.getInterfaces();
+  return interfaces.length > 0 ? (
+    <ExplorerSection title="Implements">
+      {type.getInterfaces().map(implementedInterface => (
+        <div key={implementedInterface.name}>
+          <TypeLink type={implementedInterface} onSelect={onSelect} />
+        </div>
+      ))}
+    </ExplorerSection>
+  ) : null;
+};
+
+const PossibleTypes = ({
+  type,
+  onSelect,
+}: {
+  type: GraphQLNamedType;
+  onSelect: (typeName: string) => void;
+}) => {
+  if (!isAbstractType(type)) {
+    return null;
+  }
+  return (
+    <ExplorerSection title={isInterfaceType(type) ? 'Implementations' : 'Possible Types'}>
+      {schema.getPossibleTypes(type).map(possibleType => (
+        <div key={possibleType.name}>
+          <TypeLink type={possibleType} onSelect={onSelect} />
+        </div>
+      ))}
+    </ExplorerSection>
   );
 };
 
@@ -430,4 +477,13 @@ const DeprecationReason = (props: { children?: React.ReactNode | string }) => {
       </div>
     </div>
   ) : null;
+};
+
+const ExplorerSection = ({ title, children }: { title: string; children: React.ReactNode }) => {
+  return (
+    <div>
+      <div className="graphiql-doc-explorer-section-title">{title}</div>
+      <div className="graphiql-doc-explorer-section-content">{children}</div>
+    </div>
+  );
 };
