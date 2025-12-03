@@ -1,0 +1,51 @@
+---
+product: verify
+category: Reference
+sort: 0
+title: Technical specifications, data models, error codes and terminology used in Idura Verify.
+---
+
+import { isIndexPage } from '../../../utils';
+
+import { graphql as gatsbyGraphql, Link } from 'gatsby';
+export const pageQuery = gatsbyGraphql`
+  query Reference {
+    pages: allMdx(
+      filter: {
+        frontmatter: {
+          product: { eq: "verify" }
+          category: { eq: "Reference" }
+        }
+      }
+      sort: {frontmatter: {sort: ASC}}
+    ) {
+      edges {
+        node {
+          __typename
+          id
+          frontmatter {
+            title
+            category
+            subtitle
+          }
+          fields {
+            slug
+          }
+        }
+      }
+    }
+  }
+`;
+
+<ul>
+  {props.data.pages.edges
+    .map(edge => edge.node)
+    .filter(node => !node.frontmatter.title.includes('Technical specifications'))
+    .map(node => (
+      <li key={node.id}>
+        <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link>
+        <br />
+        {node.frontmatter.subtitle}
+      </li>
+    ))}
+</ul>

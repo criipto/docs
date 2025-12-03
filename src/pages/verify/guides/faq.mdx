@@ -6,32 +6,6 @@ title: FAQ
 subtitle: Common issues and questions when using Idura Verify
 ---
 
-## Unknown Access Code error
-
-The `Unknown Access Code` error can happen for one of two reasons when trying to fetch information from the `userinfo` endpoint.
-
-1. You are reusing a code, codes can only be used once.
-2. Your application OIDC setting `User info response strategy` is set to `fromTokenEndpoint`.
-
-If you are seeing this error in production but it worked in test, make sure that your production application and test application have the exact same OIDC settings.
-
-You can use the copy application feature from test to production to ensure the settings are the same.
-
-## MitID Core Client error
-
-If you encounter the `mitid_core_client_error` while running test logins, it indicates issues with the MitID PP environment.
-In relation to this error, you may also see error messages such as `unknown: Error loading authenticator`, `unknown: API xhr time error` or `unknown: undefined is not an object`.
-The errors come directly from the MitID core client, and are just passed through to your application by Idura.
-Please note that the MitID PP environment may occasionally experience instability, and MitID does not provide SLAs or status updates for this environment.
-Idura does not have control over the MitID Test Tools.
-
-You may also occasionally see the `mitid_core_client_error` in production.
-This error is not actionable (i.e. there is nothing you or we can do to fix it), but the error can almost always be solved by the end user by trying to authenticate again.
-
-### Using TOTP test user as a workaround
-
-In some cases, only App Simulator test users may be affected. If you are experiencing issues with the App Simulator (e.g. the _Scan QR and Confirm_ action is not available), you can try [creating a test user](/verify/e-ids/danish-mitid/#test-users) with a TOTP authenticator instead. You can do this by checking both the _Password_ and the _TOTP simulator_ checkboxes at user creation time.
-
 ## Why are users asked for their CPR during MitID Erhverv login?
 
 This allows to look up [company signatories](/verify/e-ids/danish-mitid-erhverv/#employees-and-company-signatories) from the business registry, in case the user has a company that is not registered with MitID Erhverv.

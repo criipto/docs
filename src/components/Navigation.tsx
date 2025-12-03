@@ -9,7 +9,13 @@ import { isIndexPage } from '../utils';
 
 const SIGNATURES_CATEGORIES = ['Getting Started', 'GraphQL', 'Integrations', 'Guides', 'Webhooks'];
 
-const VERIFY_CATEGORIES = ['Getting Started', 'eIDs', 'Guides & Tools', 'Integrations'];
+const VERIFY_CATEGORIES = [
+  'Getting Started',
+  'eIDs',
+  'Guides & Tools',
+  'Integrations',
+  'Reference',
+];
 
 function slugToPath(slug: string) {
   if (slug.endsWith('/')) {
@@ -172,6 +178,17 @@ export default function Navigation(props: Props) {
                 })}
               >
                 Articles
+              </Link>
+            )}
+            {isVerify && category === 'Reference' && (
+              <Link
+                onClick={props.onLinkClick}
+                to="/verify/reference/errors"
+                getProps={props => ({
+                  className: `block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent ${props.isCurrent ? 'text-deep-purple-900 border-current font-medium' : 'hover:border-gray-400 text-primary-600 hover:text-deep-purple-900 hover:font-medium'}`,
+                })}
+              >
+                Errors
               </Link>
             )}
             {pages

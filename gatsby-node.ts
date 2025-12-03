@@ -42,6 +42,48 @@ export const onCreateNode: GatsbyNode['onCreateNode'] = ({ node, actions }) => {
 export const createPages: GatsbyNode['createPages'] = ({ actions }) => {
   const { createRedirect } = actions;
   createRedirect({
+    fromPath: '/verify/guides/faq/#unknown-access-code-error',
+    toPath: '/verify/reference/errors/unknown-access-code-error',
+    isPermanent: true,
+    force: true,
+  });
+  createRedirect({
+    fromPath: '/verify/guides/faq/#mitid-core-client-error',
+    toPath: '/verify/reference/errors/danish-mitid/MitID-core-client-error',
+    isPermanent: true,
+    force: true,
+  });
+  createRedirect({
+    fromPath: '/verify/errors/MITID_NONCE_COOKIE_MALFORMED',
+    toPath: '/verify/reference/errors/danish-mitid/MITID_NONCE_COOKIE_MALFORMED',
+    isPermanent: true,
+    force: true,
+  });
+  createRedirect({
+    fromPath: '/verify/errors/MITID_NONCE_COOKIE_MISSING',
+    toPath: '/verify/reference/errors/danish-mitid/MITID_NONCE_COOKIE_MISSING',
+    isPermanent: true,
+    force: true,
+  });
+  createRedirect({
+    fromPath: '/verify/getting-started/glossary/',
+    toPath: '/verify/reference/glossary/',
+    isPermanent: true,
+    force: true,
+  });
+  createRedirect({
+    fromPath: '/verify/getting-started/rate-limiting/',
+    toPath: '/verify/reference/rate-limiting/',
+    isPermanent: true,
+    force: true,
+  });
+  createRedirect({
+    fromPath: '/verify/getting-started/token-contents/',
+    toPath: '/verify/reference/token-contents/',
+    isPermanent: true,
+    force: true,
+  });
+  createRedirect({
     fromPath: '/getting-started/dk-mitid',
     toPath: '/verify/e-ids/danish-mitid',
     isPermanent: true,

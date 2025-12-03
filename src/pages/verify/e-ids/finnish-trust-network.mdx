@@ -49,8 +49,8 @@ Please refer to the [Private Key JWT authentication guide](/verify/guides/privat
 
 ### Authentication request signing
 
-Your application must sign [authorization requests](/verify/getting-started/glossary/#authorization-request-authorize-url) to Idura and send them as JWT-secured Authorization Requests(JARs).
-A JWT-secured Authorization Request is a method where the [request parameters](/verify/getting-started/oidc-intro/#authorize-request-parameters) are encapsulated in a [JSON Web Token (JWT)](/verify/getting-started/glossary/#json-web-token-jwt) signed by your application’s private key and included in the authorization request via the `request` parameter.
+Your application must sign [authorization requests](/verify/reference/glossary/#authorization-request-authorize-url) to Idura and send them as JWT-secured Authorization Requests(JARs).
+A JWT-secured Authorization Request is a method where the [request parameters](/verify/getting-started/oidc-intro/#authorize-request-parameters) are encapsulated in a [JSON Web Token (JWT)](/verify/reference/glossary/#json-web-token-jwt) signed by your application’s private key and included in the authorization request via the `request` parameter.
 
 Authentication request signing enhances security by guaranteeing that the request originated from your application and has not been tampered with. To understand the benefits in more detail, see: <a href="https://www.criipto.com/blog/signed-authorization-requests" target="_blank">Why Signed Authorization Requests Elevate Your Security</a>.
 
@@ -118,8 +118,8 @@ app.get('/login', async (req, res) => {
 
 ### Encrypted token and userinfo responses
 
-Idura will apply [JSON Web Encryption (JWE)](/verify/getting-started/glossary/#json-web-encryption-jwe) to secure `token` and `userinfo` responses resulting from FTN authentication.
-This means that after a successful [code-for-token exchange](/verify/getting-started/glossary/#code-exchange), the `id_token` (and `userinfo` if requested) will be sent to your application in a JWE format, rather than a standard [JWT](/verify/getting-started/glossary/#json-web-token-jwt).
+Idura will apply [JSON Web Encryption (JWE)](/verify/reference/glossary/#json-web-encryption-jwe) to secure `token` and `userinfo` responses resulting from FTN authentication.
+This means that after a successful [code-for-token exchange](/verify/reference/glossary/#code-exchange), the `id_token` (and `userinfo` if requested) will be sent to your application in a JWE format, rather than a standard [JWT](/verify/reference/glossary/#json-web-token-jwt).
 These JWEs are encrypted using your application's public encryption key, requiring you to use the corresponding private key to decrypt them.
 
 For a deeper dive into JWE, please refer to our blog posts:
