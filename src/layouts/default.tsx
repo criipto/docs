@@ -44,7 +44,9 @@ export default function DefaultLayout(props: {
     ? { href: '/verify/articles', label: 'Articles' }
     : props.location.pathname.startsWith('/signatures/articles')
       ? { href: '/signatures/articles', label: 'Articles' }
-      : null;
+      : props.location.pathname.startsWith('/verify/reference/errors')
+        ? { href: '/verify/reference/errors', label: 'Errors' }
+        : null;
 
   return (
     <div>

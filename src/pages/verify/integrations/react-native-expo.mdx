@@ -20,7 +20,7 @@ You will need the following information from the General tab of your application
 
 ### Register callback URLs
 
-Before you can start sending authentication requests to Idura Verify, you need to register the URLs on which you want to receive the returned _JSON Web Token_, [JWT](verify/getting-started/token-contents/).
+Before you can start sending authentication requests to Idura Verify, you need to register the URLs on which you want to receive the returned _JSON Web Token_, [JWT](verify/reference/token-contents/).
 
 The callback URL of your application is the URL where Idura Verify will redirect to after the user has authenticated in order for the OpenID Connect middleware to complete the authentication process.
 
@@ -72,7 +72,7 @@ You can now utilize the `useCriiptoVerify()` custom hook to handle the authentic
 `useCriiptoVerify()` provides access to:
 
 - the `login` method, which initiates the authentication process. It requires two arguments: [`acrValues`](/verify/guides/authorize-url-builder/#auth-methods--acr-values) to define the eIDs you want to use, and `redirectUri` for the [callback URL](#register-callback-urls).
-- `claims` variable that allows to retrieve information about the user's [JWT claims](/verify/getting-started/token-contents/) once they are available.
+- `claims` variable that allows to retrieve information about the user's [JWT claims](/verify/reference/token-contents/) once they are available.
 - the `logout` method.
 - `error` variable for any potential authentication errors.
 

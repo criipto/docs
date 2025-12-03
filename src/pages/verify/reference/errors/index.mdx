@@ -1,0 +1,63 @@
+---
+title: Errors
+subtitle: Errors you may encounter while working with Idura Verify and how to resolve them.
+product: verify
+category: Reference
+sort: 0
+---
+
+import { isIndexPage } from '../../../../utils';
+import { groupBy } from 'lodash';
+import { graphql as gatsbyGraphql, Link } from 'gatsby';
+
+export const pageQuery = gatsbyGraphql`
+  query verifyErrors {
+    pages: allMdx(
+      filter: {
+        frontmatter: {
+          errors: { eq: "verify" }
+        }
+      }
+      sort: {frontmatter: {category: ASC}}
+    ) {
+      edges {
+        node {
+          __typename
+          id
+          fields {
+            slug
+          }
+          frontmatter {
+            title
+            subtitle
+            category
+          }
+        }
+      }
+    }
+  }
+`;
+
+<React.Fragment>
+  {Object.entries(
+    groupBy(
+      props.data.pages.edges.map(edge => edge.node),
+      'frontmatter.category',
+    ),
+  ).map(([category, pages]) => (
+    <React.Fragment key={category}>
+      <h2>{category}</h2>
+      <ul>
+        {pages
+          .filter(node => !isIndexPage(node))
+          .map(node => (
+            <li key={node.id}>
+              <Link to={`/${node.fields.slug}/`}>{node.frontmatter.title}</Link>
+              <br />
+              {node.frontmatter.subtitle}
+            </li>
+          ))}
+      </ul>
+    </React.Fragment>
+  ))}
+</React.Fragment>

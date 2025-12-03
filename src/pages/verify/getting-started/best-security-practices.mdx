@@ -59,7 +59,7 @@ Overall, the `state` parameter allows the client application to verify that the 
 
 ## Always validating JWTs
 
-Upon successful user authentication, Idura Verify will issue an **[ID token](/verify/getting-started/token-contents/)** to the client application. `id_token` contains user authentication information in the form of a JSON Web Token (JWT).
+Upon successful user authentication, Idura Verify will issue an **[ID token](/verify/reference/token-contents/)** to the client application. `id_token` contains user authentication information in the form of a JSON Web Token (JWT).
 However, receiving a JWT is not enough - your application must also [validate it](/verify/getting-started/oidc-intro/#validate-the-jwt). Without validation, there’s no guarantee that the token hasn’t been tampered with or forged.
 
 _Note: `id_token` must be validated, even if using the `/userInfo` endpoint for personal data._

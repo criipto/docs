@@ -1384,6 +1384,7 @@ export type MdxFrontmatter = {
   articles?: Maybe<Scalars['String']['output']>;
   category?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['Date']['output']>;
+  errors?: Maybe<Scalars['String']['output']>;
   product?: Maybe<Scalars['String']['output']>;
   sort?: Maybe<Scalars['Int']['output']>;
   subtitle?: Maybe<Scalars['String']['output']>;
@@ -1402,6 +1403,7 @@ export type MdxFrontmatterFieldSelector = {
   articles?: InputMaybe<FieldSelectorEnum>;
   category?: InputMaybe<FieldSelectorEnum>;
   date?: InputMaybe<FieldSelectorEnum>;
+  errors?: InputMaybe<FieldSelectorEnum>;
   product?: InputMaybe<FieldSelectorEnum>;
   sort?: InputMaybe<FieldSelectorEnum>;
   subtitle?: InputMaybe<FieldSelectorEnum>;
@@ -1412,6 +1414,7 @@ export type MdxFrontmatterFilterInput = {
   articles?: InputMaybe<StringQueryOperatorInput>;
   category?: InputMaybe<StringQueryOperatorInput>;
   date?: InputMaybe<DateQueryOperatorInput>;
+  errors?: InputMaybe<StringQueryOperatorInput>;
   product?: InputMaybe<StringQueryOperatorInput>;
   sort?: InputMaybe<IntQueryOperatorInput>;
   subtitle?: InputMaybe<StringQueryOperatorInput>;
@@ -1422,6 +1425,7 @@ export type MdxFrontmatterSortInput = {
   articles?: InputMaybe<SortOrderEnum>;
   category?: InputMaybe<SortOrderEnum>;
   date?: InputMaybe<SortOrderEnum>;
+  errors?: InputMaybe<SortOrderEnum>;
   product?: InputMaybe<SortOrderEnum>;
   sort?: InputMaybe<SortOrderEnum>;
   subtitle?: InputMaybe<SortOrderEnum>;
