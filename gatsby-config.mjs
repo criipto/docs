@@ -115,7 +115,7 @@ const config = {
     {
       resolve: `gatsby-plugin-json-output`,
       options: {
-        siteUrl: 'https://docs.criipto.com/changelog/',
+        siteUrl: 'https://docs.idura.app/changelog/',
         graphQLQuery: `{
   allMdx(
     filter: {internal: {contentFilePath: {regex: "/(changelog)/"}}}
@@ -188,9 +188,7 @@ const config = {
           ]
         : [],
     )
-    .concat([
-      'static-redirects'
-    ]),
+    .concat(['static-redirects']),
 };
 
 export default config;
