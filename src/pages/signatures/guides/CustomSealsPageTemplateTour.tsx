@@ -210,7 +210,7 @@ export default function InteractiveTour() {
               <em>
                 Note: The custom seals page template feature must be enabled for your account to
                 proceed with the interactive tour. Please contact{' '}
-                <a href="mailto:support@criipto.com">support@criipto.com</a> to activate it.
+                <a href="mailto:support@idura.eu">support@idura.eu</a> to activate it.
               </em>
             </Paragraph>
             <Paragraph>

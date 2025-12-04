@@ -62,7 +62,7 @@ To add the authentication services, call the `AddAuthentication` method. To enab
 
 Next, configure the OIDC authentication handler. Add a call to `AddOpenIdConnect`. Configure the necessary parameters, such as `ClientId`, `ClientSecret`, `ResponseType`, and not least the `Authority`. The latter is used by the middleware to get the metadata describing the relevant endpoints, the signing keys etc.
 
-The OIDC middleware requests both the `openid` and `profile` scopes by default, you may configure additional scopes if your application is [configured with dynamic scopes](https://docs.criipto.com/verify/getting-started/oidc-intro/#the-scope-parameter).
+The OIDC middleware requests both the `openid` and `profile` scopes by default, you may configure additional scopes if your application is [configured with dynamic scopes](/verify/getting-started/oidc-intro/#the-scope-parameter).
 
 ```json
 // appsettings.json

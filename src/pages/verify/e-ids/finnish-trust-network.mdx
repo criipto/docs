@@ -52,7 +52,7 @@ Please refer to the [Private Key JWT authentication guide](/verify/guides/privat
 Your application must sign [authorization requests](/verify/reference/glossary/#authorization-request-authorize-url) to Idura and send them as JWT-secured Authorization Requests(JARs).
 A JWT-secured Authorization Request is a method where the [request parameters](/verify/getting-started/oidc-intro/#authorize-request-parameters) are encapsulated in a [JSON Web Token (JWT)](/verify/reference/glossary/#json-web-token-jwt) signed by your application’s private key and included in the authorization request via the `request` parameter.
 
-Authentication request signing enhances security by guaranteeing that the request originated from your application and has not been tampered with. To understand the benefits in more detail, see: <a href="https://www.criipto.com/blog/signed-authorization-requests" target="_blank">Why Signed Authorization Requests Elevate Your Security</a>.
+Authentication request signing enhances security by guaranteeing that the request originated from your application and has not been tampered with. To understand the benefits in more detail, see: <a href="https://www.idura.eu/blog/signed-authorization-requests" target="_blank">Why Signed Authorization Requests Elevate Your Security</a>.
 
 #### Creating a signed authorization request
 
@@ -124,8 +124,8 @@ These JWEs are encrypted using your application's public encryption key, requiri
 
 For a deeper dive into JWE, please refer to our blog posts:
 
-- [An Introduction to JSON Web Encryption](https://www.criipto.com/blog/json-web-encryption-introduction)
-- [Securing Authentication Flows with JSON Web Encryption](https://www.criipto.com/blog/jwe-encrypted-responses)
+- [An Introduction to JSON Web Encryption](https://www.idura.eu/blog/json-web-encryption-introduction)
+- [Securing Authentication Flows with JSON Web Encryption](https://www.idura.eu/blog/jwe-encrypted-responses)
 
 To configure your application to handle encrypted `token` and `userinfo` responses, follow the steps below:
 
