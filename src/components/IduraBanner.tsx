@@ -30,7 +30,7 @@ export function IduraBanner(props: IduraBannerProps) {
         Read the full story in our announcement:{' '}
         <a
           className="underline"
-          href="https://www.criipto.com/blog/we-are-now-idura"
+          href="https://www.idura.eu/blog/we-are-now-idura"
           target="_blank"
         >
           We are now Idura

@@ -313,7 +313,7 @@ HTTP/1.1 400 Bad Request
 
 Swedish BankID supports signing text and markdown.
 
-Text signing is triggered by using the `action` and `message` parameters [via login_hint](https://docs.criipto.com/verify/getting-started/oidc-intro/#the-loginhint-parameter).
+Text signing is triggered by using the `action` and `message` parameters [via login_hint](/verify/getting-started/oidc-intro/#the-loginhint-parameter).
 
 - The `action` parameter must be set to `sign`
 - The `message` parameter must be base64 encoded and at most 40,000 characters after base64 encoding.
@@ -321,7 +321,7 @@ Text signing is triggered by using the `action` and `message` parameters [via lo
 
 _Note: Signing produces very large JWTs that are not appropriate for authentication/Bearer header use_
 
-Text signing has a different eID cost than authentication. If you have questions, please [contact sales](https://www.criipto.com/contact).
+Text signing has a different eID cost than authentication. If you have questions, please [contact sales](https://www.idura.eu/contact).
 
 <details>
   <summary><strong>Example</strong></summary>

@@ -86,22 +86,22 @@ You will then need to install the test version of the BankID App. Contact our [s
 The app must be activated before first use:
 
 1. Press the **Get started** button
-3. Enter the birth number (SSN) for the test user you created and press the **Next** button
-4. Enter the phone number you associated to the test user and press the **Next** button
-5. Open the following page and enter the birth number for the test number in the NNIN field to get your your SMS one-time code: https://toba-preprod.bankidapis.no/test/events
+2. Enter the birth number (SSN) for the test user you created and press the **Next** button
+3. Enter the phone number you associated to the test user and press the **Next** button
+4. Open the following page and enter the birth number for the test number in the NNIN field to get your your SMS one-time code: https://toba-preprod.bankidapis.no/test/events
    _Note: The page might need to be refreshed several times, and if multiple activations are done in a short period, old SMS codes may be shown. Only the newest activation code will at any point be valid_
-6. Type the one-time code that is shown on the website into the app and press the **Next** button
-7. Check the **Accept terms** box and press the **Approve** button
-8. Press the **Activation codes** button
-10. Press the **Send code words** button in the "Is this your email?” screen
-11. Open the following page and enter the birth number for the test number in the NNIN field to get your your email code words: https://toba-preprod.bankidapis.no/test/events
-12. Type the code words that are shown on the website into the app and press the **Next** button
-13. Press the **Next** button in the "Log in using BankID to complete the activation” screen
-14. Wait until BankID client has loaded in the browser. Pick **BankID app** in the method list if it is not already preselected.
-15. Type "qwer1234” as personal password and click the *Next* button
-16. A progress bar will appear and when finished you will be activated
-17. Enable biometrics (which will take you through a flow where you must agree to the terms and conditions)
-18. Run your first biometrics-based login to sign the biometrics terms
+5. Type the one-time code that is shown on the website into the app and press the **Next** button
+6. Check the **Accept terms** box and press the **Approve** button
+7. Press the **Activation codes** button
+8. Press the **Send code words** button in the "Is this your email?” screen
+9. Open the following page and enter the birth number for the test number in the NNIN field to get your your email code words: https://toba-preprod.bankidapis.no/test/events
+10. Type the code words that are shown on the website into the app and press the **Next** button
+11. Press the **Next** button in the "Log in using BankID to complete the activation” screen
+12. Wait until BankID client has loaded in the browser. Pick **BankID app** in the method list if it is not already preselected.
+13. Type "qwer1234” as personal password and click the _Next_ button
+14. A progress bar will appear and when finished you will be activated
+15. Enable biometrics (which will take you through a flow where you must agree to the terms and conditions)
+16. Run your first biometrics-based login to sign the biometrics terms
 
 ## Data and consent for Norwegian BankID
 
@@ -196,14 +196,14 @@ You can use the [Idura Dashboard](https://dashboard.idura.app/providers/NO_BANKI
 
 Norwegian BankID supports signing text.
 
-Text signing is triggered by using the `action` and `message` parameters [via login_hint](https://docs.criipto.com/verify/getting-started/oidc-intro/#the-loginhint-parameter).
+Text signing is triggered by using the `action` and `message` parameters [via login_hint](/verify/getting-started/oidc-intro/#the-loginhint-parameter).
 
 - The `action` parameter must be set to `sign`
 - The `message` parameter must be base64 encoded.
 
 _Note: Signing produces very large JWTs that are not appropriate for authentication/Bearer header use_
 
-Text signing has a different eID cost than authentication, please [contact Idura sales](https://www.criipto.com/contact) if you have questions.
+Text signing has a different eID cost than authentication, please [contact Idura sales](https://www.idura.eu/contact) if you have questions.
 
 <details>
   <summary><strong>Example</strong></summary>
@@ -226,7 +226,7 @@ If you can only use assurance level “High” in your login flow, you must expl
 
 By default, the user flow is controlled by the user-defined settings of the BankID app: no additional configurations required. If necessary, you can adjust the user flow by adding a `login_hint` to the [authorize URL](/verify/guides/authorize-url-builder/).
 
-The table below provides a list of options for using `login_hint` with Norwegian BankID, and the resulting user flows. Check [our guide on prefilled fields](https://docs.criipto.com/verify/guides/prefilled-fields/) to learn more.
+The table below provides a list of options for using `login_hint` with Norwegian BankID, and the resulting user flows. Check [our guide on prefilled fields](/verify/guides/prefilled-fields/) to learn more.
 
 <table>
   <thead>

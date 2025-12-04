@@ -15,7 +15,7 @@ In test environment, you will need to add `login_hint=txinfo:{sometext}` as desc
 ## Dutch iDIN
 
 By default, Signatures provides a display name template by combining the `given_name` and `family_name` from the JWT claims.
-To retrieve name information from iDIN, you will need to provide an additional scope on either signature order or sigantory level to enable [full identification](https://docs.criipto.com/verify/e-ids/dutch-idin/#full-identification).
+To retrieve name information from iDIN, you will need to provide an additional scope on either signature order or sigantory level to enable [full identification](/verify/e-ids/dutch-idin/#full-identification).
 
 `scope=openid idin:full-id` - `openid` is required by default, and by setting the scope, the default value is overwritten.
 

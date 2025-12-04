@@ -140,7 +140,7 @@ export default function AddSignatoryQueryBuilder() {
         <br />
         See examples of various{' '}
         <a
-          href="https://docs.criipto.com/verify/reference/token-contents/"
+          href="/verify/reference/token-contents/"
           target="_blank"
           rel="noopener"
         >

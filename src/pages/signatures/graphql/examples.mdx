@@ -111,7 +111,7 @@ import addSignatoryBasicExample from '../../../examples/addSignatory/basic';
 
 If you wish to validate the user signing, you should use the `evidenceValidation` input for `addSignatory`.
 
-Evidence validation keys must match what will be found in the token claims when signing. You can inspect the [JWTs issued by Idura Verify](https://docs.criipto.com/verify/reference/token-contents/) to see the keys that can be used for evidence validation. _Tip: Hover over a claim in the JWT payload to view its description._
+Evidence validation keys must match what will be found in the token claims when signing. You can inspect the [JWTs issued by Idura Verify](/verify/reference/token-contents/) to see the keys that can be used for evidence validation. _Tip: Hover over a claim in the JWT payload to view its description._
 
 Evidence will be hashed before storage and compared when a user tries to sign. If the evidence does not match, an error will be displayed to the user, and they will be prompted to try again.
 
