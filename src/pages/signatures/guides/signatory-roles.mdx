@@ -1,0 +1,39 @@
+---
+product: signatures
+category: Guides
+sort: 10
+title: Signatory Roles
+---
+
+**Signatory roles** are used to designate what actions a given signatory is allowed to perform.
+A signatory's role can be set when adding a signatory to a signature order.
+
+Signatory roles aim to cover complex signing scenarios, such as, requiring approval before a signature order can be closed/signed **or** allowing certain people to access to the signature order thoughout its lifetime.
+
+## Viewer Signatory
+
+A viewer signatory can be used to grant access to the signature order documents, either all or a subset, without requiring any special action, i.e., signing.
+
+### Evidence Validation
+
+A viewer signatory can only view the documents when the signature order is open unless evidence validation is defined.
+The evidence validation is used to secure the signatory's access to the completed document(s) after closing, if retention is specified.
+If no evidence validation is specified, the viewer can only access the document(s) when the signature order is open.
+
+## Approver Signatory
+
+An approver signatory can be used to require that the signature order documents, either all or a subset, are approved, but not signed, before the signature order can be closed.
+
+In addition to requiring an approval before closing, the role can be combined with [Signing Sequence](/signatures/graphql/examples/#signing-sequence) to require that the given document(s) have been approved before it can be signed.
+
+NB: When specifying a signatory as an approver, the document(s) cannot be marked as pre-approved.
+
+### Evidence Validation
+
+An approver signatory can only view the documents when the signature order is open unless evidence validation is defined.
+The evidence validation is used to secure the signatory's access to the completed document(s) after closing, if retention is specified.
+If no evidence validation is specified, the approver can only access the document(s) when the signature order is open.
+
+## Signer Signatory (default)
+
+Requires the signatory to both approve and sign the signature order documents, either all or a subset, before the signature order can be closed.

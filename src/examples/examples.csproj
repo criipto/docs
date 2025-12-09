@@ -8,6 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Criipto.Signatures" Version="1.25.1" />
+    <PackageReference Include="Criipto.Signatures" Version="1.29.1" />
   </ItemGroup>
 </Project>

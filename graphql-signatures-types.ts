@@ -39,6 +39,8 @@ export type AddSignatoryInput = {
   reference?: InputMaybe<Scalars['String']['input']>;
   /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
+  /** Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER. */
+  signatoryRole?: InputMaybe<SignatoryRole | '%future added value'>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   signatureOrderId: Scalars['ID']['input'];
   /** Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output. */
@@ -142,6 +144,7 @@ export type BatchSignatoryViewer = Viewer & {
   id: Scalars['ID']['output'];
   signer: Scalars['Boolean']['output'];
   status: SignatoryStatus | '%future added value';
+  traceId: Scalars['String']['output'];
   ui: SignatureOrderUi;
 };
 
@@ -152,6 +155,13 @@ export type CancelSignatureOrderInput = {
 export type CancelSignatureOrderOutput = {
   __typename?: 'CancelSignatureOrderOutput';
   signatureOrder: SignatureOrder;
+};
+
+export type Certificate = {
+  __typename?: 'Certificate';
+  issuer: Scalars['String']['output'];
+  raw: Scalars['Blob']['output'];
+  subject: Scalars['String']['output'];
 };
 
 export type ChangeSignatoryInput = {
@@ -226,7 +236,8 @@ export type CompleteCriiptoVerifyEvidenceProviderOutput = {
 export type CompositeSignature = Signature & {
   __typename?: 'CompositeSignature';
   signatory?: Maybe<Signatory>;
-  signatures: Array<DrawableSignature | EmptySignature | JwtSignature>;
+  signatures: Array<DrawableSignature | EmptySignature | JwtSignature | NorwegianBankIdSignature>;
+  timestampToken: TimestampToken;
 };
 
 export type CreateApplicationApiKeyInput = {
@@ -311,6 +322,8 @@ export type CreateSignatureOrderSignatoryInput = {
   reference?: InputMaybe<Scalars['String']['input']>;
   /** Deprecated in favor of 'signingAs'. Define a role for the signatory, i.e. 'Chairman'. Will be visible in the document output. */
   role?: InputMaybe<Scalars['String']['input']>;
+  /** Denotes the signatory role, e.g. SIGNER or VIEWER. Defaults to SIGNER. */
+  signatoryRole?: InputMaybe<SignatoryRole | '%future added value'>;
   signatureAppearance?: InputMaybe<SignatureAppearanceInput>;
   /** Define the who signatory is signing as, i.e., 'Chairman'. Will be visible in the document output. */
   signingAs?: InputMaybe<Scalars['String']['input']>;
@@ -323,6 +336,8 @@ export type CreateSignatureOrderSignatoryInput = {
 export type CreateSignatureOrderUiInput = {
   /** Removes the UI options to reject a document or signature order. */
   disableRejection?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Adds an UI option for the signatory to cancel, will return to 'signatoryRedirectUri' if defined. */
+  enableCancel?: InputMaybe<Scalars['Boolean']['input']>;
   /** The language of texts rendered to the signatory. */
   language?: InputMaybe<Language | '%future added value'>;
   /** Define a logo to be shown in the signatory UI. */
@@ -426,7 +441,7 @@ export type Document = {
   originalBlob?: Maybe<Scalars['Blob']['output']>;
   reference?: Maybe<Scalars['String']['output']>;
   signatoryViewerStatus?: Maybe<SignatoryDocumentStatus | '%future added value'>;
-  signatures?: Maybe<Array<CompositeSignature | DrawableSignature | EmptySignature | JwtSignature>>;
+  signatures?: Maybe<Array<CompositeSignature | DrawableSignature | EmptySignature | JwtSignature | NorwegianBankIdSignature>>;
   title: Scalars['String']['output'];
 };
 
@@ -478,6 +493,7 @@ export type DrawableSignature = Signature & SingleSignature & {
   image: Scalars['Blob']['output'];
   name?: Maybe<Scalars['String']['output']>;
   signatory?: Maybe<Signatory>;
+  timestampToken: TimestampToken;
 };
 
 export type DrawableSignatureEvidenceProvider = SignatureEvidenceProvider & SingleSignatureEvidenceProvider & {
@@ -491,6 +507,7 @@ export type DrawableSignatureEvidenceProvider = SignatureEvidenceProvider & Sing
 export type EmptySignature = Signature & SingleSignature & {
   __typename?: 'EmptySignature';
   signatory?: Maybe<Signatory>;
+  timestampToken: TimestampToken;
 };
 
 /** Must define a evidence provider subsection. */
@@ -537,6 +554,7 @@ export type JwtSignature = Signature & SingleSignature & {
   jwks: Scalars['String']['output'];
   jwt: Scalars['String']['output'];
   signatory?: Maybe<Signatory>;
+  timestampToken: TimestampToken;
 };
 
 export enum Language {
@@ -732,6 +750,14 @@ export type NoopSignatureEvidenceProvider = SignatureEvidenceProvider & SingleSi
   name: Scalars['String']['output'];
 };
 
+export type NorwegianBankIdSignature = Signature & SingleSignature & {
+  __typename?: 'NorwegianBankIdSignature';
+  claims: Array<JwtClaim>;
+  signatory?: Maybe<Signatory>;
+  signingCertificate: Certificate;
+  timestampToken: TimestampToken;
+};
+
 /** OIDC/JWT based evidence for signatures. */
 export type OidcEvidenceProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -811,7 +837,7 @@ export type PdfDocument = Document & {
   originalBlob?: Maybe<Scalars['Blob']['output']>;
   reference?: Maybe<Scalars['String']['output']>;
   signatoryViewerStatus?: Maybe<SignatoryDocumentStatus | '%future added value'>;
-  signatures?: Maybe<Array<CompositeSignature | DrawableSignature | EmptySignature | JwtSignature>>;
+  signatures?: Maybe<Array<CompositeSignature | DrawableSignature | EmptySignature | JwtSignature | NorwegianBankIdSignature>>;
   title: Scalars['String']['output'];
 };
 
@@ -982,6 +1008,7 @@ export type Signatory = {
   reference?: Maybe<Scalars['String']['output']>;
   /** @deprecated Deprecated in favor of signingAs */
   role?: Maybe<Scalars['String']['output']>;
+  signatoryRole: SignatoryRole | '%future added value';
   /** Signature order for the signatory. */
   signatureOrder: SignatureOrder;
   signingAs?: Maybe<Scalars['String']['output']>;
@@ -1058,12 +1085,19 @@ export enum SignatoryFrontendEvent {
   SIGN_LINK_OPENED = 'SIGN_LINK_OPENED'
 }
 
+export enum SignatoryRole {
+  APPROVER = 'APPROVER',
+  SIGNER = 'SIGNER',
+  VIEWER = 'VIEWER'
+}
+
 export type SignatorySigningSequence = {
   __typename?: 'SignatorySigningSequence';
   initialNumber: Scalars['Int']['output'];
 };
 
 export enum SignatoryStatus {
+  APPROVED = 'APPROVED',
   DELETED = 'DELETED',
   ERROR = 'ERROR',
   OPEN = 'OPEN',
@@ -1074,6 +1108,8 @@ export enum SignatoryStatus {
 export type SignatoryUiInput = {
   /** Removes the UI options to reject a document or signature order. */
   disableRejection?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Adds an UI option for the signatory to cancel, will return to 'signatoryRedirectUri' if defined. */
+  enableCancel?: InputMaybe<Scalars['Boolean']['input']>;
   /** The language of texts rendered to the signatory. */
   language?: InputMaybe<Language | '%future added value'>;
   /** Define a logo to be shown in the signatory UI. */
@@ -1093,10 +1129,12 @@ export type SignatoryViewer = Viewer & {
   download?: Maybe<SignatoryViewerDownload>;
   evidenceProviders: Array<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
+  role: SignatoryRole | '%future added value';
   signatoryId: Scalars['ID']['output'];
   signatureOrderStatus: SignatureOrderStatus | '%future added value';
   signer: Scalars['Boolean']['output'];
   status: SignatoryStatus | '%future added value';
+  traceId: Scalars['String']['output'];
   ui: SignatureOrderUi;
 };
 
@@ -1116,6 +1154,7 @@ export type SignatoryViewerDownload = {
 /** Represents a signature on a document. */
 export type Signature = {
   signatory?: Maybe<Signatory>;
+  timestampToken: TimestampToken;
 };
 
 export type SignatureAppearanceInput = {
@@ -1193,6 +1232,7 @@ export enum SignatureOrderStatus {
 export type SignatureOrderUi = {
   __typename?: 'SignatureOrderUI';
   disableRejection: Scalars['Boolean']['output'];
+  enableCancel: Scalars['Boolean']['output'];
   language: Language | '%future added value';
   logo?: Maybe<SignatureOrderUiLogo>;
   renderPdfAnnotationLayer: Scalars['Boolean']['output'];
@@ -1275,6 +1315,11 @@ export type TenantWebhookLogsArgs = {
   from: Scalars['String']['input'];
   succeeded?: InputMaybe<Scalars['Boolean']['input']>;
   to: Scalars['String']['input'];
+};
+
+export type TimestampToken = {
+  __typename?: 'TimestampToken';
+  timestamp: Scalars['Date']['output'];
 };
 
 export type TrackSignatoryInput = {
@@ -1395,6 +1440,7 @@ export type WebhookInvocation = {
 };
 
 export enum WebhookInvocationEvent {
+  SIGNATORY_APPROVED = 'SIGNATORY_APPROVED',
   SIGNATORY_DOCUMENT_STATUS_CHANGED = 'SIGNATORY_DOCUMENT_STATUS_CHANGED',
   SIGNATORY_DOWNLOAD_LINK_OPENED = 'SIGNATORY_DOWNLOAD_LINK_OPENED',
   SIGNATORY_REJECTED = 'SIGNATORY_REJECTED',
@@ -1445,7 +1491,7 @@ export type XmlDocument = Document & {
   originalBlob?: Maybe<Scalars['Blob']['output']>;
   reference?: Maybe<Scalars['String']['output']>;
   signatoryViewerStatus?: Maybe<SignatoryDocumentStatus | '%future added value'>;
-  signatures?: Maybe<Array<CompositeSignature | DrawableSignature | EmptySignature | JwtSignature>>;
+  signatures?: Maybe<Array<CompositeSignature | DrawableSignature | EmptySignature | JwtSignature | NorwegianBankIdSignature>>;
   title: Scalars['String']['output'];
 };
 

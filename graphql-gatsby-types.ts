@@ -1560,6 +1560,7 @@ export type Query = {
   __typename?: 'Query';
   allDirectory: DirectoryConnection;
   allFile: FileConnection;
+  allGithub: GithubConnection;
   allImageSharp: ImageSharpConnection;
   allMdx: MdxConnection;
   allSite: SiteConnection;
@@ -1569,6 +1570,7 @@ export type Query = {
   allSitePlugin: SitePluginConnection;
   directory?: Maybe<Directory>;
   file?: Maybe<File>;
+  github?: Maybe<Github>;
   imageSharp?: Maybe<ImageSharp>;
   mdx?: Maybe<Mdx>;
   site?: Maybe<Site>;
@@ -1592,6 +1594,14 @@ export type QueryAllFileArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   skip?: InputMaybe<Scalars['Int']['input']>;
   sort?: InputMaybe<Array<InputMaybe<FileSortInput>>>;
+};
+
+
+export type QueryAllGithubArgs = {
+  filter?: InputMaybe<GithubFilterInput>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  sort?: InputMaybe<Array<InputMaybe<GithubSortInput>>>;
 };
 
 
@@ -1733,6 +1743,15 @@ export type QueryFileArgs = {
   size?: InputMaybe<IntQueryOperatorInput>;
   sourceInstanceName?: InputMaybe<StringQueryOperatorInput>;
   uid?: InputMaybe<IntQueryOperatorInput>;
+};
+
+
+export type QueryGithubArgs = {
+  children?: InputMaybe<NodeFilterListInput>;
+  id?: InputMaybe<StringQueryOperatorInput>;
+  iduraVerifyAndroidReadme?: InputMaybe<StringQueryOperatorInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+  parent?: InputMaybe<NodeFilterInput>;
 };
 
 
@@ -2701,6 +2720,128 @@ export type WebPOptions = {
   quality?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type Github = Node & {
+  __typename?: 'github';
+  children: Array<Node>;
+  id: Scalars['ID']['output'];
+  iduraVerifyAndroidReadme?: Maybe<Scalars['String']['output']>;
+  internal: Internal;
+  parent?: Maybe<Node>;
+};
+
+export type GithubConnection = {
+  __typename?: 'githubConnection';
+  distinct: Array<Scalars['String']['output']>;
+  edges: Array<GithubEdge>;
+  group: Array<GithubGroupConnection>;
+  max?: Maybe<Scalars['Float']['output']>;
+  min?: Maybe<Scalars['Float']['output']>;
+  nodes: Array<Github>;
+  pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']['output']>;
+  totalCount: Scalars['Int']['output'];
+};
+
+
+export type GithubConnectionDistinctArgs = {
+  field: GithubFieldSelector;
+};
+
+
+export type GithubConnectionGroupArgs = {
+  field: GithubFieldSelector;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type GithubConnectionMaxArgs = {
+  field: GithubFieldSelector;
+};
+
+
+export type GithubConnectionMinArgs = {
+  field: GithubFieldSelector;
+};
+
+
+export type GithubConnectionSumArgs = {
+  field: GithubFieldSelector;
+};
+
+export type GithubEdge = {
+  __typename?: 'githubEdge';
+  next?: Maybe<Github>;
+  node: Github;
+  previous?: Maybe<Github>;
+};
+
+export type GithubFieldSelector = {
+  children?: InputMaybe<NodeFieldSelector>;
+  id?: InputMaybe<FieldSelectorEnum>;
+  iduraVerifyAndroidReadme?: InputMaybe<FieldSelectorEnum>;
+  internal?: InputMaybe<InternalFieldSelector>;
+  parent?: InputMaybe<NodeFieldSelector>;
+};
+
+export type GithubFilterInput = {
+  children?: InputMaybe<NodeFilterListInput>;
+  id?: InputMaybe<StringQueryOperatorInput>;
+  iduraVerifyAndroidReadme?: InputMaybe<StringQueryOperatorInput>;
+  internal?: InputMaybe<InternalFilterInput>;
+  parent?: InputMaybe<NodeFilterInput>;
+};
+
+export type GithubGroupConnection = {
+  __typename?: 'githubGroupConnection';
+  distinct: Array<Scalars['String']['output']>;
+  edges: Array<GithubEdge>;
+  field: Scalars['String']['output'];
+  fieldValue?: Maybe<Scalars['String']['output']>;
+  group: Array<GithubGroupConnection>;
+  max?: Maybe<Scalars['Float']['output']>;
+  min?: Maybe<Scalars['Float']['output']>;
+  nodes: Array<Github>;
+  pageInfo: PageInfo;
+  sum?: Maybe<Scalars['Float']['output']>;
+  totalCount: Scalars['Int']['output'];
+};
+
+
+export type GithubGroupConnectionDistinctArgs = {
+  field: GithubFieldSelector;
+};
+
+
+export type GithubGroupConnectionGroupArgs = {
+  field: GithubFieldSelector;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type GithubGroupConnectionMaxArgs = {
+  field: GithubFieldSelector;
+};
+
+
+export type GithubGroupConnectionMinArgs = {
+  field: GithubFieldSelector;
+};
+
+
+export type GithubGroupConnectionSumArgs = {
+  field: GithubFieldSelector;
+};
+
+export type GithubSortInput = {
+  children?: InputMaybe<NodeSortInput>;
+  id?: InputMaybe<SortOrderEnum>;
+  iduraVerifyAndroidReadme?: InputMaybe<SortOrderEnum>;
+  internal?: InputMaybe<InternalSortInput>;
+  parent?: InputMaybe<NodeSortInput>;
+};
+
 export type NavigationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2715,3 +2856,8 @@ export type UsePagesQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type UsePagesQueryQuery = { __typename?: 'Query', pages: { __typename?: 'MdxConnection', nodes: Array<{ __typename?: 'Mdx', id: string, tableOfContents?: any | null, frontmatter?: { __typename?: 'MdxFrontmatter', title?: string | null } | null, fields?: { __typename?: 'MdxFields', slug?: string | null } | null }> } };
+
+export type TestUsersSetupLinksQueryQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TestUsersSetupLinksQueryQuery = { __typename?: 'Query', pages: { __typename?: 'MdxConnection', edges: Array<{ __typename?: 'MdxEdge', node: { __typename: 'Mdx', id: string, frontmatter?: { __typename?: 'MdxFrontmatter', title?: string | null } | null, fields?: { __typename?: 'MdxFields', slug?: string | null } | null, internal: { __typename?: 'Internal', contentFilePath?: string | null } } }> } };
