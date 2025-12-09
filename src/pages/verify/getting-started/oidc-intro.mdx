@@ -346,7 +346,8 @@ Location: YOUR_RETURN_URL#id_token=eyJ[...].eyJ[...].Sfl[...]&state=[...]
 
 Client-Initiated Backchannel Authentication (<a href="https://openid.net/specs/openid-client-initiated-backchannel-authentication-core-1_0.html" target="_blank">CIBA</a>) is a new authentication flow where the client application initiates the authentication process on behalf of the end-user.
 
-The caller provides a hint that triggers an authentication request to the user's authentication device, typically a phone. The user can then approve the request and complete the authentication process as usual.
+The client application provides a hint that triggers an authentication request to the user's authentication device, typically a phone.
+The user can then approve the request and complete the authentication process as usual.
 
 CIBA is an extension to OpenID Connect. However, unlike in other OpenID Connect flows, there is a direct communication between your application and the OpenID Provider (Idura Verify), without redirects through the user's browser.
 
@@ -356,7 +357,7 @@ CIBA supports use cases not covered by other OpenID Connect flows, such as:
 - Using a smartphone to authorize a payment at a point of sale terminal.
 - Enabling a bank agent to authenticate a customer in a bank branch during a face-to-face interaction.
 
-Idura Verify supports CIBA for the [Swedish BankID Phone Authentication](/verify/e-ids/swedish-bankid/#bankid-phone-authentication).
+Idura Verify supports CIBA for the [Swedish BankID Phone Authentication](/verify/guides/caller-authentication/#caller-authentication-with-swedish-bankid).
 
 ### Example request
 
