@@ -32,14 +32,14 @@ The CIBA flow is designed for use cases where the client application isn't direc
 
 #### [5. The Headless flow](/verify/getting-started/oidc-intro/#authenticate-with-headless)
 
-The Headless flow is a custom protocol by Idura that allows interacting with eIDs which offers a poll based workflow, where user agent redirect is not required.
+The Headless flow is a custom protocol by Idura. It allows interacting with eIDs that offer a poll-based workflow, where a user agent redirect is not required.
 
 **The choice of the OpenID Connect flow depends on the requirements and architecture of the client application implementing the OIDC authentication.**
 
 <Highlight icon="info">
 The following sections describe the five flows and introduce the parameters to configure the authentication and subsequent user information retrieval.
 
-Please beware that you don't have to go through the below motions manually. Most often it will be handled by configuring an OpenID Connect package on your platform of choice.
+Note that you don't need to perform the steps below manually. In most cases, they are handled by configuring an OpenID Connect package on your platform of choice.
 
 </Highlight>
 
@@ -55,7 +55,7 @@ You can find the URL for the _OAuth2 authorization endpoint_ in the OpenID Conne
 GET https://YOUR_SUBDOMAIN.idura.broker/.well-known/openid-configuration
 ```
 
-The response from this endpoint is a JSON document, with an `authorization_endpoint` property. The corresponding property value is the URL of the _OAuth2 authorization endpoint_.
+The response from this endpoint is a JSON document with an `authorization_endpoint` property. The corresponding property value is the URL of the _OAuth2 authorization endpoint_.
 
 ### Example authorization URL
 
@@ -73,7 +73,7 @@ GET https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?
 
 Note that providing `response_type=code` specifies that you want either the traditional back-channel _Authorization Code Flow_ or the _PKCE Flow_. If you specify `response_type=id_token` you indicate that you want the _Implicit Flow_. In the Implicit Flow, you receive the issued token in a URL fragment on the return URL.
 
-If you want to receive the response in another way you must specify the `response_mode` parameter, see below.
+If you want to receive the response in another way, you must specify the `response_mode` parameter, see below.
 
 <a id="authorize-request-parameters"></a>
 
@@ -89,7 +89,7 @@ If you want to receive the response in another way you must specify the `respons
       <td>`response_type`</td>
       <td>
         Denotes the kind of credential that Idura will return (`code` or `id_token`). If you are
-        integrating a traditional server based web application (back-channel flow) or a
+        integrating a traditional server-based web application (back-channel flow) or a
         *PKCE-enabled* client, use `code`. Use `id_token` for legacy single page applications using
         a front-channel flow.{' '}
       </td>
@@ -98,7 +98,7 @@ If you want to receive the response in another way you must specify the `respons
       <td>`client_id`</td>
       <td>
         Your application's Client ID. You can find this value in the Idura Verify UI in the settings
-        for actual application.{' '}
+        for the actual application.{' '}
       </td>
     </tr>
     <tr>
@@ -107,8 +107,8 @@ If you want to receive the response in another way you must specify the `respons
         {' '}
         The URL to which Idura will redirect the browser after authentication has been completed.
         The authorization code and the `id_token` will be available in the `code` and `id_token` URL
-        parameter for the back-channel flow and on a URL query parameter for the front-channel flow.
-        This URL must be pre-registered as a valid callback URL in your application settings.
+        parameters for the back-channel flow and on a URL query parameter for the front-channel
+        flow. This URL must be pre-registered as a valid callback URL in your application settings.
         <br /> <br /> **Warning:** Per the [OAuth 2.0
         Specification](https://tools.ietf.org/html/rfc6749#section-3.1.2), Idura removes everything
         after the hash and does *not* honor any fragments.{' '}
@@ -132,8 +132,8 @@ If you want to receive the response in another way you must specify the `respons
       <td>
         Identifies which eID identity service you want to use. You can only specify one value, and
         it must identify the exact type of identity service, as some countries have, for example,
-        both a mobile and web based service. Possible values can be found in the [authorize request
-        builder](/verify/guides/authorize-url-builder/#auth-methods--acr-values).{' '}
+        both a mobile and a web-based service. Possible values can be found in the [authorize
+        request builder](/verify/guides/authorize-url-builder/#auth-methods--acr-values).{' '}
       </td>
     </tr>
     <tr>
@@ -200,6 +200,17 @@ Your next steps will depend on the [OpenID Connect flow type](/verify/getting-st
 
 After completing the steps specific to your chosen flow, you can proceed to [validating the JWT](/verify/getting-started/oidc-intro/#validate-the-jwt) received from successful authentication.
 
+<Highlight icon="info" warning>
+
+A more secure alternative to traditional authorization requests is [Pushed Authorization Requests (PAR)](/verify/guides/pushed-authorization-requests).
+
+PAR lets you initiate the authentication flow by sending [authorization request parameters](/verify/getting-started/oidc-intro/#authorize-request-parameters) directly to the authorization server via a POST request.
+This approach keeps parameters out of URLs, making requests more secure and protecting their integrity. It also ensures sensitive data remains confidential – e.g. if you are including PII in a `login_hint`.
+
+[View the PAR implementation guide →](/verify/guides/pushed-authorization-requests/#implementing-par-with-idura)
+
+</Highlight>
+
 ## Authenticate with back-channel Authorization Code Flow
 
 ### Example request
@@ -226,7 +237,7 @@ Location: YOUR_RETURN_URL?code=AUTHORIZATION_CODE&state=YOUR_STATE
 
 #### Error response
 
-In case the authentication request fails, you will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with error included in the query parameters:
+In case the authentication request fails, you will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with an error included in the query parameters:
 
 ```text
 HTTP/1.1 302 Found
@@ -239,7 +250,7 @@ For the Authorization Code Flow, you will need to exchange the returned code for
 
 For PKCE-enabled clients, this exchange is based on a one-time secret created by the OIDC library you use to handle the flow, and the exchange will also be handled by the same library.
 
-For traditional back-channel flows, note that you must use a HTML-form-style HTTP POST here, and preferably send the credentials in the `Authorization` HTTP header.
+For traditional back-channel flows, note that you must use an HTML-form-style HTTP POST here, and preferably send the credentials in the `Authorization` HTTP header.
 You <strong>must also x-www-form-urlencode</strong> the values of the `CLIENT_ID` and `CLIENT_SECRET`, respectively, before constructing the `Authorization` header in `Basic` format.
 
 ```text
@@ -252,15 +263,15 @@ grant_type=authorization_code&code=AUTHORIZATION_CODE&client_id=CLIENT_ID&redire
 
 [See more code exchange authorization examples in various languages.](#code-exchange-authorization-examples)
 
-**_Note_** _We do also support receiving the client credentials in the payload, but this usage is discouraged by the OAuth2 specification, and we strongly recommend that you send the credentials in the `Authorization: Basic ...` HTTP header value as described above._
+**_Note_** _We also support receiving the client credentials in the payload, but this usage is discouraged by the OAuth2 specification, and we strongly recommend that you send the credentials in the `Authorization: Basic ...` HTTP header value as described above._
 
-The client id and secret are retrieved from the Idura Verify management UI and the `redirect_uri` must be exactly the same you used in the authorization request in the previous step.
+The client id and secret retrieved from the Idura Verify management UI, as well as the `redirect_uri`, must be exactly the same as you used in the authorization request in the previous step.
 
 <Highlight icon="exclamation" warning>
 
 Note that the back-channel exchange of the authorization code requires the use of the client secret, which is basically just a password, and therefore _must always_ be made via a back-channel - server to server - and never from a public client like a browser or native application. Never include the secret in the frontend code.
 
-For PKCE-enabled clients, the secret is generated on-the-fly, and no special handling of it is required by you.
+For PKCE-enabled clients, the secret is generated on the fly, and no special handling of it is required by you.
 
 </Highlight>
 
@@ -287,7 +298,7 @@ GET https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?
 
 ### Example response
 
-You will receive an `HTTP 302` response which redirects your browser to your specified `redirect_uri` with the authorization code included in the query parameters:
+You will receive an `HTTP 302` response, which redirects your browser to your specified `redirect_uri` with the authorization code included in the query parameters:
 
 ```text
 HTTP/1.1 302 Found
@@ -341,7 +352,7 @@ CIBA is an extension to OpenID Connect. However, unlike in other OpenID Connect 
 
 CIBA supports use cases not covered by other OpenID Connect flows, such as:
 
-- Confirming user's identity to a call center agent during a phone call or via a chat.
+- Confirming a user's identity to a call center agent during a phone call or via a chat.
 - Using a smartphone to authorize a payment at a point of sale terminal.
 - Enabling a bank agent to authenticate a customer in a bank branch during a face-to-face interaction.
 
@@ -367,7 +378,7 @@ scope=openid
 
 ### Example response
 
-Successful response will contain the request id, `auth_req_id`:
+A successful response will contain the request id, `auth_req_id`:
 
 ```text
 {
@@ -413,7 +424,7 @@ Headless is an extension to OpenID Connect. However, unlike in other OpenID Conn
 
 Headless supports use cases not covered by other OpenID Connect flows, such as:
 
-- Rendering UI elements in your own webpage instead of via a Idura redirect
+- Rendering UI elements in your own webpage instead of via an Idura redirect
 - Performing app2app where a browser is not required
 
 Idura Verify currently supports Headless for Swedish BankID.
@@ -498,7 +509,7 @@ The validation step is required; without it, you cannot trust the contained end-
 We strongly recommend that you find a battle-hardened library for your specific platform to do this heavy lifting.
 You can find an extensive list of libraries on <a href='https://jwt.io/libraries' target="_blank">jwt.io</a>. Alternatively, Idura provides a list of [integrations](/verify/integrations) that handle most of the authentication process, including JWT validation.
 
-For more informaiton, see [OpenID Connect security best practices](/verify/getting-started/best-security-practices/#always-validating-id-tokens) and <a href='https://www.idura.eu/blog/jwt-validation-guide' target="_blank">JWT validation guide</a>.
+For more information, see [OpenID Connect security best practices](/verify/getting-started/best-security-practices/#always-validating-id-tokens) and <a href='https://www.criipto.com/blog/jwt-validation-guide' target="_blank">JWT validation guide</a>.
 
 ## The 'scope' parameter
 
