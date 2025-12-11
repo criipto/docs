@@ -30,6 +30,23 @@ The Authorization Code Flow enhances security by mitigating replay attempts by a
 - For use cases where authentication is initiated on one device but completed on another (e.g., a call center agent starts the authentication process for the end user), the back-channel [CIBA flow](/verify/getting-started/oidc-intro/#authenticate-with-ciba) is the right choice.
 - The Implicit Flow is obsolete and [should not be used in production applications](/verify/getting-started/best-security-practices/#avoid-implicit-flow).
 
+## Pushed Authorization Requests
+
+In a standard authorization request, parameters are sent in a URI query string via a browser redirect. This approach has several limitations:
+
+- There’s no inherent cryptographic guarantee that the data hasn’t been tampered with or forged. For example, an attacker could try modifying the `scope` or `redirect_uri` parameters, potentially gaining unauthorized access or redirecting users to an unintended endpoint.
+- Request parameters are exposed in URLs, which can leak to web server logs or other sites. This is particularly risky if [personally identifiable information (PII)](/verify/getting-started/glossary/#personally-identifiable-information-pii) is included.
+- Authorization request URLs can become quite large, which may cause errors in request processing.
+
+[Pushed Authorization Requests (PAR)](/verify/guides/pushed-authorization-requests/) address these issues by allowing clients to send authorization request parameters in a **POST request directly from the backend** to the authorization server.
+As a result:
+
+- The authorization server can authenticate the client and validate the request before any user interaction. Rejecting invalid or malicious requests early mitigates the risk of request tampering or spoofed clients.
+- Sensitive data does not appear in URLs.
+- Request URL length is not an issue.
+
+Replacing regular authorization requests with PAR is a simple upgrade that helps create confidential and integrity-protected authorization requests, strengthening authentication security in your application.
+
 ## The nonce parameter
 
 `nonce` is used to associate an ID token to the specific authorization request and user session.
