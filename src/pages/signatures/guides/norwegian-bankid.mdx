@@ -15,6 +15,10 @@ However, as signatures will then no longer be based on JWTs, it has a few breaki
 - `ssn` scope must specifically be added to evidence provider settings if `nnin` is required.
 
 QES is enabled for all test signatures, and available on an opt-in basis for production signatures.
-To opt in to production add `nobankid_csc` to the `loginHint` of your [`criiptoVerify` evidence provider settings](/signatures/graphql/schema/#CriiptoVerifyProviderInput).
+
+To opt in to production, adjust your [`criiptoVerify` evidence provider settings](/signatures/graphql/schema/#CriiptoVerifyProviderInput) settings so that:
+
+- `loginHint` contains `nobankid_csc`
+- `version` is `V2` or higher.
 
 Please note: Norwegian BankID QES with [CSC](https://developer.bankid.no/bankid-esign-provider/apis/csc/CSC/) carries an increased eID cost per document.
