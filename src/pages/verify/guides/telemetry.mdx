@@ -12,16 +12,25 @@ Idura offers telemetry and observability into authentication flows.
   parameters.
 </Highlight>
 
-## Capturing trace id
+## Enabling telemetry
 
-After telemetry has been enabled, a new "Telemetry" screen will be present in the dashboard.
+Telemetry is enabled by default for your tenant.
 
-On this screen you can enable "Augment header and protocol responses". When this setting
-is enabled, Idura will augment certain headers and protocol query responses to include trace ids.
+## Capturing a trace id
 
-### PAR
+Idura provides a way for you to capture the assigned trace id of the current trace.
 
-For [Pushed Authorization Requests (PAR)](/verify/guides/pushed-authorization-requests) a `Trace-Id` header will be added to the response (if "Augment header and protocol responses" is enabled).
+In the "Telemetry" screen on the dashboard you can enable "Augment header and protocol responses". When this setting
+is enabled, Idura will augment responses with a `Trace-Id` header.
+
+You can also enable capturing of trace id per request by sending along the following prefer header.
+
+```sh
+POST /oauth2/par HTTP/1.1
+Prefer: return-trace-id
+```
+
+### Example using Pushed Authorize Request (PAR)
 
 ```sh
 POST /oauth2/par HTTP/1.1
