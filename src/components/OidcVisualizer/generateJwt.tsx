@@ -7,7 +7,7 @@ async function generateJWT(): Promise<string> {
   const privateKey = await jose.importJWK(jwkObject, 'RS256');
 
   try {
-    const jti: string = 'e4f9c3b8a9d12';
+    const jti = crypto.randomUUID();
     const jwt = await new jose.SignJWT({ jti })
       .setProtectedHeader({ alg: 'RS256', kid: jwkObject.kid })
       .setIssuedAt()

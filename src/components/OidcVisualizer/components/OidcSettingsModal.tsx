@@ -21,7 +21,6 @@ type ModalProps = {
   scope: string;
   redirectUri: string;
   pkJwtAuth: boolean;
-  setPkJwtAuth: (value: boolean) => void;
   oidcSettings: OidcSettings;
   setOidcSettings: (settings: OidcSettings) => void;
 };
@@ -35,7 +34,6 @@ export default function Modal({
   clientSecret,
   scope,
   pkJwtAuth,
-  setPkJwtAuth,
   oidcSettings,
   setOidcSettings,
 }: ModalProps) {
@@ -91,7 +89,9 @@ export default function Modal({
               <select
                 className="w-full border border-gray-300 mt-2 px-2 py-1 focus:outline-none focus:ring-1 focus:ring-sky-600 "
                 value={pkJwtAuth ? 'private_jwt' : 'client_secret'}
-                onChange={e => setPkJwtAuth(e.target.value === 'private_jwt')}
+                onChange={e =>
+                  setSettings({ ...settings, pkJwtAuth: e.target.value === 'private_jwt' })
+                }
               >
                 <option value="client_secret">Client Secret</option>
                 <option value="private_jwt">Private Key JWT</option>

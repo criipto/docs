@@ -114,7 +114,7 @@ const OidcVisualizer = () => {
         params['client_secret'] = oidcSettings.clientSecret;
       }
 
-      console.log(`exchanging token, pkTwtAuth: ${oidcSettings.pkJwtAuth}`);
+      console.log(`exchanging token, pkJwtAuth: ${oidcSettings.pkJwtAuth}`);
 
       const getToken = await fetch(`https://${oidcSettings.domain}/oauth2/token`, {
         method: 'POST',
