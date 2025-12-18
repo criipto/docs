@@ -8,6 +8,7 @@ import StepOne from './components/steps/StepOne';
 import StepTwo from './components/steps/StepTwo';
 import StepThree from './components/steps/StepThree';
 import StepFour from './components/steps/StepFour';
+import { clientAssertion } from './generateJwt';
 import type { OidcTokenResponse, OidcSettings } from './types';
 
 const OidcVisualizer = () => {
@@ -99,17 +100,29 @@ const OidcVisualizer = () => {
     if (!authCode) return;
 
     try {
+      const params: Record<string, string> = {
+        grant_type: 'authorization_code',
+        code: authCode,
+        redirect_uri: oidcConfig.redirectUri,
+      };
+
+      if (oidcSettings.pkJwtAuth) {
+        params['client_assertion_type'] = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer';
+        params['client_assertion'] = clientAssertion;
+      } else {
+        params['client_id'] = oidcSettings.clientId;
+        params['client_secret'] = oidcSettings.clientSecret;
+      }
+
+      console.log(`exchanging token, pkTwtAuth: ${oidcSettings.pkJwtAuth}`);
+
       const getToken = await fetch(`https://${oidcSettings.domain}/oauth2/token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          grant_type: 'authorization_code',
-          client_id: oidcSettings.clientId,
-          client_secret: oidcSettings.clientSecret,
-          code: authCode,
-          redirect_uri: oidcConfig.redirectUri,
-        }),
+        body: new URLSearchParams(params),
       });
+      console.log('Params object:', params);
+      console.log('URL encoded body:', new URLSearchParams(params).toString());
 
       const data: OidcTokenResponse = await getToken.json();
 
@@ -152,17 +165,19 @@ const OidcVisualizer = () => {
 
   /* Updating OIDC settings */
   const handleUpdateSettings = (newSettings: OidcSettings) => {
+    console.log('updating settings');
     setOidcSettings(prev => ({
       ...prev,
       ...newSettings,
     }));
+    console.log('new settings:', oidcSettings);
     handleReset();
     setShowSettings(false);
   };
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex items-center mb-8">
         <button
           onClick={() => setShowSettings(true)}
           className="px-2 py-2 bg-white text-sky-700 uppercase text-xs font-medium transition hover:text-sky-900 hover:delay-100 focus:outline-none focus:ring-0 focus:border-transparent focus:shadow-none"
@@ -230,6 +245,9 @@ const OidcVisualizer = () => {
           scope={oidcSettings.scope}
           redirectUri={oidcConfig.redirectUri}
           onSave={handleUpdateSettings}
+          pkJwtAuth={oidcSettings.pkJwtAuth}
+          oidcSettings={oidcSettings}
+          setOidcSettings={setOidcSettings}
         />
       )}
     </div>

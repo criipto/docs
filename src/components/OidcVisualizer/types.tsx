@@ -12,5 +12,5 @@ export type OidcSettings = {
   clientId: string;
   clientSecret: string;
   scope: string;
-  clientAssertion?: string;
+  pkJwtAuth: boolean;
 };

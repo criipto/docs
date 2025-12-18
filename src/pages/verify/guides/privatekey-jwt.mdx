@@ -28,7 +28,7 @@ To use `private_key_jwt` for client authentication, follow these three steps:
 
 3. Use the client assertion to authenticate your application against Idura Verify.
 
-You can use one of the recommended libraries for working with JWTs (the list is available at [jwt.io](https://jwt.io/libraries)), or leverage Idura's [criipto-oidc-js](https://github.com/criipto/criipto-oidc-js) library. We strongly recommend utilizing an established tooling or a third-party library rather than building your own solution.
+You can use one of the recommended libraries for working with JWTs (the list is available at [jwt.io](https://jwt.io/libraries)) or Idura's [criipto-oidc-js](https://github.com/criipto/criipto-oidc-js) library. We strongly recommend utilizing an established tooling or a third-party library rather than building your own solution.
 
 ### Generate an RSA key pair and JWKS
 
@@ -36,7 +36,7 @@ Generate an RSA key pair and a JWKS pointing to the public key. You'll need to [
 
 <Highlight icon="exclamation">
 
-Ideally, you would manage and expose your keys via a JWKS endpoint, but for the purposes of this guide, we will work with a static JWKSet.
+Ideally, you would manage and expose your keys via a JWKS endpoint, but for the purposes of this guide, we will work with a static JWK Set.
 
 </Highlight>
 
@@ -141,6 +141,11 @@ grant_type=authorization_code
 &redirect_uri=YOUR_RETURN_URL
 ```
 
+## Encryption key
+
+When we configure PKJWT to create client assertion, this is a signing key.
+We also need to create an encryption key to validate the token.
+
 ## Configure Private Key JWT Authentication
 
 To configure Private Key JWT Authentication, you'll need to register JWKS on behalf of your client on [dashboard.idura.app](https://dashboard.idura.app).
@@ -149,8 +154,31 @@ In your Application settings, go to `OpenID Connect` > `Client JWKS`. You can ad
 
 ![Client JWKS Endpoint](./images/JWKS_endpoint.png)
 
-- Static: Add your static JWKS.
 - JWKS Endpoint: Provide JWKS URL to fetch JWKS dynamically (recommended).
+- Static: Add your static JWKS.
+
+The input must look something like this. Note that you must include both a `'sig'` and an `'enc'` key.
+
+```json
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "use": "enc",
+      "kid": "your-encryption-key",
+      "e": "AQAB",
+      "n": "zwEbepsvbl4TpZNecCtmJnMhALAH0sqlpllZdkI6AsRGou_cxakr8b8HKjjYWiyb-RJzbScGxBLPVK4k9RcEOL3PxoGoSIABEE1-NinDoiTYaSRIYwd7N914vWSGgfs7ctMy7vYRXmTBoc_NuLQkl79Fu2tFjXbLyAgGfnePkZUrFJqCXwCB553QYXJ0Lw4B8P8MFjy80YShI1wBQmCfj5BpZbACN5u5-84233KTHqYIkGOTrF4FZwVRvAkNutjiwMIzwKYGRj2qjdmelmqDlgiPre5UP8Cfnl7Urm411JhueWo7mrvJAcwHMpcyE4Rsuyhm93bv0hBDe5ddt-r4cw"
+    },
+    {
+      "kty": "RSA",
+      "use": "sig",
+      "kid": "your-signing-key",
+      "e": "AQAB",
+      "n": "0TGwj4SywrEU3IYBBm-HoxyI7zKQkjM6Y4PEZNNBmoIFk4kU8J5xVNkbkqnv_SwKrKJD3JbYK18zLvyu05xVDxXEZR8FkipGaXisGOuXuo_A8Gswe_-LLYfN3N-bpcID9E8FnSq6todIO8umD50W9VdGSoO_WxBiffnpnpXDihTuGSLLSdhWz6vz7-VY_Uphv6V87FfqU0OaMGLi7InsZlMSlquvb8LthOm22YvuiRkgkX1cMjW-uaWva7AMQJ6eKbOKRADnMGNjwlUOJkPsqUbCUGuMvNFwqh9JQCBHEvnwGz8Lmt8hNaK0uQ0nT3l2PFZ5_LsH9JrpxqCmD2LHeQ"
+    }
+  ]
+}
+```
 
 ## Advantages of Private Key JWT Authentication
 

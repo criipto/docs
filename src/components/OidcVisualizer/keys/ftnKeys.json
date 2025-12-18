@@ -1,0 +1,18 @@
+{
+  "keys": [
+    {
+      "kty": "RSA",
+      "use": "enc",
+      "kid": "my-encryption-key",
+      "e": "AQAB",
+      "n": "zwEbepsvbT4TpZNecCtmJnMhALAH0sqlpllZdkI6AsRGou_cxakr8b8HKjjYWiyb-RJzbScGxBLPVK4k9RcEOL3PxoGoSIABEE1-NinDoiTYaSRIYwd7N914vWSGgfs7ctMy7vYRXmTBoc_NuLQkl79Fu2tFjXbLyAgGfnePkZUrFJqCXwCB553QYXJ0Lw4B8P8MFjy80YShI1wBQmCfj5BpZbACN5u5-84233KTHqYIkGOTrF4FZwVRvAkNutjiwMIzwKYGRj2qjdmelmqDlgiPre5UP8Cfnl7Urm411JhueWo7mrvJAcwHMpcyE4Rsuyhm93bv0hBDe5ddt-r4cw"
+    },
+    {
+      "kty": "RSA",
+      "use": "sig",
+      "kid": "my-signing-key",
+      "e": "AQAB",
+      "n": "0TGwj4SywrEU3IYBBm-HlxyI7zKQkjM6Y4PEZNNBmoIFk4kU8J5xVNkbkqnv_SwKrKJD3JbYK18zLvyu05xVDxXEZR8FkipGaXisGOuXuo_A8Gswe_-LLYfN3N-bpcID9E8FnSq6todIO8umD50W9VdGSoO_WxBiffnpnpXDihTuGSLLSdhWz6vz7-VY_Uphv6V87FfqU0OaMGLi7InsZlMSlquvb8LthOm22YvuiRkgkX1cMjW-uaWva7AMQJ6eKbOKRADnMGNjwlUOJkPsqUbCUGuMvNFwqh9JQCBHEvnwGz8Lmt8hNaK0uQ0nT3l2PFZ5_LsH9JrpxqCmD2LHeQ"
+    }
+  ]
+}
