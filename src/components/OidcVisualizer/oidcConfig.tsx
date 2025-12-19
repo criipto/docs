@@ -5,6 +5,8 @@ const oidcConfig = {
   redirectUri: `${typeof window !== 'undefined' ? window.location.origin : 'https://docs.idura.app'}/verify/guides/oidc-visualizer`,
   scope: 'openid',
   responseType: 'code',
+  pkJwtAuth: false,
+  acrValues: [],
 };
 
 export default oidcConfig;
