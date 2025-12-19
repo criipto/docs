@@ -6,3 +6,10 @@ export type OidcTokenResponse = {
   error?: string;
   error_description?: string;
 };
+
+export type OidcSettings = {
+  domain: string;
+  clientId: string;
+  clientSecret: string;
+  scope: string;
+};
