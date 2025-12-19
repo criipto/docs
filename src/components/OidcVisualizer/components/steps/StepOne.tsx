@@ -7,6 +7,7 @@ type StepOneProps = {
   authorizeUrl: string;
   authCode?: string | null;
   onLogin: (event: MouseEvent<HTMLButtonElement>) => void;
+  headerAction?: React.ReactNode;
 };
 
 export function formatUrl(url: string): string {
@@ -21,7 +22,13 @@ export function formatUrl(url: string): string {
   return `${base}?\n${formattedParams}`;
 }
 
-export default function StepOne({ stepRef, authorizeUrl, authCode, onLogin }: StepOneProps) {
+export default function StepOne({
+  stepRef,
+  authorizeUrl,
+  authCode,
+  onLogin,
+  headerAction,
+}: StepOneProps) {
   return (
     <StepCard
       number={1}
@@ -53,6 +60,7 @@ export default function StepOne({ stepRef, authorizeUrl, authCode, onLogin }: St
           Redirect
         </Button>
       }
+      headerAction={headerAction}
     />
   );
 }

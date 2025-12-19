@@ -1,12 +1,15 @@
 import React, { useEffect, useLayoutEffect, useState, useRef } from 'react';
 import { jwtVerify, createRemoteJWKSet, JWTPayload } from 'jose';
+import useLocalStorage from './hooks/useLocalStorage';
+import OidcSettingsModal from './components/OidcSettingsModal';
 import oidcConfig from './oidcConfig';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import StepOne from './components/steps/StepOne';
 import StepTwo from './components/steps/StepTwo';
 import StepThree from './components/steps/StepThree';
 import StepFour from './components/steps/StepFour';
 import { secondaryBtn } from './styles';
-import type { OidcTokenResponse } from './types';
+import type { OidcTokenResponse, OidcSettings } from './types';
 
 const OidcVisualizer = () => {
   const [authCode, setAuthCode] = useState<string | null>(null);
@@ -16,8 +19,27 @@ const OidcVisualizer = () => {
   const [codeExchangeCompleted, setCodeExchangeCompleted] = useState<boolean>(false);
   const [step2Error, setStep2Error] = useState<string | null>(null);
   const [step3Error, setStep3Error] = useState<string | null>(null);
+  const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [oidcSettings, setOidcSettings] = useLocalStorage<OidcSettings>(
+    'oidc-settings',
+    oidcConfig,
+  );
 
-  const authorizeUrl = `https://${oidcConfig.domain}/oauth2/authorize?response_type=code&client_id=${oidcConfig.clientId}&redirect_uri=${encodeURIComponent(oidcConfig.redirectUri)}&scope=${encodeURIComponent(oidcConfig.scope)}`;
+  const authorizeUrl = `https://${oidcSettings.domain}/oauth2/authorize?response_type=code&client_id=${oidcSettings.clientId}&redirect_uri=${encodeURIComponent(oidcConfig.redirectUri)}&scope=${encodeURIComponent(oidcSettings.scope)}${
+    oidcSettings.acrValues?.length
+      ? `&acr_values=${encodeURIComponent(oidcSettings.acrValues.join(' '))}`
+      : ''
+  }`;
+
+  /* Close settings modal with Escape key */
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setShowSettings(false);
+    };
+
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, []);
 
   /* Define the current step for scrolling */
   const STEP = {
@@ -83,15 +105,19 @@ const OidcVisualizer = () => {
     if (!authCode) return;
 
     try {
-      const getToken = await fetch(`https://${oidcConfig.domain}/oauth2/token`, {
+      const baseParams: Record<string, string> = {
+        grant_type: 'authorization_code',
+        code: authCode,
+        redirect_uri: oidcConfig.redirectUri,
+      };
+
+      const getToken = await fetch(`https://${oidcSettings.domain}/oauth2/token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
-          grant_type: 'authorization_code',
-          client_id: oidcConfig.clientId,
-          client_secret: oidcConfig.clientSecret,
-          code: authCode,
-          redirect_uri: oidcConfig.redirectUri,
+          ...baseParams,
+          client_id: oidcSettings.clientId,
+          client_secret: oidcSettings.clientSecret,
         }),
       });
 
@@ -100,7 +126,7 @@ const OidcVisualizer = () => {
         `Host: ${oidcSettings.domain}`,
         `Content-Type: application/x-www-form-urlencoded`,
         ``,
-        new URLSearchParams(params).toString().replaceAll('&', '\n'),
+        new URLSearchParams(baseParams).toString().replaceAll('&', '\n'),
       ].join('\n');
 
       setTokenRequest(formattedRequest);
@@ -125,7 +151,7 @@ const OidcVisualizer = () => {
 
     try {
       const JWKS = createRemoteJWKSet(
-        new URL(`https://${oidcConfig.domain}/.well-known/jwks.json`),
+        new URL(`https://${oidcSettings.domain}/.well-known/jwks.json`),
       );
       const { payload } = await jwtVerify(tokenResponse.id_token, JWKS);
       setDecodedPayload(payload);
@@ -144,12 +170,18 @@ const OidcVisualizer = () => {
     window.history.replaceState({}, document.title, window.location.pathname);
   };
 
-  return (
-    <div className="max-w-3xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-0">OpenID Connect Visualizer</h1>
-      </div>
+  /* Updating OIDC settings */
+  const handleUpdateSettings = (newSettings: OidcSettings) => {
+    setOidcSettings(prev => ({
+      ...prev,
+      ...newSettings,
+    }));
+    handleReset();
+    setShowSettings(false);
+  };
 
+  return (
+    <div className="max-w-3xl pl-0 p-2">
       {/* STEP 1: Authorization */}
       <StepOne
         stepRef={step1Ref}
@@ -158,6 +190,18 @@ const OidcVisualizer = () => {
         onLogin={() => {
           window.location.href = authorizeUrl;
         }}
+        headerAction={
+          <button
+            type="button"
+            onClick={() => setShowSettings(true)}
+            className="text-primary-600 uppercase text-xs font-medium transition hover:text-primary-800 focus:outline-none focus:ring-0 focus:border-transparent focus:shadow-none"
+          >
+            <div className="flex flex-row items-center gap-1">
+              <FontAwesomeIcon icon="gear" className="text-md" />
+              <p>Configure</p>
+            </div>
+          </button>
+        }
       />
 
       {/* STEP 2: Code for Token Exchange */}
@@ -192,6 +236,21 @@ const OidcVisualizer = () => {
             Start over
           </button>
         </div>
+      )}
+
+      {/* OIDC Settings Modal */}
+      {showSettings && (
+        <OidcSettingsModal
+          open={showSettings}
+          onClose={() => setShowSettings(false)}
+          domain={oidcSettings.domain}
+          clientId={oidcSettings.clientId}
+          clientSecret={oidcSettings.clientSecret}
+          scope={oidcSettings.scope}
+          redirectUri={oidcConfig.redirectUri}
+          onSave={handleUpdateSettings}
+          acrValues={oidcSettings.acrValues}
+        />
       )}
     </div>
   );

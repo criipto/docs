@@ -15,6 +15,7 @@ type StepCardProps = {
   res?: string | JsonData | null;
   reqNote?: React.ReactNode;
   action?: React.ReactNode;
+  headerAction?: React.ReactNode;
   isActive?: boolean;
   isCompleted?: boolean;
   error?: string | null;
@@ -31,6 +32,7 @@ const StepCard = ({
   reqNote,
   res,
   action,
+  headerAction,
   isActive,
   isCompleted,
   error,
@@ -45,19 +47,22 @@ const StepCard = ({
       ref={cardRef}
       className={cx('relative p-6 mb-6 transition-all bg-light-blue-25', showStep)}
     >
-      <div className="flex items-center gap-3 mb-4">
-        <div
-          className={cx(
-            'w-8 h-8 rounded-full flex items-center justify-center font-bold border-2',
-            {
-              'text-green-600 border-green-600': isCompleted,
-              'text-primary-600 border-primary-600': !isCompleted,
-            },
-          )}
-        >
-          {isCompleted ? <FontAwesomeIcon icon={faCheck} /> : number}
+      <div className="flex flex-row justify-between gap-3 mb-4 items-center">
+        <div className="flex items-center gap-3">
+          <div
+            className={cx(
+              'w-8 h-8 rounded-full flex items-center justify-center font-bold border-2',
+              {
+                'text-green-600 border-green-600': isCompleted,
+                'text-primary-600 border-primary-600': !isCompleted,
+              },
+            )}
+          >
+            {isCompleted ? <FontAwesomeIcon icon={faCheck} /> : number}
+          </div>
+          <h3 className="text-xl font-bold text-light-blue-800 my-4">{title}</h3>
         </div>
-        <h3 className="text-xl font-bold text-light-blue-800 my-4">{title}</h3>
+        {headerAction ? <div className="shrink-0">{headerAction}</div> : null}
       </div>
 
       <p className="text-light-blue-800 mb-4">{description}</p>
