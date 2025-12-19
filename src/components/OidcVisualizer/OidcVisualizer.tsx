@@ -1,25 +1,11 @@
 import React, { useEffect, useLayoutEffect, useState, useRef } from 'react';
 import { jwtVerify, createRemoteJWKSet, JWTPayload } from 'jose';
-import { formatUrl } from './helpers';
-import StepCard from './components/StepCard';
 import oidcConfig from './oidcConfig';
-import cx from 'classnames';
-
-type OidcTokenResponse = {
-  token_type: 'Bearer';
-  expires_in: number;
-  id_token: string;
-  access_token: string;
-  error?: string;
-  error_description?: string;
-};
-
-type OidcSettings = {
-  domain: string;
-  clientId: string;
-  clientSecret: string;
-  scope: string;
-};
+import StepOne from './components/steps/StepOne';
+import StepTwo from './components/steps/StepTwo';
+import StepThree from './components/steps/StepThree';
+import StepFour from './components/steps/StepFour';
+import type { OidcTokenResponse } from './types';
 
 const OidcVisualizer = () => {
   const [authCode, setAuthCode] = useState<string | null>(null);
@@ -31,9 +17,7 @@ const OidcVisualizer = () => {
 
   const authorizeUrl = `https://${oidcConfig.domain}/oauth2/authorize?response_type=code&client_id=${oidcConfig.clientId}&redirect_uri=${encodeURIComponent(oidcConfig.redirectUri)}&scope=${encodeURIComponent(oidcConfig.scope)}`;
 
-  const baseBtnStyles =
-    'px-6 py-4 bg-sky-900 text-white uppercase text-xs font-medium transition hover:bg-sky-700 hover:delay-100';
-
+  /* Define the current step for scrolling */
   const STEP = {
     STEP_1: 1,
     STEP_2: 2,
@@ -46,7 +30,6 @@ const OidcVisualizer = () => {
   const step3Ref = useRef<HTMLDivElement>(null);
   const step4Ref = useRef<HTMLDivElement>(null);
 
-  /* Define the current step for scrolling */
   const currentStep = (() => {
     if (decodedPayload) return STEP.STEP_4;
     if (tokenResponse && codeExchangeCompleted) return STEP.STEP_3;
@@ -74,7 +57,7 @@ const OidcVisualizer = () => {
       el.scrollIntoView({ behavior: 'smooth', block: 'end' });
       // When token is received, scroll to the bottom of step #2 to show "Next" button
     } else {
-      // Otherwise, scroll to center
+      // Otherwise, scroll to top
       window.scrollTo({
         top: targetY,
         behavior: 'smooth',
@@ -139,10 +122,6 @@ const OidcVisualizer = () => {
     }
   };
 
-  const handleLogin = () => {
-    window.location.href = authorizeUrl;
-  };
-
   const handleReset = () => {
     setAuthCode(null);
     setTokenResponse(null);
@@ -160,138 +139,37 @@ const OidcVisualizer = () => {
       </div>
 
       {/* STEP 1: Authorization */}
-      <StepCard
-        number={1}
-        cardRef={step1Ref}
-        title="Redirect to OpenID Connect Server"
-        description="User is redirected to the Authorization Server to log in."
-        req={formatUrl(authorizeUrl)}
-        res={authCode ? { code: authCode } : null}
-        isActive={!authCode}
-        isCompleted={!!authCode}
-        action={
-          <button onClick={handleLogin} className={baseBtnStyles}>
-            Start
-          </button>
-        }
+      <StepOne
+        stepRef={step1Ref}
+        authCode={authCode}
+        authorizeUrl={authorizeUrl}
+        onLogin={() => {
+          window.location.href = authorizeUrl;
+        }}
       />
 
       {/* STEP 2: Code for Token Exchange */}
-      <StepCard
-        number={2}
-        cardRef={step2Ref}
-        title="Exchange Code for Token"
-        description={
-          authCode && (
-            <>
-              Your Authorization Code is:{' '}
-              <span className="bg-gray-200 text-gray-700 font-mono text-sm px-2 py-1 rounded-sm shadow-inner break-all">
-                {authCode}
-              </span>
-              <p className="mt-2 ">
-                Now, the authorization code can be exchanged for an access token and an ID token. To
-                do this, the authorization server sends a POST request to your token endpoint,
-                including the authorization code and the client credentials. Note that the
-                authorization code is valid for a single use.
-              </p>
-            </>
-          )
-        }
-        req={
-          authCode
-            ? {
-                method: 'POST',
-                url: `/oauth2/token`,
-                body: {
-                  grant_type: 'authorization_code',
-                  code: authCode,
-                  client_id: oidcConfig.clientId,
-                },
-              }
-            : null
-        }
-        responseId="codeExchangeResponse"
-        res={tokenResponse}
-        isActive={!!authCode && !codeExchangeCompleted}
-        isCompleted={!!tokenResponse && codeExchangeCompleted}
-        action={
-          !tokenResponse ? (
-            <button
-              onClick={handleExchange}
-              disabled={!!step2Error}
-              className={cx(
-                baseBtnStyles,
-                step2Error && 'bg-gray-400 cursor-not-allowed hover:bg-gray-400',
-              )}
-            >
-              Exchange Code
-            </button>
-          ) : (
-            <button onClick={proceedToVerifyWT} className={baseBtnStyles}>
-              Next
-            </button>
-          )
-        }
-        error={step2Error}
+      <StepTwo
+        stepRef={step2Ref}
+        authCode={authCode}
+        tokenResponse={tokenResponse}
+        codeExchangeCompleted={codeExchangeCompleted}
+        onCodeExchange={handleExchange}
+        proceedToVerifyWT={proceedToVerifyWT}
+        step2Error={step2Error}
       />
 
       {/* STEP 3: Token Verification */}
-      <StepCard
-        number={3}
-        cardRef={step3Ref}
-        title="Verify ID Token"
-        description={
-          tokenResponse && (
-            <>
-              <p className="text-gray-600 mb-3">
-                The final step is validating the <span className="font-semibold">ID Token</span>. We
-                must confirm the token came from the correct sender and hasn't been tampered with by
-                verifying its <span className="font-semibold">JWT signature</span>.
-              </p>
-
-              <p className="font-semibold mt-4">Your id_token is:</p>
-
-              <div className="bg-slate-900 text-slate-50 p-4 rounded mt-1 overflow-x-auto font-mono text-sm">
-                <pre>{tokenResponse.id_token}</pre>
-              </div>
-
-              <p className="mt-4 text-gray-600">
-                This token is cryptographically signed with the HS256 algorithm. We'll use the
-                client secret to confirm the signature is valid.
-              </p>
-            </>
-          )
-        }
-        isActive={!!tokenResponse && !decodedPayload && codeExchangeCompleted}
-        isCompleted={!!decodedPayload}
-        action={
-          <button onClick={handleVerify} className={baseBtnStyles}>
-            Validate Signature
-          </button>
-        }
-        error={step3Error}
+      <StepThree
+        stepRef={step3Ref}
+        tokenResponse={tokenResponse}
+        codeExchangeCompleted={codeExchangeCompleted}
+        decodedPayload={decodedPayload}
+        onVerify={handleVerify}
       />
 
       {/* STEP 4: Result */}
-      {decodedPayload && (
-        <StepCard
-          number={4}
-          cardRef={step4Ref}
-          title="🎉 ID Token is valid!"
-          description={
-            <>
-              <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">
-                Decoded payload:
-              </p>
-              <div className="bg-slate-900 text-slate-50 p-4 rounded mt-1 overflow-x-auto font-mono text-sm">
-                <pre>{JSON.stringify(decodedPayload, null, 2)}</pre>
-              </div>
-            </>
-          }
-          isActive={!!decodedPayload}
-          isCompleted={!!decodedPayload}
-        />
-      )}
+      {decodedPayload && <StepFour stepRef={step4Ref} decodedPayload={decodedPayload} />}
 
       {/* Reset Button */}
       {(decodedPayload || step2Error || step3Error) && (

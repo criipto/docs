@@ -59,9 +59,9 @@ const StepCard = ({
       {req && (
         <div className="mb-4">
           <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Request</span>
-          <div className="bg-slate-900 text-slate-50 p-4 rounded mt-1 overflow-x-auto font-mono text-sm">
-            <pre>{typeof req === 'string' ? req : JSON.stringify(req, null, 2)}</pre>
-          </div>
+          <pre className="p-4 mt-1 overflow-x-auto text-sm">
+            {typeof req === 'string' ? req : JSON.stringify(req, null, 2)}
+          </pre>
         </div>
       )}
 
@@ -72,9 +72,9 @@ const StepCard = ({
           id={responseId} // This id will be used for scrolling to the response section on Step 2, once the code exchange is completed
         >
           <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Response</span>
-          <div className="bg-slate-50 border border-slate-200 text-slate-800 p-4 rounded mt-1 overflow-x-auto font-mono text-sm">
-            <pre>{typeof res === 'string' ? res : JSON.stringify(res, null, 2)}</pre>
-          </div>
+          <pre className="p-4 mt-1 overflow-x-auto text-sm">
+            {typeof res === 'string' ? res : JSON.stringify(res, null, 2)}
+          </pre>
         </div>
       )}
 

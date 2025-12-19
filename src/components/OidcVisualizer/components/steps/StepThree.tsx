@@ -1,0 +1,75 @@
+import React from 'react';
+import { JWTPayload } from 'jose';
+import StepCard from '../StepCard';
+import { primaryBtn } from '../../styles';
+import type { OidcTokenResponse } from '../../types';
+import oidcConfig from '../../oidcConfig';
+
+type StepThreeProps = {
+  stepRef: React.RefObject<HTMLDivElement | null>;
+  tokenResponse: OidcTokenResponse | null;
+  codeExchangeCompleted: boolean;
+  decodedPayload: JWTPayload | null;
+  onVerify: () => void;
+  step3Error?: string | null;
+};
+
+export default function StepThree({
+  stepRef,
+  tokenResponse,
+  decodedPayload,
+  codeExchangeCompleted,
+  onVerify,
+  step3Error,
+}: StepThreeProps) {
+  const jwksUrl = `https://${oidcConfig.domain}/.well-known/jwks`;
+  return (
+    <StepCard
+      number={3}
+      cardRef={stepRef}
+      title="Verify ID Token"
+      description={
+        tokenResponse && (
+          <>
+            <p className="text-gray-600 mb-3">
+              The final step is validating the{' '}
+              <a href="/verify/reference/glossary/#id-token" target="_blank">
+                ID Token
+              </a>
+              . To confirm that the token originates from the expected issuer and has not been
+              tampered with, we must check its{' '}
+              <a href="/verify/reference/glossary/#json-web-signature-jws" target="_blank">
+                signature
+              </a>
+              .
+            </p>
+
+            <p className="font-semibold mt-4">Your id_token is:</p>
+
+            <div className="bg-slate-900 text-slate-50 p-4 rounded mt-1 overflow-x-auto font-mono text-sm">
+              <pre>{tokenResponse.id_token}</pre>
+            </div>
+
+            <p className="mt-4 text-gray-600">
+              The token is cryptographically signed by Idura Verify using the RSA algorithm. To
+              validate the signature, we use the public key from one of the asymmetric key pairs
+              published at{' '}
+              <a href={jwksUrl} target="_blank">
+                {jwksUrl}
+              </a>
+              . The correct key is selected based on the token’s Key ID (<code>kid</code>).
+            </p>
+          </>
+        )
+      }
+      isActive={!!tokenResponse && !decodedPayload && codeExchangeCompleted}
+      isCompleted={!!decodedPayload}
+      action={
+        <button onClick={onVerify} className={primaryBtn}>
+          Validate Signature
+        </button>
+      }
+      error={step3Error}
+    />
+  );
+}
