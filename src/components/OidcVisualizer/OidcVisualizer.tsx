@@ -8,6 +8,7 @@ import StepOne from './components/steps/StepOne';
 import StepTwo from './components/steps/StepTwo';
 import StepThree from './components/steps/StepThree';
 import StepFour from './components/steps/StepFour';
+import { generateJWT } from './generateJwt';
 import type { OidcTokenResponse, OidcSettings } from './types';
 
 const OidcVisualizer = () => {
@@ -99,16 +100,26 @@ const OidcVisualizer = () => {
     if (!authCode) return;
 
     try {
+      const params: Record<string, string> = {
+        grant_type: 'authorization_code',
+        code: authCode,
+        redirect_uri: oidcConfig.redirectUri,
+      };
+
+      const clientAssertion = await generateJWT(oidcSettings);
+
+      if (oidcSettings.pkJwtAuth) {
+        params['client_assertion_type'] = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer';
+        params['client_assertion'] = clientAssertion;
+      } else {
+        params['client_id'] = oidcSettings.clientId;
+        params['client_secret'] = oidcSettings.clientSecret;
+      }
+
       const getToken = await fetch(`https://${oidcSettings.domain}/oauth2/token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          grant_type: 'authorization_code',
-          client_id: oidcSettings.clientId,
-          client_secret: oidcSettings.clientSecret,
-          code: authCode,
-          redirect_uri: oidcConfig.redirectUri,
-        }),
+        body: new URLSearchParams(params),
       });
 
       const data: OidcTokenResponse = await getToken.json();
@@ -231,6 +242,7 @@ const OidcVisualizer = () => {
           scope={oidcSettings.scope}
           redirectUri={oidcConfig.redirectUri}
           onSave={handleUpdateSettings}
+          pkJwtAuth={oidcSettings.pkJwtAuth}
         />
       )}
     </div>
