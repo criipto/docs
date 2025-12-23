@@ -25,7 +25,11 @@ const OidcVisualizer = () => {
     oidcConfig,
   );
 
-  const authorizeUrl = `https://${oidcSettings.domain}/oauth2/authorize?response_type=code&client_id=${oidcSettings.clientId}&redirect_uri=${encodeURIComponent(oidcConfig.redirectUri)}&scope=${encodeURIComponent(oidcSettings.scope)}`;
+  const authorizeUrl = `https://${oidcSettings.domain}/oauth2/authorize?response_type=code&client_id=${oidcSettings.clientId}&redirect_uri=${encodeURIComponent(oidcConfig.redirectUri)}&scope=${encodeURIComponent(oidcSettings.scope)}${
+    oidcSettings.acrValues?.length
+      ? `&acr_values=${encodeURIComponent(oidcSettings.acrValues.join(' '))}`
+      : ''
+  }`;
 
   /* Close settings modal with Escape key */
   useEffect(() => {
@@ -256,6 +260,7 @@ const OidcVisualizer = () => {
           redirectUri={oidcConfig.redirectUri}
           onSave={handleUpdateSettings}
           pkJwtAuth={oidcSettings.pkJwtAuth}
+          acrValues={oidcSettings.acrValues}
         />
       )}
     </div>

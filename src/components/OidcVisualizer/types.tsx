@@ -13,4 +13,5 @@ export type OidcSettings = {
   clientSecret: string;
   scope: string;
   pkJwtAuth: boolean;
+  acrValues?: string[];
 };

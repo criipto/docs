@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { linkStyles, inputStyles, disabledInputStyles } from '../styles';
+import { PROVIDERS } from '../../../utils/auth-methods';
 import publicSigningKey from '../keys/signing_jwks_public.json';
 import oidcConfig from '../oidcConfig';
 
@@ -14,6 +15,7 @@ type ModalProps = {
     clientSecret: string;
     scope: string;
     pkJwtAuth: boolean;
+    acrValues?: string[];
   }) => void;
   domain: string;
   clientId: string;
@@ -21,6 +23,7 @@ type ModalProps = {
   scope: string;
   redirectUri: string;
   pkJwtAuth: boolean;
+  acrValues?: string[];
 };
 
 export default function Modal({
@@ -32,6 +35,7 @@ export default function Modal({
   clientSecret,
   scope,
   pkJwtAuth,
+  acrValues,
 }: ModalProps) {
   const [settings, setSettings] = useState({
     domain,
@@ -39,7 +43,16 @@ export default function Modal({
     clientSecret,
     scope,
     pkJwtAuth,
+    acrValues: acrValues || [],
   });
+
+  const toggleAcrValue = (value: string) => {
+    setSettings(prev => {
+      const current = prev.acrValues;
+      const next = current.includes(value) ? current.filter(v => v !== value) : [...current, value];
+      return { ...prev, acrValues: next };
+    });
+  };
 
   const authDescriptions = {
     client_secret: (
@@ -68,7 +81,7 @@ export default function Modal({
       onClick={onClose} // clicking outside closes modal
     >
       <div
-        className="bg-white shadow-xl p-10 w-full max-w-2xl relative"
+        className="bg-white shadow-xl p-6 w-full max-w-4xl relative"
         onClick={e => e.stopPropagation()}
       >
         <button
@@ -78,9 +91,9 @@ export default function Modal({
           <FontAwesomeIcon icon="xmark" />
         </button>
 
-        <h2 className="text-xl font-semibold text-gray-900 my-2">Client Configuration</h2>
+        <h2 className="text-xl font-semibold text-gray-900 my-1">Client Configuration</h2>
 
-        <p className="text-gray-700 mb-2 text-sm">
+        <p className="text-gray-700 mb-4 text-xs leading-tight">
           This visualizer is configured to use Idura’s default application settings. You can update
           them to test the OpenID Connect flow with your own Idura application instead. If you do,
           make sure to add{' '}
@@ -99,12 +112,12 @@ export default function Modal({
           .
         </p>
 
-        <div className="flex flex-col gap-2 text-sm">
+        <div className="flex flex-col gap-2 text-xs">
           <div className="flex items-start gap-2">
             <label className="w-32 text-gray-800 font-medium">Client Authentication</label>
             <div className="flex flex-col flex-1">
               <select
-                className="flex-1 border border-gray-300 px-1 py-1 text-gray-900 transition-colors focus:border-sky-600 focus:ring-1 focus:ring-sky-600 focus:outline-none"
+                className="flex-1 border border-gray-300 px-1 py-1 text-gray-900 transition-colors focus:border-sky-600 focus:ring-0 focus:ring-sky-600 focus:outline-none"
                 value={settings.pkJwtAuth ? 'private_jwt' : 'client_secret'}
                 onChange={e => {
                   setSettings({ ...settings, pkJwtAuth: e.target.value === 'private_jwt' });
@@ -113,7 +126,7 @@ export default function Modal({
                 <option value="client_secret">Client Secret</option>
                 <option value="private_jwt">Private Key JWT</option>
               </select>
-              <p className="leading-tight text-xs px-2 py-1 mt-1 bg-slate-50 text-slate-600">
+              <p className="leading-tight text-[10px] px-2 py-1 mt-0 bg-slate-50 text-slate-600">
                 {settings.pkJwtAuth ? authDescriptions.private_jwt : authDescriptions.client_secret}
               </p>
             </div>
@@ -124,12 +137,12 @@ export default function Modal({
               <div className="flex-1 relative">
                 <textarea
                   readOnly
-                  className={`${inputStyles} w-full h-24 font-mono text-xs resize-none bg-gray-50 cursor-text`}
+                  className={`${inputStyles} w-full h-24 font-mono text-[9px] leading-tight resize-none bg-gray-50 cursor-text`}
                   value={JSON.stringify(publicSigningKey, null, 2)}
                   onClick={e => (e.target as HTMLTextAreaElement).select()}
                 />
-                <div className="px-1 py-1 bg-slate-50 leading-tight text-xs text-slate-600">
-                  <p>
+                <div className="px-2 py-1 -mt-1 bg-slate-50 leading-tight text-[10px] text-slate-600">
+                  <p className="mb-1">
                     To test Private Key JWT authentication with your own application, you must
                     register the provided public signing key in the Idura Dashboard. Open your
                     application settings and navigate to the{' '}
@@ -139,7 +152,7 @@ export default function Modal({
                     set shown above.
                   </p>
 
-                  <div className="mt-3 bg-yellow-100 p-2">
+                  <div className="mt-1 bg-yellow-100 p-2">
                     <p>
                       <strong>Security Note:</strong> These keys are for demonstration only. When
                       building your own applications, generate a unique key pair and never share the
@@ -197,6 +210,36 @@ export default function Modal({
               value="https://docs.idura.app/verify/guides/oidc-visualizer"
             />
           </div>
+
+          <div className="flex items-start gap-2">
+            <label className="w-32 text-gray-800 font-medium">Acr values</label>
+
+            <div className="flex-1 grid grid-cols-5 gap-x-4 gap-y-3 text-[10px]">
+              {PROVIDERS.map(provider => (
+                <div key={provider.title} className="flex flex-col">
+                  <p className="font-medium text-gray-800 mb-1">{provider.title}</p>
+
+                  <div className="flex flex-col space-y-0.5">
+                    {provider.authMethods.map(authMethod => (
+                      <label
+                        key={authMethod.acrValue}
+                        className="flex items-center text-gray-600 hover:text-gray-900 cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          id={authMethod.acrValue}
+                          className="mr-2 h-3 w-3 mt-0.5 accent-sky-600"
+                          checked={settings.acrValues.includes(authMethod.acrValue)}
+                          onChange={() => toggleAcrValue(authMethod.acrValue)}
+                        />
+                        <span className="leading-normal">{authMethod.title}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         <div className="mt-4 flex justify-end text-sm">
@@ -208,6 +251,7 @@ export default function Modal({
                 clientSecret: oidcConfig.clientSecret,
                 scope: oidcConfig.scope,
                 pkJwtAuth: oidcConfig.pkJwtAuth,
+                acrValues: oidcConfig.acrValues || [],
               });
             }}
             className="px-5 py-2 bg-sky-900 mr-2 text-white font-medium hover:bg-gray-900 transition"

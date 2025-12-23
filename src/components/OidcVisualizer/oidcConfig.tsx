@@ -6,6 +6,7 @@ const oidcConfig = {
   scope: 'openid',
   responseType: 'code',
   pkJwtAuth: false,
+  acrValues: [],
 };
 
 export default oidcConfig;
