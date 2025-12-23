@@ -51,7 +51,7 @@ To authenticate the user, your app must send the user to the _OAuth2 authorizati
 
 You can find the URL for the _OAuth2 authorization endpoint_ in the OpenID Connect Discovery Document exposed on your [Idura Verify Domain](/verify/getting-started/basics/#domains):
 
-```
+```http
 GET https://YOUR_SUBDOMAIN.idura.broker/.well-known/openid-configuration
 ```
 
@@ -61,7 +61,7 @@ The response from this endpoint is a JSON document with an `authorization_endpoi
 
 The following initiates the authentication through an OAuth2 authorization request:
 
-```
+```http
 GET https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?
     response_type=code|id_token&
     client_id=CLIENT_ID&
@@ -117,14 +117,12 @@ If you want to receive the response in another way, you must specify the `respon
     <tr>
       <td>`scope`</td>
       <td>
-        {' '}
         For applications configured with a `static` scope strategy, specify `openid`. This gets you
         the information configured in the management dashboard for each kind of eID (where
         applicable). <br /> <br /> For applications configured with a `dynamic` scope strategy, you
         must specify scope tokens for the types of data you want, in addition to the `openid` scope
-        token. Possible values are described in the individual eID articles.
-        <br /> <br />
-        You can read more about this parameter [here](#the-scope-parameter){' '}
+        token. Possible values are described in the individual eID articles. <br />
+        <br /> You can read more about this parameter [here](#the-scope-parameter).
       </td>
     </tr>
     <tr>
@@ -283,7 +281,7 @@ PKCE allows you to use one-time secrets to perform code exchange. The format of 
 
 ### Example request
 
-```
+```http
 GET https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?
     response_type=code&
     response_mode=query&
@@ -324,7 +322,7 @@ Implicit Flow, which returns an `id_token` directly in the browser via the `#` f
 
 ### Example request
 
-```
+```http
 GET https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?
     response_type=id_token&
     response_mode=fragment&
@@ -337,7 +335,7 @@ GET https://YOUR_SUBDOMAIN.idura.broker/oauth2/authorize?
 
 ### Example response
 
-```
+```text
 HTTP/1.1 302 Found
 Location: YOUR_RETURN_URL#id_token=eyJ[...].eyJ[...].Sfl[...]&state=[...]
 ```
