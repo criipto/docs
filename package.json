@@ -88,7 +88,11 @@
     "typescript": "^5.7.3"
   },
   "lint-staged": {
-    "*.{tsx?,mjs,sh,cjs,json,md,mdx,graphql,yml}": "prettier --write",
+    "*.{md,mdx}": [
+      "awk 'BEGIN {in_block=0; err=0} /^```/ { if (!in_block && /^```$/) { printf(\"Missing language tag on line %s\\n\", NR); err=1 }; in_block = !in_block } END { exit err }'",
+      "prettier --write"
+    ],
+    "*.{tsx?,mjs,sh,cjs,json,graphql,yml}": "prettier --write",
     "*.py": "uv run ruff format"
   }
 }
