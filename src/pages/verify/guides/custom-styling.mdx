@@ -69,19 +69,19 @@ If you have not configured a custom style sheet URL, Idura Verify ignores the `c
 
 If you have configured, say,
 
-```
+```http
 https://my.css.host/static/path
 ```
 
 as a custom style sheet, and you construct an authorize request containing a
 
-```
+```text
 css_path:dynamic/subpath?q=x
 ```
 
 in the `login_hint` parameter, the resulting CSS URL put in the HTML responses from Idura Verify will change to
 
-```
+```http
 https://my.css.host/dynamic/subpath?q=x
 ```
 
