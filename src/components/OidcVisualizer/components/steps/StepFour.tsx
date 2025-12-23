@@ -18,9 +18,7 @@ export default function StepFour({ stepRef, decodedPayload }: StepOneProps) {
           <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">
             Decoded payload:
           </p>
-          <div className="bg-slate-900 text-slate-50 p-4 rounded mt-1 overflow-x-auto font-mono text-sm">
-            <pre>{JSON.stringify(decodedPayload, null, 2)}</pre>
-          </div>
+          <pre>{JSON.stringify(decodedPayload, null, 2)}</pre>
         </>
       }
       isActive={!!decodedPayload}

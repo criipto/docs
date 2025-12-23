@@ -15,6 +15,7 @@ const OidcVisualizer = () => {
   const [authCode, setAuthCode] = useState<string | null>(null);
   const [tokenResponse, setTokenResponse] = useState<OidcTokenResponse | null>(null);
   const [decodedPayload, setDecodedPayload] = useState<JWTPayload | null>(null);
+  const [tokenRequest, setTokenRequest] = useState<string | null>(null);
   const [codeExchangeCompleted, setCodeExchangeCompleted] = useState<boolean>(false);
   const [step2Error, setStep2Error] = useState<string | null>(null);
   const [step3Error, setStep3Error] = useState<string | null>(null);
@@ -122,6 +123,16 @@ const OidcVisualizer = () => {
         body: new URLSearchParams(params),
       });
 
+      const formattedRequest = [
+        `POST /oauth2/token HTTP/1.1`,
+        `Host: ${oidcSettings.domain}`,
+        `Content-Type: application/x-www-form-urlencoded`,
+        ``,
+        new URLSearchParams(params).toString().replaceAll('&', '\n'),
+      ].join('\n');
+
+      setTokenRequest(formattedRequest);
+
       const data: OidcTokenResponse = await getToken.json();
 
       if (data.error) throw new Error(data.error_description || data.error);
@@ -198,6 +209,7 @@ const OidcVisualizer = () => {
 
       {/* STEP 2: Code for Token Exchange */}
       <StepTwo
+        req={tokenRequest}
         stepRef={step2Ref}
         authCode={authCode}
         tokenResponse={tokenResponse}
@@ -205,6 +217,7 @@ const OidcVisualizer = () => {
         onCodeExchange={handleExchange}
         proceedToVerifyWT={proceedToVerifyWT}
         step2Error={step2Error}
+        pkJwtAuth={oidcSettings.pkJwtAuth}
       />
 
       {/* STEP 3: Token Verification */}

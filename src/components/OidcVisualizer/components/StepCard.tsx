@@ -12,6 +12,7 @@ type StepCardProps = {
   description?: string | React.ReactNode;
   req?: string | JsonData | null;
   res?: string | JsonData | null;
+  reqNote?: React.ReactNode;
   action?: React.ReactNode;
   isActive?: boolean;
   isCompleted?: boolean;
@@ -25,6 +26,7 @@ const StepCard = ({
   title,
   description,
   req,
+  reqNote,
   res,
   action,
   isActive,
@@ -33,12 +35,12 @@ const StepCard = ({
   responseId,
   cardRef,
 }: StepCardProps) => {
-  const opacityClass = isActive || isCompleted ? 'opacity-100' : 'opacity-40 pointer-events-none';
+  const showStep = isActive || isCompleted ? 'block' : 'hidden';
 
   return (
     <div
       ref={cardRef}
-      className={cx('relative border p-6 mb-6 bg-white shadow-sm transition-all', opacityClass)}
+      className={cx('relative border p-6 mb-6 bg-white shadow-sm transition-all', showStep)}
     >
       <div className="absolute left-0 top-0 h-full w-1 bg-sky-700" />
       <div className="flex items-center gap-3 mb-4">
@@ -62,6 +64,10 @@ const StepCard = ({
           <pre className="p-4 mt-1 overflow-x-auto text-sm">
             {typeof req === 'string' ? req : JSON.stringify(req, null, 2)}
           </pre>
+
+          {reqNote && (
+            <div className="-mt-4 p-2 bg-gray-50 border-l-4 border-gray-200 text-xs">{reqNote}</div>
+          )}
         </div>
       )}
 

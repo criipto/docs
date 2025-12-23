@@ -46,14 +46,11 @@ export default function StepThree({
 
             <p className="font-semibold mt-4">Your id_token is:</p>
 
-            <div className="bg-slate-900 text-slate-50 p-4 rounded mt-1 overflow-x-auto font-mono text-sm">
-              <pre>{tokenResponse.id_token}</pre>
-            </div>
+            <pre>{tokenResponse.id_token}</pre>
 
             <p className="mt-4 text-gray-600">
-              The token is cryptographically signed by Idura Verify using the RSA algorithm. To
-              validate the signature, we use the public key from one of the asymmetric key pairs
-              published at{' '}
+              The token is cryptographically signed by Idura Verify. To validate the signature, we
+              use the public key from one of the asymmetric key pairs published at{' '}
               <a href={jwksUrl} target="_blank">
                 {jwksUrl}
               </a>
