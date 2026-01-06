@@ -9,6 +9,7 @@ import StepTwo from './components/steps/StepTwo';
 import StepThree from './components/steps/StepThree';
 import StepFour from './components/steps/StepFour';
 import { secondaryBtn } from './styles';
+import { generateJWT } from './generateJwt';
 import type { OidcTokenResponse, OidcSettings } from './types';
 
 const OidcVisualizer = () => {
@@ -105,17 +106,27 @@ const OidcVisualizer = () => {
     if (!authCode) return;
 
     try {
-      const baseParams: Record<string, string> = {
+      const params: Record<string, string> = {
         grant_type: 'authorization_code',
         code: authCode,
         redirect_uri: oidcConfig.redirectUri,
       };
 
+      const clientAssertion = await generateJWT(oidcSettings);
+
+      if (oidcSettings.pkJwtAuth) {
+        params['client_assertion_type'] = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer';
+        params['client_assertion'] = clientAssertion;
+      } else {
+        params['client_id'] = oidcSettings.clientId;
+        params['client_secret'] = oidcSettings.clientSecret;
+      }
+
       const getToken = await fetch(`https://${oidcSettings.domain}/oauth2/token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
-          ...baseParams,
+          ...params,
           client_id: oidcSettings.clientId,
           client_secret: oidcSettings.clientSecret,
         }),
@@ -126,7 +137,7 @@ const OidcVisualizer = () => {
         `Host: ${oidcSettings.domain}`,
         `Content-Type: application/x-www-form-urlencoded`,
         ``,
-        new URLSearchParams(baseParams).toString().replaceAll('&', '\n'),
+        new URLSearchParams(params).toString().replaceAll('&', '\n'),
       ].join('\n');
 
       setTokenRequest(formattedRequest);
@@ -249,6 +260,7 @@ const OidcVisualizer = () => {
           scope={oidcSettings.scope}
           redirectUri={oidcConfig.redirectUri}
           onSave={handleUpdateSettings}
+          pkJwtAuth={oidcSettings.pkJwtAuth}
           acrValues={oidcSettings.acrValues}
         />
       )}
