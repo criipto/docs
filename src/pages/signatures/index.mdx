@@ -1,12 +1,30 @@
 ---
 product: signatures
 title: Idura Signatures
-subtitle: Sign documents with national eIDs and the PAdES standard
+subtitle: Sign documents with national eIDs and the PAdES standard.
 ---
 
-Idura Signatures allows you to sign any PDF document using all the [national eIDs](/verify/e-ids/) supported by Idura Verify.
+Idura Signatures allows you to sign any PDF document using the [national eIDs](/verify/e-ids/) supported by Idura Verify.
+The signed documents are compliant with the [PAdES-LTA standard](https://www.idura.eu/blog/pades-signature-levels-explained).
 
-Documents will be produced according to the [PAdES-LTA standard](https://www.idura.eu/blog/pades-signature-levels-explained).
+<Highlight icon="info">
 
-- **Getting Started**. If you are new to GraphQL or have not yet registed a Idura Signatures application, please follow our [Getting Started guide](/signatures/getting-started/register-application).
+Idura Signatures is designed to be embedded into your application. This means there is no _signing portal_ where you run the process from.
+Instead, you create a signing process using the Signatures GraphQL API, then redirect each user to a unique signing link in the Idura-hosted signatory UI.
+Once all users have signed, you retrieve the signed documents via the API.
+
+</Highlight>
+
+### Terms and definitions
+
+- **Signature order**: a basic building block of the Signatures API. Contains documents and the signatories you intend to sign them.
+- **Document(s)**: PDF(s) included in the signature order.
+- **Signatory**: a person invited to sign the document. Each signatory gets a unique signing link.
+- **Signature seal**: a visual representation of the signature placed on the document. It can contain details such as document ID, time of signing, and other information that can be found in the claims (via templating).
+
+- [**Webhooks**](/signatures/webhooks/): a tool for receiving near real-time events in your signature orders (e.g., when a signatory has signed).
+
+### How to get started
+
+- **Getting Started**. If you are new to GraphQL or have not yet registered an Idura Signatures application, please follow our [Getting Started guide](/signatures/getting-started).
 - **GraphQL**. The Idura Signatures API is built with GraphQL, enabling you to create unique workflows tailored to your needs. Have a look at our [GraphQL Examples](/signatures/graphql/examples) to see how it works in practice.
