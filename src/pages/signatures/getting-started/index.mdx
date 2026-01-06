@@ -40,7 +40,19 @@ export const pageQuery = gatsbyGraphql`
   }
 `;
 
-Below you will find a list of topics to get you started with Idura Signatures:
+<Highlight icon="info">
+
+**How to set up a basic signing flow with Idura Signatures API:**
+
+0. _Prerequisite:_ create an Idura Signatures application to get a set of client credentials.
+1. Create a signature order with one or more PDFs for signing.
+2. Add one or more signatories.
+3. Redirect each signatory to their unique signing link and wait for them to sign.
+4. Close the signature order to retrieve the signed PDFs.
+
+</Highlight>
+
+Choose a topic below to get started:
 
 <ul>
   {props.data.pages.edges
