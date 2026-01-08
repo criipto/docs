@@ -194,7 +194,7 @@ export default function Header(props: { path: string | undefined; className?: st
 
             <div className="hidden lg:flex items-center relative">
               <a
-                href="https://status.criipto.com"
+                href="https://status.idura.app"
                 target="_blank"
                 className="ml-2 inline-block text-white cursor-pointer font-medium uppercase text-deep-purple-900 hover:text-primary-600"
               >
