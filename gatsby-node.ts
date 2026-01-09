@@ -139,7 +139,13 @@ export const createPages: GatsbyNode['createPages'] = ({ actions }) => {
   });
   createRedirect({
     fromPath: '/eid-specifics/order-no-vipps',
-    toPath: '/verify/e-ids/norwegian-vipps/#ordering-norwegian-vipps-login',
+    toPath: '/verify/e-ids/vipps-mobilepay/#ordering-vipps-mobilepay',
+    isPermanent: true,
+    force: true,
+  });
+  createRedirect({
+    fromPath: '/verify/e-ids/norwegian-vipps',
+    toPath: '/verify/e-ids/vipps-mobilepay',
     isPermanent: true,
     force: true,
   });
