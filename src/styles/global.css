@@ -55,7 +55,7 @@ html {
 }
 
 .ais-SearchBox-input {
-  @apply text-gray-700 leading-tight focus:outline-none flex-1;
+  @apply text-light-blue-800 leading-5 focus:outline-none flex-1;
 }
 .ais-SearchBox-submitIcon svg {
   height: 15px;

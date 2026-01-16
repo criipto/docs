@@ -51,11 +51,11 @@ export default function WebhookSignatureValidator() {
     <form onSubmit={handleSubmit} className="max-w-[550px]">
       <div className="mb-4 flex flex-col gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="secret">
+          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="secret">
             Secret
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="secret"
             type="text"
             placeholder="Webhook secret"
@@ -65,11 +65,11 @@ export default function WebhookSignatureValidator() {
           />
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="body">
+          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="body">
             Request body
           </label>
           <textarea
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="body"
             placeholder="Request body"
             value={body}
@@ -78,11 +78,11 @@ export default function WebhookSignatureValidator() {
           />
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="signature">
+          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="signature">
             Signature
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="signature"
             type="text"
             placeholder="Signature"

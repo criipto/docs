@@ -50,10 +50,10 @@ export default function Header(props: { path: string | undefined; className?: st
   return (
     <React.Fragment>
       <header
-        className={`sticky top-0 z-40 w-full backdrop-blur flex-none duration-500 lg:z-50 bg-white border-b border-light-blue-25 text-md text-deep-purple-900 supports-backdrop-blur:bg-blue/60 font-medium font-sans ${props.className}`}
+        className={`sticky top-0 z-40 w-full backdrop-blur flex-none duration-500 lg:z-50 bg-white border-b border-light-blue-300/40 text-md text-deep-purple-900 supports-backdrop-blur:bg-blue/60 font-medium font-sans ${props.className}`}
       >
         <div className="max-w-screen-2xl mx-auto">
-          <div className="py-2 border-b border-gray-900/10 lg:px-8 lg:border-0 mx-4 lg:mx-0 flex justify-between items-center gap-6">
+          <div className="py-2 lg:px-8 lg:border-0 mx-4 lg:mx-0 flex justify-between items-center gap-6">
             <div className="relative flex items-center flex-1">
               <a href="/" className="mr-3 flex flex-row gap-6 items-center h-[21px]">
                 <img src={logo} alt="Idura" className="h-[21px]" />
@@ -64,7 +64,7 @@ export default function Header(props: { path: string | undefined; className?: st
 
               <div className="relative">
                 <button
-                  className="leading-5 bg-gray-400/20 rounded-full py-1 px-3 flex items-center uppercase space-x-2 hover:bg-gray-400/40 text-deep-purple-900 hover:text-primary-600"
+                  className="leading-5 bg-light-blue-25 rounded-full py-1 px-3 flex items-center uppercase space-x-2 hover:bg-light-blue-100 text-deep-purple-900 hover:text-primary-600"
                   onClick={toggleDropdown}
                 >
                   {isVerify ? (
@@ -109,7 +109,7 @@ export default function Header(props: { path: string | undefined; className?: st
                 </button>
                 {showDropdown && (
                   <div
-                    className="absolute top-full mt-1 py-2 w-60 rounded-lg bg-white shadow ring-1 ring-gray-900/5 leading-6 font-medium uppercase text-deep-purple-900 z-60"
+                    className="absolute top-full mt-1 py-2 w-60 rounded-lg bg-white shadow ring-1 ring-light-blue-300/40 leading-6 font-medium uppercase text-light-blue-900 z-60"
                     ref={dropdownRef}
                   >
                     <Link to="/verify" onClick={toggleDropdown}>
@@ -129,7 +129,7 @@ export default function Header(props: { path: string | undefined; className?: st
                       </span>
                     </Link>
                     <Link to="/signatures" onClick={toggleDropdown}>
-                      <span className="flex items-center justify-between px-3 py-1 text-deep-purple-900 hover:text-primary-600">
+                      <span className="flex items-center justify-between px-3 py-1 text-light-blue-900 hover:text-primary-600">
                         Signatures
                         {isSignatures && (
                           <svg width="24" height="24" fill="none">
@@ -151,7 +151,7 @@ export default function Header(props: { path: string | undefined; className?: st
               <button
                 onClick={() => setShowSearch(true)}
                 type="button"
-                className="relative hidden lg:flex items-center w-64 text-sm leading-6 bg-light-blue-50 text-light-blue-800  py-1.5 pl-2 pr-3 ml-4 hover:bg-light-blue-100"
+                className="relative hidden lg:flex items-center w-64 text-sm leading-6 bg-light-blue-25 text-light-blue-800  py-1.5 pl-2 pr-3 ml-4 hover:bg-light-blue-100"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -163,7 +163,7 @@ export default function Header(props: { path: string | undefined; className?: st
                 Search
                 {isBrowser && (
                   <div className="absolute right-0 top-0 bottom-0 flex pointer-events-none items-center p-2">
-                    <div className="text-xs bg-light-blue-200 text-gray-600 py-0.5 px-1 rounded">
+                    <div className="text-xs bg-light-blue-200 text-light-blue-900 py-0.5 px-1 rounded">
                       {modifierKeyPrefix}+K
                     </div>
                   </div>
@@ -196,7 +196,7 @@ export default function Header(props: { path: string | undefined; className?: st
               <a
                 href="https://status.idura.app"
                 target="_blank"
-                className="ml-2 inline-block text-white cursor-pointer font-medium uppercase text-deep-purple-900 hover:text-primary-600"
+                className="ml-2 inline-block cursor-pointer font-medium uppercase text-deep-purple-900 hover:text-primary-600"
               >
                 Operations Status
               </a>
@@ -206,14 +206,14 @@ export default function Header(props: { path: string | undefined; className?: st
                 <Link
                   to="/changelog"
                   target="_blank"
-                  className="text-white font-medium mr-2 py-2 px-4 rounded uppercase text-deep-purple-900 hover:text-primary-600 focus:outline-none focus:shadow-outline"
+                  className="font-medium mr-2 py-2 px-4 rounded uppercase text-deep-purple-900 hover:text-primary-600 focus:outline-none focus:shadow-outline"
                 >
                   Changelog
                 </Link>
                 <a
                   href="https://dashboard.idura.app"
                   target="_blank"
-                  className="text-white font-medium mr-2 py-2 px-4 rounded uppercase text-deep-purple-900 hover:text-primary-600 focus:outline-none focus:shadow-outline"
+                  className="font-medium mr-2 py-2 px-4 rounded uppercase text-deep-purple-900 hover:text-primary-600 focus:outline-none focus:shadow-outline"
                 >
                   Dashboard
                 </a>
@@ -241,7 +241,7 @@ export default function Header(props: { path: string | undefined; className?: st
           <button
             onClick={() => setShowSearch(false)}
             type="button"
-            className="absolute z-10 top-5 right-5 w-8 h-8 flex items-center justify-center text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300"
+            className="absolute z-10 top-5 right-5 w-8 h-8 flex items-center justify-center text-light-blue-600 hover:text-light-blue-700"
           >
             <span className="sr-only">Close search</span>
             <svg viewBox="0 0 10 10" className="w-2.5 h-2.5 overflow-visible">

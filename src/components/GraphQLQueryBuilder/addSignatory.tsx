@@ -98,13 +98,13 @@ export default function AddSignatoryQueryBuilder() {
       <div className="mb-4 grid grid-cols-3 gap-4">
         <div>
           <label
-            className="block text-gray-700 text-sm font-medium mb-2"
+            className="block text-light-blue-800 text-sm font-medium mb-2"
             htmlFor="input.signatureOrderId"
           >
             Signature Order ID
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="input.signatureOrderId"
             type="text"
             placeholder="Signature Order ID"
@@ -118,11 +118,14 @@ export default function AddSignatoryQueryBuilder() {
           />
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="input.reference">
+          <label
+            className="block text-light-blue-800 text-sm font-medium mb-2"
+            htmlFor="input.reference"
+          >
             Reference
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="input.reference"
             type="text"
             placeholder="Reference"
@@ -139,11 +142,7 @@ export default function AddSignatoryQueryBuilder() {
         For Denmark, cprNumberIdentifier can be a useful evidence validation key.
         <br />
         See examples of various{' '}
-        <a
-          href="/verify/reference/token-contents/"
-          target="_blank"
-          rel="noopener"
-        >
+        <a href="/verify/reference/token-contents/" target="_blank" rel="noopener">
           Idura Verify tokens
         </a>{' '}
         for more details.
@@ -152,13 +151,13 @@ export default function AddSignatoryQueryBuilder() {
         {evidenceValidation.map((item, index) => (
           <div key={index}>
             <label
-              className="block text-gray-700 text-sm font-medium mb-2"
+              className="block text-light-blue-800 text-sm font-medium mb-2"
               htmlFor={`evidence_validation_${index}_key`}
             >
               Key
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-3"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline mb-3"
               id={`evidence_validation_${index}_key`}
               type="text"
               placeholder="Key"
@@ -166,13 +165,13 @@ export default function AddSignatoryQueryBuilder() {
               onChange={event => handleChangeEvidenceValidation(item, 'key', event.target.value)}
             />
             <label
-              className="block text-gray-700 text-sm font-medium mb-2"
+              className="block text-light-blue-800 text-sm font-medium mb-2"
               htmlFor={`evidence_validation_${index}value`}
             >
               Value
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id={`evidence_validation_${index}value`}
               type="text"
               placeholder="Value"
@@ -217,13 +216,13 @@ export default function AddSignatoryQueryBuilder() {
             </div>
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-medium mb-2"
+                className="block text-light-blue-800 text-sm font-medium mb-2"
                 htmlFor={`documents_${document.id}id`}
               >
                 Document ID
               </label>
               <input
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
                 id={`documents_${document.id}id`}
                 type="text"
                 placeholder="Document ID"
@@ -233,7 +232,7 @@ export default function AddSignatoryQueryBuilder() {
             </div>
             <div className="mb-4">
               <label
-                className="block text-gray-700 text-sm font-medium mb-2"
+                className="block text-light-blue-800 text-sm font-medium mb-2"
                 htmlFor={`documents_${document.id}_preapproved`}
               >
                 Preapproved

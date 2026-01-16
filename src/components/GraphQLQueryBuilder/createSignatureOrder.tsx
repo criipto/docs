@@ -100,13 +100,13 @@ export default function CreateSignatureOrderQueryBuilder() {
         {documents.map((document, index) => (
           <div key={index}>
             <label
-              className="block text-gray-700 text-sm font-medium mb-2"
+              className="block text-light-blue-800 text-sm font-medium mb-2"
               htmlFor={`document_${index}_title`}
             >
               Title
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id={`document_${index}_title`}
               type="text"
               placeholder="Title"
@@ -119,11 +119,14 @@ export default function CreateSignatureOrderQueryBuilder() {
           </div>
         ))}
         <div>
-          <label htmlFor="pdf_file_select" className="block text-gray-700 text-sm font-medium mb-2">
+          <label
+            htmlFor="pdf_file_select"
+            className="block text-light-blue-800 text-sm font-medium mb-2"
+          >
             Add document
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             type="file"
             id="pdf_file_select"
             multiple
@@ -134,11 +137,14 @@ export default function CreateSignatureOrderQueryBuilder() {
       <H3>General Settings</H3>
       <div className="mb-4 grid grid-cols-3 gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="input.title">
+          <label
+            className="block text-light-blue-800 text-sm font-medium mb-2"
+            htmlFor="input.title"
+          >
             Title
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="input.title"
             type="text"
             placeholder="Title"
@@ -148,13 +154,13 @@ export default function CreateSignatureOrderQueryBuilder() {
         </div>
         <div>
           <label
-            className="block text-gray-700 text-sm font-medium mb-2"
+            className="block text-light-blue-800 text-sm font-medium mb-2"
             htmlFor="input.maxSignatories"
           >
             Max Signatories
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="input.maxSignatories"
             type="number"
             placeholder="Max Signatories"
@@ -169,13 +175,13 @@ export default function CreateSignatureOrderQueryBuilder() {
         </div>
         <div>
           <label
-            className="block text-gray-700 text-sm font-medium mb-2"
+            className="block text-light-blue-800 text-sm font-medium mb-2"
             htmlFor="input.expiresInDays"
           >
             Automatic Expiration (in days)
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="input.expiresInDays"
             type="number"
             placeholder="Automatic Expiration (in days)"
@@ -192,11 +198,14 @@ export default function CreateSignatureOrderQueryBuilder() {
           </small>
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="webhook.uri">
+          <label
+            className="block text-light-blue-800 text-sm font-medium mb-2"
+            htmlFor="webhook.uri"
+          >
             Webhook URL
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="webhook.uri"
             type="text"
             placeholder="Webhook URL"
@@ -210,13 +219,13 @@ export default function CreateSignatureOrderQueryBuilder() {
       <div className="mb-4 grid grid-cols-4 gap-4">
         <div>
           <label
-            className="block text-gray-700 text-sm font-medium mb-2"
+            className="block text-light-blue-800 text-sm font-medium mb-2"
             htmlFor="ui.signatoryRedirectUri"
           >
             Signatory redirect URI
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="ui.signatoryRedirectUri"
             type="text"
             placeholder="Signatory redirect URI"
@@ -230,11 +239,14 @@ export default function CreateSignatureOrderQueryBuilder() {
           />
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="ui.language">
+          <label
+            className="block text-light-blue-800 text-sm font-medium mb-2"
+            htmlFor="ui.language"
+          >
             Language
           </label>
           <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="ui.language"
             value={ui?.language || 'EN_US'}
             onChange={event =>
