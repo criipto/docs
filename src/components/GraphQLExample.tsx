@@ -99,7 +99,7 @@ export default function SignaturesExample(props: Props) {
       {props.example.length > 1 ? (
         <div className="flex flex-row justify-end">
           <select
-            className="shadow border rounded py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow border rounded py-1 px-2 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             value={language}
             onChange={handleChange}
           >

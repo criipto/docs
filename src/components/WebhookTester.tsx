@@ -243,11 +243,11 @@ export default function WebhookTester() {
     <form onSubmit={handleSubmit}>
       <div className="mb-4 grid grid-cols-3 gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="url">
+          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="url">
             Webhook URL
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="url"
             type="text"
             placeholder="Webhook URL"
@@ -263,11 +263,11 @@ export default function WebhookTester() {
           </small>
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="event">
+          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="event">
             Event
           </label>
           <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="event"
             value={event}
             onChange={event => setEvent(event.target.value as WEBHOOK_EVENT)}
@@ -278,11 +278,11 @@ export default function WebhookTester() {
           </select>
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="secret">
+          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="secret">
             Secret
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="secret"
             type="text"
             placeholder="Webhook secret"

@@ -72,10 +72,10 @@ export function PageNavigation(props: PageNavigationProps) {
 
   return (
     <React.Fragment>
-      <h5 className="uppercase text-gray-ash-500 font-semibold mb-4 text-md leading-6">
+      <h5 className="uppercase text-light-blue-600 font-semibold mb-4 text-md leading-6">
         {props.title || 'On this page'}{' '}
       </h5>
-      <ul className="text-deep-purple-900 text-md leading-6">
+      <ul className="text-light-blue-900 text-md leading-6">
         {items.map(item => (
           <React.Fragment key={item.title}>
             <li key={item.title}>

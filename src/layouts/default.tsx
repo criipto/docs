@@ -87,7 +87,7 @@ export default function DefaultLayout(props: {
             <header id="header" className="relative z-20 mb-8">
               <div>
                 {!isEmbedded && frontmatter.category && (
-                  <p className="mb-2 text-lg leading-6 font-sans font-semibold text-gray-ash-500 uppercase">
+                  <p className="mb-2 text-lg leading-6 font-sans font-semibold text-light-blue-600 uppercase">
                     {breadcrumb ? (
                       <React.Fragment>
                         <Link to={breadcrumb.href}>{breadcrumb.label}</Link>
@@ -97,12 +97,12 @@ export default function DefaultLayout(props: {
                     {frontmatter.category}
                   </p>
                 )}
-                <h1 className="inline-block text-display-xl font-medium text-deep-purple-900 tracking-tight">
+                <h1 className="inline-block text-display-xl font-medium text-light-blue-900 tracking-tight">
                   {frontmatter.title}
                 </h1>
               </div>
               {!isEmbedded && frontmatter.subtitle && (
-                <p className="mt-2 text-lg text-gray-ash-700 max-w-screen-sm">
+                <p className="mt-2 text-lg text-light-blue-800 max-w-screen-sm">
                   {frontmatter.subtitle}
                 </p>
               )}

@@ -16,7 +16,7 @@ export const HitComponent = ({ hit, onClick }: HitProps) => {
     <div className="mb-4" onClick={onClick}>
       <Link
         to={path}
-        className="block text-xl font-medium text-gray-900 tracking-tight mb-0 mt-0 no-underline"
+        className="block text-xl font-medium text-light-blue-900 tracking-tight mb-0 mt-0 no-underline"
       >
         <Highlight attribute="title" hit={hit} highlightedTagName="mark" /> - {hit.category}
       </Link>
@@ -46,7 +46,7 @@ export default function Search(props: SearchProps) {
         autoFocus
         classNames={{
           root: 'mb-2',
-          form: '!shadow-none !border-none bg-light-blue-50 !rounded-none',
+          form: '!shadow-none !border-none bg-light-blue-25 !rounded-none',
           input: '!bg-transparent !font-medium !text-light-blue-900',
         }}
         submitIconComponent={() => (

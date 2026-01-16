@@ -149,7 +149,7 @@ export default function InteractiveTour() {
   return (
     <React.Fragment>
       <div className="prose max-w-none hidden lg:block">
-        <ol className="text-deep-purple-900 text-md leading-6 list-decimal list-inside flex flex-row p-0">
+        <ol className="text-light-blue-900 text-md leading-6 list-decimal list-inside flex flex-row p-0">
           {steps.map((item, i) => (
             <li key={item.text} className="mr-3">
               <a
@@ -225,7 +225,7 @@ export default function InteractiveTour() {
         )}
         {step === 'addSignatories' && (
           <React.Fragment>
-            <p className="bg-gray-300 p-2 rounded">
+            <p className="bg-light-blue-25 p-2 rounded">
               Awesome! You have created the Signature Order with a custom seals template page. Now
               you can start adding signatories. Signatories represent the individuals you want to
               sign your signature order.
@@ -350,7 +350,7 @@ export default function InteractiveTour() {
         )}
       </div>
       <div className="prose block lg:hidden">
-        <p className="bg-gray-300 p-2 rounded">
+        <p className="bg-light-blue-25 p-2 rounded">
           Our interactive tour is only available on larger screens.
         </p>
       </div>

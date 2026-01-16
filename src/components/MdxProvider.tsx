@@ -43,7 +43,7 @@ export const H2 = (props: { className?: string; children: string; id?: string })
     <h2
       {...props}
       className={cx(
-        'group flex whitespace-pre-wrap -ml-4 pl-4 text-gray-ash-900 text-medium text-display-md scroll-mt-[150px] lg:scroll-mt-[90px]',
+        'group flex whitespace-pre-wrap -ml-4 pl-4 text-light-blue-900 text-medium text-display-md scroll-mt-[150px] lg:scroll-mt-[90px]',
         props.className,
       )}
     >
@@ -55,7 +55,7 @@ export const H2 = (props: { className?: string; children: string; id?: string })
           aria-label="Anchor"
         >
           ​
-          <div className="w-6 h-6 text-gray-ash-900 ring-1 ring-gray-900/5 rounded-md shadow-sm flex items-center justify-center hover:ring-gray-900/10 hover:shadow hover:text-gray-700">
+          <div className="w-6 h-6 text-light-blue-900 ring-1 ring-light-blue-300/10 rounded-md shadow-sm flex items-center justify-center hover:ring-light-blue-300/40 hover:shadow hover:text-light-blue-800">
             <svg width="12" height="12" fill="none" aria-hidden="true">
               <path
                 d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10"
@@ -75,7 +75,7 @@ export const H2 = (props: { className?: string; children: string; id?: string })
 export const H3 = (props: { children: string; className?: string; id?: string }) => (
   <h3
     {...props}
-    className={`group flex whitespace-pre-wrap -ml-4 pl-4 text-gray-ash-900 text-medium text-display-sm scroll-mt-[150px] lg:scroll-mt-[90px] ${props.className ?? ''}`}
+    className={`group flex whitespace-pre-wrap -ml-4 pl-4 text-light-blue-900 text-medium text-display-sm scroll-mt-[150px] lg:scroll-mt-[90px] ${props.className ?? ''}`}
   >
     {props.id ? (
       <a
@@ -84,7 +84,7 @@ export const H3 = (props: { children: string; className?: string; id?: string })
         aria-label="Anchor"
       >
         ​
-        <div className="w-6 h-6 text-gray-ash-900 font-medium ring-1 ring-gray-900/5 rounded-md shadow-sm flex items-center justify-center hover:ring-gray-900/10 hover:shadow hover:text-gray-700">
+        <div className="w-6 h-6 text-light-blue-900 font-medium ring-1 ring-light-blue-300/10 rounded-md shadow-sm flex items-center justify-center hover:ring-light-blue-300/40 hover:shadow hover:text-light-blue-800">
           <svg width="12" height="12" fill="none" aria-hidden="true">
             <path
               d="M3.75 1v10M8.25 1v10M1 3.75h10M1 8.25h10"
@@ -192,7 +192,7 @@ export const InlineCode = (props: { children: React.ReactNode }) => {
       : props.children;
   return (
     <span className="not-prose">
-      <code className="bg-gray-100 py-0.5 px-1.5 rounded-md font-semibold text-sm">{children}</code>
+      <code className=" bg-black/5 py-0.5 px-1 text-[90%] rounded">{children}</code>
     </span>
   );
 };
@@ -204,7 +204,7 @@ export const Highlight = (props: {
 }) => {
   return (
     <div
-      className={`mdx-highlight bg-gray-200 ${props.warning ? 'bg-yellow-100' : ''} rounded-md p-4 max-w-screen-md ${props.icon ? 'relative pl-10' : ''}`}
+      className={`mdx-highlight ${props.warning ? 'bg-yellow-25' : 'bg-light-blue-25'} rounded-md p-4 max-w-screen-md ${props.icon ? 'relative pl-10' : ''}`}
     >
       {props.icon ? (
         <FontAwesomeIcon

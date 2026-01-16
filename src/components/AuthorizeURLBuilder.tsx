@@ -451,11 +451,11 @@ export default function AuthorizeURLBuilder(props: {
       <H3>General parameters</H3>
       <div className="mb-4 grid grid-cols-3 gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="domain">
+          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="domain">
             Domain
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="domain"
             type="text"
             placeholder="Domain"
@@ -464,11 +464,11 @@ export default function AuthorizeURLBuilder(props: {
           />
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="clientID">
+          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="clientID">
             Client ID
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="clientID"
             type="text"
             placeholder="Client ID"
@@ -478,11 +478,14 @@ export default function AuthorizeURLBuilder(props: {
           <small>Also known as 'realm'</small>
         </div>
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="redirectURI">
+          <label
+            className="block text-light-blue-800 text-sm font-medium mb-2"
+            htmlFor="redirectURI"
+          >
             Redirect URI
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="redirectURI"
             type="text"
             placeholder="Redirect URI"
@@ -492,14 +495,16 @@ export default function AuthorizeURLBuilder(props: {
           <small>Also known as 'Callback URL'</small>
         </div>
       </div>
-
       <div className="mb-4 grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="responseType">
+          <label
+            className="block text-light-blue-800 text-sm font-medium mb-2"
+            htmlFor="responseType"
+          >
             Response type
           </label>
           <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="responseType"
             value={options.response_type}
             onChange={event => updateOption('response_type', event)}
@@ -512,13 +517,15 @@ export default function AuthorizeURLBuilder(props: {
             `id_token` is deprecated but useful for debugging with `https://jwt.io`
           </small>
         </div>
-
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="responseMode">
+          <label
+            className="block text-light-blue-800 text-sm font-medium mb-2"
+            htmlFor="responseMode"
+          >
             Response mode
           </label>
           <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="responseMode"
             value={options.response_mode}
             onChange={event => updateOption('response_mode', event)}
@@ -539,13 +546,12 @@ export default function AuthorizeURLBuilder(props: {
               </small>
             )}
         </div>
-
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="nonce">
+          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="nonce">
             Nonce
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="nonce"
             type="text"
             placeholder="Nonce"
@@ -554,13 +560,12 @@ export default function AuthorizeURLBuilder(props: {
           />
           <small>Should be a cryptographically strong value</small>
         </div>
-
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="prompt">
+          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="prompt">
             Prompt
           </label>
           <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="prompt"
             value={options.prompt || ''}
             onChange={event => updateOption('prompt', event)}
@@ -582,13 +587,12 @@ export default function AuthorizeURLBuilder(props: {
             <small>`prompt=consent_revoke` will revoke any existing SSN consent.</small>
           ) : null}
         </div>
-
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="state">
+          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="state">
             State
           </label>
           <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
             id="state"
             type="text"
             placeholder="state"
@@ -600,14 +604,16 @@ export default function AuthorizeURLBuilder(props: {
             original user's session.
           </small>
         </div>
-
         {supports.id_token_hint ? (
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="id_token_hint">
+            <label
+              className="block text-light-blue-800 text-sm font-medium mb-2"
+              htmlFor="id_token_hint"
+            >
               id_token_hint
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="id_token_hint"
               type="text"
               placeholder="id_token_hint"
@@ -616,14 +622,13 @@ export default function AuthorizeURLBuilder(props: {
             />
           </div>
         ) : null}
-
         {props.acr_values && props.acr_values.every(s => s === 'urn:age-verification') ? (
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="country">
+            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="country">
               Country
             </label>
             <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="country"
               value={options.login_hint ?? undefined}
               onChange={event => updateOption('login_hint', event)}
@@ -636,11 +641,14 @@ export default function AuthorizeURLBuilder(props: {
           </div>
         ) : (
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="login_hint">
+            <label
+              className="block text-light-blue-800 text-sm font-medium mb-2"
+              htmlFor="login_hint"
+            >
               Login hint
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="login_hint"
               type="text"
               placeholder="login_hint"
@@ -686,7 +694,7 @@ export default function AuthorizeURLBuilder(props: {
                 </Link>
                 <br />
                 {provider.authMethods.map(authMethod => (
-                  <label className="text-gray-700 text-sm block my-2">
+                  <label className="text-light-blue-800 text-sm block my-2">
                     <input
                       type="checkbox"
                       id={authMethod.acrValue}
@@ -705,9 +713,9 @@ export default function AuthorizeURLBuilder(props: {
 
       {options.availableScopes.length > 0 ? (
         <div>
-          <label className="block text-gray-700 text-sm font-medium mb-2">scopes</label>
+          <label className="block text-light-blue-800 text-sm font-medium mb-2">scopes</label>
           {options.availableScopes.map(scope => (
-            <label className="text-gray-700 text-sm block my-2">
+            <label className="text-light-blue-800 text-sm block my-2">
               <input
                 type="checkbox"
                 id={scope}
@@ -744,15 +752,17 @@ export default function AuthorizeURLBuilder(props: {
             )}
         </div>
       ) : null}
-
       <div className="mb-4 grid grid-cols-2 gap-4">
         {props.quirks !== false && options.availableScopes.length > 0 ? (
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="scopes_quirk">
+            <label
+              className="block text-light-blue-800 text-sm font-medium mb-2"
+              htmlFor="scopes_quirk"
+            >
               scopes quirk handling
             </label>
             <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="scopes_quirk"
               value={options.scopes_quirk}
               onChange={event => updateOption('scopes_quirk', event)}
@@ -770,13 +780,13 @@ export default function AuthorizeURLBuilder(props: {
         {props.quirks !== false && options.acr_values.length == 1 ? (
           <div>
             <label
-              className="block text-gray-700 text-sm font-medium mb-2"
+              className="block text-light-blue-800 text-sm font-medium mb-2"
               htmlFor="acr_values_quirk"
             >
               acr_values quirk handling
             </label>
             <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="acr_values_quirk"
               value={options.acr_values_quirk}
               onChange={event => updateOption('acr_values_quirk', event)}
@@ -799,11 +809,11 @@ export default function AuthorizeURLBuilder(props: {
 
         {supportsAction && (
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="action">
+            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="action">
               Action
             </label>
             <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="action"
               value={options.action || ''}
               onChange={event => updateOption('action', event)}
@@ -815,19 +825,22 @@ export default function AuthorizeURLBuilder(props: {
               ))}
             </select>
             <small>
-              Setting action will change header texts on Idura pages and also the action text
-              inside the MitID login box.
+              Setting action will change header texts on Idura pages and also the action text inside
+              the MitID login box.
             </small>
           </div>
         )}
 
         {supportsFrejaAction && (
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="frejaAction">
+            <label
+              className="block text-light-blue-800 text-sm font-medium mb-2"
+              htmlFor="frejaAction"
+            >
               Action
             </label>
             <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="frejaAction"
               value={options.frejaAction || ''}
               onChange={event => updateOption('frejaAction', event)}
@@ -845,11 +858,11 @@ export default function AuthorizeURLBuilder(props: {
 
         {supportsTitle && (
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="title">
+            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="title">
               Title
             </label>
             <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="title"
               placeholder="Title"
               value={options.title || ''}
@@ -865,11 +878,14 @@ export default function AuthorizeURLBuilder(props: {
 
         {supportsPushTitle && (
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="pushTitle">
+            <label
+              className="block text-light-blue-800 text-sm font-medium mb-2"
+              htmlFor="pushTitle"
+            >
               Push notification title
             </label>
             <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="pushTitle"
               placeholder="Push notification title"
               value={options.pushTitle || ''}
@@ -885,11 +901,14 @@ export default function AuthorizeURLBuilder(props: {
 
         {supportsPushText && (
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="pushText">
+            <label
+              className="block text-light-blue-800 text-sm font-medium mb-2"
+              htmlFor="pushText"
+            >
               Push notification text
             </label>
             <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="pushText"
               placeholder="Push notification text"
               value={options.pushText || ''}
@@ -905,11 +924,11 @@ export default function AuthorizeURLBuilder(props: {
 
         {supportsMessage && (
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="message">
+            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="message">
               Message
             </label>
             <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="message"
               placeholder="Message"
               value={options.message || ''}
@@ -933,13 +952,13 @@ export default function AuthorizeURLBuilder(props: {
         {supportsNonVisibleData && (
           <div>
             <label
-              className="block text-gray-700 text-sm font-medium mb-2"
+              className="block text-light-blue-800 text-sm font-medium mb-2"
               htmlFor="nonVisibleData"
             >
               Non-visible data
             </label>
             <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="nonVisibleData"
               placeholder="Non-visible data"
               value={options.nonVisibleData || ''}
@@ -969,11 +988,11 @@ export default function AuthorizeURLBuilder(props: {
 
         {supportsTxInfo && (
           <div>
-            <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="txInfo">
+            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="txInfo">
               Transaction information
             </label>
             <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="txInfo"
               placeholder="txinfo"
               value={options.txInfo || ''}
@@ -1015,13 +1034,13 @@ export default function AuthorizeURLBuilder(props: {
         {supportsMinRegistrationLevel && (
           <div>
             <label
-              className="block text-gray-700 text-sm font-medium mb-2"
+              className="block text-light-blue-800 text-sm font-medium mb-2"
               htmlFor="minregistrationlevel"
             >
               Minimum registration level
             </label>
             <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="action"
               value={options.minRegistrationLevel || ''}
               onChange={event => updateOption('minRegistrationLevel', event)}
@@ -1055,13 +1074,13 @@ export default function AuthorizeURLBuilder(props: {
         {supportsUserConfirmationMethod && (
           <div>
             <label
-              className="block text-gray-700 text-sm font-medium mb-2"
+              className="block text-light-blue-800 text-sm font-medium mb-2"
               htmlFor="userconfirmationmethod"
             >
               User confirmation method
             </label>
             <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
               id="action"
               value={options.userConfirmationMethod || ''}
               onChange={event => updateOption('userConfirmationMethod', event)}

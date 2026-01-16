@@ -176,7 +176,7 @@ export default function InteractiveTour() {
         )}
         {step === 'addSignatories' && (
           <React.Fragment>
-            <p className="bg-gray-300 p-2 rounded">
+            <p className="bg-light-blue-25 p-2 rounded">
               Awesome! You have created your first Signature Order, now you can start adding
               signatories. Signatories represent the individuals you want to sign your signature
               order.
@@ -288,7 +288,7 @@ export default function InteractiveTour() {
         )}
       </div>
       <div className="prose block lg:hidden">
-        <p className="bg-gray-300 p-2 rounded">
+        <p className="bg-light-blue-25 p-2 rounded">
           Our interactive tour is only available on larger screens.
         </p>
       </div>

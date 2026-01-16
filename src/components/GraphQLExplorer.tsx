@@ -123,7 +123,7 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
       style={props.fullscreen ? { height: '100svh' } : {}}
     >
       {credentials && (
-        <p className="bg-gray-300 p-2 rounded-t mb-0" style={props.style}>
+        <p className="bg-light-blue-25 p-2 rounded-t mb-0" style={props.style}>
           Queries are executed against your actual application. Please make sure you are using test
           credentials.
         </p>
@@ -202,11 +202,11 @@ export function CredentialsForm(props: {
     <form className={`px-8 pt-6 pb-8 mb-4 ${props.className || ''}`} onSubmit={handleSubmit}>
       {props.children}
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="clientID">
+        <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="clientID">
           Client ID
         </label>
         <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
           id="clientID"
           type="text"
           placeholder="Client ID"
@@ -215,11 +215,14 @@ export function CredentialsForm(props: {
         />
       </div>
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="clientSecret">
+        <label
+          className="block text-light-blue-800 text-sm font-medium mb-2"
+          htmlFor="clientSecret"
+        >
           Client Secret
         </label>
         <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
           id="clientSecret"
           type="password"
           placeholder="Client Secret"
