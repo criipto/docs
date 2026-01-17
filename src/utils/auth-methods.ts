@@ -104,15 +104,15 @@ export const PROVIDERS: Provider[] = [
     page: '/verify/e-ids/norwegian-bankid',
   },
   {
-    title: 'Norwegian Vipps',
+    title: 'Vipps MobilePay',
     authMethods: [
       {
-        title: 'Norwegian Vipps',
+        title: 'Vipps MobilePay',
         acrValue: 'urn:grn:authn:no:vipps',
         scopes: noVippsScopes,
       },
     ],
-    page: '/verify/e-ids/norwegian-vipps',
+    page: '/verify/e-ids/vipps-mobilepay',
   },
   {
     title: 'Netherlands',
