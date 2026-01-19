@@ -1,0 +1,18 @@
+---
+date: 2026-01-19
+title: Removal of PDF bookmarks
+---
+
+## Removal of PDF bookmarks
+
+When combining multiple PDF documents in Adobe, a default enabled option creates bookmarks for each of the combined PDFs.
+Attempting to sign such a combined document likely renders the signatures invalid as Adobe believes the document to have been altered.
+
+We have extended the `PadesDocumentInput`, when creating a signature order, with a property `removeBookmarks`.
+Bookmarks will be removed from the signed document(s) where the flag is set.
+
+To better support flexible flows, e.g., let the end user decide, the `validateDocument` mutation returns whether the provided document contains any bookmarks.
+
+Drawback is that users that previously relied on the bookmarks for navigation will no longer have the option, however, signatures are now correctly shown as valid.
+
+Please note: bookmarks generated from headings in Word or Google Docs don't suffer the same issue, it's only _after_ such PDFs have been combined the issue occurs.
