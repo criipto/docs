@@ -264,6 +264,9 @@ module.exports = {
       fontFamily: {
         sans: 'IBM Plex Sans',
       },
+      animation: {
+        'spin-steps': 'spin 1s steps(8) infinite',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],
