@@ -9,14 +9,14 @@ subtitle: Examples of JWT payloads for selected eIDs.
 import SwedishBankIdJwtSnippet from '../../../snippets/jwt-payloads/swedish-bankid';
 import NorwegianBankIdJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid';
 import NorwegianBankIdBiometricJwtSnippet from '../../../snippets/jwt-payloads/norwegian-bankid-biometric';
-import NorwegianVippsJwtSnippet from '../../../snippets/jwt-payloads/norwegian-vipps';
+import VippsMobilepayJwtSnippet from '../../../snippets/jwt-payloads/vipps-mobilepay';
 import DanishMitIDJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid';
 import DanishMitIDAddressJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-address';
 import DanishMitIDCompanySignatoryJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-erhverv-company-signatory';
 import DanishMitIDErhvervJwtSnippet from '../../../snippets/jwt-payloads/danish-mitid-erhverv';
 import FtnJwtSnippet from '../../../snippets/jwt-payloads/finnish-trust-network';
 
-Below you will find the structure and example content of the ID tokens – [JSON Web Tokens](/verify/reference/glossary/#json-web-token-jwt) returned when signing in with each of the supported eID types.
+Below you will find the structure and example content of ID tokens – [JSON Web Tokens](/verify/reference/glossary/#json-web-token-jwt) returned when signing in with each of the supported eID types.
 
 The examples show only the user-specific fields. The actual issued JWTs also include additional technical OIDC-conformant fields used for validation and session management.
 
@@ -42,9 +42,9 @@ The `socialno` field is the social security number. The `uniqueUserId` identifie
 
 The `socialno` field is the social security number.
 
-### Vipps
+### Vipps MobilePay
 
-<NorwegianVippsJwtSnippet />
+<VippsMobilepayJwtSnippet />
 
 The `socialno` field is the social security number.
 
