@@ -1,4 +1,5 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Button } from './Button/Button';
 
 function bytesToBase64(bytes: Uint8Array) {
   var binary = '';
@@ -97,12 +98,9 @@ export default function WebhookSignatureValidator() {
           <strong>Signature {valid ? 'valid' : 'not valid'}</strong>
         </div>
       ) : null}
-      <button
-        className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        type="submit"
-      >
+      <Button variant="primary" type="submit" size="lg">
         Validate
-      </button>
+      </Button>
     </form>
   );
 }

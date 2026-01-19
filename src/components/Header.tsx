@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState, useRef } from 'react';
 import { Link } from 'gatsby';
-
+import { AnchorButton } from './Button/Button';
 import Search from './Search';
 import logo from '../images/idura-logo.svg';
 
@@ -222,13 +222,15 @@ export default function Header(props: { path: string | undefined; className?: st
                 >
                   Dashboard
                 </a>
-                <a
+                <AnchorButton
                   href="https://dashboard.idura.app/signup?utm_source=docs"
                   target="_blank"
-                  className="bg-primary-600 hover:bg-primary-700 font-medium py-2 px-4 uppercase text-white focus:outline-none focus:shadow-outline whitespace-nowrap"
+                  variant="primary"
+                  size="sm"
+                  className="uppercase"
                 >
                   Sign up
-                </a>
+                </AnchorButton>
               </div>
             </div>
           </div>

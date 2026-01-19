@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'gatsby';
 import { slug } from 'github-slugger';
-
+import { Button } from '../../../components/Button/Button';
 import * as createSignatureOrderExample from '../../../examples/createSignatureOrder/pdfFormFilling.graphql';
 import * as addSignatoryExample from '../../../examples/addSignatory.graphql';
 import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
@@ -241,12 +241,9 @@ export default function InteractiveTour() {
               ))}
             </ol>
             <Paragraph>When you have signed, you can proceed to the next step.</Paragraph>
-            <button
-              className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              onClick={() => setStep('closeSignatureOrder')}
-            >
+            <Button variant="primary" size="lg" onClick={() => setStep('closeSignatureOrder')}>
               Proceed to next step
-            </button>
+            </Button>
           </React.Fragment>
         )}
         {step === 'closeSignatureOrder' && (

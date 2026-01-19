@@ -8,6 +8,7 @@ import {
   DocumentStorageMode,
   Language,
 } from '../../../graphql-signatures-types';
+import { Button } from '../Button/Button';
 import { H3 } from '../MdxProvider';
 
 const toBase64 = (file: File): Promise<string> =>
@@ -113,9 +114,13 @@ export default function CreateSignatureOrderQueryBuilder() {
               value={document.pdf?.title || ''}
               onChange={event => handleChangeDocument(document, 'title', event.target.value)}
             />
-            <button className="" onClick={() => handleRemoveDocument(document)}>
+            <Button
+              variant="default"
+              onClick={() => handleRemoveDocument(document)}
+              className="mt-2"
+            >
               Remove
-            </button>
+            </Button>
           </div>
         ))}
         <div>

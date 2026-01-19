@@ -1,5 +1,7 @@
 import React from 'react';
-import { CodeBlock } from './MdxProvider';
+import { Button, AnchorButton } from './Button/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   url: URL;
@@ -15,22 +17,21 @@ export default function URLCodeBlock(props: Props) {
   url = url.replace('?', '?\n\t').replace(/\&/g, '&\n\t');
 
   return (
-    <pre className={'pb-8 relative'}>
-      <code>{url}</code>
-      <div className="absolute bottom-1 right-1">
-        <button
-          className="text-white border rounded-l border-white py-1 px-4"
+    <pre className={'pb-20 relative break-words whitespace-pre-wrap'}>
+      <code className="mb-6 whitespace-pre-wrap">{url}</code>
+      <div className="absolute bottom-1 right-1 m-4 mt-6 flex gap-3">
+        <Button
+          variant="dark"
+          iconLeft={
+            <FontAwesomeIcon icon={faCopy} fill="currentColor" aria-hidden className="w-5" />
+          }
           onClick={() => navigator.clipboard.writeText(url.replace(/\n\t/g, ''))}
         >
           Copy
-        </button>
-        <a
-          href={url.replace(/\n\t/g, '')}
-          className="inline-block text-white border rounded-r border-white py-1 px-4 no-underline"
-          target="_blank"
-        >
+        </Button>
+        <AnchorButton href={url.replace(/\n\t/g, '')} variant="dark" target="_blank">
           Open
-        </a>
+        </AnchorButton>
       </div>
     </pre>
   );

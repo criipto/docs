@@ -1,8 +1,10 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAppSelector } from '../state/hooks';
 import { CredentialsForm, SignatoryCredentials } from './GraphQLExplorer';
-
+import { Button } from './Button/Button';
 import { graphQLFetcher } from './GraphQLExplorer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
 import {
   AddSignatoryOutput,
@@ -319,13 +321,15 @@ export default function WebhookTester() {
         </div>
       ) : null}
 
-      <button
-        className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        disabled={pending}
+      <Button
+        variant="primary"
+        working={pending}
         type="submit"
+        size="lg"
+        iconLeft={<FontAwesomeIcon icon={faPlay} fill="currentColor" aria-hidden className="w-5" />}
       >
-        {pending ? 'Executing ...' : 'Execute'}
-      </button>
+        Execute
+      </Button>
 
       {executions.length ? (
         <div className="mt-4">
