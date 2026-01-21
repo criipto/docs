@@ -201,7 +201,7 @@ module.exports = {
             '--tw-prose-bold': theme('colors.light-blue.800'),
             a: {
               color: theme('colors.primary.600'),
-              textDecoration: 'none',
+              textDecoration: 'underline',
               fontWeight: '400',
             },
           },
