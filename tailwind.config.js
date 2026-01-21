@@ -191,16 +191,22 @@ module.exports = {
       },
     },
     extend: {
-      typography: {
+      typography: theme => ({
         DEFAULT: {
           css: {
             h2: {
               'margin-bottom': '0.6666666666666666em',
             },
-            color: '#262631',
+            color: theme('colors.light-blue.800'),
+            '--tw-prose-bold': theme('colors.light-blue.800'),
+            a: {
+              color: theme('colors.primary.600'),
+              textDecoration: 'none',
+              fontWeight: '400',
+            },
           },
         },
-      },
+      }),
       fontSize: {
         xs: ['.75rem', '1.125rem'],
         md: ['.875rem', '1.25rem'],
