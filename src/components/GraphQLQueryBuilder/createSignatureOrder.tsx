@@ -8,7 +8,7 @@ import {
   DocumentStorageMode,
   Language,
 } from '../../../graphql-signatures-types';
-import Button from '../Button/Button';
+import { Button } from '../Button/Button';
 import { H3 } from '../MdxProvider';
 
 const toBase64 = (file: File): Promise<string> =>

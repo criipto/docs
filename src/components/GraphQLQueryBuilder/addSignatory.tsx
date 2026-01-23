@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Button from '../Button/Button';
+import { Button } from '../Button/Button';
 import GraphQLExample from '../GraphQLExample';
 import { useAppSelector } from '../../state/hooks';
 import {

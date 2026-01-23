@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'gatsby';
 import { slug } from 'github-slugger';
-import Button from '../../../components/Button/Button';
+import { Button } from '../../../components/Button/Button';
 import * as createSignatureOrderExample from '../../../examples/createSignatureOrder/pdfFormFilling.graphql';
 import * as addSignatoryExample from '../../../examples/addSignatory.graphql';
 import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';

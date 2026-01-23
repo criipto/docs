@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppSelector } from '../state/hooks';
 import { CredentialsForm, SignatoryCredentials } from './GraphQLExplorer';
-import Button from './Button/Button';
+import { Button } from './Button/Button';
 import { graphQLFetcher } from './GraphQLExplorer';
 
 import {

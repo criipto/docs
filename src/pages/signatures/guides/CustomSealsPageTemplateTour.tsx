@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'gatsby';
 import { slug } from 'github-slugger';
-import Button from '../../../components/Button/Button';
+import { Button } from '../../../components/Button/Button';
 import * as createSignatureOrderExample from '../../../examples/createSignatureOrder/sealsPageTemplateCoolEnergy.graphql';
 import * as addSignatoryExample from '../../../examples/addSignatory.graphql';
 import * as closeSignatureOrderExample from '../../../examples/closeSignatureOrder.graphql';
@@ -265,8 +265,9 @@ export default function InteractiveTour() {
             </H3>
             <Paragraph>
               Normally, the signatory links will be sent to the intended recipients at this step.
-              But in this case, you can proceed by signing the documents yourself via the links below.
-              Remember to use a <a href='/signatures/getting-started/test-users/'>test user</a>, not your real eID.
+              But in this case, you can proceed by signing the documents yourself via the links
+              below. Remember to use a{' '}
+              <a href="/signatures/getting-started/test-users/">test user</a>, not your real eID.
             </Paragraph>
             <ol>
               {signatories.map((signatory, index) => (
