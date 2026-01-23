@@ -4,6 +4,7 @@ import URLCodeBlock from './URLCodeBlock';
 import { PROVIDERS } from '../utils/auth-methods';
 import { Link } from 'gatsby';
 import { InputField } from './FormFields/InputField';
+import { Select } from './FormFields/Select';
 
 const ACTION_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:dk:mitid:low',
@@ -495,56 +496,45 @@ export default function AuthorizeURLBuilder(props: {
       </div>
 
       <div className="mb-4 grid grid-cols-2 gap-3">
-        <div>
-          <label
-            className="block text-light-blue-800 text-sm font-medium mb-2"
-            htmlFor="responseType"
-          >
-            Response type
-          </label>
-          <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="responseType"
-            value={options.response_type}
-            onChange={event => updateOption('response_type', event)}
-          >
-            <option value="code">code</option>
-            <option value="id_token">id_token</option>
-          </select>
-          <small>
-            `code` is the recommended response_type and enables PKCE and back-channel flows.
-            `id_token` is deprecated but useful for debugging with `https://jwt.io`
-          </small>
-        </div>
-        <div>
-          <label
-            className="block text-light-blue-800 text-sm font-medium mb-2"
-            htmlFor="responseMode"
-          >
-            Response mode
-          </label>
-          <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="responseMode"
-            value={options.response_mode}
-            onChange={event => updateOption('response_mode', event)}
-          >
-            <option value="query">query</option>
-            <option value="fragment">fragment</option>
-          </select>
-          {(options.selectedScopes.includes('frejaid:photo') ||
-            options.selectedScopes.includes('frejaid:document_photo')) &&
+        <Select
+          label="Response type"
+          id="responseType"
+          value={options.response_type}
+          onChange={event => updateOption('response_type', event)}
+          helpText={
+            <>
+              <code>code</code> is the recommended <code>response_type</code> and enables PKCE and
+              back-channel flows. <code>id_token</code> is deprecated but useful for debugging with{' '}
+              <a target="_blanc" href="https://jwt.io" className="text-primary-600">
+                https://jwt.io
+              </a>
+              .
+            </>
+          }
+        >
+          <option value="code">code</option>
+          <option value="id_token">id_token</option>
+        </Select>
+        <Select
+          label="Response mode"
+          id="responseMode"
+          value={options.response_mode}
+          onChange={event => updateOption('response_mode', event)}
+          helpText={
+            (options.selectedScopes.includes('frejaid:photo') ||
+              options.selectedScopes.includes('frejaid:document_photo')) &&
             options.response_type === 'id_token' &&
             (options.response_mode === 'fragment' || options.response_mode === 'query') && (
-              <small>
-                <span className="text-red-400">
-                  The selected scopes cannot be returned via a URL-based response. You must select a
-                  different Response Type or Response Mode!
-                </span>
-                <br />
-              </small>
-            )}
-        </div>
+              <span className="text-red-400">
+                The selected scopes cannot be returned via a URL-based response. You must select a
+                different Response Type or Response Mode!
+              </span>
+            )
+          }
+        >
+          <option value="query">query</option>
+          <option value="fragment">fragment</option>
+        </Select>
         <InputField
           label="Nonce"
           id="nonce"
@@ -554,33 +544,35 @@ export default function AuthorizeURLBuilder(props: {
           onChange={event => updateOption('nonce', event)}
           helpText="Should be a cryptographically strong value."
         />
-        <div>
-          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="prompt">
-            Prompt
-          </label>
-          <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="prompt"
-            value={options.prompt || ''}
-            onChange={event => updateOption('prompt', event)}
-          >
-            <option value="">Not set</option>
-            {prompts.map(prompt => (
-              <option key={prompt} value={prompt}>
-                {prompt}
-              </option>
-            ))}
-          </select>
-          {options.prompt === 'login' ? (
-            <small>`prompt=login` will force a login regardless of SSO state.</small>
-          ) : options.prompt === 'none' ? (
-            <small>
-              `prompt=none` will use existing SSO session or fail with `login_required`.
-            </small>
-          ) : options.prompt === 'consent_revoke' ? (
-            <small>`prompt=consent_revoke` will revoke any existing SSN consent.</small>
-          ) : null}
-        </div>
+        <Select
+          label="Prompt"
+          id="prompt"
+          value={options.prompt || ''}
+          onChange={event => updateOption('prompt', event)}
+          helpText={
+            options.prompt === 'login' ? (
+              <>
+                <code>prompt=login</code> will force a login regardless of SSO state.
+              </>
+            ) : options.prompt === 'none' ? (
+              <>
+                <code>prompt=none</code> will use existing SSO session or fail with{' '}
+                <code>login_required</code>.
+              </>
+            ) : options.prompt === 'consent_revoke' ? (
+              <>
+                <code>prompt=consent_revoke</code> will revoke any existing SSN consent.
+              </>
+            ) : null
+          }
+        >
+          <option value="">Not set</option>
+          {prompts.map(prompt => (
+            <option key={prompt} value={prompt}>
+              {prompt}
+            </option>
+          ))}
+        </Select>
         <div>
           <InputField
             label="State"
@@ -605,22 +597,17 @@ export default function AuthorizeURLBuilder(props: {
           ) : null}
         </div>
         {props.acr_values && props.acr_values.every(s => s === 'urn:age-verification') ? (
-          <div>
-            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="country">
-              Country
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="country"
-              value={options.login_hint ?? undefined}
-              onChange={event => updateOption('login_hint', event)}
-            >
-              <option value="country:DK">DK</option>
-              <option value="country:SE">SE</option>
-              <option value="country:NO">NO</option>
-              <option value="country:FI">FI</option>
-            </select>
-          </div>
+          <Select
+            label="Country"
+            id="country"
+            value={options.login_hint ?? undefined}
+            onChange={event => updateOption('login_hint', event)}
+          >
+            <option value="country:DK">DK</option>
+            <option value="country:SE">SE</option>
+            <option value="country:NO">NO</option>
+            <option value="country:FI">FI</option>
+          </Select>
         ) : (
           <InputField
             label="Login hint"
@@ -755,82 +742,61 @@ export default function AuthorizeURLBuilder(props: {
         ) : null}
 
         {props.quirks !== false && options.acr_values.length == 1 ? (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="acr_values_quirk"
-            >
-              acr_values quirk handling
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="acr_values_quirk"
-              value={options.acr_values_quirk}
-              onChange={event => updateOption('acr_values_quirk', event)}
-            >
-              <option value="none">none</option>
-              <option value="login_hint">login_hint</option>
-              <option value="path">path</option>
-            </select>
-            <small>
-              Some integrations, like Auth0, require that you pass acr_values through the login_hint
-              instead.
-              <br />
-              For integrations that do not allow you to define acr_values nor login_hint you can use
-              the value base64 encoded in the path segment.
-              <br />
-              (only supported with a single selected acr_value)
-            </small>
-          </div>
+          <Select
+            label="acr_values quirk handling"
+            id="acr_values_quirk"
+            value={options.acr_values_quirk}
+            onChange={event => updateOption('acr_values_quirk', event)}
+            helpText={
+              <>
+                Some integrations, like Auth0, require that you pass <code>acr_values</code> through
+                the <code>login_hint</code> instead.
+                <br />
+                For integrations that do not allow you to define <code>acr_values</code> nor{' '}
+                <code>login_hint</code>, you can use the value base64 encoded in the path segment.
+                <br />
+                (only supported with a single selected <code>acr_value</code>).
+              </>
+            }
+          >
+            <option value="none">none</option>
+            <option value="login_hint">login_hint</option>
+            <option value="path">path</option>
+          </Select>
         ) : null}
 
         {supportsAction && (
-          <div>
-            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="action">
-              Action
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="action"
-              value={options.action || ''}
-              onChange={event => updateOption('action', event)}
-            >
-              {actions.map(action => (
-                <option key={action} value={action}>
-                  {action}
-                </option>
-              ))}
-            </select>
-            <small>
-              Setting action will change header texts on Idura pages and also the action text inside
-              the MitID login box.
-            </small>
-          </div>
+          <Select
+            label="Action"
+            id="action"
+            value={options.action || ''}
+            onChange={event => updateOption('action', event)}
+            helpText="Setting action will change header texts on Idura pages and also the action text inside
+              the MitID login box."
+          >
+            {actions.map(action => (
+              <option key={action} value={action}>
+                {action}
+              </option>
+            ))}
+          </Select>
         )}
 
         {supportsFrejaAction && (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="frejaAction"
-            >
-              Action
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="frejaAction"
-              value={options.frejaAction || ''}
-              onChange={event => updateOption('frejaAction', event)}
-            >
-              <option value="">Not set</option>
-              {frejaActions.map(action => (
-                <option key={action} value={action}>
-                  {action}
-                </option>
-              ))}
-            </select>
-            <small>Set action to activate a Freja signature flow.</small>
-          </div>
+          <Select
+            label="Action"
+            id="frejaAction"
+            value={options.frejaAction || ''}
+            onChange={event => updateOption('frejaAction', event)}
+            helpText="Set action to activate a Freja signature flow."
+          >
+            <option value="">Not set</option>
+            {frejaActions.map(action => (
+              <option key={action} value={action}>
+                {action}
+              </option>
+            ))}
+          </Select>
         )}
 
         {supportsTitle && (
@@ -1009,82 +975,70 @@ export default function AuthorizeURLBuilder(props: {
         )}
 
         {supportsMinRegistrationLevel && (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="minregistrationlevel"
-            >
-              Minimum registration level
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="action"
-              value={options.minRegistrationLevel || ''}
-              onChange={event => updateOption('minRegistrationLevel', event)}
-            >
-              <option value="">Not set</option>
-              {minRegistrationLevels.map(minregistrationlevel => (
-                <option key={minregistrationlevel} value={minregistrationlevel}>
-                  {minregistrationlevel}
-                </option>
-              ))}
-            </select>
-            <small>
-              Setting minimum registration level will force users to be registered with a certain
-              level of registration.
-              <br />
-              Selecting "extended" or "plus" will enable additional scopes.
-              {(options.minRegistrationLevel === 'basic' || !options.minRegistrationLevel) &&
-                containsNonBasicFrejaIdScopes && (
-                  <>
-                    <br />
-                    <span className="text-red-400">
-                      The selected scopes are not available for registration level Basic. You must
-                      select a higher minimum registration level!
-                    </span>
-                  </>
-                )}
-            </small>
-          </div>
+          <Select
+            label="Minimum registration level"
+            id="action"
+            value={options.minRegistrationLevel || ''}
+            onChange={event => updateOption('minRegistrationLevel', event)}
+            helpText={
+              <>
+                Setting minimum registration level will force users to be registered with a certain
+                level of registration.
+                <br />
+                Selecting "extended" or "plus" will enable additional scopes.
+                {(options.minRegistrationLevel === 'basic' || !options.minRegistrationLevel) &&
+                  containsNonBasicFrejaIdScopes && (
+                    <>
+                      <br />
+                      <span className="text-red-400">
+                        The selected scopes are not available for registration level Basic. You must
+                        select a higher minimum registration level!
+                      </span>
+                    </>
+                  )}
+              </>
+            }
+          >
+            <option value="">Not set</option>
+            {minRegistrationLevels.map(minregistrationlevel => (
+              <option key={minregistrationlevel} value={minregistrationlevel}>
+                {minregistrationlevel}
+              </option>
+            ))}
+          </Select>
         )}
 
         {supportsUserConfirmationMethod && (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="userconfirmationmethod"
-            >
-              User confirmation method
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="action"
-              value={options.userConfirmationMethod || ''}
-              onChange={event => updateOption('userConfirmationMethod', event)}
-            >
-              <option value="">Not set</option>
-              {userConfirmationMethods.map(userconfirmationmethod => (
-                <option key={userconfirmationmethod} value={userconfirmationmethod}>
-                  {userconfirmationmethod}
-                </option>
-              ))}
-            </select>
-            <small>
-              Setting the user confirmation method to "defaultandface" will force users to take a
-              photo of themselves during authentication and reject the request if the photo does not
-              match their profile.
-              {(options.minRegistrationLevel === 'basic' || !options.minRegistrationLevel) &&
-                options.userConfirmationMethod === 'defaultandface' && (
-                  <>
-                    <br />
-                    <span className="text-red-400">
-                      Photo verification is not available for registration level Basic. You must
-                      select a higher minimum registration level!
-                    </span>
-                  </>
-                )}
-            </small>
-          </div>
+          <Select
+            label="User confirmation method"
+            id="action"
+            value={options.userConfirmationMethod || ''}
+            onChange={event => updateOption('userConfirmationMethod', event)}
+            helpText={
+              <>
+                Setting the user confirmation method to "defaultandface" will force users to take a
+                photo of themselves during authentication and reject the request if the photo does
+                not match their profile.
+                {(options.minRegistrationLevel === 'basic' || !options.minRegistrationLevel) &&
+                  options.userConfirmationMethod === 'defaultandface' && (
+                    <>
+                      <br />
+                      <span className="text-red-400">
+                        Photo verification is not available for registration level Basic. You must
+                        select a higher minimum registration level!
+                      </span>
+                    </>
+                  )}
+              </>
+            }
+          >
+            <option value="">Not set</option>
+            {userConfirmationMethods.map(userconfirmationmethod => (
+              <option key={userconfirmationmethod} value={userconfirmationmethod}>
+                {userconfirmationmethod}
+              </option>
+            ))}
+          </Select>
         )}
       </div>
 
