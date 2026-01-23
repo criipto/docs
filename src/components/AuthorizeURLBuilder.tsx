@@ -5,6 +5,7 @@ import { PROVIDERS } from '../utils/auth-methods';
 import { Link } from 'gatsby';
 import { InputField } from './FormFields/InputField';
 import { Select } from './FormFields/Select';
+import { Textarea } from './FormFields/Textarea';
 
 const ACTION_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:dk:mitid:low',
@@ -800,178 +801,153 @@ export default function AuthorizeURLBuilder(props: {
         )}
 
         {supportsTitle && (
-          <div>
-            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="title">
-              Title
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="title"
-              placeholder="Title"
-              value={options.title || ''}
-              onChange={event => updateOption('title', event)}
-            />
-            <small>
-              FrejaID only. Sets the title of a signature request.
-              <br />
-              Maximum length is 128 characters (before base64 encoding).
-            </small>
-          </div>
+          <Textarea
+            label="Title"
+            id="title"
+            value={options.title || ''}
+            onChange={event => updateOption('title', event)}
+            helpText={
+              <>
+                FrejaID only. Sets the title of a signature request.
+                <br />
+                Maximum length is 128 characters (before base64 encoding).
+              </>
+            }
+          />
         )}
 
         {supportsPushTitle && (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="pushTitle"
-            >
-              Push notification title
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="pushTitle"
-              placeholder="Push notification title"
-              value={options.pushTitle || ''}
-              onChange={event => updateOption('pushTitle', event)}
-            />
-            <small>
-              FrejaID only. Sets the title of the push notification for a signature request.
-              <br />
-              Maximum length is 256 characters (before base64 encoding).
-            </small>
-          </div>
+          <Textarea
+            label="Push notification title"
+            id="pushTitle"
+            value={options.pushTitle || ''}
+            onChange={event => updateOption('pushTitle', event)}
+            helpText={
+              <>
+                FrejaID only. Sets the title of the push notification for a signature request.
+                <br />
+                Maximum length is 256 characters (before base64 encoding).
+              </>
+            }
+          />
         )}
 
         {supportsPushText && (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="pushText"
-            >
-              Push notification text
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="pushText"
-              placeholder="Push notification text"
-              value={options.pushText || ''}
-              onChange={event => updateOption('pushText', event)}
-            />
-            <small>
-              FrejaID only. Sets the text of the push notification for a signature request.
-              <br />
-              Maximum length is 256 characters (before base64 encoding).
-            </small>
-          </div>
+          <Textarea
+            label="Push notification text"
+            id="pushText"
+            value={options.pushText || ''}
+            onChange={event => updateOption('pushText', event)}
+            helpText={
+              <>
+                FrejaID only. Sets the text of the push notification for a signature request.
+                <br />
+                Maximum length is 256 characters (before base64 encoding).
+              </>
+            }
+          />
         )}
 
         {supportsMessage && (
-          <div>
-            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="message">
-              Message
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="message"
-              placeholder="Message"
-              value={options.message || ''}
-              onChange={event => updateOption('message', event)}
-            />
-            <small>
-              DK MitID/SE BankID/FrejaID only. Will display a message to the end user in the app.
-              <br />
-              The maximum message length depends on the eID provider:
-              <br />
-              For SE BankID, the limit is 1500 characters <em>after base64 encoding.</em>
-              <br />
-              For FrejaID, the limit is 4096 characters <em>before base64 encoding.</em>
-              <br />
-              For MitID, our tests indicate a limit of 130 characters{' '}
-              <em>before base64 encoding.</em>
-            </small>
-          </div>
+          <Textarea
+            label="Message"
+            id="message"
+            value={options.message || ''}
+            onChange={event => updateOption('message', event)}
+            helpText={
+              <>
+                DK MitID/SE BankID/FrejaID only. Will display a message to the end user in the app.
+                The maximum message length depends on the eID provider:
+                <ul>
+                  <li>
+                    For SE BankID, the limit is 1500 characters <em>after base64 encoding.</em>
+                  </li>
+                  <li>
+                    For FrejaID, the limit is 4096 characters <em>before base64 encoding.</em>
+                  </li>
+                  <li>
+                    For MitID, our tests indicate a limit of 130 characters{' '}
+                    <em>before base64 encoding.</em>
+                  </li>
+                </ul>
+              </>
+            }
+          />
         )}
 
         {supportsNonVisibleData && (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="nonVisibleData"
-            >
-              Non-visible data
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="nonVisibleData"
-              placeholder="Non-visible data"
-              value={options.nonVisibleData || ''}
-              onChange={event => updateOption('nonVisibleData', event)}
-            />
-            <small>
-              SE BankID/FrejaID only.
-              <br />
-              For SE BankID, will roundtrip the supplied value in the `evidence` claim in a
-              dedicated XML element.
-              <br />
-              For FrejaID, will include the supplied data in the signed data. Only supported for the
-              Extended signature flow.
-              <br />
-              Must be base64-encoded.
-            </small>
-            {options.nonVisibleData && options.frejaAction !== 'sign_extended' && (
-              <small>
+          <Textarea
+            label="Non-visible data"
+            id="nonVisibleData"
+            value={options.nonVisibleData || ''}
+            onChange={event => updateOption('nonVisibleData', event)}
+            helpText={
+              <>
+                SE BankID/FrejaID only.
                 <br />
-                <span className="text-red-400">
-                  Non-visible data is only supported for the Extended signature flow in FrejaID.
-                </span>
-              </small>
-            )}
-          </div>
+                <ul>
+                  <li>
+                    For SE BankID, will roundtrip the supplied value in the `evidence` claim in a
+                    dedicated XML element.
+                  </li>
+                  <li>
+                    For FrejaID, will include the supplied data in the signed data. Only supported
+                    for the Extended signature flow.
+                  </li>
+                </ul>
+                Must be base64-encoded.
+                {options.nonVisibleData && options.frejaAction !== 'sign_extended' && (
+                  <>
+                    <br />
+                    <span className="text-red-400">
+                      Non-visible data is only supported for the Extended signature flow in FrejaID.
+                    </span>
+                  </>
+                )}
+              </>
+            }
+          />
         )}
 
         {supportsTxInfo && (
-          <div>
-            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="txInfo">
-              Transaction information
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="txInfo"
-              placeholder="txinfo"
-              value={options.txInfo || ''}
-              defaultValue={'TestCompany'}
-              onChange={event => updateOption('txInfo', event)}
-            />
-            <small>
-              Personalausweis only. Will display in the transaction information template.
-              <br />
-              Up to 32 alphanumeric characters.
-              {!options.txInfo && (
-                <>
-                  <br />
-                  <span className="text-red-400">
-                    txinfo must not be blank unless you have your own client credentials!
-                  </span>
-                </>
-              )}
-              {options.txInfo && options.txInfo.length > 32 && (
-                <>
-                  <br />
-                  <span className="text-red-400">
-                    txinfo must not be longer than 32 characters!
-                  </span>
-                </>
-              )}
-              {options.txInfo && notAlphanumeric.test(options.txInfo) && (
-                <>
-                  <br />
-                  <span className="text-red-400">
-                    txinfo must only contain alphanumeric characters!
-                  </span>
-                </>
-              )}
-            </small>
-          </div>
+          <Textarea
+            label="Transaction information"
+            id="txInfo"
+            value={options.txInfo || ''}
+            defaultValue={'TestCompany'}
+            onChange={event => updateOption('txInfo', event)}
+            helpText={
+              <>
+                Personalausweis only. Will display in the transaction information template.
+                <br />
+                Up to 32 alphanumeric characters.
+                {!options.txInfo && (
+                  <>
+                    <br />
+                    <span className="text-red-400">
+                      txinfo must not be blank unless you have your own client credentials!
+                    </span>
+                  </>
+                )}
+                {options.txInfo && options.txInfo.length > 32 && (
+                  <>
+                    <br />
+                    <span className="text-red-400">
+                      txinfo must not be longer than 32 characters!
+                    </span>
+                  </>
+                )}
+                {options.txInfo && notAlphanumeric.test(options.txInfo) && (
+                  <>
+                    <br />
+                    <span className="text-red-400">
+                      txinfo must only contain alphanumeric characters!
+                    </span>
+                  </>
+                )}
+              </>
+            }
+          />
         )}
 
         {supportsMinRegistrationLevel && (
