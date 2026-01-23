@@ -204,6 +204,12 @@ module.exports = {
               textDecoration: 'underline',
               fontWeight: '400',
             },
+            code: {
+              fontSize: '90%',
+              padding: '2px 4px',
+            },
+            'code::before': { content: 'none' },
+            'code::after': { content: 'none' },
           },
         },
       }),
