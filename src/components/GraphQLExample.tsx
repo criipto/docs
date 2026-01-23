@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import GraphQLExplorer from './GraphQLExplorer';
-import Button from './Button/Button';
+import { Button } from './Button/Button';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   GraphQLExample,

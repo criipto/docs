@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'gatsby';
-import Button from '../../components/Button/Button';
+import { Button } from '../../components/Button/Button';
 import { slug } from 'github-slugger';
 
 import * as createSignatureOrderExample from '../../examples/createSignatureOrder.graphql';

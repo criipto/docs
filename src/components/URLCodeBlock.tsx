@@ -1,5 +1,5 @@
 import React from 'react';
-import Button, { AnchorButton } from './Button/Button';
+import { Button, AnchorButton } from './Button/Button';
 
 interface Props {
   url: URL;

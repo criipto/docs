@@ -1,19 +1,19 @@
 import React from 'react';
 import cx from 'classnames';
 
-export type BaseButtonProps = {
-  variant: 'primary' | 'default' | 'dark';
+type BaseButtonProps = {
+  variant: 'primary' | 'default' | 'dark' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   working?: boolean;
   disabled?: boolean;
 };
 
-export type TextButtonProps = {
+type TextButtonProps = {
   iconLeft?: React.ReactNode;
   children: React.ReactNode;
 };
 
-export type IconButtonProps = {
+type IconButtonProps = {
   icon: React.ReactNode;
 };
 
@@ -24,19 +24,18 @@ function getButtonClassName(props: BaseButtonProps & (TextButtonProps | IconButt
   const base =
     'inline-flex box-border items-center justify-center gap-1.5 whitespace-nowrap px-4 shadow-sm font-medium text-sm font-sans !no-underline';
 
-  const variants = {
-    primary: cx('bg-primary-600 text-white', !isDisabled && 'hover:bg-primary-800'),
-    default: cx(
-      'border border-light-blue-700/30 text-light-blue-800 bg-transparent',
-      !isDisabled && 'hover:bg-primary-600/10',
-    ),
-    dark: cx(
-      'bg-transparent border border-white/40 text-white',
-      !isDisabled && 'hover:bg-white/20',
-    ),
+  const variants: Record<BaseButtonProps['variant'], string> = {
+    primary: cx('bg-primary-600 text-white', { 'hover:bg-primary-800': !isDisabled }),
+    default: cx('border border-light-blue-700/30 text-light-blue-800 bg-transparent', {
+      'hover:bg-primary-600/10': !isDisabled,
+    }),
+    dark: cx('bg-transparent border border-white/40 text-white', {
+      'hover:bg-white/20': !isDisabled,
+    }),
+    danger: cx('bg-red-400 text-white', { 'hover:bg-red-600': !isDisabled }),
   };
 
-  const sizes = {
+  const sizes: Record<NonNullable<BaseButtonProps['size']>, string> = {
     sm: 'h-8 leading-4',
     md: 'h-10 leading-4',
     lg: 'h-12 leading-5 text-base',
@@ -47,7 +46,7 @@ function getButtonClassName(props: BaseButtonProps & (TextButtonProps | IconButt
   return cx(base, variants[props.variant], sizes[size], iconPadding, isDisabled && 'opacity-40');
 }
 
-function Inner(props: BaseButtonProps & (TextButtonProps | IconButtonProps)) {
+function ButtonContent(props: BaseButtonProps & (TextButtonProps | IconButtonProps)) {
   if ('icon' in props && props.icon != null) {
     return (
       <div className="flex w-5 justify-center">
@@ -72,14 +71,9 @@ function Inner(props: BaseButtonProps & (TextButtonProps | IconButtonProps)) {
   );
 }
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    BaseButtonProps {}
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, BaseButtonProps {}
 
-export default function Button({
-  working,
-  ...props
-}: ButtonProps & (TextButtonProps | IconButtonProps)) {
+export function Button({ working, ...props }: ButtonProps & (TextButtonProps | IconButtonProps)) {
   const disabled = props.disabled || working;
   return (
     <button
@@ -88,12 +82,12 @@ export default function Button({
       disabled={disabled}
       className={cx(getButtonClassName({ ...props, working, disabled }), props.className)}
     >
-      <Inner {...props} working={working} />
+      <ButtonContent {...props} working={working} />
     </button>
   );
 }
 
-export interface AnchorButtonProps
+interface AnchorButtonProps
   extends React.AnchorHTMLAttributes<HTMLAnchorElement>,
     BaseButtonProps {}
 
@@ -106,7 +100,7 @@ export function AnchorButton({
       rel="noopener noreferrer"
       className={cx(getButtonClassName(props), props.className)}
     >
-      <Inner {...props} />
+      <ButtonContent {...props} />
     </a>
   );
 }

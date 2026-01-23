@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import cx from 'classnames';
 import GraphiQL from 'graphiql';
 import { Link } from 'gatsby';
-import Button from './Button/Button';
+import { Button } from './Button/Button';
 
 import {
   ApiCredentials,
