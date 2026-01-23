@@ -190,11 +190,7 @@ export const InlineCode = (props: { children: React.ReactNode }) => {
     typeof props.children === 'string'
       ? replaceParams(props.children as string, params)
       : props.children;
-  return (
-    <span className="not-prose">
-      <code className=" bg-black/5 py-0.5 px-1 text-[90%] rounded">{children}</code>
-    </span>
-  );
+  return <code className="py-0.5 px-1">{children}</code>;
 };
 
 export const Highlight = (props: {

@@ -24,6 +24,15 @@ body {
   font-family: 'IBM Plex Sans', sans-serif;
 }
 
+code {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 80%;
+  padding: 1px 3px;
+  background-color: rgb(0 0 0 / 0.05);
+  border-radius: 4px;
+  text-decoration: none;
+}
+
 .gatsby-image-wrapper [data-main-image] {
   opacity: 1 !important;
   transition: none;
@@ -40,6 +49,10 @@ body,
 
 html {
   scroll-behavior: smooth;
+}
+
+.support-text a {
+  text-decoration: underline;
 }
 
 .mdx-highlight p {
