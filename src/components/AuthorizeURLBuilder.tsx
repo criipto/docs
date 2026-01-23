@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-
 import { H3, Paragraph } from './MdxProvider';
 import URLCodeBlock from './URLCodeBlock';
 import { PROVIDERS } from '../utils/auth-methods';
 import { Link } from 'gatsby';
+import { InputField } from './FormFields/InputField';
 
 const ACTION_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:dk:mitid:low',
@@ -449,53 +449,52 @@ export default function AuthorizeURLBuilder(props: {
   return (
     <React.Fragment>
       <H3>General parameters</H3>
+
       <div className="mb-4 grid grid-cols-3 gap-4">
-        <div>
-          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="domain">
-            Domain
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="domain"
-            type="text"
-            placeholder="Domain"
-            value={options.domain}
-            onChange={event => updateOption('domain', event)}
-          />
-        </div>
-        <div>
-          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="clientID">
-            Client ID
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="clientID"
-            type="text"
-            placeholder="Client ID"
-            value={options.client_id}
-            onChange={event => updateOption('client_id', event)}
-          />
-          <small>Also known as 'realm'</small>
-        </div>
-        <div>
-          <label
-            className="block text-light-blue-800 text-sm font-medium mb-2"
-            htmlFor="redirectURI"
-          >
-            Redirect URI
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="redirectURI"
-            type="text"
-            placeholder="Redirect URI"
-            value={options.redirect_uri}
-            onChange={event => updateOption('redirect_uri', event)}
-          />
-          <small>Also known as 'Callback URL'</small>
-        </div>
+        <InputField
+          label="Domain"
+          id="domain"
+          type="text"
+          placeholder="criipto-verify-prod.criipto.id"
+          value={options.domain}
+          onChange={event => updateOption('domain', event)}
+        />
+        <InputField
+          label="Client ID"
+          placeholder="urn:criipto:dev"
+          id="clientID"
+          type="text"
+          value={options.client_id}
+          onChange={event => updateOption('client_id', event)}
+          helpText={
+            <>
+              Also known as <i>realm</i>.
+            </>
+          }
+        />
+        <InputField
+          label="Redirect URI"
+          id="redirectURI"
+          type="text"
+          placeholder="https://jwt.io"
+          value={options.redirect_uri}
+          onChange={event => updateOption('redirect_uri', event)}
+          helpText={
+            <span>
+              Also known as{' '}
+              <a
+                href="/verify/reference/glossary/#redirect-uri-callback-url"
+                className="text-primary-600"
+              >
+                <i>callback URL</i>
+              </a>
+              .
+            </span>
+          }
+        />
       </div>
-      <div className="mb-4 grid grid-cols-2 gap-4">
+
+      <div className="mb-4 grid grid-cols-2 gap-3">
         <div>
           <label
             className="block text-light-blue-800 text-sm font-medium mb-2"
@@ -546,20 +545,15 @@ export default function AuthorizeURLBuilder(props: {
               </small>
             )}
         </div>
-        <div>
-          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="nonce">
-            Nonce
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="nonce"
-            type="text"
-            placeholder="Nonce"
-            value={options.nonce}
-            onChange={event => updateOption('nonce', event)}
-          />
-          <small>Should be a cryptographically strong value</small>
-        </div>
+        <InputField
+          label="Nonce"
+          id="nonce"
+          type="text"
+          placeholder="ecnon-8da59e2b-5868-441e-a451-36826b10a7e3"
+          value={options.nonce}
+          onChange={event => updateOption('nonce', event)}
+          helpText="Should be a cryptographically strong value."
+        />
         <div>
           <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="prompt">
             Prompt
@@ -588,40 +582,28 @@ export default function AuthorizeURLBuilder(props: {
           ) : null}
         </div>
         <div>
-          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="state">
-            State
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
+          <InputField
+            label="State"
             id="state"
             type="text"
-            placeholder="state"
             value={options.state ?? ''}
             onChange={event => updateOption('state', event)}
+            helpText="Can be any value supplied by your application, often used to carry information about the
+            original user's session."
           />
-          <small>
-            Can be any value supplied by your application, often used to carry information about the
-            original user's session.
-          </small>
+
+          {supports.id_token_hint ? (
+            <div className="mt-3">
+              <InputField
+                label="id_token_hint"
+                id="id_token_hint"
+                type="text"
+                value={options.id_token_hint ?? ''}
+                onChange={event => updateOption('id_token_hint', event)}
+              />
+            </div>
+          ) : null}
         </div>
-        {supports.id_token_hint ? (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="id_token_hint"
-            >
-              id_token_hint
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="id_token_hint"
-              type="text"
-              placeholder="id_token_hint"
-              value={options.id_token_hint ?? ''}
-              onChange={event => updateOption('id_token_hint', event)}
-            />
-          </div>
-        ) : null}
         {props.acr_values && props.acr_values.every(s => s === 'urn:age-verification') ? (
           <div>
             <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="country">
@@ -640,46 +622,48 @@ export default function AuthorizeURLBuilder(props: {
             </select>
           </div>
         ) : (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="login_hint"
-            >
-              Login hint
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="login_hint"
-              type="text"
-              placeholder="login_hint"
-              value={options.login_hint ?? ''}
-              onChange={event => updateOption('login_hint', event)}
-            />
-            <small>
-              Login hints are used for{' '}
-              <a href="/verify/guides/prefilled-fields/">prefilling values</a>,{' '}
-              <a href="/verify/guides/appswitch/">triggering appswitch</a> and eID unique features
-              like `message` (see example below after picking MitID)
-            </small>
-          </div>
+          <InputField
+            label="Login hint"
+            id="login_hint"
+            type="text"
+            value={options.login_hint ?? ''}
+            onChange={event => updateOption('login_hint', event)}
+            helpText={
+              <>
+                Login hints are used for{' '}
+                <a href="/verify/guides/prefilled-fields/" className="text-primary-600">
+                  prefilling values
+                </a>
+                ,{' '}
+                <a href="/verify/guides/appswitch/" className="text-primary-600">
+                  triggering appswitch
+                </a>{' '}
+                and eID unique features like <code>message</code> (see example below after picking
+                MitID).
+              </>
+            }
+          />
         )}
       </div>
 
       {props.acr_values === undefined ? (
         <>
-          <H3>Auth methods / acr values</H3>
+          <H3>Auth methods / acr_values</H3>
           <Paragraph>
             You can click the individual eID headlines or use the navigation to your left to learn
             more about each eID.
           </Paragraph>
           <Paragraph>
-            If you select multiple (or zero) eIDs the user will be presented with a landing page
-            where they can use their eID of choice.
+            If you select multiple eIDs (or none), the user will be presented with a landing page
+            where they can choose their preferred eID.
           </Paragraph>
           <Paragraph>
-            Some features, like <strong>input prefill</strong> and{' '}
-            <strong>acr_values quirk handling</strong> is only available if you only select a{' '}
-            <strong>single acr_values</strong>
+            Please note that some features, e.g. <strong>input prefill</strong> and{' '}
+            <strong>acr_values quirk handling</strong> are only available when you{' '}
+            <strong>
+              select a single <code>acr_value</code>
+            </strong>
+            .
           </Paragraph>
           <div className="mb-4 grid grid-cols-4 gap-4">
             {PROVIDERS.map(provider => (
@@ -712,7 +696,7 @@ export default function AuthorizeURLBuilder(props: {
       ) : null}
 
       {options.availableScopes.length > 0 ? (
-        <div>
+        <div className="mb-4">
           <label className="block text-light-blue-800 text-sm font-medium mb-2">scopes</label>
           {options.availableScopes.map(scope => (
             <label className="text-light-blue-800 text-sm block my-2">
@@ -752,29 +736,22 @@ export default function AuthorizeURLBuilder(props: {
             )}
         </div>
       ) : null}
-      <div className="mb-4 grid grid-cols-2 gap-4">
+
+      <div className="mb-4 grid grid-cols-2 gap-3">
         {props.quirks !== false && options.availableScopes.length > 0 ? (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="scopes_quirk"
-            >
-              scopes quirk handling
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="scopes_quirk"
-              value={options.scopes_quirk}
-              onChange={event => updateOption('scopes_quirk', event)}
-            >
-              <option value="none">none</option>
-              <option value="login_hint">login_hint</option>
-            </select>
-            <small>
-              Some integrations, like Auth0, require that you pass scopes through the login_hint.
-              <br />
-            </small>
-          </div>
+          <InputField
+            label="scopes quirk handling"
+            id="scopes_quirk"
+            type="text"
+            value={options.scopes_quirk}
+            onChange={event => updateOption('scopes_quirk', event)}
+            helpText={
+              <>
+                Some integrations, like Auth0, require that you pass scopes through the{' '}
+                <code>login_hint</code>.
+              </>
+            }
+          />
         ) : null}
 
         {props.quirks !== false && options.acr_values.length == 1 ? (
