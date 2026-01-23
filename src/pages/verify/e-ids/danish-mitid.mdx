@@ -57,6 +57,15 @@ Note: To access this feature, you must first fill in the MitID application form 
 You must enable the "Add CPR for MitID logins" toggle in the [management dashboard](https://dashboard.idura.app/providers/DK_MITID).
 Idura Verify will prompt the user for their CPR number and validate that it belongs to the MitID user that is logging in.
 
+<Highlight>
+  Not all MitID users have a CPR number. If your application can handle the case of a missing CPR,
+  you may enable the `CPR Optional` toggle. This will let MitID users without a CPR number log in to
+  your service.
+
+![CPR Optional toggle](./images/mitid-cpr-optional-toggle.png)
+
+</Highlight>
+
 For applications configured to use a `static` `scope` strategy, the CPR will be added to the issued token.
 
 For applications configured to use a `dynamic` `scope` strategy, supply `scope=openid ssn` in the authorize request.
@@ -230,7 +239,7 @@ You can find the details regarding MitID Erhverv [here](/verify/e-ids/danish-mit
 In order to apply for MitID in production on behalf of a company you must meet the basic requirements:
 
 - Your company must be registered in the EU and have an EU VAT Id.
-- The person applying must be enrolled in MitID Erhverv for your company, or be a signatory of the company.
+- The person applying must either be enrolled in MitID Erhverv for your company, or be a signatory of the company.
 - You must have completed step 4 in the [Getting ready for production](/verify/guides/production) guide. You will need the production domain to complete the order for your client credentials.
 
 </Highlight>
@@ -252,8 +261,8 @@ Please [see the UX requirements](#mitid-user-interface-requirements) to make sur
 
 If your company is registered in Denmark please follow these steps:
 
-1. Go to the [management dashboard](https://dashboard.idura.app) and set the environment toggle at the top center to "PRODUCTION".
-2. In the "Identity sources" section, expand the "DK MitID" section
+1. Go to the [management dashboard](https://dashboard.idura.app) and set the environment toggle at the top left to "Production environment".
+2. Navigate to the "eID providers" page and go to "DK MitID".
 3. A user enrolled in MitID Erhverv must click the button and sign in.
 4. Submit the details for your company. Note the following:
 
@@ -266,24 +275,18 @@ If your company is registered in Denmark please follow these steps:
 
 If your company is _not_ registered in Denmark, meaning you don't have MitID Erhverv, please send a request for MitID onboarding to [orders@idura.eu](mailto:orders@idura.eu). The process typically takes 2-3 business days.
 
-#### Apply for a custom MitID domain
+### Apply for a custom MitID domain
 
-1. Go to the "Identity sources" section and open "DK MitID"
-2. At the bottom of the page you will find a button where you can apply for a custom MitID domain
-3. The "Domain prefix" is typically your company or brand name, e.g. acme-corp. Once this registration is completed this will be used to set up your MitID domain, in this case acme-corp.mitid.dk.
-4. The information is sent to Nets who will setup your MitID Domain.
+1. Send an email to <a href="mailto:support@idura.eu">support@idura.eu</a> with your desired domain prefix.
 
-- Expect this process to take 7-15 work days.
+- The domain prefix is typically your company or brand name, e.g. acme-corp. This will be used to set up your MitID domain, in this case acme-corp.mitid.dk.
+
+- All custom MitID domains must end in `.mitid.dk`
+
+2. The information is then forwarded to Nets who will set up your MitID domain.
+
+- Expect this process to take 15 business days.
 - Once your domain has been set up, you can complete the onboarding process (read below)
-
-#### Complete the custom MitID domain process
-
-Once you receive a confirmation from Idura (via email), go back to the "Identity sources" section and open "DK MitID". Nets has now set up the `mitid.dk` domain, and the **Complete** button will be active for you to click.
-
-1. Click the **Complete** button in the MitID section to finish the registration process
-2. Configure the various options that appear after the onboarding completes.
-   - If you need access to the end-user's CPR number, make sure the `Add CPR for MitID logins` toggle is enabled.
-   - Not all MitID users have a CPR number. If your application can handle the case of a missing CPR, you may enable the `CPR Optional` toggle. This will let MitID users without a CPR number log in to your service.
 
 ### Set up an application on your MitID domain
 
