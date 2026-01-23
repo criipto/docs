@@ -204,6 +204,14 @@ module.exports = {
               textDecoration: 'underline',
               fontWeight: '400',
             },
+            // Override @tailwindcss/typography defaults for inline <code> so it matches global styles.
+            code: {
+              color: theme('colors.light-blue.800'),
+              padding: '1px 3px',
+            },
+            // Remove the backticks @tailwindcss/typography adds around inline code.
+            'code::before': { content: 'none' },
+            'code::after': { content: 'none' },
           },
         },
       }),
