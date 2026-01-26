@@ -6,6 +6,7 @@ import { Link } from 'gatsby';
 import { InputField } from './FormFields/InputField';
 import { Select } from './FormFields/Select';
 import { Textarea } from './FormFields/Textarea';
+import { Checkbox } from './FormFields/Checkbox';
 
 const ACTION_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:dk:mitid:low',
@@ -653,7 +654,7 @@ export default function AuthorizeURLBuilder(props: {
             </strong>
             .
           </Paragraph>
-          <div className="mb-4 grid grid-cols-4 gap-4">
+          <div className="mb-4 flex flex-col md:grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {PROVIDERS.map(provider => (
               <div>
                 <Link
@@ -665,18 +666,18 @@ export default function AuthorizeURLBuilder(props: {
                   {provider.title}
                 </Link>
                 <br />
-                {provider.authMethods.map(authMethod => (
-                  <label className="text-light-blue-800 text-sm block my-2">
-                    <input
-                      type="checkbox"
+                <div className="flex flex-col gap-1">
+                  {provider.authMethods.map(authMethod => (
+                    <Checkbox
+                      className="m-1"
                       id={authMethod.acrValue}
-                      className="mr-2"
+                      name={authMethod.acrValue}
+                      label={authMethod.title}
                       checked={options.acr_values.includes(authMethod.acrValue)}
                       onChange={() => toggleAcrValue(authMethod.acrValue)}
                     />
-                    {authMethod.title}
-                  </label>
-                ))}
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -685,18 +686,16 @@ export default function AuthorizeURLBuilder(props: {
 
       {options.availableScopes.length > 0 ? (
         <div className="mb-4">
-          <label className="block text-light-blue-800 text-sm font-medium mb-2">scopes</label>
+          <label className="block text-light-blue-800 text-sm font-medium mb-2">Scopes</label>
           {options.availableScopes.map(scope => (
-            <label className="text-light-blue-800 text-sm block my-2">
-              <input
-                type="checkbox"
-                id={scope}
-                className="mr-2"
-                checked={options.selectedScopes.includes(scope)}
-                onChange={() => toggleScope(scope)}
-              />
-              {scope}
-            </label>
+            <Checkbox
+              name="scope"
+              label={scope}
+              id={scope}
+              className="my-2"
+              checked={options.selectedScopes.includes(scope)}
+              onChange={() => toggleScope(scope)}
+            />
           ))}
 
           {((supportsMinRegistrationLevel && options.minRegistrationLevel === 'basic') ||
