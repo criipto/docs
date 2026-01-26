@@ -1,0 +1,28 @@
+.checkboxBox::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 150ms;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+/* checked: checkmark */
+:global(.peer):checked + .checkboxBox::after {
+  opacity: 1;
+  width: 0.75rem;
+  height: 0.75rem;
+  background-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20640%20640%22%3E%3Cpath%20d%3D%22M530.8%20134.1C545.1%20144.5%20548.3%20164.5%20537.9%20178.8L281.9%20530.8C276.4%20538.4%20267.9%20543.1%20258.5%20543.9C249.1%20544.7%20240%20541.2%20233.4%20534.6L105.4%20406.6C92.9%20394.1%2092.9%20373.8%20105.4%20361.3C117.9%20348.8%20138.2%20348.8%20150.7%20361.3L252.2%20462.8L486.2%20141.1C496.6%20126.8%20516.6%20123.6%20530.9%20134z%22%20fill%3D%22white%22/%3E%3C/svg%3E');
+}
+
+/* indeterminate: dash */
+:global(.peer):indeterminate + .checkboxBox::after {
+  opacity: 1;
+  width: 0.525rem;
+  height: 0.125rem;
+  background-image: url('data:image/svg+xml,%3Csvg%20width%3D%2210%22%20height%3D%222%22%20viewBox%3D%220%200%2010%202%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Crect%20width%3D%2210%22%20height%3D%222%22%20fill%3D%22%23604FED%22/%3E%3C/svg%3E');
+}
