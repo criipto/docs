@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
+import publicSigningKey from '../keys/signing_jwks_public.json';
 import { PROVIDERS } from '../../../utils/auth-methods';
 import oidcConfig from '../oidcConfig';
 import { Button } from '../../Button/Button';
 import { InputField } from '../../FormFields/InputField';
+import { Select } from '../../FormFields/Select';
+import { Textarea } from '../../FormFields/Textarea';
 import { Checkbox } from '../../FormFields/Checkbox';
 import xMarkIcon from '../../../images/xmark-icon.svg';
 
@@ -15,6 +18,7 @@ type ModalProps = {
     clientId: string;
     clientSecret: string;
     scope: string;
+    pkJwtAuth: boolean;
     acrValues?: string[];
   }) => void;
   domain: string;
@@ -23,6 +27,7 @@ type ModalProps = {
   scope: string;
   redirectUri: string;
   acrValues?: string[];
+  pkJwtAuth: boolean;
 };
 
 export default function Modal({
@@ -34,6 +39,7 @@ export default function Modal({
   clientSecret,
   scope,
   acrValues,
+  pkJwtAuth,
 }: ModalProps) {
   const [settings, setSettings] = useState({
     domain,
@@ -41,6 +47,7 @@ export default function Modal({
     clientSecret,
     scope,
     acrValues: acrValues || [],
+    pkJwtAuth,
   });
 
   const toggleAcrValue = (value: string) => {
@@ -50,6 +57,40 @@ export default function Modal({
       return { ...prev, acrValues: next };
     });
   };
+
+  const authDescriptions = {
+    client_secret: (
+      <>
+        Standard client authentication using a shared{' '}
+        <a href="/verify/reference/glossary/#client-secret" target="_blank">
+          client secret
+        </a>
+        .
+      </>
+    ),
+    private_jwt: (
+      <>
+        A more secure authentication option based on asymmetric cryptography. For more details, see{' '}
+        <a href="/verify/guides/privatekey-jwt/" target="_blank">
+          Private key JWT authentication
+        </a>
+        .
+      </>
+    ),
+  };
+
+  const publicKeyHelpText = (
+    <p>
+      To test Private Key JWT authentication with your own application, you must register the
+      provided public signing key in the Idura Dashboard. Open your application settings and
+      navigate to the <span className="font-medium">OpenID Connect</span> tab. Under{' '}
+      <span className="font-medium">Client JWKs</span>, set the type to{' '}
+      <span className="font-medium"> Static</span> and paste the JWK set shown above.{' '}
+      <span className="font-medium">Security Note:</span> These keys are for demonstration only.
+      When building your own applications, generate a unique key pair and never share the private
+      key.
+    </p>
+  );
 
   return createPortal(
     <div
@@ -84,6 +125,33 @@ export default function Modal({
           </p>
         </div>
         <div className="flex flex-col gap-3">
+          <Select
+            label="Client Authentication"
+            variant="primary"
+            value={settings.pkJwtAuth ? 'private_jwt' : 'client_secret'}
+            onChange={e => {
+              setSettings({ ...settings, pkJwtAuth: e.target.value === 'private_jwt' });
+            }}
+            helpText={
+              settings.pkJwtAuth ? authDescriptions.private_jwt : authDescriptions.client_secret
+            }
+          >
+            <option value="client_secret">Client Secret</option>
+            <option value="private_jwt">Private Key JWT</option>
+          </Select>
+
+          {settings.pkJwtAuth && (
+            <>
+              <Textarea
+                label="Public key"
+                disabled
+                readOnly
+                value={JSON.stringify(publicSigningKey, null, 2)}
+                onClick={e => (e.target as HTMLTextAreaElement).select()}
+                helpText={publicKeyHelpText}
+              />
+            </>
+          )}
           <div className="flex items-center gap-2">
             <InputField
               label="Domain"
@@ -99,6 +167,16 @@ export default function Modal({
             value={settings.clientId}
             onChange={e => setSettings({ ...settings, clientId: e.target.value })}
           />
+
+          {!settings.pkJwtAuth && (
+            <InputField
+              label="Client Secret"
+              variant="primary"
+              value={settings.clientSecret}
+              onChange={e => setSettings({ ...settings, clientSecret: e.target.value })}
+              disabled={settings.pkJwtAuth}
+            />
+          )}
 
           <InputField
             label="Scope"
@@ -149,6 +227,7 @@ export default function Modal({
                 clientSecret: oidcConfig.clientSecret,
                 scope: oidcConfig.scope,
                 acrValues: oidcConfig.acrValues || [],
+                pkJwtAuth: oidcConfig.pkJwtAuth,
               });
             }}
           >

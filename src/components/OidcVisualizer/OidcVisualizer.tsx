@@ -1,14 +1,19 @@
 import React, { useEffect, useLayoutEffect, useState, useRef } from 'react';
-import { jwtVerify, createRemoteJWKSet, JWTPayload } from 'jose';
+import { JWTPayload } from 'jose';
 import useLocalStorage from './hooks/useLocalStorage';
 import OidcSettingsModal from './components/OidcSettingsModal';
 import oidcConfig from './oidcConfig';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import StepOne from './components/steps/StepOne';
 import StepTwo from './components/steps/StepTwo';
 import StepThree from './components/steps/StepThree';
 import StepFour from './components/steps/StepFour';
-import { secondaryBtn } from './styles';
+import { Button } from '../Button/Button';
+import {
+  buildTokenReqParams,
+  formattedTokenRequest,
+  exchangeCodeForTokens,
+} from './utils/tokenRequest';
+import { verifyJwt } from './utils/verifyJwt';
 import type { OidcTokenResponse, OidcSettings } from './types';
 
 const OidcVisualizer = () => {
@@ -100,38 +105,27 @@ const OidcVisualizer = () => {
     }
   }, []);
 
+  /* Create formatted token request (only for display)*/
+  useEffect(() => {
+    if (!authCode) return;
+
+    (async () => {
+      const params = await buildTokenReqParams({ authCode, oidcSettings });
+      const formattedRequest = formattedTokenRequest({ params, oidcSettings });
+      setTokenRequest(formattedRequest);
+    })().catch(err => {
+      console.error(err);
+    });
+  }, [authCode, oidcSettings]);
+
   /* Handle code for token exchange */
   const handleExchange = async () => {
     if (!authCode) return;
 
     try {
-      const baseParams: Record<string, string> = {
-        grant_type: 'authorization_code',
-        code: authCode,
-        redirect_uri: oidcConfig.redirectUri,
-      };
+      const res = await exchangeCodeForTokens({ authCode, oidcSettings });
 
-      const getToken = await fetch(`https://${oidcSettings.domain}/oauth2/token`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          ...baseParams,
-          client_id: oidcSettings.clientId,
-          client_secret: oidcSettings.clientSecret,
-        }),
-      });
-
-      const formattedRequest = [
-        `POST /oauth2/token HTTP/1.1`,
-        `Host: ${oidcSettings.domain}`,
-        `Content-Type: application/x-www-form-urlencoded`,
-        ``,
-        new URLSearchParams(baseParams).toString().replaceAll('&', '\n'),
-      ].join('\n');
-
-      setTokenRequest(formattedRequest);
-
-      const data: OidcTokenResponse = await getToken.json();
+      const data: OidcTokenResponse = await res.json();
 
       if (data.error) throw new Error(data.error_description || data.error);
       setTokenResponse(data);
@@ -143,21 +137,6 @@ const OidcVisualizer = () => {
   /* Proceed to token verification step */
   const proceedToVerifyWT = () => {
     setCodeExchangeCompleted(true);
-  };
-
-  /* Handle JWT validation */
-  const handleVerify = async () => {
-    if (!tokenResponse?.id_token) return;
-
-    try {
-      const JWKS = createRemoteJWKSet(
-        new URL(`https://${oidcSettings.domain}/.well-known/jwks.json`),
-      );
-      const { payload } = await jwtVerify(tokenResponse.id_token, JWKS);
-      setDecodedPayload(payload);
-    } catch (err: any) {
-      setStep3Error('Token Verification Failed: ' + err.message);
-    }
   };
 
   const handleReset = () => {
@@ -197,7 +176,12 @@ const OidcVisualizer = () => {
             className="text-primary-600 uppercase text-xs font-medium transition hover:text-primary-800 focus:outline-none focus:ring-0 focus:border-transparent focus:shadow-none"
           >
             <div className="flex flex-row items-center gap-1">
-              <FontAwesomeIcon icon="gear" className="text-md" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" className="h-5 w-5">
+                <path
+                  fill="#604fed"
+                  d="M384.1 48L404.6 147.5C412.4 151.3 420 155.7 427.2 160.6L523.7 128.6L587.7 239.5L511.7 307C512.3 315.6 512.3 324.5 511.7 333L587.7 400.5L523.7 511.4L427.2 479.4C420 484.2 412.5 488.6 404.6 492.5L384.1 592L256.1 592L235.6 492.5C227.8 488.7 220.2 484.3 213 479.4L116.5 511.4L52.5 400.5L128.5 333C127.9 324.4 127.9 315.5 128.5 307L52.5 239.4L116.5 128.5L213 160.5C220.2 155.7 227.7 151.3 235.6 147.4L256.1 47.9L384.1 47.9zM437.3 191L422.4 196L409.4 187.2C403.4 183.2 397.1 179.5 390.6 176.3L376.5 169.4L373.3 154L358.1 80L282.3 80C270.1 139.1 264 168.9 263.9 169.4L249.8 176.3C243.3 179.5 237 183.1 231 187.2L218 196C217.5 195.8 188.7 186.3 131.4 167.2L93.3 232.8C138.4 272.9 161.2 293.1 161.5 293.4L160.5 309C160 316.2 160 323.6 160.5 330.8L161.5 346.4L149.8 356.8L93.3 407L131.2 472.7L202.9 448.9L217.8 443.9L230.8 452.7C236.8 456.7 243.1 460.4 249.6 463.6L263.7 470.5C263.8 471 269.9 500.7 282.1 559.9L357.9 559.9L373.1 485.9L376.3 470.5L390.4 463.6C396.9 460.4 403.2 456.8 409.2 452.7L422.2 443.9L437.1 448.9L508.8 472.7L546.7 407L490.2 356.8L478.5 346.4L479.5 330.8C480 323.6 480 316.2 479.5 309L478.5 293.4L490.2 283L546.7 232.8L508.8 167.1L437.1 190.9zM264.1 320C264.1 350.9 289.1 376 320.1 376C351 376 376 350.9 376 320C376 289.1 351 264.1 320.1 264.1C289.1 264.1 264.1 289.1 264.1 320zM320 408C271.4 408 232 368.6 232.1 320C232.1 271.3 271.5 232 320.1 232C368.7 232 408.1 271.4 408.1 320.1C408 368.7 368.6 408 320 408z"
+                />
+              </svg>
               <p>Configure</p>
             </div>
           </button>
@@ -218,23 +202,34 @@ const OidcVisualizer = () => {
       />
 
       {/* STEP 3: Token Verification */}
-      <StepThree
-        stepRef={step3Ref}
-        tokenResponse={tokenResponse}
-        codeExchangeCompleted={codeExchangeCompleted}
-        decodedPayload={decodedPayload}
-        onVerify={handleVerify}
-      />
+      {!step2Error && (
+        <StepThree
+          stepRef={step3Ref}
+          tokenResponse={tokenResponse}
+          codeExchangeCompleted={codeExchangeCompleted}
+          decodedPayload={decodedPayload}
+          onVerify={() =>
+            verifyJwt({
+              tokenResponse,
+              oidcSettings,
+              setDecodedPayload,
+              setStep3Error,
+            })
+          }
+        />
+      )}
 
       {/* STEP 4: Result */}
-      {decodedPayload && <StepFour stepRef={step4Ref} decodedPayload={decodedPayload} />}
+      {decodedPayload && !step2Error && (
+        <StepFour stepRef={step4Ref} decodedPayload={decodedPayload} />
+      )}
 
       {/* Reset Button */}
       {(decodedPayload || step2Error || step3Error) && (
         <div className="flex justify-center mt-4">
-          <button onClick={handleReset} className={secondaryBtn}>
+          <Button variant="primary" onClick={handleReset}>
             Start over
-          </button>
+          </Button>
         </div>
       )}
 
@@ -249,6 +244,7 @@ const OidcVisualizer = () => {
           scope={oidcSettings.scope}
           redirectUri={oidcConfig.redirectUri}
           onSave={handleUpdateSettings}
+          pkJwtAuth={oidcSettings.pkJwtAuth}
           acrValues={oidcSettings.acrValues}
         />
       )}
