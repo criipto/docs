@@ -50,14 +50,19 @@ export const exchangeCodeForTokens = async ({
   oidcSettings,
 }: BuildRequestProps): Promise<Response> => {
   if (!authCode) throw new Error('Missing authorization code');
-
   const params = await buildTokenReqParams({ authCode, oidcSettings });
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
+
+  if (!oidcSettings.pkJwtAuth) {
+    headers.Authorization = `Basic ${btoa(`${oidcSettings.clientId}:${oidcSettings.clientSecret}`)}`;
+  }
 
   const response = await fetch(`https://${oidcSettings.domain}/oauth2/token`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
+    headers,
+
     body: new URLSearchParams(params),
   });
 
