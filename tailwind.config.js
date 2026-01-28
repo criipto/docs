@@ -1,4 +1,13 @@
 const colors = require('tailwindcss/colors');
+const checkmark_svg = `
+  <svg viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 9.4L0 5.4L1.4 4L4 6.6L10.6 0L12 1.4L4 9.4Z" fill="white"/>
+  </svg>
+`;
+const dash_svg = `<svg width="10" height="2" viewBox="0 0 10 2" xmlns="http://www.w3.org/2000/svg">
+<rect width="10" height="2" fill="#604FED"/>
+</svg>`;
+
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
@@ -204,9 +213,19 @@ module.exports = {
               textDecoration: 'underline',
               fontWeight: '400',
             },
+            code: {
+              fontSize: '90%',
+              padding: '2px 4px',
+            },
+            'code::before': { content: 'none' },
+            'code::after': { content: 'none' },
           },
         },
       }),
+      backgroundImage: {
+        checkMark: `url("data:image/svg+xml,${encodeURIComponent(checkmark_svg)}")`,
+        dash: `url("data:image/svg+xml,${encodeURIComponent(dash_svg)}")`,
+      },
       fontSize: {
         xs: ['.75rem', '1.125rem'],
         md: ['.875rem', '1.25rem'],

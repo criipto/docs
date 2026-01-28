@@ -1,9 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-
 import { H3, Paragraph } from './MdxProvider';
 import URLCodeBlock from './URLCodeBlock';
 import { PROVIDERS } from '../utils/auth-methods';
 import { Link } from 'gatsby';
+import { InputField } from './FormFields/InputField';
+import { Select } from './FormFields/Select';
+import { Textarea } from './FormFields/Textarea';
+import { Checkbox } from './FormFields/Checkbox';
 
 const ACTION_SUPPORTING_ACR_VALUES = [
   'urn:grn:authn:dk:mitid:low',
@@ -449,239 +452,209 @@ export default function AuthorizeURLBuilder(props: {
   return (
     <React.Fragment>
       <H3>General parameters</H3>
+
       <div className="mb-4 grid grid-cols-3 gap-4">
-        <div>
-          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="domain">
-            Domain
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="domain"
-            type="text"
-            placeholder="Domain"
-            value={options.domain}
-            onChange={event => updateOption('domain', event)}
-          />
-        </div>
-        <div>
-          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="clientID">
-            Client ID
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="clientID"
-            type="text"
-            placeholder="Client ID"
-            value={options.client_id}
-            onChange={event => updateOption('client_id', event)}
-          />
-          <small>Also known as 'realm'</small>
-        </div>
-        <div>
-          <label
-            className="block text-light-blue-800 text-sm font-medium mb-2"
-            htmlFor="redirectURI"
-          >
-            Redirect URI
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="redirectURI"
-            type="text"
-            placeholder="Redirect URI"
-            value={options.redirect_uri}
-            onChange={event => updateOption('redirect_uri', event)}
-          />
-          <small>Also known as 'Callback URL'</small>
-        </div>
+        <InputField
+          label="Domain"
+          id="domain"
+          type="text"
+          placeholder="criipto-verify-prod.criipto.id"
+          value={options.domain}
+          onChange={event => updateOption('domain', event)}
+        />
+        <InputField
+          label="Client ID"
+          placeholder="urn:criipto:dev"
+          id="clientID"
+          type="text"
+          value={options.client_id}
+          onChange={event => updateOption('client_id', event)}
+          helpText={
+            <>
+              Also known as <i>realm</i>.
+            </>
+          }
+        />
+        <InputField
+          label="Redirect URI"
+          id="redirectURI"
+          type="text"
+          placeholder="https://jwt.io"
+          value={options.redirect_uri}
+          onChange={event => updateOption('redirect_uri', event)}
+          helpText={
+            <span>
+              Also known as{' '}
+              <a
+                href="/verify/reference/glossary/#redirect-uri-callback-url"
+                className="text-primary-600"
+              >
+                <i>callback URL</i>
+              </a>
+              .
+            </span>
+          }
+        />
       </div>
-      <div className="mb-4 grid grid-cols-2 gap-4">
-        <div>
-          <label
-            className="block text-light-blue-800 text-sm font-medium mb-2"
-            htmlFor="responseType"
-          >
-            Response type
-          </label>
-          <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="responseType"
-            value={options.response_type}
-            onChange={event => updateOption('response_type', event)}
-          >
-            <option value="code">code</option>
-            <option value="id_token">id_token</option>
-          </select>
-          <small>
-            `code` is the recommended response_type and enables PKCE and back-channel flows.
-            `id_token` is deprecated but useful for debugging with `https://jwt.io`
-          </small>
-        </div>
-        <div>
-          <label
-            className="block text-light-blue-800 text-sm font-medium mb-2"
-            htmlFor="responseMode"
-          >
-            Response mode
-          </label>
-          <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="responseMode"
-            value={options.response_mode}
-            onChange={event => updateOption('response_mode', event)}
-          >
-            <option value="query">query</option>
-            <option value="fragment">fragment</option>
-          </select>
-          {(options.selectedScopes.includes('frejaid:photo') ||
-            options.selectedScopes.includes('frejaid:document_photo')) &&
+
+      <div className="mb-4 grid grid-cols-2 gap-3">
+        <Select
+          label="Response type"
+          id="responseType"
+          value={options.response_type}
+          onChange={event => updateOption('response_type', event)}
+          helpText={
+            <>
+              <code>code</code> is the recommended <code>response_type</code> and enables PKCE and
+              back-channel flows. <code>id_token</code> is deprecated but useful for debugging with{' '}
+              <a target="_blanc" href="https://jwt.io" className="text-primary-600">
+                https://jwt.io
+              </a>
+              .
+            </>
+          }
+        >
+          <option value="code">code</option>
+          <option value="id_token">id_token</option>
+        </Select>
+        <Select
+          label="Response mode"
+          id="responseMode"
+          value={options.response_mode}
+          onChange={event => updateOption('response_mode', event)}
+          helpText={
+            (options.selectedScopes.includes('frejaid:photo') ||
+              options.selectedScopes.includes('frejaid:document_photo')) &&
             options.response_type === 'id_token' &&
             (options.response_mode === 'fragment' || options.response_mode === 'query') && (
-              <small>
-                <span className="text-red-400">
-                  The selected scopes cannot be returned via a URL-based response. You must select a
-                  different Response Type or Response Mode!
-                </span>
-                <br />
-              </small>
-            )}
-        </div>
+              <span className="text-red-400">
+                The selected scopes cannot be returned via a URL-based response. You must select a
+                different Response Type or Response Mode!
+              </span>
+            )
+          }
+        >
+          <option value="query">query</option>
+          <option value="fragment">fragment</option>
+        </Select>
+        <InputField
+          label="Nonce"
+          id="nonce"
+          type="text"
+          placeholder="ecnon-8da59e2b-5868-441e-a451-36826b10a7e3"
+          value={options.nonce}
+          onChange={event => updateOption('nonce', event)}
+          helpText="Should be a cryptographically strong value."
+        />
+        <Select
+          label="Prompt"
+          id="prompt"
+          value={options.prompt || ''}
+          onChange={event => updateOption('prompt', event)}
+          helpText={
+            options.prompt === 'login' ? (
+              <>
+                <code>prompt=login</code> will force a login regardless of SSO state.
+              </>
+            ) : options.prompt === 'none' ? (
+              <>
+                <code>prompt=none</code> will use existing SSO session or fail with{' '}
+                <code>login_required</code>.
+              </>
+            ) : options.prompt === 'consent_revoke' ? (
+              <>
+                <code>prompt=consent_revoke</code> will revoke any existing SSN consent.
+              </>
+            ) : null
+          }
+        >
+          <option value="">Not set</option>
+          {prompts.map(prompt => (
+            <option key={prompt} value={prompt}>
+              {prompt}
+            </option>
+          ))}
+        </Select>
         <div>
-          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="nonce">
-            Nonce
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="nonce"
-            type="text"
-            placeholder="Nonce"
-            value={options.nonce}
-            onChange={event => updateOption('nonce', event)}
-          />
-          <small>Should be a cryptographically strong value</small>
-        </div>
-        <div>
-          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="prompt">
-            Prompt
-          </label>
-          <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            id="prompt"
-            value={options.prompt || ''}
-            onChange={event => updateOption('prompt', event)}
-          >
-            <option value="">Not set</option>
-            {prompts.map(prompt => (
-              <option key={prompt} value={prompt}>
-                {prompt}
-              </option>
-            ))}
-          </select>
-          {options.prompt === 'login' ? (
-            <small>`prompt=login` will force a login regardless of SSO state.</small>
-          ) : options.prompt === 'none' ? (
-            <small>
-              `prompt=none` will use existing SSO session or fail with `login_required`.
-            </small>
-          ) : options.prompt === 'consent_revoke' ? (
-            <small>`prompt=consent_revoke` will revoke any existing SSN consent.</small>
-          ) : null}
-        </div>
-        <div>
-          <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="state">
-            State
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
+          <InputField
+            label="State"
             id="state"
             type="text"
-            placeholder="state"
             value={options.state ?? ''}
             onChange={event => updateOption('state', event)}
+            helpText="Can be any value supplied by your application, often used to carry information about the
+            original user's session."
           />
-          <small>
-            Can be any value supplied by your application, often used to carry information about the
-            original user's session.
-          </small>
+
+          {supports.id_token_hint ? (
+            <div className="mt-3">
+              <InputField
+                label="id_token_hint"
+                id="id_token_hint"
+                type="text"
+                value={options.id_token_hint ?? ''}
+                onChange={event => updateOption('id_token_hint', event)}
+              />
+            </div>
+          ) : null}
         </div>
-        {supports.id_token_hint ? (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="id_token_hint"
-            >
-              id_token_hint
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="id_token_hint"
-              type="text"
-              placeholder="id_token_hint"
-              value={options.id_token_hint ?? ''}
-              onChange={event => updateOption('id_token_hint', event)}
-            />
-          </div>
-        ) : null}
         {props.acr_values && props.acr_values.every(s => s === 'urn:age-verification') ? (
-          <div>
-            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="country">
-              Country
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="country"
-              value={options.login_hint ?? undefined}
-              onChange={event => updateOption('login_hint', event)}
-            >
-              <option value="country:DK">DK</option>
-              <option value="country:SE">SE</option>
-              <option value="country:NO">NO</option>
-              <option value="country:FI">FI</option>
-            </select>
-          </div>
+          <Select
+            label="Country"
+            id="country"
+            value={options.login_hint ?? undefined}
+            onChange={event => updateOption('login_hint', event)}
+          >
+            <option value="country:DK">DK</option>
+            <option value="country:SE">SE</option>
+            <option value="country:NO">NO</option>
+            <option value="country:FI">FI</option>
+          </Select>
         ) : (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="login_hint"
-            >
-              Login hint
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="login_hint"
-              type="text"
-              placeholder="login_hint"
-              value={options.login_hint ?? ''}
-              onChange={event => updateOption('login_hint', event)}
-            />
-            <small>
-              Login hints are used for{' '}
-              <a href="/verify/guides/prefilled-fields/">prefilling values</a>,{' '}
-              <a href="/verify/guides/appswitch/">triggering appswitch</a> and eID unique features
-              like `message` (see example below after picking MitID)
-            </small>
-          </div>
+          <InputField
+            label="Login hint"
+            id="login_hint"
+            type="text"
+            value={options.login_hint ?? ''}
+            onChange={event => updateOption('login_hint', event)}
+            helpText={
+              <>
+                Login hints are used for{' '}
+                <a href="/verify/guides/prefilled-fields/" className="text-primary-600">
+                  prefilling values
+                </a>
+                ,{' '}
+                <a href="/verify/guides/appswitch/" className="text-primary-600">
+                  triggering appswitch
+                </a>{' '}
+                and eID unique features like <code>message</code> (see example below after picking
+                MitID).
+              </>
+            }
+          />
         )}
       </div>
 
       {props.acr_values === undefined ? (
         <>
-          <H3>Auth methods / acr values</H3>
+          <H3>Auth methods / acr_values</H3>
           <Paragraph>
             You can click the individual eID headlines or use the navigation to your left to learn
             more about each eID.
           </Paragraph>
           <Paragraph>
-            If you select multiple (or zero) eIDs the user will be presented with a landing page
-            where they can use their eID of choice.
+            If you select multiple eIDs (or none), the user will be presented with a landing page
+            where they can choose their preferred eID.
           </Paragraph>
           <Paragraph>
-            Some features, like <strong>input prefill</strong> and{' '}
-            <strong>acr_values quirk handling</strong> is only available if you only select a{' '}
-            <strong>single acr_values</strong>
+            Please note that some features, e.g. <strong>input prefill</strong> and{' '}
+            <strong>acr_values quirk handling</strong> are only available when you{' '}
+            <strong>
+              select a single <code>acr_value</code>
+            </strong>
+            .
           </Paragraph>
-          <div className="mb-4 grid grid-cols-4 gap-4">
+          <div className="mb-4 flex flex-col md:grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {PROVIDERS.map(provider => (
               <div>
                 <Link
@@ -693,18 +666,18 @@ export default function AuthorizeURLBuilder(props: {
                   {provider.title}
                 </Link>
                 <br />
-                {provider.authMethods.map(authMethod => (
-                  <label className="text-light-blue-800 text-sm block my-2">
-                    <input
-                      type="checkbox"
+                <div className="flex flex-col gap-1">
+                  {provider.authMethods.map(authMethod => (
+                    <Checkbox
+                      className="m-1"
                       id={authMethod.acrValue}
-                      className="mr-2"
+                      name={authMethod.acrValue}
+                      label={authMethod.title}
                       checked={options.acr_values.includes(authMethod.acrValue)}
                       onChange={() => toggleAcrValue(authMethod.acrValue)}
                     />
-                    {authMethod.title}
-                  </label>
-                ))}
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -712,19 +685,17 @@ export default function AuthorizeURLBuilder(props: {
       ) : null}
 
       {options.availableScopes.length > 0 ? (
-        <div>
-          <label className="block text-light-blue-800 text-sm font-medium mb-2">scopes</label>
+        <div className="mb-4">
+          <label className="block text-light-blue-800 text-sm font-medium mb-2">Scopes</label>
           {options.availableScopes.map(scope => (
-            <label className="text-light-blue-800 text-sm block my-2">
-              <input
-                type="checkbox"
-                id={scope}
-                className="mr-2"
-                checked={options.selectedScopes.includes(scope)}
-                onChange={() => toggleScope(scope)}
-              />
-              {scope}
-            </label>
+            <Checkbox
+              name="scope"
+              label={scope}
+              id={scope}
+              className="my-2"
+              checked={options.selectedScopes.includes(scope)}
+              onChange={() => toggleScope(scope)}
+            />
           ))}
 
           {((supportsMinRegistrationLevel && options.minRegistrationLevel === 'basic') ||
@@ -752,362 +723,297 @@ export default function AuthorizeURLBuilder(props: {
             )}
         </div>
       ) : null}
-      <div className="mb-4 grid grid-cols-2 gap-4">
+
+      <div className="mb-4 grid grid-cols-2 gap-3">
         {props.quirks !== false && options.availableScopes.length > 0 ? (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="scopes_quirk"
-            >
-              scopes quirk handling
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="scopes_quirk"
-              value={options.scopes_quirk}
-              onChange={event => updateOption('scopes_quirk', event)}
-            >
-              <option value="none">none</option>
-              <option value="login_hint">login_hint</option>
-            </select>
-            <small>
-              Some integrations, like Auth0, require that you pass scopes through the login_hint.
-              <br />
-            </small>
-          </div>
+          <InputField
+            label="scopes quirk handling"
+            id="scopes_quirk"
+            type="text"
+            value={options.scopes_quirk}
+            onChange={event => updateOption('scopes_quirk', event)}
+            helpText={
+              <>
+                Some integrations, like Auth0, require that you pass scopes through the{' '}
+                <code>login_hint</code>.
+              </>
+            }
+          />
         ) : null}
 
         {props.quirks !== false && options.acr_values.length == 1 ? (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="acr_values_quirk"
-            >
-              acr_values quirk handling
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="acr_values_quirk"
-              value={options.acr_values_quirk}
-              onChange={event => updateOption('acr_values_quirk', event)}
-            >
-              <option value="none">none</option>
-              <option value="login_hint">login_hint</option>
-              <option value="path">path</option>
-            </select>
-            <small>
-              Some integrations, like Auth0, require that you pass acr_values through the login_hint
-              instead.
-              <br />
-              For integrations that do not allow you to define acr_values nor login_hint you can use
-              the value base64 encoded in the path segment.
-              <br />
-              (only supported with a single selected acr_value)
-            </small>
-          </div>
+          <Select
+            label="acr_values quirk handling"
+            id="acr_values_quirk"
+            value={options.acr_values_quirk}
+            onChange={event => updateOption('acr_values_quirk', event)}
+            helpText={
+              <>
+                Some integrations, like Auth0, require that you pass <code>acr_values</code> through
+                the <code>login_hint</code> instead.
+                <br />
+                For integrations that do not allow you to define <code>acr_values</code> nor{' '}
+                <code>login_hint</code>, you can use the value base64 encoded in the path segment.
+                <br />
+                (only supported with a single selected <code>acr_value</code>).
+              </>
+            }
+          >
+            <option value="none">none</option>
+            <option value="login_hint">login_hint</option>
+            <option value="path">path</option>
+          </Select>
         ) : null}
 
         {supportsAction && (
-          <div>
-            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="action">
-              Action
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="action"
-              value={options.action || ''}
-              onChange={event => updateOption('action', event)}
-            >
-              {actions.map(action => (
-                <option key={action} value={action}>
-                  {action}
-                </option>
-              ))}
-            </select>
-            <small>
-              Setting action will change header texts on Idura pages and also the action text inside
-              the MitID login box.
-            </small>
-          </div>
+          <Select
+            label="Action"
+            id="action"
+            value={options.action || ''}
+            onChange={event => updateOption('action', event)}
+            helpText="Setting action will change header texts on Idura pages and also the action text inside
+              the MitID login box."
+          >
+            {actions.map(action => (
+              <option key={action} value={action}>
+                {action}
+              </option>
+            ))}
+          </Select>
         )}
 
         {supportsFrejaAction && (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="frejaAction"
-            >
-              Action
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="frejaAction"
-              value={options.frejaAction || ''}
-              onChange={event => updateOption('frejaAction', event)}
-            >
-              <option value="">Not set</option>
-              {frejaActions.map(action => (
-                <option key={action} value={action}>
-                  {action}
-                </option>
-              ))}
-            </select>
-            <small>Set action to activate a Freja signature flow.</small>
-          </div>
+          <Select
+            label="Action"
+            id="frejaAction"
+            value={options.frejaAction || ''}
+            onChange={event => updateOption('frejaAction', event)}
+            helpText="Set action to activate a Freja signature flow."
+          >
+            <option value="">Not set</option>
+            {frejaActions.map(action => (
+              <option key={action} value={action}>
+                {action}
+              </option>
+            ))}
+          </Select>
         )}
 
         {supportsTitle && (
-          <div>
-            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="title">
-              Title
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="title"
-              placeholder="Title"
-              value={options.title || ''}
-              onChange={event => updateOption('title', event)}
-            />
-            <small>
-              FrejaID only. Sets the title of a signature request.
-              <br />
-              Maximum length is 128 characters (before base64 encoding).
-            </small>
-          </div>
+          <Textarea
+            label="Title"
+            id="title"
+            value={options.title || ''}
+            onChange={event => updateOption('title', event)}
+            helpText={
+              <>
+                FrejaID only. Sets the title of a signature request.
+                <br />
+                Maximum length is 128 characters (before base64 encoding).
+              </>
+            }
+          />
         )}
 
         {supportsPushTitle && (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="pushTitle"
-            >
-              Push notification title
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="pushTitle"
-              placeholder="Push notification title"
-              value={options.pushTitle || ''}
-              onChange={event => updateOption('pushTitle', event)}
-            />
-            <small>
-              FrejaID only. Sets the title of the push notification for a signature request.
-              <br />
-              Maximum length is 256 characters (before base64 encoding).
-            </small>
-          </div>
+          <Textarea
+            label="Push notification title"
+            id="pushTitle"
+            value={options.pushTitle || ''}
+            onChange={event => updateOption('pushTitle', event)}
+            helpText={
+              <>
+                FrejaID only. Sets the title of the push notification for a signature request.
+                <br />
+                Maximum length is 256 characters (before base64 encoding).
+              </>
+            }
+          />
         )}
 
         {supportsPushText && (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="pushText"
-            >
-              Push notification text
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="pushText"
-              placeholder="Push notification text"
-              value={options.pushText || ''}
-              onChange={event => updateOption('pushText', event)}
-            />
-            <small>
-              FrejaID only. Sets the text of the push notification for a signature request.
-              <br />
-              Maximum length is 256 characters (before base64 encoding).
-            </small>
-          </div>
+          <Textarea
+            label="Push notification text"
+            id="pushText"
+            value={options.pushText || ''}
+            onChange={event => updateOption('pushText', event)}
+            helpText={
+              <>
+                FrejaID only. Sets the text of the push notification for a signature request.
+                <br />
+                Maximum length is 256 characters (before base64 encoding).
+              </>
+            }
+          />
         )}
 
         {supportsMessage && (
-          <div>
-            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="message">
-              Message
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="message"
-              placeholder="Message"
-              value={options.message || ''}
-              onChange={event => updateOption('message', event)}
-            />
-            <small>
-              DK MitID/SE BankID/FrejaID only. Will display a message to the end user in the app.
-              <br />
-              The maximum message length depends on the eID provider:
-              <br />
-              For SE BankID, the limit is 1500 characters <em>after base64 encoding.</em>
-              <br />
-              For FrejaID, the limit is 4096 characters <em>before base64 encoding.</em>
-              <br />
-              For MitID, our tests indicate a limit of 130 characters{' '}
-              <em>before base64 encoding.</em>
-            </small>
-          </div>
+          <Textarea
+            label="Message"
+            id="message"
+            value={options.message || ''}
+            onChange={event => updateOption('message', event)}
+            helpText={
+              <>
+                DK MitID/SE BankID/FrejaID only. Will display a message to the end user in the app.
+                The maximum message length depends on the eID provider:
+                <ul>
+                  <li>
+                    For SE BankID, the limit is 1500 characters <em>after base64 encoding.</em>
+                  </li>
+                  <li>
+                    For FrejaID, the limit is 4096 characters <em>before base64 encoding.</em>
+                  </li>
+                  <li>
+                    For MitID, our tests indicate a limit of 130 characters{' '}
+                    <em>before base64 encoding.</em>
+                  </li>
+                </ul>
+              </>
+            }
+          />
         )}
 
         {supportsNonVisibleData && (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="nonVisibleData"
-            >
-              Non-visible data
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="nonVisibleData"
-              placeholder="Non-visible data"
-              value={options.nonVisibleData || ''}
-              onChange={event => updateOption('nonVisibleData', event)}
-            />
-            <small>
-              SE BankID/FrejaID only.
-              <br />
-              For SE BankID, will roundtrip the supplied value in the `evidence` claim in a
-              dedicated XML element.
-              <br />
-              For FrejaID, will include the supplied data in the signed data. Only supported for the
-              Extended signature flow.
-              <br />
-              Must be base64-encoded.
-            </small>
-            {options.nonVisibleData && options.frejaAction !== 'sign_extended' && (
-              <small>
+          <Textarea
+            label="Non-visible data"
+            id="nonVisibleData"
+            value={options.nonVisibleData || ''}
+            onChange={event => updateOption('nonVisibleData', event)}
+            helpText={
+              <>
+                SE BankID/FrejaID only.
                 <br />
-                <span className="text-red-400">
-                  Non-visible data is only supported for the Extended signature flow in FrejaID.
-                </span>
-              </small>
-            )}
-          </div>
+                <ul>
+                  <li>
+                    For SE BankID, will roundtrip the supplied value in the `evidence` claim in a
+                    dedicated XML element.
+                  </li>
+                  <li>
+                    For FrejaID, will include the supplied data in the signed data. Only supported
+                    for the Extended signature flow.
+                  </li>
+                </ul>
+                Must be base64-encoded.
+                {options.nonVisibleData && options.frejaAction !== 'sign_extended' && (
+                  <>
+                    <br />
+                    <span className="text-red-400">
+                      Non-visible data is only supported for the Extended signature flow in FrejaID.
+                    </span>
+                  </>
+                )}
+              </>
+            }
+          />
         )}
 
         {supportsTxInfo && (
-          <div>
-            <label className="block text-light-blue-800 text-sm font-medium mb-2" htmlFor="txInfo">
-              Transaction information
-            </label>
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="txInfo"
-              placeholder="txinfo"
-              value={options.txInfo || ''}
-              defaultValue={'TestCompany'}
-              onChange={event => updateOption('txInfo', event)}
-            />
-            <small>
-              Personalausweis only. Will display in the transaction information template.
-              <br />
-              Up to 32 alphanumeric characters.
-              {!options.txInfo && (
-                <>
-                  <br />
-                  <span className="text-red-400">
-                    txinfo must not be blank unless you have your own client credentials!
-                  </span>
-                </>
-              )}
-              {options.txInfo && options.txInfo.length > 32 && (
-                <>
-                  <br />
-                  <span className="text-red-400">
-                    txinfo must not be longer than 32 characters!
-                  </span>
-                </>
-              )}
-              {options.txInfo && notAlphanumeric.test(options.txInfo) && (
-                <>
-                  <br />
-                  <span className="text-red-400">
-                    txinfo must only contain alphanumeric characters!
-                  </span>
-                </>
-              )}
-            </small>
-          </div>
+          <Textarea
+            label="Transaction information"
+            id="txInfo"
+            value={options.txInfo || ''}
+            defaultValue={'TestCompany'}
+            onChange={event => updateOption('txInfo', event)}
+            helpText={
+              <>
+                Personalausweis only. Will display in the transaction information template.
+                <br />
+                Up to 32 alphanumeric characters.
+                {!options.txInfo && (
+                  <>
+                    <br />
+                    <span className="text-red-400">
+                      txinfo must not be blank unless you have your own client credentials!
+                    </span>
+                  </>
+                )}
+                {options.txInfo && options.txInfo.length > 32 && (
+                  <>
+                    <br />
+                    <span className="text-red-400">
+                      txinfo must not be longer than 32 characters!
+                    </span>
+                  </>
+                )}
+                {options.txInfo && notAlphanumeric.test(options.txInfo) && (
+                  <>
+                    <br />
+                    <span className="text-red-400">
+                      txinfo must only contain alphanumeric characters!
+                    </span>
+                  </>
+                )}
+              </>
+            }
+          />
         )}
 
         {supportsMinRegistrationLevel && (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="minregistrationlevel"
-            >
-              Minimum registration level
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="action"
-              value={options.minRegistrationLevel || ''}
-              onChange={event => updateOption('minRegistrationLevel', event)}
-            >
-              <option value="">Not set</option>
-              {minRegistrationLevels.map(minregistrationlevel => (
-                <option key={minregistrationlevel} value={minregistrationlevel}>
-                  {minregistrationlevel}
-                </option>
-              ))}
-            </select>
-            <small>
-              Setting minimum registration level will force users to be registered with a certain
-              level of registration.
-              <br />
-              Selecting "extended" or "plus" will enable additional scopes.
-              {(options.minRegistrationLevel === 'basic' || !options.minRegistrationLevel) &&
-                containsNonBasicFrejaIdScopes && (
-                  <>
-                    <br />
-                    <span className="text-red-400">
-                      The selected scopes are not available for registration level Basic. You must
-                      select a higher minimum registration level!
-                    </span>
-                  </>
-                )}
-            </small>
-          </div>
+          <Select
+            label="Minimum registration level"
+            id="action"
+            value={options.minRegistrationLevel || ''}
+            onChange={event => updateOption('minRegistrationLevel', event)}
+            helpText={
+              <>
+                Setting minimum registration level will force users to be registered with a certain
+                level of registration.
+                <br />
+                Selecting "extended" or "plus" will enable additional scopes.
+                {(options.minRegistrationLevel === 'basic' || !options.minRegistrationLevel) &&
+                  containsNonBasicFrejaIdScopes && (
+                    <>
+                      <br />
+                      <span className="text-red-400">
+                        The selected scopes are not available for registration level Basic. You must
+                        select a higher minimum registration level!
+                      </span>
+                    </>
+                  )}
+              </>
+            }
+          >
+            <option value="">Not set</option>
+            {minRegistrationLevels.map(minregistrationlevel => (
+              <option key={minregistrationlevel} value={minregistrationlevel}>
+                {minregistrationlevel}
+              </option>
+            ))}
+          </Select>
         )}
 
         {supportsUserConfirmationMethod && (
-          <div>
-            <label
-              className="block text-light-blue-800 text-sm font-medium mb-2"
-              htmlFor="userconfirmationmethod"
-            >
-              User confirmation method
-            </label>
-            <select
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-              id="action"
-              value={options.userConfirmationMethod || ''}
-              onChange={event => updateOption('userConfirmationMethod', event)}
-            >
-              <option value="">Not set</option>
-              {userConfirmationMethods.map(userconfirmationmethod => (
-                <option key={userconfirmationmethod} value={userconfirmationmethod}>
-                  {userconfirmationmethod}
-                </option>
-              ))}
-            </select>
-            <small>
-              Setting the user confirmation method to "defaultandface" will force users to take a
-              photo of themselves during authentication and reject the request if the photo does not
-              match their profile.
-              {(options.minRegistrationLevel === 'basic' || !options.minRegistrationLevel) &&
-                options.userConfirmationMethod === 'defaultandface' && (
-                  <>
-                    <br />
-                    <span className="text-red-400">
-                      Photo verification is not available for registration level Basic. You must
-                      select a higher minimum registration level!
-                    </span>
-                  </>
-                )}
-            </small>
-          </div>
+          <Select
+            label="User confirmation method"
+            id="action"
+            value={options.userConfirmationMethod || ''}
+            onChange={event => updateOption('userConfirmationMethod', event)}
+            helpText={
+              <>
+                Setting the user confirmation method to "defaultandface" will force users to take a
+                photo of themselves during authentication and reject the request if the photo does
+                not match their profile.
+                {(options.minRegistrationLevel === 'basic' || !options.minRegistrationLevel) &&
+                  options.userConfirmationMethod === 'defaultandface' && (
+                    <>
+                      <br />
+                      <span className="text-red-400">
+                        Photo verification is not available for registration level Basic. You must
+                        select a higher minimum registration level!
+                      </span>
+                    </>
+                  )}
+              </>
+            }
+          >
+            <option value="">Not set</option>
+            {userConfirmationMethods.map(userconfirmationmethod => (
+              <option key={userconfirmationmethod} value={userconfirmationmethod}>
+                {userconfirmationmethod}
+              </option>
+            ))}
+          </Select>
         )}
       </div>
 
