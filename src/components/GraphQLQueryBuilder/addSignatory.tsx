@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import { Button } from '../Button/Button';
 import GraphQLExample from '../GraphQLExample';
 import { useAppSelector } from '../../state/hooks';
 import {
@@ -178,19 +178,20 @@ export default function AddSignatoryQueryBuilder() {
               value={item.value || ''}
               onChange={event => handleChangeEvidenceValidation(item, 'value', event.target.value)}
             />
-            <button className="" onClick={() => removeEvidenceValidation(index)}>
+            <Button
+              variant="default"
+              onClick={() => removeEvidenceValidation(index)}
+              className="mt-2"
+            >
               Remove
-            </button>
+            </Button>
           </div>
         ))}
       </div>
-      <button
-        className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        type="button"
-        onClick={handleAddEvidenceValidation}
-      >
+      <Button variant="primary" onClick={handleAddEvidenceValidation}>
         Add
-      </button>
+      </Button>
+
       <H3>Documents</H3>
       <Paragraph>
         This example requires using the createSignatureOrder example above with documents.
@@ -246,9 +247,9 @@ export default function AddSignatoryQueryBuilder() {
                 }
               />
             </div>
-            <button className="" onClick={() => handleRemoveDocument(document)}>
+            <Button variant="default" onClick={() => handleRemoveDocument(document)}>
               Remove
-            </button>
+            </Button>
           </div>
         ))}
       </div>

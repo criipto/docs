@@ -2,6 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import cx from 'classnames';
 import GraphiQL from 'graphiql';
 import { Link } from 'gatsby';
+import { Button } from './Button/Button';
 
 import {
   ApiCredentials,
@@ -214,7 +215,7 @@ export function CredentialsForm(props: {
           required
         />
       </div>
-      <div className="mb-4">
+      <div className="mb-6">
         <label
           className="block text-light-blue-800 text-sm font-medium mb-2"
           htmlFor="clientSecret"
@@ -231,27 +232,19 @@ export function CredentialsForm(props: {
         />
       </div>
       {error ? (
-        <div className="mt-4 mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+        <div className="mt-4 mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
           {error}
         </div>
       ) : null}
-      <div className="flex items-center justify-between">
-        <button
-          className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-primary-600/50"
-          type="submit"
-          disabled={pending}
-        >
-          Submit
-        </button>
+      <div className="flex gap-3 items-center justify-end">
         {props.onSkip && (
-          <button
-            className="font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="button"
-            onClick={() => props.onSkip!()}
-          >
+          <Button variant="default" onClick={() => props.onSkip!()}>
             Skip
-          </button>
+          </Button>
         )}
+        <Button variant="primary" type="submit" disabled={pending}>
+          Submit
+        </Button>
       </div>
     </form>
   );
@@ -267,12 +260,9 @@ export function ClearCredentialsButton() {
 
   if (!credentials) return <p>No credentials configured.</p>;
   return (
-    <button
-      className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-      onClick={handleClick}
-    >
+    <Button variant="primary" onClick={handleClick}>
       Clear credentials
-    </button>
+    </Button>
   );
 }
 
