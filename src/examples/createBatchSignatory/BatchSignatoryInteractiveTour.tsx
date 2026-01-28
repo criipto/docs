@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'gatsby';
+import { Button } from '../../components/Button/Button';
 import { slug } from 'github-slugger';
 
 import * as createSignatureOrderExample from '../../examples/createSignatureOrder.graphql';
@@ -186,12 +187,9 @@ export default function InteractiveTour() {
                   When you have created as many signature orders as you want, you can proceed via
                   the button below.
                 </Paragraph>
-                <button
-                  className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  onClick={() => setStep('addSignatories')}
-                >
+                <Button variant="primary" size="lg" onClick={() => setStep('addSignatories')}>
                   Proceed to next step
-                </button>
+                </Button>
               </React.Fragment>
             ) : null}
 
@@ -234,12 +232,9 @@ export default function InteractiveTour() {
                 <Paragraph>
                   <strong>{signatories.length} signatories added.</strong>
                 </Paragraph>
-                <button
-                  className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                  onClick={() => setStep('createBatchSignatory')}
-                >
+                <Button variant="primary" size="lg" onClick={() => setStep('createBatchSignatory')}>
                   Proceed to next step
-                </button>
+                </Button>
               </React.Fragment>
             ) : null}
 
@@ -298,12 +293,9 @@ export default function InteractiveTour() {
               When you have signed or rejected the batch signatory, you can proceed to the next
               step.
             </Paragraph>
-            <button
-              className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              onClick={() => setStep('closeSignatureOrders')}
-            >
+            <Button variant="primary" size="lg" onClick={() => setStep('closeSignatureOrders')}>
               Proceed to next step
-            </button>
+            </Button>
           </React.Fragment>
         )}
         {step === 'closeSignatureOrders' && (
