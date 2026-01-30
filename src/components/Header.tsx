@@ -20,9 +20,14 @@ export default function Header(props: { path: string | undefined; className?: st
     const handler = (event: KeyboardEvent) => {
       const ctrlOrCmdKey = isMac ? event.metaKey : event.ctrlKey;
 
+      const tagName = (event.target as HTMLElement | null)?.tagName?.toUpperCase() ?? '';
+      const targetIsInput = ['INPUT', 'TEXTAREA'].includes(tagName);
+
       if (event.key === 'Escape') setShowSearch(false);
 
-      const shouldShowSearch = event.key === '/' || (event.key === 'k' && ctrlOrCmdKey);
+      const shouldShowSearch =
+        // If the user is in an input element, they probably want to type a slash instead of searching.
+        (event.key === '/' && !targetIsInput) || (event.key === 'k' && ctrlOrCmdKey);
       if (shouldShowSearch) {
         event.preventDefault();
         setShowSearch(true);
