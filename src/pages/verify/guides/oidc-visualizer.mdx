@@ -1,0 +1,44 @@
+---
+product: verify
+category: Guides & Tools
+sort: 0
+title: OpenID Connect Visualizer
+subtitle: A walkthrough of the Authorization Code Flow sequence.
+---
+
+import OidcVisualizer from '../../../components/OidcVisualizer/OidcVisualizer';
+
+This interactive tool is built to help developers understand the OpenID Connect protocol.
+It shows how a standard [Authorization Code Flow](/verify/getting-started/oidc-intro/#authenticate-with-back-channel-authorization-code-flow) unfolds between a [client application](/verify/reference/glossary/#application-client-application) and Idura Verify acting as the [Authorization Server](/verify/reference/glossary/#authorization-server).
+While Idura Verify handles most of the protocol's complexity, the client application is responsible for initiating the flow, handling responses according to the [OpenID Connect Core specification](https://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth), and validating the [JWT](/verify/reference/glossary/#json-web-token-jwt) it receives from Idura Verify.
+
+<Highlight>
+
+### Authorization Code Flow Steps Overview
+
+1. **Authentication Request**
+
+The flow begins with a client application redirecting the user to Idura Verify for authentication.
+Idura Verify authenticates the user and redirects them back to the client application with a temporary Authorization Code.
+
+2. **Exchange Authorization Code for Tokens**
+
+The Authorization Code alone does not contain any information about the user.
+The client application must [exchange the code for tokens](/verify/reference/glossary/#code-exchange) at the Authorization Server.
+
+3. **Verify ID Token**
+
+Before the client application can trust the user's identity data, it must cryptographically validate the [ID Token](/verify/reference/glossary/#id-token) received from Idura Verify.
+
+4. **Get Token Verification Results**
+
+After validation, the client extracts user [claims](/verify/reference/glossary/#claims) from the ID Token payload.
+This data can be used to establish a local session and log the user in.
+
+</Highlight>
+
+### Interactive Demo
+
+Click through the steps to send requests from the client application and observe requests and responses exchanged during the process.
+
+<OidcVisualizer />

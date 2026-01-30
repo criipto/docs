@@ -1,7 +1,7 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useAppSelector } from '../state/hooks';
 import { CredentialsForm, SignatoryCredentials } from './GraphQLExplorer';
-
+import { Button } from './Button/Button';
 import { graphQLFetcher } from './GraphQLExplorer';
 
 import {
@@ -319,13 +319,19 @@ export default function WebhookTester() {
         </div>
       ) : null}
 
-      <button
-        className="bg-primary-600 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        disabled={pending}
+      <Button
+        variant="primary"
+        working={pending}
         type="submit"
+        size="lg"
+        iconLeft={
+          <svg viewBox="0 0 640 640" fill="currentColor" aria-hidden className="w-5">
+            <path d="M128 523.4L128 560L160 542.2L527.1 338.3L560 320L527.1 301.7L160 97.8L128 80L128 523.4zM160 505.6L160 134.4L494.1 320L160 505.6z" />
+          </svg>
+        }
       >
-        {pending ? 'Executing ...' : 'Execute'}
-      </button>
+        Execute
+      </Button>
 
       {executions.length ? (
         <div className="mt-4">

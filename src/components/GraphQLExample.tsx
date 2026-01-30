@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import GraphQLExplorer from './GraphQLExplorer';
-
+import { Button } from './Button/Button';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   GraphQLExample,
@@ -30,19 +30,13 @@ function HideableCodeBlock(props: {
       <code>{props.text}</code>
       <div className="absolute top-1 right-1">
         {hasHiddenCode ? (
-          <button
-            className="text-white border rounded border-white py-1 px-4"
-            onClick={() => setCodeHidden(false)}
-          >
+          <Button variant="dark" size="sm" onClick={() => setCodeHidden(false)}>
             Show
-          </button>
+          </Button>
         ) : (
-          <button
-            className="text-white border rounded border-white py-1 px-4"
-            onClick={() => setCodeHidden(true)}
-          >
+          <Button variant="dark" size="sm" onClick={() => setCodeHidden(true)}>
             Hide
-          </button>
+          </Button>
         )}
       </div>
     </pre>
