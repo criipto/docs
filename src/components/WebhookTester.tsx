@@ -3,6 +3,8 @@ import { useAppSelector } from '../state/hooks';
 import { CredentialsForm, SignatoryCredentials } from './GraphQLExplorer';
 import { Button } from './Button/Button';
 import { graphQLFetcher } from './GraphQLExplorer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
 import {
   AddSignatoryOutput,
@@ -324,11 +326,7 @@ export default function WebhookTester() {
         working={pending}
         type="submit"
         size="lg"
-        iconLeft={
-          <svg viewBox="0 0 640 640" fill="currentColor" aria-hidden className="w-5">
-            <path d="M128 523.4L128 560L160 542.2L527.1 338.3L560 320L527.1 301.7L160 97.8L128 80L128 523.4zM160 505.6L160 134.4L494.1 320L160 505.6z" />
-          </svg>
-        }
+        iconLeft={<FontAwesomeIcon icon={faPlay} fill="currentColor" aria-hidden className="w-5" />}
       >
         Execute
       </Button>

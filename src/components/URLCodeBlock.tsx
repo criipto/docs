@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, AnchorButton } from './Button/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   url: URL;
@@ -21,9 +23,7 @@ export default function URLCodeBlock(props: Props) {
         <Button
           variant="dark"
           iconLeft={
-            <svg viewBox="0 0 640 640" fill="currentColor" aria-hidden className="w-5">
-              <path d="M512 416L256 416L256 96L434.7 96L512 173.3L512 416zM544 160L448 64L224 64L224 448L544 448L544 160zM128 192L96 192L96 576L416 576L416 496L384 496L384 544L128 544L128 224L176 224L176 192L128 192z" />
-            </svg>
+            <FontAwesomeIcon icon={faCopy} fill="currentColor" aria-hidden className="w-5" />
           }
           onClick={() => navigator.clipboard.writeText(url.replace(/\n\t/g, ''))}
         >
