@@ -198,6 +198,9 @@ module.exports = {
             h2: {
               'margin-bottom': '0.6666666666666666em',
             },
+            '.mdx-highlight h3': {
+              'margin-top': '0',
+            },
             color: theme('colors.light-blue.800'),
             '--tw-prose-bold': theme('colors.light-blue.800'),
             a: {
