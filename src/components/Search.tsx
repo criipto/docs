@@ -13,18 +13,20 @@ export const HitComponent = ({ hit, onClick }: HitProps) => {
   const path = `/${hit.slug}/`;
 
   return (
-    <div className="mb-4" onClick={onClick}>
-      <Link
-        to={path}
-        className="block text-xl font-medium text-light-blue-900 tracking-tight mb-0 mt-0 no-underline"
-      >
-        <Highlight attribute="title" hit={hit} highlightedTagName="mark" /> - {hit.category}
-      </Link>
+    <Link
+      to={path}
+      className="block no-underline focus:outline-none focus:bg-light-blue-25 text-light-blue-900 p-2"
+      onClick={onClick}
+    >
+      <div className="text-xl font-medium tracking-tight mb-0 mt-0">
+        <Highlight attribute="title" hit={hit} highlightedTagName="mark" />
+        {Boolean(hit.category) ? `- ${hit.category}` : ''}
+      </div>
 
-      <Link to={path} className="no-underline">
+      <p className="!m-0">
         <Snippet attribute="excerpt" hit={hit} highlightedTagName="mark" />
-      </Link>
-    </div>
+      </p>
+    </Link>
   );
 };
 
@@ -55,7 +57,10 @@ export default function Search(props: SearchProps) {
           </svg>
         )}
       />
-      <Hits hitComponent={({ hit }) => <HitComponent hit={hit} onClick={props.onHide} />} />
+      <Hits
+        classNames={{ item: 'm-0' }}
+        hitComponent={({ hit }) => <HitComponent hit={hit} onClick={props.onHide} />}
+      />
     </InstantSearch>
   );
 }
