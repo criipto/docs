@@ -1,0 +1,17 @@
+---
+product: signatures
+category: Guides
+sort: 21
+title: Elhub.no
+---
+
+Producing signatures compliant for ElHub requires making a few adjustments.
+
+1. Norwegian BankID QES **must** be used, so make sure [you opt-in to it](/signatures/guides/norwegian-bankid)
+2. ElHub adds a signature to the document, which must be kept.
+
+Normally Idura Signatures will require that all previous signatures are removed, as we modify the PDF quite a bit
+to support various features like automatic seal placement, seal page templating, document id watermarking and more.
+
+In the case of ElHub: These features must be disabled, and the previous signatures kept, by use of the [keepPreviousSignatures feature](signatures/graphql/schema/#DocumentInput)
+combined with defining a [custom seal position for the signatory](/signatures/graphql/examples/#custom-seal-position)
