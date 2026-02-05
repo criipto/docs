@@ -453,6 +453,8 @@ export enum DocumentIdLocation {
 }
 
 export type DocumentInput = {
+  /** (BETA feature) When enabled, will allow any existing signatures to remain on the document. This disables recreation of the PDF document, which disables a number of features such as automatic seal placement, document id watermarking and custom seals area. */
+  keepPreviousSignatures?: InputMaybe<Scalars['Boolean']['input']>;
   pdf?: InputMaybe<PadesDocumentInput>;
   /** When enabled, will remove any existing signatures from the document before storing. (PDF only) */
   removePreviousSignatures?: InputMaybe<Scalars['Boolean']['input']>;
@@ -791,6 +793,7 @@ export type PadesDocumentInput = {
   form?: InputMaybe<PadesDocumentFormInput>;
   /** Will not be displayed to signatories, can be used as a reference to your own system. */
   reference?: InputMaybe<Scalars['String']['input']>;
+  removeBookmarks?: InputMaybe<Scalars['Boolean']['input']>;
   sealsPageTemplate?: InputMaybe<PadesDocumentSealsPageTemplateInput>;
   storageMode: DocumentStorageMode | '%future added value';
   title: Scalars['String']['input'];
@@ -1026,6 +1029,8 @@ export type Signatory = {
 
 export type SignatoryBeaconInput = {
   lastActionAt: Scalars['DateTime']['input'];
+  /** Used to determine if there is clock skew between client and server. */
+  now?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type SignatoryBeaconOutput = {
@@ -1374,6 +1379,8 @@ export type ValidateDocumentOutput = {
   errors?: Maybe<Array<Scalars['String']['output']>>;
   /** Whether or not the errors are fixable using 'fixDocumentFormattingErrors' */
   fixable?: Maybe<Scalars['Boolean']['output']>;
+  /** `true` if the document contains bookmarks. If the value is `null`, we were unable to determine whether the document has any bookmarks. */
+  hasBookmarks?: Maybe<Scalars['Boolean']['output']>;
   /** `true` if the document contains signatures. If value is `null`, we were unable to determine whether the document has been previously signed. */
   previouslySigned?: Maybe<Scalars['Boolean']['output']>;
   valid: Scalars['Boolean']['output'];
