@@ -10,12 +10,18 @@ subtitle: A list of identity terms used in this documentation.
 
 ### ACR (Authentication Context Class Reference)
 
-A specific value or set of values sent in an authorization request (as `acr_values`) to request a specific authentication method (e.g., a particular eID like Swedish BankID). Idura uses `acr_values` to determine which eID provider or authentication method should be invoked.
+A specific value or set of values sent in an authorization request (as `acr_values`) to request a specific authentication method (e.g., a particular eID like Swedish BankID).
+Idura uses `acr_values` to determine which eID provider or authentication method should be invoked.
+
+### Access Token
+
+A credential that represents authorization issued by the [Authorization Server](/verify/reference/glossary/#authorization-server) to the [Client Application](/verify/reference/glossary/#application-client-application)
+to access resources on behalf of the end-user. An Access Token states what the bearer of the token is allowed to do, but not who the user is. [OAuth 2.0](/verify/reference/glossary/#oauth-20) uses Access Tokens.
 
 ### Application (Client Application)
 
 Your software (e.g., a web application, mobile application, or backend service) that integrates with Idura Verify to authenticate users.
-We use the term "application" as defined by the client role in <a href="https://datatracker.ietf.org/doc/html/rfc6749#page-6" target="_blank">OAuth 2.0</a>.
+We use the term "application" as defined by the client role in <a href="https://datatracker.ietf.org/doc/html/rfc6749#page-6" target="_blank">The OAuth 2.0 Authorization Framework</a>.
 Functionally, your software acts as the client in a <a href="https://en.wikipedia.org/wiki/Client%E2%80%93server_model" target="_blank">client-server model</a>, where Idura Verify serves as the Authentication Server.
 
 You create and configure an **Application** in your Idura Dashboard as a digital representation of your software.
@@ -25,17 +31,21 @@ It also holds configurations for the specific eID providers your software will i
 ### Authorization Code Flow
 
 The most common OAuth 2.0 Authorization Grant type. The client application first receives a temporary authorization code via a browser redirect.
-This code is then securely exchanged for tokens (ID Token, Access Token) at the Authorization Server's Token Endpoint over a secure "backchannel." The backchannel communication makes it suitable for confidential clients, while public clients must use the PKCE extension.
+This code is then securely exchanged for tokens (ID Token, Access Token) at the Authorization Server's Token Endpoint over a secure "backchannel."
+The backchannel communication makes it suitable for confidential clients, while public clients must use the PKCE extension.
 
 ### Authorization Flow (Authorization Grant)
 
-In <a href="https://oauth.net/2/grant-types/" target="_blank">OAuth 2.0</a>, an Authorization Flow describes a sequential workflow a client application follows to obtain an Authorization Grant (permission) from an Authorization Server (e.g., Idura Verify) to access protected resources on behalf of a user.
-With Idura Verify, client applications can use Authorization Code Flow, PKCE, CIBA or Implicit Flow (for testing only). The choice of the flow depends on the application's requirements and characteristics, such as its ability to securely store a Client Secret or hold a private key (if using Private Key JWT for client authentication).
+In <a href="https://oauth.net/2/grant-types/" target="_blank">OAuth 2.0</a>, an Authorization Flow describes a sequential workflow a client application
+follows to obtain an Authorization Grant (permission) from an Authorization Server (e.g., Idura Verify) to access protected resources on behalf of a user.
+With Idura Verify, client applications can use Authorization Code Flow, PKCE, CIBA or Implicit Flow (for testing only). The choice of the flow depends on the application's requirements
+and characteristics, such as its ability to securely store a Client Secret or hold a private key (if using Private Key JWT for client authentication).
 
-### Authorization Request (Authorize URL)
+### Authentication Request (Authorize URL)
 
 The initial request made by a client application to the Authorization Server's `/oauth2/authorize` endpoint to begin user authentication.
-The Authorize URL contains several parameters (e.g., `scope`, `response_type`, `client_id`, `redirect_uri`, `acr_values` etc.) that inform the Authorization Server about the permissions requested and the specific authentication requirements.
+The Authorize URL contains several parameters (e.g., `scope`, `response_type`, `client_id`, `redirect_uri`, `acr_values` etc.) that inform the Authorization Server
+about the permissions requested and the specific authentication requirements.
 
 ### Authorization Server
 
@@ -96,6 +106,12 @@ _Note: Starting at the end of 2025, all newly created domains will use the `idur
 A digital credential used to verify an individual's identity online. In simple terms, it's a digital equivalent of a physical ID (like a passport or driver's license), containing verified personal information about the holder.
 eIDs enable secure online authentication, transactions, and digital signing of documents. The Danish MitID, Swedish BankID, and German Personalausweis are examples of eIDs.
 
+## F
+
+### Federated Authentication
+
+A model where a [Client Application](/verify/reference/glossary/#application-client-application) delegates the user authentication process to an external, trusted [Identity Provider](/verify/reference/glossary/#identity-provider-idp).
+
 ## I
 
 ### ID Token
@@ -145,11 +161,13 @@ Indicates the degree of confidence in the asserted identity of an end-user. eID 
 
 ### OAuth 2.0
 
-An authorization standard that allows a user to grant limited access to their resources on one site to another site, without having to expose their credentials. OAuth 2.0 serves as the foundation for OpenID Connect (OIDC).
+An authorization standard defined in [RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749), that allows a user to grant limited access to their resources on one site to another site, without having to expose their credentials.
+OAuth 2.0 serves as the foundation for [OpenID Connect (OIDC)](/verify/reference/glossary/#openid-connect-oidc).
 
 ### OpenID Connect (OIDC)
 
-An identity layer built on top of OAuth 2.0. It allows client applications to verify the identity of an end-user based on the authentication performed by an Authorization Server, as well as to obtain basic profile information about the end-user. Idura Verify's API is based on OIDC.
+An identity layer built on top of [OAuth 2.0](/verify/reference/glossary/#oauth-20) and standardized in the [OIDC Core 1.0 specification](https://openid.net/specs/openid-connect-core-1_0.html).
+It allows client applications to verify the identity of an end-user based on the authentication performed by an Authorization Server, as well as to obtain basic profile information about the end-user. Idura Verify's API is based on OIDC.
 
 ### OIDC Discovery Document (.well-known/openid-configuration)
 

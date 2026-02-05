@@ -36,12 +36,38 @@ Technically, you can connect any application (written in any language or on any 
 
 ## Which industry standards does Idura use?
 
-At the core, being able to provide a service like Idura Verify is based on the premise of _federated authentication_, which means that you delegate the authentication and authorization process to a service outside of your own applications.
+At its core, the ability to provide a service like Idura Verify is based on the premise of [federated authentication](/verify/reference/glossary/#federated-authentication).
+This means delegating authentication and authorization process to a dedicated external service, rather than building it directly into your applications.
 
 Because federated authentication leverages one or more widely adopted industry standards, you are free to implement your applications without having to worry about how the actual identity services develop over time, or how they are secured.
 
-The identity industry standards that we use here in Idura are:
+The identity industry standards we use here at Idura are:
 
 - **Open Authorization (OAuth2)**: An authorization standard that allows a user to grant limited access to their resources on one site, to another site, without having to expose their credentials.
 - **OpenID Connect (OIDC)**: An identity layer that sits on top of OAuth2 and allows for easy verification of the user's identity, as well the ability to get basic profile information from the identity provider.
 - **JSON Web Tokens (JWT)**: An open standard that defines a compact and self-contained way for securely transmitting information between parties as a JSON object.
+
+## What's next?
+
+You have the big picture. How would you like to proceed?
+
+### Understand the concepts
+
+New to federated authentication?
+
+- [Basic concepts in Idura Verify](/verify/getting-started/basics/): Understand the terminology used in this documentation.
+- [Using OpenID Connect](/verify/getting-started/oidc-intro/): Learn how Idura Verify supports the protocol and how to add it to your app.
+
+### Explore eIDs
+
+See what identity providers are available and how to go live.
+
+- [Supported eIDs](/verify/e-ids/): Browse our catalog of electronic identities (Danish MitID, Norwegian BankID, etc.).
+- [Get ready for production](/verify/guides/production/): See the checklist for going live.
+
+### Start building
+
+Already know your way around? Feel free to start building.
+
+- [Choose your integration](/verify/integrations/): Find the SDK that fits your tech stack.
+- [Browse the guides](/verify/guides/): Need help with a specific feature? Check our detailed guides.
