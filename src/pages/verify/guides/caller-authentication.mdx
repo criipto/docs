@@ -75,7 +75,7 @@ scope=openid
     <tr>
       <td>**Swedish BankID**</td>
       <td>
-        `callInitiator=RP` or `user`
+        `authorization_details=URLENCODED( [ { "type": "phoneAuth", "callInitiator": "RP" } ] )`
         <br />
         `binding_message=BINDING_MESSAGE`
         <br />
@@ -91,7 +91,12 @@ scope=openid
     </tr>
     <tr>
       <td>**Norwegian BankID**</td>
-      <td>`acr_values=urn:grn:authn:no:bankid`</td>
+      <td>
+        `authorization_details=URLENCODED( [ { "type": "customerServiceCall.v1" } ] )`
+        <br />
+        `acr_values=urn:grn:authn:no:bankid`
+        <br />
+      </td>
       <td>Do not include a `binding_message`: the BankID app handles this internally.</td>
     </tr>
   </tbody>
@@ -197,7 +202,8 @@ On successful user identification, a token response is returned:
 
 <Highlight icon="info">
   Continue polling until the token endpoint returns a token response or an `"access_denied"` error.
-  While the authentication process is ongoing, the provider will always return `"error": "authorization_pending"`.
+  While the authentication process is ongoing, the provider will always return `"error":
+  "authorization_pending"`.
 </Highlight>
 
 The exact response format for intermediate authentication states depends on the eID provider.
@@ -292,7 +298,10 @@ The exact response format for intermediate authentication states depends on the 
 
 ## Caller Authentication with Swedish BankID
 
-<a href="https://www.bankid.com/en/foretag/telephone-identification" target="_blank">BankID in telephone calls</a> facilitates user authentication during a phone call.
+<a href="https://www.bankid.com/en/foretag/telephone-identification" target="_blank">
+  BankID in telephone calls
+</a>
+facilitates user authentication during a phone call.
 
 ### How authentication works
 
@@ -307,7 +316,10 @@ The example above demonstrates what it looks like when the customer is calling t
 
 ## Caller Authentication with Norwegian BankID
 
-<a href="https://bankid.no/en/company/services/caller-authentication" target="_blank">Caller Authentication</a> enables identity verification during a live call or while the user is waiting in the call queue. 
-The user authenticates in the BankID app using biometrics.
+<a href="https://bankid.no/en/company/services/caller-authentication" target="_blank">
+  Caller Authentication
+</a>
+enables identity verification during a live call or while the user is waiting in the call queue. The
+user authenticates in the BankID app using biometrics.
 
 This product is currently in BETA. If you're interested in using it, please contact us at [support@idura.eu](mailto:support@idura.eu).
