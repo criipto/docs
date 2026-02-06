@@ -4,6 +4,9 @@ const pageQuery = `{
     edges {
       node {
         id
+        internal {
+          contentDigest
+        }
         frontmatter {
           product
           title
@@ -19,9 +22,10 @@ const pageQuery = `{
     }
   }
 }`;
-function pageToAlgoliaRecord({ node: { id, frontmatter, fields, ...rest } }) {
+function pageToAlgoliaRecord({ node: { id, internal, frontmatter, fields, ...rest } }) {
   return {
     objectID: id,
+    internal,
     ...frontmatter,
     ...fields,
     ...rest,

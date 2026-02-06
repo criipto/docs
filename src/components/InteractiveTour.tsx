@@ -7,7 +7,8 @@ import * as addSignatoryExample from '../examples/addSignatory.graphql';
 import * as closeSignatureOrderExample from '../examples/closeSignatureOrder.graphql';
 import { AddSignatoryOutput } from '../../graphql-signatures-types';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
-import GraphQLExplorer, { GraphQLResponse, GraphQLError, CredentialsForm } from './GraphQLExplorer';
+import GraphQLExplorer, { GraphQLResponse, CredentialsForm } from './GraphQLExplorer';
+import { GraphQLError } from 'graphql';
 import { CodeBlock, H2, Paragraph } from './MdxProvider';
 import { DesktopPageNavigation } from './PageNavigation';
 import { clearExampleData } from '../state/store';
@@ -50,7 +51,7 @@ export default function InteractiveTour() {
   const [signatories, setSignatories] = useState<AddSignatoryOutput['signatory'][]>([]);
   const exampleData = useAppSelector(state => state.exampleData);
   const dispatch = useAppDispatch();
-  const [errors, setErrors] = useState<GraphQLError[]>([]);
+  const [errors, setErrors] = useState<readonly GraphQLError[]>([]);
   const [response, setResponse] = useState<GraphQLResponse | null>(null);
 
   const handleResponse = (step: Step, response: GraphQLResponse) => {

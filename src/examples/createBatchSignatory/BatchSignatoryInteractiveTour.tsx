@@ -18,11 +18,10 @@ import {
 import { useAppDispatch, useAppSelector } from '../../state/hooks';
 import GraphQLExplorer, {
   GraphQLResponse,
-  GraphQLError,
   CredentialsForm,
 } from '../../components/GraphQLExplorer';
+import { GraphQLError } from 'graphql';
 import { H2, Paragraph } from '../../components/MdxProvider';
-import { clearExampleData } from '../../state/store';
 
 type Step =
   | 'authenticate'
@@ -76,7 +75,7 @@ export default function InteractiveTour() {
   >([]);
   const exampleData = useAppSelector(state => state.exampleData);
   const dispatch = useAppDispatch();
-  const [errors, setErrors] = useState<GraphQLError[]>([]);
+  const [errors, setErrors] = useState<readonly GraphQLError[]>([]);
   const [response, setResponse] = useState<GraphQLResponse | null>(null);
 
   const handleResponse = (step: Step, response: GraphQLResponse) => {
