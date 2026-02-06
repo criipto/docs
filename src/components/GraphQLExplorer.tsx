@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import cx from 'classnames';
-import GraphiQL from 'graphiql';
+import { GraphiQL } from 'graphiql';
 import { Link } from 'gatsby';
 import { Button } from './Button/Button';
+import { GraphQLError } from 'graphql';
 
 import {
   ApiCredentials,
@@ -25,12 +26,9 @@ export interface SignatoryCredentials {
   token: string;
 }
 
-export interface GraphQLError {
-  message: string;
-}
 export interface GraphQLResponse<T = any> {
   data?: T;
-  errors?: GraphQLError[];
+  errors?: readonly GraphQLError[];
 }
 
 export function graphQLFetcher<R = any, V = any>(
@@ -141,7 +139,6 @@ export default function GraphQLExplorer(props: GraphQLExplorerProps) {
           variables={typeof variables === 'object' ? JSON.stringify(variables, null, 2) : variables}
           defaultEditorToolsVisibility={'variables'}
           isHeadersEditorEnabled={false}
-          disableTabs={true}
           className="criipto-graphql-explorer"
           forcedTheme="light"
         />
