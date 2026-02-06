@@ -9,13 +9,14 @@ function bytesToBase64(bytes: Uint8Array) {
   }
   return window.btoa(binary);
 }
-function base64ToBytes(base64: string): Uint8Array {
-  var binaryString = window.atob(base64);
-  var bytes = new Uint8Array(binaryString.length);
-  for (var i = 0; i < binaryString.length; i++) {
+
+function base64ToArrayBuffer(base64: string): ArrayBuffer {
+  const binaryString = window.atob(base64);
+  const bytes = new Uint8Array(binaryString.length);
+  for (let i = 0; i < binaryString.length; i++){
     bytes[i] = binaryString.charCodeAt(i);
   }
-  return bytes;
+  return bytes.buffer;
 }
 
 export default function WebhookSignatureValidator() {
@@ -33,7 +34,7 @@ export default function WebhookSignatureValidator() {
     const encoder = new TextEncoder();
     const key = await window.crypto.subtle.importKey(
       'raw',
-      base64ToBytes(secret),
+      base64ToArrayBuffer(secret),
       {
         name: 'hmac',
         hash: 'SHA-256',
