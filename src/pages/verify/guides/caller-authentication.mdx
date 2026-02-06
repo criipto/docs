@@ -53,6 +53,7 @@ Make an `HTTP POST` request to the `/ciba/bc-authorize` endpoint:
 # Replace `YOUR_DOMAIN.idura.broker` with your Idura domain
 # Replace `$client_assertion` with your JWT assertion
 # Replace `SSN` with a valid SSN
+# Note: If you authenticate with a client secret, use HTTP Basic Authorization (Authorization: Basic base64(client_id:client_secret)).
 
 HTTP POST https://YOUR_DOMAIN.idura.broker/ciba/bc-authorize
 Content-Type: application/x-www-form-urlencoded
@@ -62,7 +63,7 @@ scope=openid
 &acr_values=ACR_VALUE
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=$client_assertion
-# Add eID-specific parameters here
+&authorization_details=... # Add eID-specific parameters here
 ```
 
 <table>
@@ -75,25 +76,39 @@ scope=openid
     <tr>
       <td>**Swedish BankID**</td>
       <td>
-        `callInitiator=RP` or `user`
-        <br />
+        `authorization_details=[{"type":"phoneAuth", "callInitiator":"RP"}]`
+
         `binding_message=BINDING_MESSAGE`
-        <br />
+
         `acr_values=urn:grn:authn:se:bankid`
       </td>
       <td>
-        `callInitiator` must be either `RP`("Relying Party", e.g. a customer service agent) or
-        `user`, depending on who initiated the call.
-        <br />
-        <br />
-        The `binding_message` value will be shown to the end user in the BankID app.
+        <ul>
+          <li>`authorization_details` is a [Rich Authorization Request (RAR)](https://datatracker.ietf.org/doc/html/rfc9396#name-authorization-request) parameter
+          and must be sent as a URL-encoded JSON string.</li>
+          <li> `callInitiator` must be either `RP`("Relying Party", e.g. a customer service agent) or
+          `user`, depending on who initiated the call.</li>
+          <li>The `binding_message` value will be shown to the end user in the BankID app.</li>
+        </ul>
       </td>
     </tr>
     <tr>
       <td>**Norwegian BankID**</td>
-      <td>`acr_values=urn:grn:authn:no:bankid`</td>
-      <td>Do not include a `binding_message`: the BankID app handles this internally.</td>
+      <td>
+        `authorization_details=[{"type":"customerServiceCall.v1"}]`
+
+        `acr_values=urn:grn:authn:no:bankid`
+        <br />
+      </td>
+      <td>
+        <ul>
+          <li>`authorization_details` is a [Rich Authorization Request (RAR)](https://datatracker.ietf.org/doc/html/rfc9396#name-authorization-request) parameter
+          and must be sent as a URL-encoded JSON string.</li>
+          <li>Do not include a `binding_message`: the BankID app handles this internally.</li>
+        </ul>
+      </td>
     </tr>
+
   </tbody>
 </table>
 
@@ -158,6 +173,7 @@ After receiving `auth_req_id`, poll the token endpoint (`/oauth2/token`) to get 
 ```sh
 # Replace `AUTH_REQ_ID` with the id returned by authentication response
 # Replace `$client_assertion` with your JWT assertion
+# Note: If you authenticate with a client secret, use HTTP Basic Authorization (Authorization: Basic base64(client_id:client_secret)).
 
 HTTP POST https://YOUR_DOMAIN.idura.broker/oauth2/token
 Content-Type: application/x-www-form-urlencoded
@@ -197,7 +213,8 @@ On successful user identification, a token response is returned:
 
 <Highlight icon="info">
   Continue polling until the token endpoint returns a token response or an `"access_denied"` error.
-  While the authentication process is ongoing, the provider will always return `"error": "authorization_pending"`.
+  While the authentication process is ongoing, the provider will always return `"error":
+  "authorization_pending"`.
 </Highlight>
 
 The exact response format for intermediate authentication states depends on the eID provider.
@@ -292,7 +309,7 @@ The exact response format for intermediate authentication states depends on the 
 
 ## Caller Authentication with Swedish BankID
 
-<a href="https://www.bankid.com/en/foretag/telephone-identification" target="_blank">BankID in telephone calls</a> facilitates user authentication during a phone call.
+[BankID in telephone calls](https://www.bankid.com/en/foretag/telephone-identification) facilitates user authentication during a phone call.
 
 ### How authentication works
 
@@ -305,9 +322,24 @@ The exact response format for intermediate authentication states depends on the 
 
 The example above demonstrates what it looks like when the customer is calling the service. A different security check is shown when the service is calling the customer.
 
+### Getting ready for Production
+
+To go live, follow the [Get ready for production](/verify/guides/production/) guide and [order Swedish BankID](/verify/e-ids/swedish-bankid/#ordering-swedish-bankid) for your organization.
+
 ## Caller Authentication with Norwegian BankID
 
-<a href="https://bankid.no/en/company/services/caller-authentication" target="_blank">Caller Authentication</a> enables identity verification during a live call or while the user is waiting in the call queue. 
+[Caller Authentication](https://bankid.no/bedrift/vaare-tjenester/sikker-samtale) enables identity verification during a live call or while the user is waiting in the call queue.
 The user authenticates in the BankID app using biometrics.
 
-This product is currently in BETA. If you're interested in using it, please contact us at [support@idura.eu](mailto:support@idura.eu).
+### How authentication works
+
+1. **SSN input:** The caller's SSN is collected by your IVR/phone system or a customer service representative.
+2. **Authentication request:** The caller's SSN is used to start the authentication request.
+3. **Security check:** The user hears a word pair over the phone and sees three word pair options in their BankID app. They select the words they heard.
+4. **User response:** After selecting the correct pair, the app shows the “Phone call with customer service” screen and prompts the user to confirm their identity using biometrics.
+
+![CIBA Norwegian BankID](./images/ciba-bankid-no-phone-auth.png)
+
+### Getting ready for Production
+
+To go live, follow the [Get ready for production](/verify/guides/production/) guide and [order Norwegian BankID client credentials](/verify/e-ids/norwegian-bankid/#ordering-norwegian-bankid).
