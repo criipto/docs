@@ -212,6 +212,7 @@ module.exports = {
             code: {
               color: theme('colors.light-blue.800'),
               padding: '1px 3px',
+              fontWeight: 400,
             },
             // Remove the backticks @tailwindcss/typography adds around inline code.
             'code::before': { content: 'none' },
