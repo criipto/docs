@@ -17,8 +17,8 @@ export default function DefaultLayout(props: {
   location: Location;
   pageContext: any;
   pageNavigationItems?: PageNavigationItem[];
-  isIduraBannerVisible: boolean;
-  onCloseBanner: () => void;
+  isIduraBannerVisible?: boolean;
+  onCloseBanner?: () => void;
 }) {
   const { frontmatter } = props.pageContext;
   const description = frontmatter?.description || frontmatter?.subtitle;
