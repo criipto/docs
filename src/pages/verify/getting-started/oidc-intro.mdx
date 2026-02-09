@@ -367,12 +367,12 @@ HTTP POST https://YOUR_SUBDOMAIN.idura.broker/ciba/bc-authorize
 Content-Type: application/x-www-form-urlencoded
 
 scope=openid
-&callInitiator=RP
 &login_hint=sub:ssn:SSN
 &acr_values=urn:grn:authn:se:bankid
 &binding_message=BINDING_MESSAGE
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=YOUR_JWT_ASSERTION
+authorization_details=%5B%7B%22type%22%3A%22phoneAuth%22%2C%22callInitiator%22%3A%22RP%22%7D%5D
 ```
 
 ### Example response
