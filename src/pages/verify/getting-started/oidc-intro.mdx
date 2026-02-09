@@ -355,7 +355,7 @@ CIBA supports use cases not covered by other OpenID Connect flows, such as:
 - Using a smartphone to authorize a payment at a point of sale terminal.
 - Enabling a bank agent to authenticate a customer in a bank branch during a face-to-face interaction.
 
-Idura Verify supports CIBA for the [Swedish BankID Phone Authentication](/verify/guides/caller-authentication/#caller-authentication-with-swedish-bankid).
+Idura Verify supports CIBA for the [Swedish BankID Phone Authentication](/verify/guides/caller-authentication/#caller-authentication-with-swedish-bankid) and the [Norwegian BankID Caller Authentication](/verify/guides/caller-authentication/#caller-authentication-with-norwegian-bankid).
 
 ### Example request
 
@@ -367,12 +367,12 @@ HTTP POST https://YOUR_SUBDOMAIN.idura.broker/ciba/bc-authorize
 Content-Type: application/x-www-form-urlencoded
 
 scope=openid
-&callInitiator=RP
 &login_hint=sub:ssn:SSN
 &acr_values=urn:grn:authn:se:bankid
 &binding_message=BINDING_MESSAGE
 &client_assertion_type=urn:ietf:params:oauth:client-assertion-type:jwt-bearer
 &client_assertion=YOUR_JWT_ASSERTION
+authorization_details=%5B%7B%22type%22%3A%22phoneAuth%22%2C%22callInitiator%22%3A%22RP%22%7D%5D
 ```
 
 ### Example response
