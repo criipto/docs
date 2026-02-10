@@ -3,21 +3,21 @@ product: verify
 category: Guides & Tools
 sort: 1
 title: App switching
-subtitle: How to use Idura Verify in app-switch mode
+subtitle: How to use Idura Verify in app switch mode
 ---
 
 ## Native apps
 
 If you are building a native app, and would like to get the smoothest possible UX, you can use Idura
-Verify's app-switching capabilities (for eIDs that support it). It requires a bit more work to orchestrate the login process in comparison
+Verify's app switching capabilities (for eIDs that support it). It requires a bit more work to orchestrate the login process in comparison
 with just going with the browser-based flow, but the net result is a much better UX.
 
 App switching actually includes two switches, one from your app to the verification app of the eID
 provider, and one switch back to your app, after the user has completed the verification process.
 
-App-switching is fully supported by the [Idura Android SDK](/verify/integrations/kotlin), so you
+App switching is fully supported by the [Idura Android SDK](/verify/integrations/kotlin), so you
 should use that if at all possible. We are working on an iOS SDK as well. In the meantime, the rest
-of this guide will show you how to implement app-switching on iOS.
+of this guide will show you how to implement app switching on iOS.
 
 You must augment the authorize request you send to Idura Verify so it contains one of the following values (also OS dependent)
 
@@ -36,7 +36,7 @@ button to the user, allowing them to switch to the MitID app, regardless of whet
 
 You must use an `ASWebAuthenticationSession` to run the login flow in your app.
 
-Once the flow completes, the MitID app will perform an app-switch back to your app, which makes the `ASWebAuthenticationSession` resume its operation. This initial resuming of your app will not include any `OAuth2` parameters, however in resuming your app the MitID login request will continue in the web component,
+Once the flow completes, the MitID app will perform an app switch back to your app, which makes the `ASWebAuthenticationSession` resume its operation. This initial resuming of your app will not include any `OAuth2` parameters, however in resuming your app the MitID login request will continue in the web component,
 completing the login process which will issue an `OAuth2` formatted response.
 
 Assuming your `redirect_uri` is also pointing to your native app, you will need to handle two sets of deep links,
@@ -45,7 +45,7 @@ one initial from MitID with no parameters, and a second one from Idura with para
 You can define a seperate URL for the MitID resume operation by using a `appswitch:resumeUrl:{UNIVERSAL LINK}` login_hint.
 MitID will only resume to a universal link, but if you define a separate `resumeUrl` your `redirect_uri` can be a custom scheme.
 
-The `resumeUrl` login_hint must be combined with your other appswitch login_hints, for example
+The `resumeUrl` login_hint must be combined with your other app switch login_hints, for example
 `appswitch:android%20appswitch:resumeUrl:{UNIVERSAL LINK}`
 
 <Highlight icon="info">
@@ -57,7 +57,7 @@ The `resumeUrl` login_hint must be combined with your other appswitch login_hint
 
 ### Danish MitID
 
-The MitID login UX to web apps also benefits from app-switching, though only in the switch from the browser to the MitID app.
+The MitID login UX to web apps also benefits from app switching, though only in the switch from the browser to the MitID app.
 The user must still manually switch back to the browser once they have approved the login in their MitID app.
 
 <Highlight icon="exclamation">
@@ -70,5 +70,7 @@ This has changed on June 6, 2023 (with MitID Release 11). Previously, automated 
 
 The test version(s) can be found here: [https://pp.mitid.dk/mitid-app/index.html](https://pp.mitid.dk/mitid-app/index.html).
 Note that on Android, the test version cannot co-exist with the production version, so you need a dedicated Android device for testing.
-On iOS, the 2 app versions can co-exist, but doing so can lead to surprising behaviour at runtime. The app-switching is (sometimes) done to the "latest active" version of the app, so you might end up in your production app while testing.
+On iOS, the 2 app versions can co-exist, but doing so can lead to surprising behaviour at runtime.
+The app switching is (sometimes) done to the "latest active" version of the app, so you might end up
+in your production app while testing.
 We recommend that you always close the production version of the MitID app before running any tests.

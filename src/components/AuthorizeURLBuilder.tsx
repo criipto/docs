@@ -625,7 +625,7 @@ export default function AuthorizeURLBuilder(props: {
                 </a>
                 ,{' '}
                 <a href="/verify/guides/appswitch/" className="text-primary-600">
-                  triggering appswitch
+                  triggering app switch
                 </a>{' '}
                 and eID unique features like <code>message</code> (see example below after picking
                 MitID).
