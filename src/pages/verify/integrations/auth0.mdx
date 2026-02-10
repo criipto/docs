@@ -166,6 +166,20 @@ import TestUsersSnippet from '../../../snippets/test-users-description.mdx';
 
 <TestUsersSnippet />
 
+## App switching
+
+App switching refers to bringing the user back to a native iOS or Android app, after they have
+completed authentication in an authenticator app. It is relevant for Danish MitID, Swedish BankID
+and Swedish FrejaID. For a general overview, see [App switching](/verify/guides/appswitch/).
+
+When integrating Idura through Auth0, you should make sure that the app switch `login_hint` is sent
+to Idura, not Auth0. Including `?login_hint=appswitch...` in your initial request to Auth0 will not
+work.
+
+You need to configure your connection in Auth0 to send the `login_hint` parameter to Idura, consult <a
+href="https://auth0.com/docs/authenticate/identity-providers/pass-parameters-to-idps"
+target="_blank" >Auth0 docs</a>.
+
 ## Integrate your application with Auth0
 
 How to integrate your application with Auth0 depends on the technology you are working with. Refer to the [Auth0 quickstart guide](https://auth0.com/docs/quickstarts/) for more details.
