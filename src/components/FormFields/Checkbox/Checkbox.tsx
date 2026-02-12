@@ -16,8 +16,7 @@ type BaseCheckboxProps = {
 };
 
 interface CheckboxProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>,
-    BaseCheckboxProps {
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>, BaseCheckboxProps {
   name: string;
 }
 
@@ -58,7 +57,7 @@ export function Checkbox(props: CheckboxProps) {
         variants[variant],
       )}
     >
-      <div className="grid grid-cols-[auto_1fr] items-start gap-x-2">
+      <div className="grid grid-cols-[auto_1fr] items-start gap-x-1">
         <label className={cx('contents', disabled ? 'cursor-not-allowed' : 'cursor-pointer')}>
           {/* Native input */}
           <input
@@ -85,6 +84,9 @@ export function Checkbox(props: CheckboxProps) {
               'peer-indeterminate:shadow-[inset_0_0_0_2px_theme(colors.primary.600)]',
               { 'shadow-[inset_0_0_0_2px_theme(colors.red.400)]': error },
 
+              // Focus state
+              'peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[-6px] peer-focus-visible:outline-primary-600',
+
               // Before: purple filled square
               "before:content-[''] before:block before:scale-0 before:transition-transform",
               'before:h-2.5 before:w-2.5',
@@ -98,38 +100,38 @@ export function Checkbox(props: CheckboxProps) {
             )}
             aria-hidden="true"
           />
-
-          <div className="mr-3">
+          <div className="flex h-full items-center mr-3">
             <div className="inline-flex items-start gap-2">
               <div
-                className={cx('leading-4.5 text-md font-medium tracking-normal translate-y-[1px]', {
+                className={cx('flex items-center leading-4.5 text-md font-medium tracking-normal', {
                   'text-red-400': error,
                 })}
               >
                 {label}
-              </div>
-
-              {error && (
-                <FontAwesomeIcon icon={faExclamationCircle} className="h-4 w-4 text-red-400" />
-              )}
-            </div>
-
-            {(error || helpText) && (
-              <div className="mt-1">
                 {error && (
-                  <SupportText intent="error" className="pt-0">
-                    {error}
-                  </SupportText>
-                )}
-                {helpText && (
-                  <SupportText intent="help" className="pt-0">
-                    {helpText}
-                  </SupportText>
+                  <FontAwesomeIcon
+                    icon={faExclamationCircle}
+                    className="h-4 w-4 text-red-400 inline-flex pl-1"
+                  />
                 )}
               </div>
-            )}
+            </div>
           </div>
         </label>
+        {(error || helpText) && (
+          <div className="col-start-2">
+            {error && (
+              <SupportText intent="error" className="!p-0">
+                {error}
+              </SupportText>
+            )}
+            {helpText && (
+              <SupportText intent="help" className="!p-0">
+                {helpText}
+              </SupportText>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

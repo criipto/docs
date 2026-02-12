@@ -665,10 +665,10 @@ export default function AuthorizeURLBuilder(props: {
                 >
                   {provider.title}
                 </Link>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 mt-1">
                   {provider.authMethods.map(authMethod => (
                     <Checkbox
-                      className="m-1"
+                      className="mb-1"
                       id={authMethod.acrValue}
                       name={authMethod.acrValue}
                       label={authMethod.title}
