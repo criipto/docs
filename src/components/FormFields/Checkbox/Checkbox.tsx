@@ -16,8 +16,7 @@ type BaseCheckboxProps = {
 };
 
 interface CheckboxProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>,
-    BaseCheckboxProps {
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'>, BaseCheckboxProps {
   name: string;
 }
 
@@ -58,7 +57,7 @@ export function Checkbox(props: CheckboxProps) {
         variants[variant],
       )}
     >
-      <div className="grid grid-cols-[auto_1fr] items-start gap-x-2">
+      <div className="grid grid-cols-[auto_1fr] items-start gap-x-1">
         <label className={cx('contents', disabled ? 'cursor-not-allowed' : 'cursor-pointer')}>
           {/* Native input */}
           <input
@@ -110,19 +109,22 @@ export function Checkbox(props: CheckboxProps) {
               </div>
 
               {error && (
-                <FontAwesomeIcon icon={faExclamationCircle} className="h-4 w-4 text-red-400" />
+                <FontAwesomeIcon
+                  icon={faExclamationCircle}
+                  className="h-4 w-4 text-red-400 translate-y-[1px]"
+                />
               )}
             </div>
 
             {(error || helpText) && (
               <div className="mt-1">
                 {error && (
-                  <SupportText intent="error" className="pt-0">
+                  <SupportText intent="error" className="pt-0 pb-1">
                     {error}
                   </SupportText>
                 )}
                 {helpText && (
-                  <SupportText intent="help" className="pt-0">
+                  <SupportText intent="help" className="pt-0 pb-1">
                     {helpText}
                   </SupportText>
                 )}
