@@ -8,7 +8,7 @@ subtitle: Learn the basics of Idura and familiarize yourself with the terminolog
 
 This document explains some of the basic terminology we use at Idura, and we try to relate these terms to concepts you are already familiar with.
 
-This article introduces the following core concepts of Idura: **[Tenants](/verify/getting-started/basics/#tenants)**, **[Domains](/verify/getting-started/basics/#domains)**, **[Applications](/verify/getting-started/basics/#applications)**, and **[Identity Sources](/verify/getting-started/basics/#identity-sources)**.
+This article introduces the following core concepts of Idura: **[Tenants](/verify/getting-started/basics/#tenants)**, **[Domains](/verify/getting-started/basics/#domains)**, **[Applications](/verify/getting-started/basics/#applications)**, and **[eID Providers](/verify/getting-started/basics/#eid-providers)**.
 
 <Highlight icon="file-lines">
 
@@ -72,17 +72,17 @@ If you choose to use the _OAuth2 code flow_ - a flow where sensitive information
 
 In our example, _Secure Insurance_ has two apps: a web app (running on a server) and a mobile app. Hence, they would create two applications: one of type using the code flow, and one using the implicit flow, which requires no client secret.
 
-## Identity Sources
+## eID Providers
 
 Now that you have set up your **Applications**, you are ready to configure how your users will log in.
 
-Idura sits between your app and the Identity Sources that authenticate your users (such as Swedish BankID and Danish MitID). Through this abstraction, Idura keeps your app isolated from any changes in the provider's implementation.
+Idura sits between your app and the eID Providers that authenticate your users (such as Swedish BankID and Danish MitID). Through this abstraction, Idura keeps your app isolated from any changes in the provider's implementation.
 
-Each Identity Source can be shared among multiple applications. You may use all the available Identity Sources for all your applications.
+Each eID Provider can be shared among multiple applications. You may use all the available eID Providers for all your applications.
 
 <Highlight icon="info">
 
-Identity sources are already configured for test when you create a tenant. To be able to use an Identity Source in production you will - in most cases - have to enter into some sort of formal agreement with the provider of the particular type of eID.
+eID Providers are already configured for test when you create a tenant. To be able to use an eID Provider in production you will - in most cases - have to enter into some sort of formal agreement with the provider of the particular type of eID.
 
 In most cases, this is handled through the intermediary of Idura, although in some cases you will also have to set up direct agreements (in countries such as Denmark and the Netherlands).
 
