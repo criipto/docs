@@ -1,9 +1,13 @@
 ---
-title: Articles
-subtitle: Articles & help regarding Idura Verify
+product: verify
+title: Samples
+subtitle: Code snippets and styling examples to help you build and customize your login flows with Idura Verify.
+category: Reference
+isSubIndex: true
+sort: 10
 ---
 
-import { isIndexPage } from '../../../utils';
+import { isIndexPage } from '../../../../utils';
 import { groupBy } from 'lodash';
 import { graphql as gatsbyGraphql, Link } from 'gatsby';
 
@@ -12,7 +16,7 @@ export const pageQuery = gatsbyGraphql`
     pages: allMdx(
       filter: {
         frontmatter: {
-          articles: { eq: "verify" }
+          samples: { eq: "verify" }
         }
       }
       sort: {frontmatter: {category: ASC}}
@@ -27,7 +31,7 @@ export const pageQuery = gatsbyGraphql`
           frontmatter {
             title
             subtitle
-            category
+            subcategory
           }
         }
       }
@@ -39,11 +43,11 @@ export const pageQuery = gatsbyGraphql`
   {Object.entries(
     groupBy(
       props.data.pages.edges.map(edge => edge.node),
-      'frontmatter.category',
+      'frontmatter.subcategory',
     ),
-  ).map(([category, pages]) => (
-    <React.Fragment key={category}>
-      <h2>{category}</h2>
+  ).map(([subcategory, pages]) => (
+    <React.Fragment key={subcategory}>
+      <h2>{subcategory}</h2>
       <ul>
         {pages
           .filter(node => !isIndexPage(node))

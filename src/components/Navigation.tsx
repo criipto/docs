@@ -118,9 +118,6 @@ export default function Navigation(props: Props) {
                   </li>
                 );
               })}
-              <SidebarLink to="/verify/articles" onClick={onLinkClick}>
-                Articles
-              </SidebarLink>
             </ul>
           </li>
 
@@ -187,16 +184,6 @@ export default function Navigation(props: Props) {
 
               {/* Pages */}
               <ul className="space-y-2 border-l border-white text-md font-normal">
-                {isVerify && category === 'Guides & Tools' && (
-                  <SidebarLink to="/verify/articles" onClick={props.onLinkClick}>
-                    Articles
-                  </SidebarLink>
-                )}
-                {isVerify && category === 'Reference' && (
-                  <SidebarLink onClick={props.onLinkClick} to="/verify/reference/errors">
-                    Errors
-                  </SidebarLink>
-                )}
                 {pages
                   .filter(node => !isIndexPage(node) && node.frontmatter?.category === category)
                   .map(page => (
@@ -206,6 +193,16 @@ export default function Navigation(props: Props) {
                       </SidebarLink>
                     </li>
                   ))}
+                {isVerify && category === 'Reference' && (
+                  <SidebarLink onClick={props.onLinkClick} to="/verify/reference/errors">
+                    Errors
+                  </SidebarLink>
+                )}
+                {isVerify && category === 'Reference' && (
+                  <SidebarLink to="/verify/reference/samples" onClick={props.onLinkClick}>
+                    Samples
+                  </SidebarLink>
+                )}
               </ul>
             </li>
           );

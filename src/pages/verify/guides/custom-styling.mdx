@@ -12,7 +12,7 @@ import customStyling from './images/custom-styling.png';
 Some of the eID methods require additional dialogs outside of those of the actual eID service.
 These may be styled and enhanced to your liking using one of the following approaches:
 
-1. [Adding your own stylesheet](#custom-css): if your goal is to apply basic styling, including a custom CSS file is all you need.
+1. [Adding your own stylesheet](#custom-css-adding-a-stylesheet): if your goal is to apply basic styling, including a custom CSS file is all you need.
 2. [Adding custom HTML and CSS](#custom-html): can be used for creating more complex UIs (e.g. a layout with extra information around the Idura login box).
 
 <Highlight icon="info">
@@ -36,11 +36,19 @@ You can use your browser's developer tools (Console tab) for troubleshooting.
 
 ## Custom CSS (adding a stylesheet)
 
-You can add your own stylesheet from the `Styling` -> `General` tab of your management dashboard on [dashboard.idura.app](https://dashboard.idura.app/styling).
+You can add your own stylesheet from the **Styling** -> **General** tab of your [Idura Dashboard](https://dashboard.idura.app/styling).
+
+<Highlight icon="info">
+  Your custom CSS is compiled using [PostCSS](https://postcss.org/) with
+  [Autoprefixer](https://github.com/postcss/autoprefixer), [PostCSS Preset
+  Env](https://preset-env.cssdb.org/), and [PostCSS
+  Nesting](https://www.npmjs.com/package/postcss-nesting) plugins enabled. This means you can use
+  modern CSS features without worrying about browser compatibility.
+</Highlight>
 
 ### Preview of the user-facing dialogs
 
-In the `General` tab, you can see a preview of the user-facing dialogs - such as the ones for SE BankID:
+In the **General** tab, you can see a preview of the user-facing dialogs, such as the ones for SE BankID:
 
 ![Previews](./images/preview-sebankid.png)
 
@@ -48,7 +56,7 @@ Each eID method supports a specific set of languages - see [UI Language](/verify
 
 Each of the previews is shown in mobile device size by default, but you can expand each of the previews to desktop size by clicking on the dashed square shown just above each preview. In desktop mode, all dialogs will have a customizable common header and footer structure, as well as the elements presented for mobile devices.
 
-You can enter a URL to your own (self-hosted) style sheet just above the previews, and experiment with the effect of changing the preview tile size. The previews use the value in the `Link to your own style sheet` field, so you can see the effect of your customizations before you hit `Save`.
+You can enter a URL to your own (self-hosted) style sheet just above the previews, and experiment with the effect of changing the preview tile size. The previews use the value in the **Link to your own style sheet** field, so you can see the effect of your customizations before you hit **Save**.
 
 ![Custom Styling](./images/custom-styling.png)
 
@@ -190,7 +198,9 @@ You can change the texts in the `<h1 id="headline">` element via the following C
 </footer>
 ```
 
-**_Note_** The text elements in the last 3 paragraphs in the `<aside>` are intentionally left blank by default.
+<Highlight icon="info">
+ The text elements in the last 3 paragraphs in the `<aside>` are intentionally left blank by default.
+</Highlight>
 
 You can change the texts in each of the `<p>` elements via the following CSS:
 
@@ -212,9 +222,9 @@ You can change the texts in each of the `<p>` elements via the following CSS:
 }
 ```
 
-where the first selector hides all the default texts in the `<aside id="description">` element in one go, and the subsequent 4 selectors add language-specific texts per `<p>` element.
+The first selector hides all the default texts in the `<aside id="description">` element in one go, and the subsequent 4 selectors add language-specific texts per `<p>` element.
 
-If you want to show text in one of the hidden-by-default `<p>` elements, you can do the following (here, the third `<p>` is having an English text added):
+If you want to show text in one of the hidden-by-default `<p>` elements, you can do the following (here, we add English text to the third `<p>` element):
 
 ```css
 #description p:nth-child(3) {
@@ -225,7 +235,9 @@ If you want to show text in one of the hidden-by-default `<p>` elements, you can
 }
 ```
 
-**_Note_** The first selector is needed to "undo" the effect of the `default-hidden` class on the third `<p>` element.
+<Highlight icon="info">
+ The first selector is needed to "undo" the effect of the `default-hidden` class on the third `<p>` element.
+</Highlight>
 
 ### CSS classes
 
@@ -237,7 +249,7 @@ Each `<body>` element has up to 5 CSS classes attached to it:
 2. Indicator that this is a page from Idura Verify - `broker`. This makes it possible to target our pages specifically, even if you use the same CSS file for different websites.
 3. Indicator of the flow in use - authentication (`auth`) or signature (`sign`).
 4. Indicator of which DNS name the page is loaded on.
-5. (Optional) Your very own CSS class name on a per-application basis. You can set it in the management UI as well.
+5. (Optional) Your very own CSS class name on a per-application basis. You can set it up in the **UI** section of your application settings in the [Idura Dashboard](https://dashboard.idura.app/).
 
 Putting it all together, for a case where:
 
@@ -280,7 +292,7 @@ Should you also want to change the wording for signature flow, you could add the
 
 You can create your preferred webpage structure around the login box on the Idura login screens by adding custom HTML (with accompanying CSS).
 
-This can be done from the `Styling` -> `Custom UI` tab of your management dashboard on [dashboard.idura.app](https://dashboard.idura.app/styling).
+Access this feature from the **Styling** -> **Custom UI** tab of your [Idura Dashboard](https://dashboard.idura.app/styling).
 
 ![Custom HTML](./images/custom-ui.png)
 
@@ -288,7 +300,7 @@ This can be done from the `Styling` -> `Custom UI` tab of your management dashbo
 
 You can use the built-in code editor to add your custom HTML and CSS.
 
-The preview of the user-facing dialogs will be rendered as you save your code (`Save draft`). You can see the preview with different eIDs and screen sizes by selecting the desired values from the dropdowns:
+The preview of the user-facing dialogs will be rendered as you save your code (**Save draft**). You can see the preview with different eIDs and screen sizes by selecting the desired values from the dropdowns:
 
 ![Custom HTML Preview](./images/custom-ui-preview.png)
 
@@ -300,13 +312,13 @@ import StyleOriginsSnippet from '../../../snippets/style-origins.mdx';
 
 ### Publishing
 
-You can publish your draft code when ready by clicking on `Publish to test` / `Publish to production`. This will make it immediately active on logins running within the environment you're developing in.
+You can publish your draft code when ready by clicking on **Publish to test** / **Publish to production**. This will make it immediately active on logins running within the environment you're developing in.
 
 After publishing, if facing issues or otherwise, a published version can be rolled back or completely unpublished to revert the UI to its original state.
 
 ### UI examples
 
-For inspiration, take a look at [various examples of custom UIs](/verify/articles/custom-ui-samples).
+For inspiration, take a look at [various examples of custom UIs](/verify/reference/samples/custom-ui-samples).
 
 ### Feedback
 
