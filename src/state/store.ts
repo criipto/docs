@@ -51,7 +51,13 @@ const exampleDataInitialState: ExampleData = {
   createSignatureOrder: null,
   closeSignatureOrder: null,
   addSignatory: null,
-  language: null,
+  language: (() => {
+    try {
+      return localStorage.getItem('signatures_sdk_language') as ExampleLanguage ?? null;
+    } catch (_) {
+      return sessionStorage.getItem('signatures_sdk_language') as ExampleLanguage ?? null;
+    }
+  })(),
 };
 const exampleDataSlice = createSlice({
   name: 'exampleData',
@@ -76,10 +82,16 @@ const exampleDataSlice = createSlice({
       ...state,
       addSignatory: action.payload,
     }),
-    language: (state: ExampleData, action: PayloadAction<ExampleData['language']>) => ({
-      ...state,
-      language: action.payload,
-    }),
+    language: (state: ExampleData, action: PayloadAction<NonNullable<ExampleData['language']>>) => {
+      sessionStorage.setItem('signatures_sdk_language', action.payload);
+      try {
+        localStorage.setItem('signatures_sdk_language', action.payload);
+      } catch (err) {}
+      return {
+        ...state,
+        language: action.payload,
+      }
+    },
   },
 });
 
