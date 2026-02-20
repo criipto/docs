@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import cx from 'classnames';
-import { useStaticQuery, graphql as gatsbyGraphql, Link } from 'gatsby';
+import { useStaticQuery, graphql as gatsbyGraphql, Link, GatsbyLinkProps } from 'gatsby';
 import { NavigationQuery } from '../../graphql-gatsby-types';
 import { PageNavigation, PageNavigationItem } from './PageNavigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { isIndexPage } from '../utils';
+import { isIndexPage, findIndexPage, slugToPath } from '../utils';
+import { ProductSelect } from './ProductSelect';
+import { BreadcrumbSeparator } from './BreadcrumbSeparator';
 import xMarkIcon from '../images/xmark-icon.svg';
+import { SidebarLink } from './SidebarLink';
 
 const SIGNATURES_CATEGORIES = ['Getting Started', 'GraphQL', 'Integrations', 'Guides', 'Webhooks'];
 
@@ -16,13 +19,6 @@ const VERIFY_CATEGORIES = [
   'Integrations',
   'Reference',
 ];
-
-function slugToPath(slug: string) {
-  if (slug.endsWith('/')) {
-    return `/${slug}`;
-  }
-  return `/${slug}/`;
-}
 
 interface Props {
   path: string | undefined;
@@ -75,148 +71,157 @@ const navigationQuery = gatsbyGraphql`query Navigation {
   }
 }`;
 
-type Page =
-  | NavigationQuery['signaturesPages']['edges'][0]['node']
-  | NavigationQuery['verifyPages']['edges'][0]['node'];
-
-export default function Navigation(props: Props) {
-  const { path } = props;
-  const isVerify = path?.startsWith('/verify');
-  const isSignatures = path?.startsWith('/signatures');
+function useNavigationData() {
   const data = useStaticQuery<NavigationQuery>(navigationQuery);
 
-  const signaturesPages = data.signaturesPages.edges.map(edge => edge.node);
-  const verifyPages = data.verifyPages.edges.map(edge => edge.node);
+  return useMemo(
+    () => ({
+      signaturesPages: data.signaturesPages.edges.map(edge => edge.node),
+      verifyPages: data.verifyPages.edges.map(edge => edge.node),
+    }),
+    [data],
+  );
+}
 
-  const findIndexPage = (category: string, pages: Page[]) => {
-    return pages.find(node => isIndexPage(node) && node.frontmatter?.category === category);
-  };
+export default function Navigation(props: Props) {
+  const { path, onLinkClick } = props;
+  const isVerify = path?.startsWith('/verify');
+  const isSignatures = path?.startsWith('/signatures');
 
+  const { signaturesPages, verifyPages } = useNavigationData();
+
+  /* Homepage navigation */
   if (!isVerify && !isSignatures) {
     return (
-      <ul>
-        <li>
-          <Link
-            to="/verify"
-            className="block mb-3 font-medium text-primary-600 text-lg"
-            onClick={props.onLinkClick}
-          >
-            Idura Verify
-          </Link>
-          <ul className="space-y-2 border-l border-white text-md font-normal">
-            {VERIFY_CATEGORIES.map((category, index) => (
-              <li key={category}>
-                <Link
-                  to={slugToPath(findIndexPage(category, verifyPages)!.fields!.slug!)}
-                  className="block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent hover:border-light-blue-300/40 text-primary-600 hover:text-light-blue-900 hover:font-medium"
-                  onClick={props.onLinkClick}
-                >
-                  {category}
-                </Link>
-              </li>
-            ))}
+      <>
+        <ProductSelect />
+        <ul>
+          {/* Verify */}
+          <li>
             <Link
-              to="/verify/articles"
-              className="block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent hover:border-light-blue-300/40 text-primary-600 hover:text-light-blue-900 hover:font-medium"
-              onClick={props.onLinkClick}
+              to="/verify"
+              className="block mb-3 font-medium text-primary-600 text-lg hover:text-light-blue-900"
+              onClick={onLinkClick}
             >
-              Articles
+              Idura Verify
             </Link>
-          </ul>
-        </li>
-        <li className="mt-8">
-          <Link
-            to="/signatures"
-            className="block mb-3 font-medium text-primary-600 text-lg"
-            onClick={props.onLinkClick}
-          >
-            Idura Signatures
-          </Link>
-          <ul className="space-y-2 border-l border-white text-md font-normal">
-            {SIGNATURES_CATEGORIES.map((category, index) => (
-              <li key={category}>
-                <Link
-                  to={slugToPath(findIndexPage(category, signaturesPages)!.fields!.slug!)}
-                  className="block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent hover:border-light-blue-300/40 text-primary-600 hover:text-light-blue-900 hover:font-medium"
-                  onClick={props.onLinkClick}
-                >
-                  {category}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </li>
-      </ul>
+            <ul className="space-y-2 border-l border-white text-md font-normal">
+              {VERIFY_CATEGORIES.map(category => {
+                const indexPage = findIndexPage(category, verifyPages);
+                if (!indexPage?.fields?.slug) return null;
+
+                return (
+                  <li key={category}>
+                    <SidebarLink to={slugToPath(indexPage.fields.slug)} onClick={onLinkClick}>
+                      {category}
+                    </SidebarLink>
+                  </li>
+                );
+              })}
+              <SidebarLink to="/verify/articles" onClick={onLinkClick}>
+                Articles
+              </SidebarLink>
+            </ul>
+          </li>
+
+          {/* Signatures */}
+          <li className="mt-8">
+            <Link
+              to="/signatures"
+              className="block mb-3 font-medium text-primary-600 text-lg hover:text-light-blue-900"
+              onClick={onLinkClick}
+            >
+              Idura Signatures
+            </Link>
+            <ul className="space-y-2 border-l border-white text-md font-normal">
+              {SIGNATURES_CATEGORIES.map(category => {
+                const indexPage = findIndexPage(category, signaturesPages);
+                if (!indexPage?.fields?.slug) return null;
+
+                return (
+                  <li key={category}>
+                    <SidebarLink to={slugToPath(indexPage.fields.slug)} onClick={onLinkClick}>
+                      {category}
+                    </SidebarLink>
+                  </li>
+                );
+              })}
+            </ul>
+          </li>
+        </ul>
+      </>
     );
   }
 
+  /* Product-specific navigation */
   const categories = isSignatures ? SIGNATURES_CATEGORIES : VERIFY_CATEGORIES;
   const pages = isSignatures ? signaturesPages : verifyPages;
 
   return (
-    <ul>
-      {categories.map((category, index) => (
-        <li key={category} className={index > 0 ? 'mt-8' : ''}>
-          {findIndexPage(category, pages) ? (
-            <Link
-              to={slugToPath(findIndexPage(category, pages)!.fields!.slug!)}
-              className="block mb-3 font-medium text-primary-600"
-              onClick={props.onLinkClick}
-            >
-              {category}
-            </Link>
-          ) : (
-            <h5 className="mb-3 font-medium text-primary-600">{category}</h5>
-          )}
-          <ul className="space-y-2 border-l border-white text-md font-normal">
-            {isVerify && category === 'Guides & Tools' && (
-              <Link
-                onClick={props.onLinkClick}
-                to="/verify/articles"
-                getProps={props => ({
-                  className: `block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent ${props.isCurrent ? 'text-light-blue-900 border-current font-medium' : 'hover:border-light-blue-300/40 text-primary-600 hover:text-light-blue-900 hover:font-medium'}`,
-                })}
-              >
-                Articles
-              </Link>
-            )}
-            {isVerify && category === 'Reference' && (
-              <Link
-                onClick={props.onLinkClick}
-                to="/verify/reference/errors"
-                getProps={props => ({
-                  className: `block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent ${props.isCurrent ? 'text-light-blue-900 border-current font-medium' : 'hover:border-light-blue-300/40 text-primary-600 hover:text-light-blue-900 hover:font-medium'}`,
-                })}
-              >
-                Errors
-              </Link>
-            )}
-            {pages
-              .filter(node => !isIndexPage(node) && node.frontmatter?.category === category)
-              .map(page => (
-                <li key={page.id}>
-                  <Link
-                    onClick={props.onLinkClick}
-                    to={slugToPath(page.fields!.slug!)}
-                    getProps={props => ({
-                      className: `block border-l pl-4 py-1 lg:py-0 -ml-px border-transparent ${props.isCurrent ? 'text-light-blue-900 border-current font-medium' : 'hover:border-light-blue-300/40 text-primary-600 hover:text-deep-purple-900 hover:font-medium'}`,
-                    })}
-                  >
-                    {page.frontmatter!.title}
-                  </Link>
-                </li>
-              ))}
-          </ul>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ProductSelect />
+      <ul>
+        {categories.map((category, index) => {
+          const categoryIndexPage = findIndexPage(category, pages);
+          return (
+            <li key={category} className={index > 0 ? 'mt-8' : ''}>
+              {/* Category header */}
+              {categoryIndexPage?.fields?.slug ? (
+                <Link
+                  to={slugToPath(categoryIndexPage.fields.slug)}
+                  getProps={({ isCurrent }) => ({
+                    className: cx(
+                      'block mb-3 font-medium',
+                      isCurrent
+                        ? 'text-light-blue-900'
+                        : 'text-primary-600 hover:text-light-blue-900',
+                    ),
+                  })}
+                  onClick={onLinkClick}
+                >
+                  {category}
+                </Link>
+              ) : (
+                <h5 className="mb-3 font-medium text-primary-600">{category}</h5>
+              )}
+
+              {/* Pages */}
+              <ul className="space-y-2 border-l border-white text-md font-normal">
+                {isVerify && category === 'Guides & Tools' && (
+                  <SidebarLink to="/verify/articles" onClick={props.onLinkClick}>
+                    Articles
+                  </SidebarLink>
+                )}
+                {isVerify && category === 'Reference' && (
+                  <SidebarLink onClick={props.onLinkClick} to="/verify/reference/errors">
+                    Errors
+                  </SidebarLink>
+                )}
+                {pages
+                  .filter(node => !isIndexPage(node) && node.frontmatter?.category === category)
+                  .map(page => (
+                    <li key={page.id}>
+                      <SidebarLink to={slugToPath(page.fields!.slug!)} onClick={onLinkClick}>
+                        {page.frontmatter!.title}
+                      </SidebarLink>
+                    </li>
+                  ))}
+              </ul>
+            </li>
+          );
+        })}
+      </ul>
+    </>
   );
 }
 
 export function DesktopNavigation(props: Props) {
   return (
     <div
-      className={`hidden ${props.hidden !== true ? 'lg:block' : ''} border-r border-light-blue-300/40 fixed z-20 inset-0 top-[51px] left-0 w-[max(17.5rem, calc(50%-768px+17.5rem))] pl-[calc(50%-768px)] right-auto overflow-y-auto mr-8`}
+      className={cx(
+        'hidden border-r border-light-blue-300/40 fixed z-20 inset-0 top-[51px] left-0 pl-[calc(50%-768px)] right-auto overflow-y-auto',
+        { 'lg:block': !props.hidden },
+      )}
     >
       <div className="w-[17.5rem] py-10 pl-8">
         <Navigation {...props} />
@@ -230,17 +235,53 @@ type MobileProps = Props & {
   pageNavigationItems?: PageNavigationItem[];
   isEmbedded: boolean;
 };
-export function MobileNavigation(props: Props & MobileProps) {
-  const category = props.frontmatter?.category;
-  const title = props.frontmatter?.title;
+export function MobileNavigation(props: MobileProps) {
+  const { path, frontmatter } = props;
   const [showNavigation, setShowNavigation] = useState(false);
   const [showPageNavigation, setPageShowNavigation] = useState(false);
+
+  const { signaturesPages, verifyPages } = useNavigationData();
+
+  const cleanPath = (path || '').split('?')[0].replace(/\/+$/, '');
+  const isVerify = path?.startsWith('/verify');
+  const isSignatures = path?.startsWith('/signatures');
+
+  const pages = isSignatures ? signaturesPages : verifyPages;
+
+  const getMobileBreadcrumb = () => {
+    if (!cleanPath) return { category: 'Welcome' };
+
+    let product = undefined;
+    if (cleanPath.startsWith('/verify')) product = 'verify';
+    if (cleanPath.startsWith('/signatures')) product = 'signatures';
+
+    // If exact match on product root, return only product
+    if (cleanPath === `/${product}`) return { product };
+
+    // Otherwise return full details
+    return {
+      product,
+      category: frontmatter?.category,
+      title: frontmatter?.title,
+    };
+  };
+
+  const { product, category, title } = getMobileBreadcrumb();
+
+  const categoryIndexSlug =
+    category && (isVerify || isSignatures)
+      ? findIndexPage(category, pages)?.fields?.slug
+      : undefined;
+
+  const categoryHref = categoryIndexSlug ? slugToPath(categoryIndexSlug) : undefined;
+  const currentNode = pages.find(n => slugToPath(n.fields!.slug!) === `${cleanPath}/`);
+  const isCategoryIndexPage = currentNode ? isIndexPage(currentNode) : false;
 
   return (
     <React.Fragment>
       <div
         className={cx(
-          'flex justify-between lg:hidden sticky z-30 backdrop-blur duration-500 border-light-blue-300/40 border-b supports-backdrop-blur:bg-white/60 p-4',
+          'flex justify-between lg:hidden sticky z-30 backdrop-blur duration-500 border-light-blue-300/40 border-b supports-backdrop-blur:bg-white/60 p-4 sm:px-6 md:px-8',
           {
             'top-[45px]': !props.isEmbedded,
             'top-0': props.isEmbedded,
@@ -267,28 +308,27 @@ export function MobileNavigation(props: Props & MobileProps) {
             </button>
           )}
 
-          {category && title ? (
-            <ol className="flex text-sm leading-6 whitespace-nowrap min-w-0">
-              <li className="flex items-center">
-                {category}
-                <svg
-                  width="3"
-                  height="6"
-                  aria-hidden="true"
-                  className="mx-3 overflow-visible text-light-blue-500"
-                >
-                  <path
-                    d="M0 0L3 3L0 6"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  ></path>
-                </svg>
+          <ol className="flex items-center text-sm leading-6 whitespace-nowrap min-w-0">
+            {product && (
+              <li className="flex items-center shrink-0">
+                <Link to={`/${product}`}>{product === 'verify' ? 'Verify' : 'Signatures'}</Link>
+                {category && <BreadcrumbSeparator />}
               </li>
-              <li className="font-medium text-light-blue-900 max-w-8 whitespace-normal">{title}</li>
-            </ol>
-          ) : null}
+            )}
+            {category && title ? (
+              <li className="flex items-center min-w-0">
+                {categoryHref ? <Link to={categoryHref}>{category}</Link> : <span>{category}</span>}
+                {title && !isCategoryIndexPage ? (
+                  <>
+                    <BreadcrumbSeparator />
+                    <span className="font-medium text-light-blue-900 whitespace-normal">
+                      {title}
+                    </span>
+                  </>
+                ) : null}
+              </li>
+            ) : null}
+          </ol>
         </div>
 
         {props.pageNavigationItems ? (
