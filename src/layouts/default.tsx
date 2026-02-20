@@ -67,48 +67,75 @@ export default function DefaultLayout(props: {
       />
       <div
         className={cx({
-          'px-4 sm:px-6 md:px-8': !isEmbedded,
+          'px-4 sm:px-6 md:px-8 mx-auto w-full max-w-screen-2xl': !isEmbedded,
         })}
         key="content"
       >
+        {/* Outer centered container */}
         <div
           className={cx({
-            'mx-auto max-w-screen-2xl pt-5 lg:pt-10 lg:pl-[22rem] xl:pr-[22rem]': !isEmbedded,
+            'pt-5 lg:pt-10': !isEmbedded,
           })}
         >
-          <DesktopNavigation key="desktopNav" path={props.location.pathname} hidden={isEmbedded} />
-          <a id="overview" />
-          <IduraBanner
-            onClose={props.onCloseBanner}
-            isVisible={props.isIduraBannerVisible}
-            className="xl:hidden"
-          />
-          {frontmatter && (
-            <header id="header" className="relative z-20 mb-8">
-              <div>
-                {!isEmbedded && frontmatter.category && (
-                  <p className="mb-2 text-lg leading-6 font-sans font-semibold text-light-blue-600 uppercase">
-                    {breadcrumb ? (
-                      <React.Fragment>
-                        <Link to={breadcrumb.href}>{breadcrumb.label}</Link>
-                        &nbsp;/&nbsp;
-                      </React.Fragment>
-                    ) : null}
-                    {frontmatter.category}
-                  </p>
-                )}
-                <h1 className="inline-block text-display-xl font-medium text-light-blue-900 tracking-tight">
-                  {frontmatter.title}
-                </h1>
-              </div>
-              {!isEmbedded && frontmatter.subtitle && (
-                <p className="mt-2 text-lg text-light-blue-800 max-w-screen-sm">
-                  {frontmatter.subtitle}
-                </p>
+          {/* Layout grid:
+              - mobile: single column
+              - lg: 2 columns (22rem nav + flexible content)
+              - xl: 3 columns (22rem nav + flexible content + 22rem right column)
+          */}
+          <div
+            className={cx({
+              'lg:grid lg:grid-cols-[22rem_minmax(0,1fr)] lg:gap-x-0 xl:grid-cols-[22rem_minmax(0,1fr)_22rem]':
+                !isEmbedded,
+            })}
+          >
+            {/* Left column: Desktop navigation */}
+            <div className={cx({ 'hidden lg:block': !isEmbedded })}>
+              <DesktopNavigation
+                key="desktopNav"
+                path={props.location.pathname}
+                hidden={isEmbedded}
+              />
+            </div>
+
+            {/* Middle column: Main content */}
+            <div>
+              <a id="overview" />
+              <IduraBanner
+                onClose={props.onCloseBanner}
+                isVisible={props.isIduraBannerVisible}
+                className="xl:hidden"
+              />
+              {frontmatter && (
+                <header id="header" className="relative z-20 mb-8">
+                  <div>
+                    {!isEmbedded && frontmatter.category && (
+                      <p className="hidden lg:block mb-2 text-lg leading-6 font-sans font-semibold text-light-blue-600 uppercase">
+                        {breadcrumb ? (
+                          <React.Fragment>
+                            <Link to={breadcrumb.href}>{breadcrumb.label}</Link>
+                            &nbsp;/&nbsp;
+                          </React.Fragment>
+                        ) : null}
+                        {frontmatter.category}
+                      </p>
+                    )}
+                    <h1 className="inline-block text-display-xl font-medium text-light-blue-900 tracking-tight">
+                      {frontmatter.title}
+                    </h1>
+                  </div>
+                  {!isEmbedded && frontmatter.subtitle && (
+                    <p className="mt-2 text-lg text-light-blue-800 max-w-screen-sm">
+                      {frontmatter.subtitle}
+                    </p>
+                  )}
+                </header>
               )}
-            </header>
-          )}
-          {props.children}
+              {props.children}
+            </div>
+
+            {/* Right column: reserved space (22rem) for xl screens.*/}
+            <div className="hidden xl:block" />
+          </div>
         </div>
       </div>
     </div>
