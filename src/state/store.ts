@@ -45,13 +45,13 @@ export type ExampleData = {
   createSignatureOrder?: CreateSignatureOrderOutput | null;
   closeSignatureOrder?: CloseSignatureOrderOutput | null;
   addSignatory?: AddSignatoryOutput | null;
-  language: ExampleLanguage;
+  language: ExampleLanguage | null;
 };
 const exampleDataInitialState: ExampleData = {
   createSignatureOrder: null,
   closeSignatureOrder: null,
   addSignatory: null,
-  language: 'graphql',
+  language: null,
 };
 const exampleDataSlice = createSlice({
   name: 'exampleData',

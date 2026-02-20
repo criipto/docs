@@ -79,30 +79,40 @@ export default function SignaturesExample(props: Props) {
   if ('query' in props.example) {
     return <GraphQLExampleComponent example={props.example} />;
   }
-
   const language = useAppSelector(state => state.exampleData.language);
   const dispatch = useAppDispatch();
-  const example = props.example.find(e => toExampleLanguage(e) === language) ?? props.example[0];
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch(setLanguage(event.target.value as ExampleLanguage));
+    dispatch(setLanguage(event.target.value as ExampleLanguage))
   };
 
+  const languagePicker = (
+    <select
+      className="shadow border rounded py-1 px-2 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
+      value={language ?? ''}
+      onChange={handleChange}
+    >
+      <option value="" disabled>Pick coding language to view example</option>
+      {props.example.map(example => (
+        <option value={toExampleLanguage(example)}>{toExampleDisplay(example)}</option>
+      ))}
+    </select>
+  );
+
+  if (!language) {
+    return (
+      <div>
+        {languagePicker}
+      </div>
+    )
+  }
+
+  const example = props.example.find(e => toExampleLanguage(e) === language) ?? props.example[0];
   return (
     <React.Fragment>
-      {props.example.length > 1 ? (
-        <div className="flex flex-row justify-end">
-          <select
-            className="shadow border rounded py-1 px-2 text-light-blue-800 leading-5 focus:outline-none focus:shadow-outline"
-            value={language}
-            onChange={handleChange}
-          >
-            {props.example.map(example => (
-              <option value={toExampleLanguage(example)}>{toExampleDisplay(example)}</option>
-            ))}
-          </select>
-        </div>
-      ) : null}
+      <div className="flex flex-row justify-end">
+        {languagePicker}
+      </div>
       {'csharp' in example ? (
         <Code className="language-csharp" style={{ marginTop: '1px' }}>
           {example.csharp}
