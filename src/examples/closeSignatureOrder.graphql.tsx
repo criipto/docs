@@ -62,6 +62,13 @@ mutation examplesCloseSignatureOrder(
             }
           }
 
+          ... on NorwegianBankIdSignature {
+            claims {
+              name
+              value
+            }
+          }
+
           ... on DrawableSignature {
             name
             image
@@ -73,6 +80,13 @@ mutation examplesCloseSignatureOrder(
               ... on JWTSignature {
                 jwt
                 jwks
+                claims {
+                  name
+                  value
+                }
+              }
+
+              ... on NorwegianBankIdSignature {
                 claims {
                   name
                   value
