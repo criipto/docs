@@ -43,8 +43,7 @@ function HideableCodeBlock(props: {
   );
 }
 
-function GraphQLExampleComponent(props: { example: GraphQLExample; style?: React.CSSProperties }) {
-  const [hasSkipped, setSkipped] = useState(false);
+function RawGraphQLExampleComponent(props: { example: GraphQLExample; className?: string, style?: React.CSSProperties }) {
   const data = useAppSelector(state => state.exampleData);
   const variables = props.example.variables
     ? JSON.stringify(props.example.variables(data), null, 2)
@@ -55,15 +54,34 @@ function GraphQLExampleComponent(props: { example: GraphQLExample; style?: React
     <React.Fragment>
       <HideableCodeBlock
         text={'# Query\n' + query}
-        className={hasSkipped ? 'block' : 'block lg:hidden'}
+        className={`block ${props.className ?? ''}`}
         style={props.style}
       />
       {variables && (
         <HideableCodeBlock
           text={'# Variables\n' + variables}
-          className={hasSkipped ? 'block' : 'block lg:hidden'}
+          className={`block ${props.className ?? ''}`}
         />
       )}
+    </React.Fragment>
+  );
+}
+
+function InteractiveGraphQLExampleComponent(props: { example: GraphQLExample; style?: React.CSSProperties }) {
+  const [hasSkipped, setSkipped] = useState(false);
+  const data = useAppSelector(state => state.exampleData);
+  const variables = props.example.variables
+    ? JSON.stringify(props.example.variables(data), null, 2)
+    : null;
+  const query = props.example.query.trim();
+
+  return (
+    <React.Fragment>
+      <RawGraphQLExampleComponent
+        example={props.example}
+        className={hasSkipped ? 'block' : 'block lg:hidden'}
+        style={props.style}
+      />
       <GraphQLExplorer
         query={query}
         variables={variables}
@@ -77,7 +95,7 @@ function GraphQLExampleComponent(props: { example: GraphQLExample; style?: React
 
 export default function SignaturesExample(props: Props) {
   if ('query' in props.example) {
-    return <GraphQLExampleComponent example={props.example} />;
+    return <InteractiveGraphQLExampleComponent example={props.example} />;
   }
   const language = useAppSelector(state => state.exampleData.language);
   const dispatch = useAppDispatch();
@@ -126,7 +144,7 @@ export default function SignaturesExample(props: Props) {
           {example.python}
         </Code>
       ) : 'query' in example ? (
-        <GraphQLExampleComponent example={example} style={{ marginTop: '1px' }} />
+        <InteractiveGraphQLExampleComponent example={example} style={{ marginTop: '1px' }} />
       ) : null}
     </React.Fragment>
   );
