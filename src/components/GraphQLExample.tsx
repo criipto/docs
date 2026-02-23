@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
+import {match, P} from 'ts-pattern';
 import GraphQLExplorer from './GraphQLExplorer';
 import { Button } from './Button/Button';
 import { useAppDispatch, useAppSelector } from '../state/hooks';
 import {
   GraphQLExample,
   Example,
-  toExampleDisplay,
-  toExampleLanguage,
+  toLanguageDisplay,
   ExampleLanguage,
+  EXAMPLE_LANGUAGES,
 } from '../examples/misc';
 import { Code } from './MdxProvider';
 import { setLanguage } from '../state/store';
@@ -68,8 +69,9 @@ function RawGraphQLExampleComponent(props: { example: GraphQLExample; className?
 }
 
 function InteractiveGraphQLExampleComponent(props: { example: GraphQLExample; style?: React.CSSProperties }) {
-  const [hasSkipped, setSkipped] = useState(false);
   const data = useAppSelector(state => state.exampleData);
+  const hasSkipped = data.language === 'graphql-raw';
+  const dispatch = useAppDispatch();
   const variables = props.example.variables
     ? JSON.stringify(props.example.variables(data), null, 2)
     : null;
@@ -86,7 +88,7 @@ function InteractiveGraphQLExampleComponent(props: { example: GraphQLExample; st
         query={query}
         variables={variables}
         className={hasSkipped ? 'hidden' : 'hidden lg:block'}
-        onSkipCredentials={() => setSkipped(true)}
+        onSkipCredentials={() => dispatch(setLanguage('graphql-raw'))}
         style={props.style}
       />
     </React.Fragment>
@@ -94,9 +96,7 @@ function InteractiveGraphQLExampleComponent(props: { example: GraphQLExample; st
 }
 
 export default function SignaturesExample(props: Props) {
-  if ('query' in props.example) {
-    return <InteractiveGraphQLExampleComponent example={props.example} />;
-  }
+  const examples = Array.isArray(props.example) ? props.example : [props.example];
   const language = useAppSelector(state => state.exampleData.language);
   const dispatch = useAppDispatch();
 
@@ -111,8 +111,8 @@ export default function SignaturesExample(props: Props) {
       onChange={handleChange}
     >
       <option value="" disabled>Pick coding language to view example</option>
-      {props.example.map(example => (
-        <option value={toExampleLanguage(example)}>{toExampleDisplay(example)}</option>
+      {EXAMPLE_LANGUAGES.map(language => (
+        <option value={language}>{toLanguageDisplay(language)}</option>
       ))}
     </select>
   );
@@ -125,27 +125,109 @@ export default function SignaturesExample(props: Props) {
     )
   }
 
-  const example = props.example.find(e => toExampleLanguage(e) === language) ?? props.example[0];
+  const example = 
+    examples.find(e => 
+      match({example: e, language})
+        .with({
+          example: {
+            query: P.string,
+          },
+          language: 'graphql-raw'
+        }, () => true)
+        .with({
+          example: {
+            query: P.string,
+          },
+          language: 'graphql-interactive'
+        }, () => true)
+        .with({
+          example: {
+            csharp: P.string,
+          },
+          language: 'csharp'
+        }, () => true)
+        .with({
+          example: {
+            nodejs: P.string,
+          },
+          language: 'nodejs'
+        }, () => true)
+        .with({
+          example: {
+            python: P.string,
+          },
+          language: 'python'
+        }, () => true)
+        .otherwise(() => false)
+    ) 
+    ?? examples.find(e => 'query' in e)
+    ?? null;
+
+  if (!example) {
+    console.error(`Unable to determine example for ${language}/${JSON.stringify(examples)}`);
+    return null;
+  }
+  
   return (
     <React.Fragment>
       <div className="flex flex-row justify-end">
         {languagePicker}
       </div>
-      {'csharp' in example ? (
-        <Code className="language-csharp" style={{ marginTop: '1px' }}>
-          {example.csharp}
-        </Code>
-      ) : 'nodejs' in example ? (
-        <Code className="language-javascript" style={{ marginTop: '1px' }}>
-          {example.nodejs}
-        </Code>
-      ) : 'python' in example ? (
-        <Code className="language-python" style={{ marginTop: '1px' }}>
-          {example.python}
-        </Code>
-      ) : 'query' in example ? (
-        <InteractiveGraphQLExampleComponent example={example} style={{ marginTop: '1px' }} />
-      ) : null}
+      {
+        match({example, language})
+          .with({
+            example: {
+              csharp: P.string,
+            }
+          }, ({example}) => (
+            <Code className="language-csharp" style={{ marginTop: '1px' }}>
+              {example.csharp}
+            </Code>
+          ))
+          .with({
+            example: {
+              nodejs: P.string
+            }
+          }, ({example}) => (
+            <Code className="language-javascript" style={{ marginTop: '1px' }}>
+              {example.nodejs}
+            </Code>
+          ))
+          .with({
+            example: {
+              python: P.string
+            }
+          }, ({example}) => (
+            <Code className="language-python" style={{ marginTop: '1px' }}>
+              {example.python}
+            </Code>
+          ))
+          .with({
+            example: {
+              query: P.string,
+            },
+            language: 'graphql-interactive'
+          }, ({example}) => (
+            <InteractiveGraphQLExampleComponent example={example} style={{ marginTop: '1px' }} />
+          ))
+          .with({
+            example: {
+              query: P.string,
+            },
+            language: 'graphql-raw'
+          }, ({example}) => (
+            <RawGraphQLExampleComponent example={example} style={{ marginTop: '1px' }} />
+          ))
+          .with({
+            example: {
+              query: P.string,
+            },
+            language: P.any
+          }, ({example}) => (
+            <RawGraphQLExampleComponent example={example} style={{ marginTop: '1px' }} />
+          ))
+          .exhaustive()
+      }
     </React.Fragment>
   );
 }
