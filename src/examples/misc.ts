@@ -18,36 +18,29 @@ export interface PythonExample {
 }
 
 export type Example = GraphQLExample | CSharpExample | NodeJSExample | PythonExample;
-export type ExampleLanguage = 'graphql' | 'csharp' | 'javascript' | 'python';
+export const EXAMPLE_LANGUAGES = [
+  'graphql-raw',
+  'graphql-interactive',
+  'csharp',
+  'nodejs',
+  'python'
+] as const;
+export type ExampleLanguage = typeof EXAMPLE_LANGUAGES[number];
 
-export function toExampleLanguage(input: Example): ExampleLanguage {
-  if ('query' in input) {
-    return 'graphql';
+export function toLanguageDisplay(input: ExampleLanguage) {
+  if (input === 'graphql-raw') {
+    return 'GraphQL (Raw)';
   }
-  if ('csharp' in input) {
-    return 'csharp';
+  if (input === 'graphql-interactive') {
+    return 'GraphQL (Interactive)';
   }
-  if ('nodejs' in input) {
-    return 'javascript';
-  }
-  if ('python' in input) {
-    return 'python';
-  }
-
-  assertUnreachable(input);
-}
-
-export function toExampleDisplay(input: Example) {
-  if ('query' in input) {
-    return 'GraphQL';
-  }
-  if ('csharp' in input) {
+  if (input === 'csharp') {
     return '.NET (C#)';
   }
-  if ('nodejs' in input) {
+  if (input === 'nodejs') {
     return 'Node.js';
   }
-  if ('python' in input) {
+  if (input === 'python') {
     return 'Python';
   }
 

@@ -270,7 +270,7 @@ function CredentialsOverlay(props: { onSkip?: () => void }) {
         <p>
           Please enter your{' '}
           <Link to="/signatures/getting-started/register-application/">API credentials</Link> to use
-          this GraphQL Example
+          this GraphQL Example interactively (or <a href="#" onClick={props.onSkip}>skip credentials</a> to just see the GraphQL example)
         </p>
         <p>
           Queries are executed against your actual application. Please make sure you are using test

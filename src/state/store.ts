@@ -11,19 +11,21 @@ export interface ApiCredentials {
   clientSecret: string;
 }
 
+const sessionStorage = typeof window !== 'undefined' && 'sessionStorage' in window ? window.sessionStorage : null;
+const localStorage = typeof window !== 'undefined' && 'localStorage' in window ? window.localStorage : null;
+
 function loadCredentials(): ApiCredentials | null {
-  if (typeof window === 'undefined' || typeof window.sessionStorage === 'undefined') return null;
-  const value = sessionStorage.getItem('graphql_api_credentials');
+  const value = sessionStorage?.getItem('graphql_api_credentials');
   if (value) return JSON.parse(value);
   return null;
 }
 
 function saveCredentials(input: ApiCredentials) {
-  sessionStorage.setItem('graphql_api_credentials', JSON.stringify(input));
+  sessionStorage?.setItem('graphql_api_credentials', JSON.stringify(input));
 }
 
 function clearCredentials() {
-  sessionStorage.removeItem('graphql_api_credentials');
+  sessionStorage?.removeItem('graphql_api_credentials');
 }
 
 const authSlice = createSlice({
@@ -45,13 +47,19 @@ export type ExampleData = {
   createSignatureOrder?: CreateSignatureOrderOutput | null;
   closeSignatureOrder?: CloseSignatureOrderOutput | null;
   addSignatory?: AddSignatoryOutput | null;
-  language: ExampleLanguage;
+  language: ExampleLanguage | null;
 };
 const exampleDataInitialState: ExampleData = {
   createSignatureOrder: null,
   closeSignatureOrder: null,
   addSignatory: null,
-  language: 'graphql',
+  language: (() => {
+    try {
+      return localStorage?.getItem('signatures_sdk_language') as ExampleLanguage ?? null;
+    } catch (_) {
+      return sessionStorage?.getItem('signatures_sdk_language') as ExampleLanguage ?? null;
+    }
+  })(),
 };
 const exampleDataSlice = createSlice({
   name: 'exampleData',
@@ -76,10 +84,16 @@ const exampleDataSlice = createSlice({
       ...state,
       addSignatory: action.payload,
     }),
-    language: (state: ExampleData, action: PayloadAction<ExampleData['language']>) => ({
-      ...state,
-      language: action.payload,
-    }),
+    language: (state: ExampleData, action: PayloadAction<NonNullable<ExampleData['language']>>) => {
+      sessionStorage?.setItem('signatures_sdk_language', action.payload);
+      try {
+        localStorage?.setItem('signatures_sdk_language', action.payload);
+      } catch (err) {}
+      return {
+        ...state,
+        language: action.payload,
+      }
+    },
   },
 });
 
