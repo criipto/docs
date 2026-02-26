@@ -90,7 +90,7 @@ export default function StepTwo({
               Authorization code is only valid for a single use. If the same code is used in another
               token request, the Authorization Server returns an{' '}
               <a
-                href="/verify/reference/errors/unknown-access-code-error/"
+                href="/verify/reference/errors/general/unknown-access-code-error/"
                 target="_blank"
                 className="underline"
               >

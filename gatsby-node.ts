@@ -43,7 +43,7 @@ export const createPages: GatsbyNode['createPages'] = ({ actions }) => {
   const { createRedirect } = actions;
   createRedirect({
     fromPath: '/verify/guides/faq/#unknown-access-code-error',
-    toPath: '/verify/reference/errors/unknown-access-code-error',
+    toPath: '/verify/reference/errors/general/unknown-access-code-error',
     isPermanent: true,
     force: true,
   });

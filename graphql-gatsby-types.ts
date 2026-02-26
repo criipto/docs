@@ -1381,12 +1381,14 @@ export type MdxFilterListInput = {
 
 export type MdxFrontmatter = {
   __typename?: 'MdxFrontmatter';
-  articles?: Maybe<Scalars['String']['output']>;
   category?: Maybe<Scalars['String']['output']>;
   date?: Maybe<Scalars['Date']['output']>;
   errors?: Maybe<Scalars['String']['output']>;
+  isSubIndex?: Maybe<Scalars['Boolean']['output']>;
   product?: Maybe<Scalars['String']['output']>;
+  samples?: Maybe<Scalars['String']['output']>;
   sort?: Maybe<Scalars['Int']['output']>;
+  subcategory?: Maybe<Scalars['String']['output']>;
   subtitle?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
 };
@@ -1400,34 +1402,40 @@ export type MdxFrontmatterDateArgs = {
 };
 
 export type MdxFrontmatterFieldSelector = {
-  articles?: InputMaybe<FieldSelectorEnum>;
   category?: InputMaybe<FieldSelectorEnum>;
   date?: InputMaybe<FieldSelectorEnum>;
   errors?: InputMaybe<FieldSelectorEnum>;
+  isSubIndex?: InputMaybe<FieldSelectorEnum>;
   product?: InputMaybe<FieldSelectorEnum>;
+  samples?: InputMaybe<FieldSelectorEnum>;
   sort?: InputMaybe<FieldSelectorEnum>;
+  subcategory?: InputMaybe<FieldSelectorEnum>;
   subtitle?: InputMaybe<FieldSelectorEnum>;
   title?: InputMaybe<FieldSelectorEnum>;
 };
 
 export type MdxFrontmatterFilterInput = {
-  articles?: InputMaybe<StringQueryOperatorInput>;
   category?: InputMaybe<StringQueryOperatorInput>;
   date?: InputMaybe<DateQueryOperatorInput>;
   errors?: InputMaybe<StringQueryOperatorInput>;
+  isSubIndex?: InputMaybe<BooleanQueryOperatorInput>;
   product?: InputMaybe<StringQueryOperatorInput>;
+  samples?: InputMaybe<StringQueryOperatorInput>;
   sort?: InputMaybe<IntQueryOperatorInput>;
+  subcategory?: InputMaybe<StringQueryOperatorInput>;
   subtitle?: InputMaybe<StringQueryOperatorInput>;
   title?: InputMaybe<StringQueryOperatorInput>;
 };
 
 export type MdxFrontmatterSortInput = {
-  articles?: InputMaybe<SortOrderEnum>;
   category?: InputMaybe<SortOrderEnum>;
   date?: InputMaybe<SortOrderEnum>;
   errors?: InputMaybe<SortOrderEnum>;
+  isSubIndex?: InputMaybe<SortOrderEnum>;
   product?: InputMaybe<SortOrderEnum>;
+  samples?: InputMaybe<SortOrderEnum>;
   sort?: InputMaybe<SortOrderEnum>;
+  subcategory?: InputMaybe<SortOrderEnum>;
   subtitle?: InputMaybe<SortOrderEnum>;
   title?: InputMaybe<SortOrderEnum>;
 };
@@ -2845,7 +2853,7 @@ export type GithubSortInput = {
 export type NavigationQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type NavigationQuery = { __typename?: 'Query', signaturesPages: { __typename?: 'MdxConnection', edges: Array<{ __typename?: 'MdxEdge', node: { __typename: 'Mdx', id: string, fields?: { __typename?: 'MdxFields', slug?: string | null } | null, internal: { __typename?: 'Internal', contentFilePath?: string | null }, frontmatter?: { __typename?: 'MdxFrontmatter', title?: string | null, category?: string | null } | null } }> }, verifyPages: { __typename?: 'MdxConnection', edges: Array<{ __typename?: 'MdxEdge', node: { __typename: 'Mdx', id: string, fields?: { __typename?: 'MdxFields', slug?: string | null } | null, internal: { __typename?: 'Internal', contentFilePath?: string | null }, frontmatter?: { __typename?: 'MdxFrontmatter', title?: string | null, category?: string | null } | null } }> } };
+export type NavigationQuery = { __typename?: 'Query', signaturesPages: { __typename?: 'MdxConnection', edges: Array<{ __typename?: 'MdxEdge', node: { __typename: 'Mdx', id: string, fields?: { __typename?: 'MdxFields', slug?: string | null } | null, internal: { __typename?: 'Internal', contentFilePath?: string | null }, frontmatter?: { __typename?: 'MdxFrontmatter', title?: string | null, category?: string | null, subcategory?: string | null, isSubIndex?: boolean | null } | null } }> }, verifyPages: { __typename?: 'MdxConnection', edges: Array<{ __typename?: 'MdxEdge', node: { __typename: 'Mdx', id: string, fields?: { __typename?: 'MdxFields', slug?: string | null } | null, internal: { __typename?: 'Internal', contentFilePath?: string | null }, frontmatter?: { __typename?: 'MdxFrontmatter', title?: string | null, category?: string | null, subcategory?: string | null, isSubIndex?: boolean | null } | null } }> } };
 
 export type ChangelogPagesQueryVariables = Exact<{ [key: string]: never; }>;
 
