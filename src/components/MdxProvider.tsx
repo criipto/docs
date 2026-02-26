@@ -200,17 +200,13 @@ export const Highlight = (props: {
 }) => {
   return (
     <div
-      className={`mdx-highlight ${props.warning ? 'bg-yellow-25' : 'bg-light-blue-25'} rounded-md p-4 max-w-screen-md ${props.icon ? 'relative pl-10' : ''}`}
+      className={`mdx-highlight flex gap-2 ${props.warning ? 'bg-yellow-25' : 'bg-light-blue-25'} rounded-md px-6 py-4 max-w-screen-md`}
     >
-      {props.icon ? (
-        <FontAwesomeIcon
-          style={{ height: '1.5rem' }}
-          className="absolute left-4 top-4 text-2xl"
-          icon={`fa-solid fa-${props.icon}` as any}
-        />
-      ) : null}
+      {props.icon && (
+        <FontAwesomeIcon className="w-6 h-6" icon={`fa-solid fa-${props.icon}` as any} />
+      )}
 
-      {props.children}
+      <div>{props.children}</div>
     </div>
   );
 };
