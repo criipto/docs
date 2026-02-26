@@ -9,6 +9,7 @@ import { ProductSelect } from './ProductSelect';
 import { BreadcrumbSeparator } from './BreadcrumbSeparator';
 import xMarkIcon from '../images/xmark-icon.svg';
 import { SidebarLink } from './SidebarLink';
+import { getBreadcrumbTrail } from '../utils/get-breadcrumb';
 
 const SIGNATURES_CATEGORIES = ['Getting Started', 'GraphQL', 'Integrations', 'Guides', 'Webhooks'];
 
@@ -44,6 +45,8 @@ const navigationQuery = gatsbyGraphql`query Navigation {
         frontmatter {
           title
           category
+          subcategory
+          isSubIndex
         }
       }
     }
@@ -65,6 +68,8 @@ const navigationQuery = gatsbyGraphql`query Navigation {
         frontmatter {
           title
           category
+          subcategory
+          isSubIndex
         }
       }
     }
@@ -185,7 +190,11 @@ export default function Navigation(props: Props) {
               {/* Pages */}
               <ul className="space-y-2 border-l border-white text-md font-normal">
                 {pages
-                  .filter(node => !isIndexPage(node) && node.frontmatter?.category === category)
+                  .filter(
+                    node =>
+                      (!isIndexPage(node) || node.frontmatter?.isSubIndex) &&
+                      node.frontmatter?.category === category,
+                  )
                   .map(page => (
                     <li key={page.id}>
                       <SidebarLink to={slugToPath(page.fields!.slug!)} onClick={onLinkClick}>
@@ -193,16 +202,6 @@ export default function Navigation(props: Props) {
                       </SidebarLink>
                     </li>
                   ))}
-                {isVerify && category === 'Reference' && (
-                  <SidebarLink onClick={props.onLinkClick} to="/verify/reference/errors">
-                    Errors
-                  </SidebarLink>
-                )}
-                {isVerify && category === 'Reference' && (
-                  <SidebarLink to="/verify/reference/samples" onClick={props.onLinkClick}>
-                    Samples
-                  </SidebarLink>
-                )}
               </ul>
             </li>
           );
@@ -256,14 +255,17 @@ export function MobileNavigation(props: MobileProps) {
     if (cleanPath === `/${product}`) return { product };
 
     // Otherwise return full details
+    const breadcrumb = getBreadcrumbTrail(path || '');
     return {
+      breadcrumb,
       product,
       category: frontmatter?.category,
+      subcategory: frontmatter?.subcategory,
       title: frontmatter?.title,
     };
   };
 
-  const { product, category, title } = getMobileBreadcrumb();
+  const { product, category, subcategory, title, breadcrumb } = getMobileBreadcrumb();
 
   const categoryIndexSlug =
     category && (isVerify || isSignatures)
@@ -273,6 +275,19 @@ export function MobileNavigation(props: MobileProps) {
   const categoryHref = categoryIndexSlug ? slugToPath(categoryIndexSlug) : undefined;
   const currentNode = pages.find(n => slugToPath(n.fields!.slug!) === `${cleanPath}/`);
   const isCategoryIndexPage = currentNode ? isIndexPage(currentNode) : false;
+
+  // Show the title in the breadcrumb on mobile if it's not a category index page.
+  const showTitleInBreadcrumb = title && !isCategoryIndexPage;
+
+  // When breadcrumb trail contains more than 3 segments, make it horizontally scrollable on mobile,
+  // e.g. /verify/reference/errors/danish-mitid/MITID_NONCE_COOKIE_MISSING/
+  const segmentsCount =
+    (product ? 1 : 0) +
+    (breadcrumb?.length ?? 0) +
+    (category ? 1 : 0) +
+    (showTitleInBreadcrumb ? 1 : 0);
+
+  const shouldScroll = segmentsCount > 3;
 
   return (
     <React.Fragment>
@@ -285,7 +300,7 @@ export function MobileNavigation(props: MobileProps) {
           },
         )}
       >
-        <div className="flex">
+        <div className="flex min-w-0">
           {!props.isEmbedded && (
             <button
               type="button"
@@ -304,25 +319,66 @@ export function MobileNavigation(props: MobileProps) {
               </svg>
             </button>
           )}
-
-          <ol className="flex items-center text-sm leading-6 whitespace-nowrap min-w-0">
+          <ol
+            className={cx(
+              'flex flex-1 items-center gap-0 text-sm leading-6 min-w-0',
+              shouldScroll
+                ? 'flex-nowrap whitespace-nowrap overflow-x-auto overflow-y-hidden [-webkit-overflow-scrolling:touch] pr-4'
+                : 'flex-wrap whitespace-normal overflow-visible',
+            )}
+          >
             {product && (
               <li className="flex items-center shrink-0">
                 <Link to={`/${product}`}>{product === 'verify' ? 'Verify' : 'Signatures'}</Link>
-                {category && <BreadcrumbSeparator />}
+                {(category || breadcrumb) && <BreadcrumbSeparator />}
               </li>
             )}
-            {category && title ? (
-              <li className="flex items-center min-w-0">
-                {categoryHref ? <Link to={categoryHref}>{category}</Link> : <span>{category}</span>}
-                {title && !isCategoryIndexPage ? (
-                  <>
-                    <BreadcrumbSeparator />
-                    <span className="font-medium text-light-blue-900 whitespace-normal">
-                      {title}
-                    </span>
-                  </>
-                ) : null}
+
+            {breadcrumb &&
+              breadcrumb.map((i, index) => (
+                <li key={i.href || index} className="shrink-0 flex items-center">
+                  <a href={i.href}>{i.label}</a>
+                  <BreadcrumbSeparator />
+                </li>
+              ))}
+
+            {category ? (
+              <li className="shrink-0 flex items-center">
+                <span className="shrink-0 whitespace-nowrap">
+                  {categoryHref ? (
+                    <Link to={categoryHref}>{category}</Link>
+                  ) : (
+                    <span>{category}</span>
+                  )}
+                </span>
+                {(subcategory || showTitleInBreadcrumb) && <BreadcrumbSeparator />}
+              </li>
+            ) : null}
+
+            {subcategory ? (
+              <li className="shrink-0 flex items-center">
+                <span className="shrink-0 whitespace-nowrap">{subcategory}</span>
+                {showTitleInBreadcrumb && <BreadcrumbSeparator />}
+              </li>
+            ) : null}
+
+            {showTitleInBreadcrumb ? (
+              <li
+                className={cx(
+                  'flex items-center min-w-0',
+                  shouldScroll ? 'shrink-0 flex-none' : 'flex-1',
+                )}
+              >
+                <span
+                  className={cx(
+                    'font-medium text-light-blue-900',
+                    shouldScroll
+                      ? 'shrink-0 whitespace-nowrap'
+                      : 'flex-1 min-w-0 whitespace-normal break-words',
+                  )}
+                >
+                  {title}
+                </span>
               </li>
             ) : null}
           </ol>

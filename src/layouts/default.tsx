@@ -1,10 +1,11 @@
 import React, { useLayoutEffect } from 'react';
 import cx from 'classnames';
-
 import { DesktopNavigation, MobileNavigation } from '../components/Navigation';
 import Header from '../components/Header';
 import { PageNavigationItem } from '../components/PageNavigation';
 import { Link } from 'gatsby';
+import { getBreadcrumbTrail } from '../utils/get-breadcrumb';
+import { BreadcrumbSeparator } from '../components/BreadcrumbSeparator';
 import { IduraBanner } from '../components/IduraBanner';
 
 function upperFirst(input: string) {
@@ -40,13 +41,7 @@ export default function DefaultLayout(props: {
     window.parent.postMessage(`height:${document.body.offsetHeight}`, '*');
   }, [isEmbedded]);
 
-  const breadcrumb = props.location.pathname.startsWith('/verify/articles')
-    ? { href: '/verify/articles', label: 'Articles' }
-    : props.location.pathname.startsWith('/signatures/articles')
-      ? { href: '/signatures/articles', label: 'Articles' }
-      : props.location.pathname.startsWith('/verify/reference/errors')
-        ? { href: '/verify/reference/errors', label: 'Errors' }
-        : null;
+  const breadcrumb = getBreadcrumbTrail(props.location.pathname);
 
   return (
     <div>
@@ -108,18 +103,31 @@ export default function DefaultLayout(props: {
               {frontmatter && (
                 <header id="header" className="relative z-20 mb-8">
                   <div>
-                    {!isEmbedded && frontmatter.category && (
-                      <p className="hidden lg:block mb-2 text-lg leading-6 font-sans font-semibold text-light-blue-600 uppercase">
-                        {breadcrumb ? (
-                          <React.Fragment>
-                            <Link to={breadcrumb.href}>{breadcrumb.label}</Link>
-                            &nbsp;/&nbsp;
-                          </React.Fragment>
-                        ) : null}
+                    {!isEmbedded && (frontmatter.category || frontmatter.subcategory) && (
+                      <p className="hidden lg:inline-flex items-center mb-2 text-lg leading-6 font-sans font-semibold text-light-blue-600 uppercase ">
                         {frontmatter.category}
+                        {breadcrumb
+                          ? breadcrumb.map((crumb, index) => (
+                              <React.Fragment key={index}>
+                                {crumb.href ? (
+                                  <Link to={crumb.href} className="hover:underline">
+                                    {crumb.label}
+                                  </Link>
+                                ) : (
+                                  <p>{crumb.label}</p>
+                                )}
+                                <BreadcrumbSeparator />
+                              </React.Fragment>
+                            ))
+                          : null}
+                        {frontmatter.subcategory && (
+                          <>
+                            <span className="hidden lg:block">{frontmatter.subcategory}</span>
+                          </>
+                        )}
                       </p>
                     )}
-                    <h1 className="inline-block text-display-xl font-medium text-light-blue-900 tracking-tight">
+                    <h1 className="block text-display-xl font-medium text-light-blue-900 tracking-tight break-words">
                       {frontmatter.title}
                     </h1>
                   </div>

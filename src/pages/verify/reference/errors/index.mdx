@@ -1,9 +1,10 @@
 ---
+product: verify
 title: Errors
 subtitle: Errors you may encounter while working with Idura Verify and how to resolve them.
-product: verify
 category: Reference
-sort: 0
+isSubIndex: true
+sort: 10
 ---
 
 import { isIndexPage } from '../../../../utils';
@@ -18,7 +19,7 @@ export const pageQuery = gatsbyGraphql`
           errors: { eq: "verify" }
         }
       }
-      sort: {frontmatter: {category: ASC}}
+      sort: {frontmatter: {subcategory: ASC}}
     ) {
       edges {
         node {
@@ -30,7 +31,7 @@ export const pageQuery = gatsbyGraphql`
           frontmatter {
             title
             subtitle
-            category
+            subcategory
           }
         }
       }
@@ -42,11 +43,11 @@ export const pageQuery = gatsbyGraphql`
   {Object.entries(
     groupBy(
       props.data.pages.edges.map(edge => edge.node),
-      'frontmatter.category',
+      'frontmatter.subcategory',
     ),
-  ).map(([category, pages]) => (
-    <React.Fragment key={category}>
-      <h2>{category}</h2>
+  ).map(([subcategory, pages]) => (
+    <React.Fragment key={subcategory}>
+      <h2>{subcategory}</h2>
       <ul>
         {pages
           .filter(node => !isIndexPage(node))
