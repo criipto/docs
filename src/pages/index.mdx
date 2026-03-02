@@ -3,20 +3,20 @@ title: Idura Documentation
 subtitle: Welcome to the API documentation for Idura Verify & Idura Document Signatures.
 ---
 
-## Idura Verify
+import { ProductCards } from '../Homepage/ProductCards';
+import { IntegrationCards } from '../Homepage/IntegrationGuidesCards';
 
-Idura Verify provides eID authentication as a service.
+## Browse by product
 
-If you're new to Idura Verify and electronic identities (eIDs), start with our [Getting Started](/verify/getting-started/overview) guide.
+<ProductCards />
 
-All eID services support user authentication. With Idura Verify, you integrate using _OpenID Connect_ (aka OIDC). For a general overview of how OIDC works with Idura Verify, see [Using OIDC](/verify/getting-started/oidc-intro).
+## Integrate Idura Verify
 
-[Idura Verify Documentation](/verify)
+Add secure eID logins to your application. Idura Verify can be integrated with any tech stack using the standard OpenID Connect (OIDC) protocol.
+Use your preferred OIDC client library or one of our dedicated SDKs for popular frameworks.
 
-## Idura Signatures
+<IntegrationCards />
 
-Idura Signatures allows you to sign any PDF document using all the [national eIDs](/verify/e-ids/) supported by Idura Verify.
+## Supported eIDs
 
-Documents will be produced according to the [PAdES-LTA standard](https://www.idura.eu/blog/pades-signature-levels-explained).
-
-[Idura Signatures Documentation](/signatures)
+Idura Verify supports national eIDs across Europe, including BankID, MitID, and more.
