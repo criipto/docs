@@ -30,7 +30,7 @@
     "test:dotnet": "node src/examples/run-dotnet-examples.mts"
   },
   "dependencies": {
-    "@criipto/signatures": "^1.29.1",
+    "@criipto/signatures": "^1.30.0",
     "@fontsource/ibm-plex-mono": "^5.2.7",
     "@fontsource/roboto-mono": "^4.5.8",
     "@fortawesome/fontawesome-svg-core": "^7.1.0",

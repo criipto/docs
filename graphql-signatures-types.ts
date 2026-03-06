@@ -58,12 +58,14 @@ export type AddSignatoryOutput = {
 };
 
 export type AllOfEvidenceProviderInput = {
+  /** Order of providers returned is not guaranteed to match input order */
   providers: Array<SingleEvidenceProviderInput>;
 };
 
 export type AllOfSignatureEvidenceProvider = SignatureEvidenceProvider & {
   __typename?: 'AllOfSignatureEvidenceProvider';
   id: Scalars['ID']['output'];
+  /** Order of providers returned is not garantueed */
   providers: Array<CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
 };
 
@@ -140,6 +142,7 @@ export type BatchSignatoryViewer = Viewer & {
   authenticated: Scalars['Boolean']['output'];
   batchSignatoryId: Scalars['ID']['output'];
   documents: SignatoryDocumentConnection;
+  /** Order of providers returned is not guaranteed */
   evidenceProviders: Array<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
   signer: Scalars['Boolean']['output'];
@@ -282,7 +285,7 @@ export type CreateSignatureOrderInput = {
   /** By default signatories will be prompted to sign with a Criipto Verify based e-ID, this setting disables it. */
   disableVerifyEvidenceProvider?: InputMaybe<Scalars['Boolean']['input']>;
   documents: Array<DocumentInput>;
-  /** Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs */
+  /** Define evidence providers for signature order if not using built-in Criipto Verify for e-IDs. Order of providers returned is not guaranteed to match input order */
   evidenceProviders?: InputMaybe<Array<EvidenceProviderInput>>;
   /** Defines when a signatory must be validated, default is when signing, but can be expanded to also be required when viewing documents. */
   evidenceValidationStages?: InputMaybe<Array<EvidenceValidationStage | '%future added value'>>;
@@ -375,6 +378,7 @@ export enum CriiptoVerifyEvidenceProviderVersion {
 /** Criipto Verify based evidence for signatures. */
 export type CriiptoVerifyProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** Deprecated, no longer has any effect. */
   alwaysRedirect?: InputMaybe<Scalars['Boolean']['input']>;
   /** Define additional valid audiences (besides the main client_id) for the Criipto Verify domain/issuer underlying the application. */
   audiences?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -392,6 +396,7 @@ export type CriiptoVerifyProviderInput = {
 export type CriiptoVerifySignatureEvidenceProvider = SignatureEvidenceProvider & SingleSignatureEvidenceProvider & {
   __typename?: 'CriiptoVerifySignatureEvidenceProvider';
   acrValues: Array<Scalars['String']['output']>;
+  /** @deprecated No longer supported */
   alwaysRedirect: Scalars['Boolean']['output'];
   audience: Scalars['String']['output'];
   audiences: Array<Scalars['String']['output']>;
@@ -763,6 +768,7 @@ export type NorwegianBankIdSignature = Signature & SingleSignature & {
 /** OIDC/JWT based evidence for signatures. */
 export type OidcEvidenceProviderInput = {
   acrValues?: InputMaybe<Array<Scalars['String']['input']>>;
+  /** Deprecated, no longer has any effect. */
   alwaysRedirect?: InputMaybe<Scalars['Boolean']['input']>;
   audience: Scalars['String']['input'];
   clientID: Scalars['String']['input'];
@@ -775,6 +781,7 @@ export type OidcEvidenceProviderInput = {
 export type OidcJwtSignatureEvidenceProvider = SignatureEvidenceProvider & SingleSignatureEvidenceProvider & {
   __typename?: 'OidcJWTSignatureEvidenceProvider';
   acrValues: Array<Scalars['String']['output']>;
+  /** @deprecated No longer supported */
   alwaysRedirect: Scalars['Boolean']['output'];
   clientID: Scalars['String']['output'];
   domain: Scalars['String']['output'];
@@ -851,6 +858,7 @@ export type PdfDocumentForm = {
 
 export type PdfSealPosition = {
   page: Scalars['Int']['input'];
+  scale?: InputMaybe<Scalars['Float']['input']>;
   x: Scalars['Float']['input'];
   y: Scalars['Float']['input'];
 };
@@ -1004,6 +1012,7 @@ export type Signatory = {
   documents: SignatoryDocumentConnection;
   /** A download link for signatories to download their signed documents. Signatories must verify their identity before downloading. Can be used when signature order is closed with document retention. */
   downloadHref?: Maybe<Scalars['String']['output']>;
+  /** Order of providers returned is not guaranteed */
   evidenceProviders: Array<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
   /** A link to the signatures frontend, you can send this link to your users to enable them to sign your documents. */
   href: Scalars['String']['output'];
@@ -1132,6 +1141,7 @@ export type SignatoryViewer = Viewer & {
   authenticated: Scalars['Boolean']['output'];
   documents: SignatoryDocumentConnection;
   download?: Maybe<SignatoryViewerDownload>;
+  /** Order of providers returned is not guaranteed */
   evidenceProviders: Array<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
   role: SignatoryRole | '%future added value';
@@ -1190,6 +1200,7 @@ export type SignatureOrder = {
   closedAt?: Maybe<Scalars['DateTime']['output']>;
   createdAt: Scalars['DateTime']['output'];
   documents: Array<PdfDocument | XmlDocument>;
+  /** Order of providers returned is not guaranteed */
   evidenceProviders: Array<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
   expiresAt: Scalars['DateTime']['output'];
   id: Scalars['ID']['output'];
@@ -1340,6 +1351,7 @@ export type UnvalidatedSignatoryViewer = Viewer & {
   __typename?: 'UnvalidatedSignatoryViewer';
   authenticated: Scalars['Boolean']['output'];
   download?: Maybe<SignatoryViewerDownload>;
+  /** Order of providers returned is not guaranteed */
   evidenceProviders: Array<AllOfSignatureEvidenceProvider | CriiptoVerifySignatureEvidenceProvider | DrawableSignatureEvidenceProvider | NoopSignatureEvidenceProvider | OidcJwtSignatureEvidenceProvider>;
   id: Scalars['ID']['output'];
   signatoryId: Scalars['ID']['output'];
