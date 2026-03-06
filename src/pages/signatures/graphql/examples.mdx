@@ -168,6 +168,19 @@ import addSignatorySealPositionExample from '../../../examples/addSignatory/seal
 
 <GraphQLExample example={addSignatorySealPositionExample} />
 
+### Custom seal position with scaling
+
+In certain situation it might be ideal to be able to define a smaller sized signature seal.
+A `scale` can be defined as part of a custom seal position.
+The `scale` goes between 0.2 and 1.0, both included, in increments of 0.1.
+Any provided number in that range is rounded down to the nearest 0.1.
+
+Same definition as shown in [Custom seal position](/#custom-seal-position) is expected.
+
+import addSignatorySealPositionScaledExample from '../../../examples/addSignatory/sealPositionScaled';
+
+<GraphQLExample example={addSignatorySealPositionScaledExample} />
+
 ### Multiple signatories
 
 If you need to add signatories in bulk, you can use the `addSignatories` mutation.

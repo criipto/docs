@@ -1,0 +1,11 @@
+---
+date: 2026-03-06
+title: Support PDF signature seal scaling in Signatures
+---
+
+## Support PDF signature seal scaling in Signatures
+
+Up until now the PDF signature seals were using default dimensions, however, to support cases where the seal might be too big, it is now possible to define a scale.
+The scale supports the range 0.2 to 1.0, both included, in increments of 0.1. In case of other values that fall in that range, the scale value will be rounded down, e.g., `0.2345 => 0.2`.
+
+See [PDF signature seal scaling example](/signatures/graphql/examples/#custom-seal-position-with-scaling).
