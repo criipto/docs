@@ -13,7 +13,10 @@ export default function MdxLayout(props: {
   path: string;
 }) {
   const { pages } = useAllPages();
-  const page = pages.nodes.find(s => `/${s.fields.slug}/` === props.path);
+  const page = pages.nodes.find(s => {
+    if (s.fields.slug === 'index') return props.path === '/';
+    return `/${s.fields.slug}/` === props.path;
+  });
   const isEmbedded = props.pageContext?.isEmbedded;
 
   const [isIduraBannerVisible, setIsIduraBannerVisible] = useReducer(
