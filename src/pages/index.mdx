@@ -3,20 +3,41 @@ title: Idura Documentation
 subtitle: Welcome to the API documentation for Idura Verify & Idura Document Signatures.
 ---
 
-## Idura Verify
+import { ProductCards } from '../Homepage/ProductCards';
+import { VerifyIntegrationCards } from '../Homepage/VerifyIntegrationCards';
+import { SignaturesIntegrationCards } from '../Homepage/SignaturesIntegrationCards';
+import { EidCards } from '../Homepage/eIDCards';
+import { DeveloperToolsCards } from '../Homepage/DeveloperToolsCards';
 
-Idura Verify provides eID authentication as a service.
+## Browse by product
 
-If you're new to Idura Verify and electronic identities (eIDs), start with our [Getting Started](/verify/getting-started/overview) guide.
+<ProductCards />
 
-All eID services support user authentication. With Idura Verify, you integrate using _OpenID Connect_ (aka OIDC). For a general overview of how OIDC works with Idura Verify, see [Using OIDC](/verify/getting-started/oidc-intro).
+## Integrate Idura Verify
 
-[Idura Verify Documentation](/verify)
+Idura Verify can be integrated with any tech stack using the standard [OpenID Connect (OIDC) protocol](/verify/getting-started/oidc-intro/).
+You don't need to be an identity expert to integrate Idura: a trusted OIDC client library or one of our dedicated SDKs will handle most of the complexity for you.
+Idura can also easily connect to your existing CIAM system, such as Auth0, AWS Cognito, or Firebase.
 
-## Idura Signatures
+<VerifyIntegrationCards />
 
-Idura Signatures allows you to sign any PDF document using all the [national eIDs](/verify/e-ids/) supported by Idura Verify.
+## Integrate Idura Signatures
 
-Documents will be produced according to the [PAdES-LTA standard](https://www.idura.eu/blog/pades-signature-levels-explained).
+Idura Signatures is designed to be embedded directly into your application.
+[Using our GraphQL API](/signatures/getting-started/), you can build custom signing workflows that feel native to your app and are tailored to your exact needs.
+You can leverage GraphQL code generators for your preferred stack or use one of our SDKs for select platforms.
 
-[Idura Signatures Documentation](/signatures)
+<SignaturesIntegrationCards />
+
+## Supported eIDs
+
+Idura Verify supports authentication via a number of national eIDs across Europe, including Danish MitID, Norwegian and Swedish BankID, German Personalausweis, and more.
+
+<EidCards />
+
+## Developer tools
+
+Play around with our interactive tools to see how eID authentication works in practice.
+You will need a [test user](/verify/guides/test-users/) to try this out.
+
+<DeveloperToolsCards />
