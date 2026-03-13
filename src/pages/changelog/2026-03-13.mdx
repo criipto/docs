@@ -1,0 +1,26 @@
+---
+date: 2026-03-13
+title: Upcoming change of default View version
+---
+
+This is a notice that, on 2026-04-13, we will switch the default view version in Idura Verify from
+`unified` to `2025-04-01`, for all customers without any custom CSS, or custom UI.
+
+You can check if this change affects you by going to <a href="https://dashboard.idura.app/styling">https://dashboard.idura.app/styling</a>.
+
+- If the `View version` field shows `2025-04-01`, you are already on the most recent version, and
+  you will not be affected by this change.
+- If the `View version` field shows `Unified`:
+  - If you **are not** using custom CSS, or custom styling, you will be switched to the new version.
+  - If you **are** using custom CSS, or custom styling, nothing will happen. However, we still urge
+    you to test the new version in your own time, and switch to it as soon as possible.
+
+## What happens when the view version is changed?
+
+In July 2025, Swedish BankID introduced stronger accesibility requirements around QR codes (
+[see the original changelog entry](/changelog/2025-04-02-sebankid-accessibility/)). This lead us to change the
+HTML and CSS we use to render the QR code, which again might break any custom styling of the QR
+code on your side.
+
+Upgrading to the `2025-04-01` view version also brings multiple new features (such as new eID logos)
+and bug fixes.

@@ -154,6 +154,58 @@ const config = {
         nodesPerFeedFile: 1000,
       },
     },
+    {
+      resolve: 'gatsby-plugin-feed',
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, pages } }) =>
+              pages.edges.map(edge => ({
+                title: edge.node.frontmatter.title,
+                description: edge.node.frontmatter.title,
+                date: edge.node.frontmatter.date,
+                url: `${site.siteMetadata.siteUrl}/${edge.node.fields.slug}`,
+                guid: edge.node.fields.slug,
+                custom_elements: [{ 'content:encoded': edge.node.body }],
+              })),
+            query: `
+             {
+      pages: allMdx(
+        filter: { internal: { contentFilePath: { regex: "/(changelog)/" } } }
+        sort: { frontmatter: { date: DESC } }
+      ) {
+        edges {
+          node {
+            __typename
+            id
+            frontmatter {
+              title
+              date
+            }
+            body
+            fields {
+              slug
+            }
+          }
+        }
+      }
+    }
+            `,
+            output: '/changelog.xml',
+            title: 'Idura changelog',
+          },
+        ],
+      },
+    },
   ]
     .concat(
       process.env.GATSBY_ALGOLIA_APP_ID

@@ -8,6 +8,11 @@ import { isIndexPage } from '../../utils';
 
 export default function Changelog(props: { location: Location }) {
   const data = useStaticQuery<{
+    site: {
+      siteMetadata: {
+        siteUrl: string;
+      };
+    };
     pages: {
       edges: {
         node: {
@@ -28,6 +33,11 @@ export default function Changelog(props: { location: Location }) {
     };
   }>(graphql`
     query changelogPages {
+      site {
+        siteMetadata {
+          siteUrl
+        }
+      }
       pages: allMdx(
         filter: { internal: { contentFilePath: { regex: "/(changelog)/" } } }
         sort: { frontmatter: { date: DESC } }
@@ -67,6 +77,17 @@ export default function Changelog(props: { location: Location }) {
         },
       }}
     >
+      <p>
+        You can also subscribe to our changelog via RSS:{' '}
+        <a
+          href={`${data.site.siteMetadata.siteUrl}/changelog.xml`}
+        >{`${data.site.siteMetadata.siteUrl}/changelog.xml`}</a>
+        . In order to receive updates via email, we recommend using an RSS tool such as{' '}
+        <a target="_blank" href="https://feedrabbit.com">
+          Feedrabbit
+        </a>
+        .
+      </p>
       <div>
         {data.pages.edges
           .map(edge => edge.node)
