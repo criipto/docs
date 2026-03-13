@@ -6,9 +6,14 @@ title: Using OpenID Connect
 subtitle: Learn how Idura supports the OpenID Connect protocol.
 ---
 
+[OpenID Connect](https://docs.idura.app/verify/getting-started/oidc-intro/) is a widely adopted identity layer built on top of the [OAuth 2.0](https://docs.idura.app/verify/reference/glossary/#oauth-20) protocol.
+It allows your application to verify the identity of an end-user based on the authentication performed by an Authorization Server (like Idura Verify), as well as to obtain basic profile information about that user.
+
+While OAuth 2.0 is about authorization (a user granting access to specific resources), OIDC is about authentication (proving who the user is). Idura Verify uses OIDC to provide a standardized, secure way to integrate various [eIDs](/verify/e-ids/) into your application without needing to build custom integrations for each one.
+
 ## Using OpenID Connect to integrate with Idura Verify
 
-Idura Verify is an OpenID Provider. It is integrated through the authentication API which follows the <a href='https://openid.net/specs/openid-connect-core-1_0.html' target="_blank">OpenID Connect</a> and <a href='https://datatracker.ietf.org/doc/html/rfc6749' target="_blank">OAuth 2.0</a> specifications.
+Idura Verify is an Authorization Server (OpenID Provider). It is integrated through the authentication API which follows the <a href='https://openid.net/specs/openid-connect-core-1_0.html' target="_blank">OpenID Connect</a> and <a href='https://datatracker.ietf.org/doc/html/rfc6749' target="_blank">OAuth 2.0</a> specifications.
 
 ### Supported OpenID Connect Flows
 
@@ -616,3 +621,28 @@ using System.Text;
 using System.Web.Security.AntiXss;
 "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(AntiXssEncoder.UrlEncode(IDURA_CLIENT_ID) + ":" + AntiXssEncoder.UrlEncode(IDURA_SECRET)))
 ```
+
+## Where to go from here
+
+Choose your next steps:
+
+### Learn more
+
+Ensure your implementation is robust and understand the data you receive when users authenticate with an eID.
+
+- [Security best practices](/verify/getting-started/best-security-practices/): Learn how to secure your application.
+- [JWT payloads](/verify/reference/token-contents/): See exactly what user data is returned by each eID.
+
+### Experiment with tools
+
+Test the flow and configurations without writing code.
+
+- [OpenID Connect visualizer](/verify/guides/oidc-visualizer/): Run an interactive demo to observe requests and responses exchanged as Authorization Code Flow unfolds.
+- [Authorize URL builder](/verify/guides/authorize-url-builder/): Construct and test authorize URLs, and explore parameters available for each eID.
+
+### Start building
+
+Integrate eID authentication into your application.
+
+- [Choose your integration](/verify/integrations/): Find the SDK that fits your tech stack.
+- [Browse the guides](/verify/guides/): Need help with a specific feature? Check our detailed guides.
