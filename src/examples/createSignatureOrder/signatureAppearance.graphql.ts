@@ -6,6 +6,13 @@ export const query = basic.query;
 
 export const variables = (data?: ExampleData): { input: CreateSignatureOrderInput } => ({
   input: {
+    evidenceProviders: [
+      {
+        criiptoVerify: {
+          scope: 'openid ssn',
+        },
+      },
+    ],
     signatureAppearance: {
       identifierFromEvidence: [
         'cprNumberIdentifier',

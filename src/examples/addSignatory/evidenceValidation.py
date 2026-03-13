@@ -6,6 +6,8 @@ from criipto_signatures.models import (
   DocumentStorageMode,
   AddSignatoryInput,
   SignatoryEvidenceValidationInput,
+  EvidenceProviderInput,
+  CriiptoVerifyProviderInput,
 )
 
 
@@ -24,6 +26,11 @@ signatureOrder = client.createSignatureOrder(
           blob=bytes("...", "utf-8"),  # bytes object, or a base64 encoded string
           storageMode=DocumentStorageMode.Temporary,
         )
+      )
+    ],
+    evidenceProviders=[
+      EvidenceProviderInput(
+        criiptoVerify=CriiptoVerifyProviderInput(scope="openid ssn")
       )
     ],
   )

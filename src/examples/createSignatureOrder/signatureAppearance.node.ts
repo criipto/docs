@@ -13,6 +13,13 @@ const signatureOrder = await client.createSignatureOrder({
       },
     },
   ],
+  evidenceProviders: [
+    {
+      criiptoVerify: {
+        scope: 'openid ssn',
+      },
+    },
+  ],
   signatureAppearance: {
     identifierFromEvidence: [
       'cprNumberIdentifier',

@@ -14,6 +14,13 @@ const signatureOrder = await client.createSignatureOrder({
       },
     },
   ],
+  evidenceProviders: [
+    {
+      criiptoVerify: {
+        scope: 'openid ssn',
+      },
+    },
+  ],
 });
 
 // Add signatories
