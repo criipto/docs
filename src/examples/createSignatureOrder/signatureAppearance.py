@@ -5,6 +5,8 @@ from criipto_signatures.models import (
   PadesDocumentInput,
   DocumentStorageMode,
   SignatureAppearanceInput,
+  EvidenceProviderInput,
+  CriiptoVerifyProviderInput,
 )
 
 client = CriiptoSignaturesSDKSync(
@@ -22,6 +24,11 @@ signatureOrder = client.createSignatureOrder(
           blob=bytes("...", "utf-8"),  # bytes object, or a base64 encoded string
           storageMode=DocumentStorageMode.Temporary,
         ),
+      )
+    ],
+    evidenceProviders=[
+      EvidenceProviderInput(
+        criiptoVerify=CriiptoVerifyProviderInput(scope="openid ssn")
       )
     ],
     signatureAppearance=SignatureAppearanceInput(

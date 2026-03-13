@@ -1,7 +1,8 @@
 using Criipto.Signatures;
 using Criipto.Signatures.Models;
 
-using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}")) {
+using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}"))
+{
     // Setup document input
     var documents = new List<DocumentInput>{
         new DocumentInput {
@@ -13,12 +14,24 @@ using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YO
         }
     };
 
+
+    var evidenceProviders = new List<EvidenceProviderInput>() {
+      new EvidenceProviderInput {
+        criiptoVerify = new CriiptoVerifyProviderInput() {
+          scope = "openid ssn",
+
+        }
+      }
+    };
+
     // Setup signature order input
     var createSignatureOrderInput = new CreateSignatureOrderInput
     {
         title = "Dotnet Sample",
         documents = documents,
-        signatureAppearance = new SignatureAppearanceInput() {
+        evidenceProviders = evidenceProviders,
+        signatureAppearance = new SignatureAppearanceInput()
+        {
             identifierFromEvidence = new List<string>() {
                 "cprNumberIdentifier",
                 "dk:gov:saml:attribute:CprNumberIdentifier",

@@ -1,7 +1,8 @@
 using Criipto.Signatures;
 using Criipto.Signatures.Models;
 
-using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}")) {
+using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YOUR_CRIIPTO_CLIENT_SECRET}"))
+{
     // Setup document input
     var documents = new List<DocumentInput>{
         new DocumentInput {
@@ -9,15 +10,25 @@ using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YO
                 title = "Dotnet Sample",
                 blob = new Byte[64], // Should be the bytes of a PDF file
                 storageMode = DocumentStorageMode.Temporary
-            }
+            },
         }
+    };
+
+    var evidenceProviders = new List<EvidenceProviderInput>() {
+      new EvidenceProviderInput {
+        criiptoVerify = new CriiptoVerifyProviderInput() {
+          scope = "openid ssn",
+
+        }
+      }
     };
 
     // Setup signature order input
     var createSignatureOrderInput = new CreateSignatureOrderInput
     {
         title = "Dotnet Sample",
-        documents = documents
+        documents = documents,
+        evidenceProviders = evidenceProviders
     };
 
     // Create signature order
@@ -43,7 +54,8 @@ using (var client = new CriiptoSignaturesClient("{YOUR_CRIIPTO_CLIENT_ID}", "{YO
         }
     });
 
-    foreach (var signatory in signatories) {
+    foreach (var signatory in signatories)
+    {
         Console.WriteLine(signatory.href); // Signing link, redirect user to this link, or send it in an email
     }
 }
