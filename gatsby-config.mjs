@@ -161,27 +161,22 @@ const config = {
           {
             site {
               siteMetadata {
-                title
-                description
                 siteUrl
-                site_url: siteUrl
               }
             }
           }
         `,
         feeds: [
           {
-            serialize: ({ query: { site, pages } }) => {
-              return pages.edges.map(edge => {
-                return Object.assign({}, edge.node.frontmatter, {
-                  description: edge.node.frontmatter.title,
-                  date: edge.node.frontmatter.date,
-                  url: `${site.siteMetadata.siteUrl}/${edge.node.fields.slug}`,
-                  guid: edge.node.fields.slug,
-                  custom_elements: [{ 'content:encoded': edge.node.body }],
-                });
-              });
-            },
+            serialize: ({ query: { site, pages } }) =>
+              pages.edges.map(edge => ({
+                title: edge.node.frontmatter.title,
+                description: edge.node.frontmatter.title,
+                date: edge.node.frontmatter.date,
+                url: `${site.siteMetadata.siteUrl}/${edge.node.fields.slug}`,
+                guid: edge.node.fields.slug,
+                custom_elements: [{ 'content:encoded': edge.node.body }],
+              })),
             query: `
              {
       pages: allMdx(
@@ -195,9 +190,6 @@ const config = {
             frontmatter {
               title
               date
-            }
-            internal {
-              contentFilePath
             }
             body
             fields {
